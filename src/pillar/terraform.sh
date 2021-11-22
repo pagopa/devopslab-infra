@@ -10,7 +10,7 @@ shift 2
 other="$*"
 # must be subscription in lower case
 subscription=""
-BACKEND_CONFIG_PATH="../env/${ENV}/${CURRENT_DIRECTORY}_state.tfvars"
+BACKEND_CONFIG_PATH="../.env/${ENV}/${CURRENT_DIRECTORY}_state.tfvars"
 
 echo "[INFO] This is the current directory: ${CURRENT_DIRECTORY}"
 
@@ -25,7 +25,7 @@ if [ -z "$ENV" ]; then
 fi
 
 # shellcheck source=/dev/null
-source "../env/$ENV/backend.ini"
+source "../.env/$ENV/backend.ini"
 
 az account set -s "${subscription}"
 
@@ -43,7 +43,7 @@ if echo "init plan apply refresh import output state taint destroy" | grep -w "$
     terraform init -reconfigure -backend-config="${BACKEND_CONFIG_PATH}"
 
     echo "[INFO] run tf with: ${ACTION} on ENV: ${ENV} and other: >${other}<"
-    terraform "${ACTION}" -var-file="../env/${ENV}/terraform.tfvars" $other
+    terraform "${ACTION}" -var-file="../.env/${ENV}/terraform.tfvars" $other
   fi
 else
     echo "[ERROR] ACTION not allowed."

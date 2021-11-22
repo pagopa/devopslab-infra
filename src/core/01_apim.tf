@@ -30,16 +30,6 @@ locals {
   apim_cert_name_proxy_endpoint = format("%s-proxy-endpoint-cert", local.project)
 
   api_domain = format("api.%s.%s", var.dns_zone_prefix, var.external_domain)
-
-  origins = {
-    base = concat(
-              [
-                format("https://api.%s.%s", var.dns_zone_prefix, var.external_domain),
-                format("https://%s.%s", var.dns_zone_prefix, var.external_domain),
-               ],
-               var.env_short != "p"? ["https://localhost:3000","http://localhost:3000","https://localhost:3001","http://localhost:3001"]:[]
-            )
-  }
 }
 
 ###########################
@@ -86,17 +76,37 @@ module "apim" {
 #     azurerm_application_insights.application_insights,
 #     module.redis
 #   ]
+
 }
 
-# resource "azurerm_api_management_custom_domain" "api_custom_domain" {
-#   api_management_id = module.apim.id
+#
+# 🔐 Key Vault Access Policies
+#
 
-#   proxy {
-#     host_name = local.api_domain
-#     key_vault_id = replace(
-#     data.azurerm_key_vault_certificate.app_gw_platform.secret_id,
-#     "/${data.azurerm_key_vault_certificate.app_gw_platform.version}",
-#     ""
-#     )
-#   }
-# }
+## api management policy ##
+resource "azurerm_key_vault_access_policy" "api_management_policy" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.apim.principal_id
+
+  key_permissions         = []
+  secret_permissions      = ["Get", "List"]
+  certificate_permissions = ["Get", "List"]
+  storage_permissions     = []
+}
+
+#
+# 🏷 custom domain
+#
+resource "azurerm_api_management_custom_domain" "api_custom_domain" {
+  api_management_id = module.apim.id
+
+  proxy {
+    host_name = local.api_domain
+    key_vault_id = replace(
+    data.azurerm_key_vault_certificate.app_gw_platform.secret_id,
+    "/${data.azurerm_key_vault_certificate.app_gw_platform.version}",
+    ""
+    )
+  }
+}
