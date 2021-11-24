@@ -102,18 +102,29 @@ variable "dns_zone_prefix" {
 }
 
 # ❇️ api gateway
-variable "api_gateway_sku_name" {
+variable "app_gateway_sku_name" {
   type        = string
   description = "SKU Name of the App GW"
   default     = "Standard_v2"
 }
 
-variable "api_gateway_sku_tier" {
+variable "app_gateway_sku_tier" {
   type        = string
   description = "SKU tier of the App GW"
   default     = "Standard_v2"
 }
 
+variable "app_gateway_alerts_enabled" {
+  type        = bool
+  description = "Enable alerts"
+  default     = false
+}
+
+variable "app_gateway_waf_enabled" {
+  type        = bool
+  description = "Enable WAF"
+  default     = false
+}
 ## appgateway: Scaling
 
 variable "app_gateway_min_capacity" {
@@ -348,6 +359,11 @@ variable "apim_sku" {
   description = "APIM SKU type"
 }
 
+variable "apim_api_internal_certificate_name" {
+  type        = string
+  description = "KeyVault certificate name"
+}
+
 #
 # Locals
 #
@@ -355,4 +371,7 @@ locals {
   monitor_rg = format("%s-monitor-rg", local.project)
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
+
+  # api.internal.*.userregistry.pagopa.it
+  api_internal_domain = format("api.internal.%s.%s", var.dns_zone_prefix, var.external_domain)
 }
