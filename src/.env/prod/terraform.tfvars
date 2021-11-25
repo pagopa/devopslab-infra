@@ -4,11 +4,11 @@ location = "westeurope"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
-  Owner       = "usrreg"
-  Source      = "https://github.com/pagopa/usrreg-infra"
+  Owner       = "UserRegistry"
+  Source      = "https://github.com/pagopa/userregistry-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
-lock_enable = false
+lock_enable = true
 
 # 🔐 key vault
 key_vault_name    = "usrreg-p-kv"
@@ -26,49 +26,39 @@ external_domain = "pagopa.it"
 dns_zone_prefix = "prod.userregistry"
 
 # azure devops
-azdo_sp_tls_cert_enabled = true
 enable_azdoa             = true
 enable_iac_pipeline      = true
 
 # ❇️ app_gateway
-app_gateway_sku_name = "Standard_v2"
-app_gateway_sku_tier = "Standard_v2"
-app_gateway_api_certificate_name = "api-prod-userregistry-pagopa-it"
+app_gateway_sku_name              = "Standard_v2" # TODO change to WAF_v2
+app_gateway_sku_tier              = "Standard_v2" # TODO change to WAF_v2
+app_gateway_api_certificate_name  = "api-userregistry-pagopa-it"
 
-app_gateway_alerts_enabled=false
-app_gateway_waf_enabled=false
+app_gateway_alerts_enabled        = false
+app_gateway_waf_enabled           = false # TODO change to true
 
 # 🗄 postgresql
 postgres_sku_name       = "GP_Gen5_2"
 postgres_enable_replica = false
-postgres_public_network_access_enabled = true
-postgres_configuration = {
-  autovacuum_work_mem         = "-1"
-  effective_cache_size        = "655360"
-  log_autovacuum_min_duration = "5000"
-  log_connections             = "off"
-  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-  log_temp_files              = "4096"
-  maintenance_work_mem        = "524288"
-  max_wal_size                = "4096"
-  log_connections             = "on"
-  log_checkpoints             = "on"
-  connection_throttling       = "on"
-}
-postgres_alerts_enabled = false
-
-#
-# 🚀 APP Service container
-#
-app_service_sku = {
-  tier     = "Standard"
-  size     = "S1"
-  capacity = 1
-}
+postgres_public_network_access_enabled = false
+postgres_alerts_enabled = true
 
 #
 # 🗺 APIM
 #
-apim_publisher_name = "pagoPA SelfCare DEV"
-apim_sku            = "Developer_1"
+apim_publisher_name = "PagoPA SelfCare PROD"
+apim_sku            = "Developer_1" # TODO change to Premium_1
 apim_api_internal_certificate_name = "api-internal-userregistry-pagopa-it"
+
+#
+# ⛴ AKS
+#
+aks_private_cluster_enabled = true
+aks_alerts_enabled          = true
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
+reverse_proxy_ip            = "10.1.0.250"
+aks_max_pods                = 100
+aks_enable_auto_scaling     = true
+aks_node_min_count          = 1
+aks_node_max_count          = 3
+aks_vm_size                 = "Standard_D4s_v3"

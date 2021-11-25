@@ -1,11 +1,11 @@
 # general
 env_short = "u"
-location = "germanywestcentral"
+location = "northeurope"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "UAT"
-  Owner       = "usrreg"
-  Source      = "https://github.com/pagopa/usrreg-infra"
+  Owner       = "UserRegistry"
+  Source      = "https://github.com/pagopa/userregistry-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 lock_enable = false
@@ -42,33 +42,24 @@ app_gateway_waf_enabled=false
 postgres_sku_name       = "GP_Gen5_2"
 postgres_enable_replica = false
 postgres_public_network_access_enabled = true
-postgres_configuration = {
-  autovacuum_work_mem         = "-1"
-  effective_cache_size        = "655360"
-  log_autovacuum_min_duration = "5000"
-  log_connections             = "off"
-  log_line_prefix             = "%t [%p apps:%a host:%r]: [%l-1] db=%d,user=%u"
-  log_temp_files              = "4096"
-  maintenance_work_mem        = "524288"
-  max_wal_size                = "4096"
-  log_connections             = "on"
-  log_checkpoints             = "on"
-  connection_throttling       = "on"
-}
 postgres_alerts_enabled = false
-
-#
-# 🚀 APP Service container
-#
-app_service_sku = {
-  tier     = "Standard"
-  size     = "S1"
-  capacity = 1
-}
 
 #
 # 🗺 APIM
 #
-apim_publisher_name = "pagoPA SelfCare DEV"
+apim_publisher_name = "PagoPA SelfCare UAT"
 apim_sku            = "Developer_1"
 apim_api_internal_certificate_name = "api-internal-uat-userregistry-pagopa-it"
+
+#
+# ⛴ AKS
+#
+aks_private_cluster_enabled = false
+aks_alerts_enabled          = false
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
+reverse_proxy_ip            = "10.1.0.250"
+aks_max_pods                = 100
+aks_enable_auto_scaling     = true
+aks_node_min_count          = 1
+aks_node_max_count          = 1
+aks_vm_size                 = "Standard_D4s_v3"

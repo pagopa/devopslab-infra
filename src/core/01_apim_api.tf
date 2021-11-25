@@ -26,7 +26,8 @@ locals {
     description           = "UserRegistry APIs"
     path                  = "api/userregistry"
     subscription_required = true
-    service_url           = format("https://%s", module.app_container.default_site_hostname)
+    # service_url           = format("https://%s", module.app_container.default_site_hostname)
+    service_url           = "https://google.it"
   }
 }
 

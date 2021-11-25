@@ -4,8 +4,8 @@ location = "germanywestcentral"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "usrreg"
-  Source      = "https://github.com/pagopa/usrreg-infra"
+  Owner       = "UserRegistry"
+  Source      = "https://github.com/pagopa/userregistry-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 lock_enable = false
@@ -20,13 +20,13 @@ cidr_subnet_azdoa       = ["10.1.130.0/24"]
 cidr_subnet_postgres    = ["10.1.129.0/24"]
 cidr_subnet_appgateway  = ["10.1.128.0/24"]
 cidr_subnet_apim        = ["10.1.136.0/24"]
+cidr_subnet_k8s         = ["10.1.0.0/17"]
 
 # dns
 dns_zone_prefix = "dev.userregistry"
 external_domain = "pagopa.it"
 
 # azure devops
-azdo_sp_tls_cert_enabled = true
 enable_azdoa             = true
 enable_iac_pipeline      = true
 
@@ -58,18 +58,21 @@ postgres_configuration = {
 postgres_alerts_enabled = false
 
 #
-# 🚀 APP Service container
-#
-app_service_sku = {
-  tier     = "Standard"
-  size     = "S1"
-  capacity = 1
-}
-
-#
 # 🗺 APIM
 #
-apim_publisher_name = "pagoPA SelfCare DEV"
+apim_publisher_name = "PagoPA SelfCare DEV"
 apim_sku            = "Developer_1"
 apim_api_internal_certificate_name = "api-internal-dev-userregistry-pagopa-it"
 
+#
+# ⛴ AKS
+#
+aks_private_cluster_enabled = false
+aks_alerts_enabled          = false
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
+reverse_proxy_ip            = "10.1.0.250"
+aks_max_pods                = 100
+aks_enable_auto_scaling     = false
+aks_node_min_count          = null
+aks_node_max_count          = null
+aks_vm_size                 = "Standard_B4ms"
