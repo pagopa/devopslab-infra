@@ -27,7 +27,7 @@ locals {
     path                  = "api/userregistry"
     subscription_required = true
     # service_url           = format("https://%s", module.app_container.default_site_hostname)
-    service_url           = "https://google.it"
+    service_url = "https://google.it"
   }
 }
 
@@ -40,7 +40,7 @@ resource "azurerm_api_management_api_version_set" "userregistry_api" {
   name                = format("%s-userregistry-api", var.env_short)
   resource_group_name = module.apim.resource_group_name
   api_management_name = module.apim.name
-  display_name        = "${local.apim_userregistry_api.display_name}"
+  display_name        = local.apim_userregistry_api.display_name
   versioning_scheme   = "Segment"
 }
 
@@ -56,8 +56,8 @@ module "apim_userregistry_api_v1" {
   api_version           = "v1"
   service_url           = local.apim_userregistry_api.service_url
 
-  description  = "${local.apim_userregistry_api.description}"
-  display_name = "${local.apim_userregistry_api.display_name}"
+  description  = local.apim_userregistry_api.description
+  display_name = local.apim_userregistry_api.display_name
   path         = "pdnd-interop-uservice-user-registry-management"
   protocols    = ["https"]
 

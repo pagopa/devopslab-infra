@@ -12,9 +12,9 @@ module "acr" {
   name                = replace(format("%s-acr", local.project), "-", "")
   resource_group_name = azurerm_resource_group.rg_app.name
   location            = azurerm_resource_group.rg_app.location
-  
+
   #https://docs.microsoft.com/en-us/azure/app-service/faq-app-service-linux#multi-container-with-docker-compose
-  admin_enabled       = true
+  admin_enabled = true
 
   tags = var.tags
 }

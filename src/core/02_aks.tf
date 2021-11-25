@@ -1,5 +1,5 @@
 data "azurerm_public_ip" "aks_outbound" {
-  count               = var.aks_num_outbound_ips
+  count = var.aks_num_outbound_ips
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
   name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
@@ -29,23 +29,23 @@ module "k8s_snet" {
 module "aks" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.91"
 
-  name                        = format("%s-aks", local.project)
-  location                    = azurerm_resource_group.rg_aks.location
-  dns_prefix                  = format("%s-aks", local.project)
-  resource_group_name         = azurerm_resource_group.rg_aks.name
-  availability_zones          = var.aks_availability_zones
-  kubernetes_version          = var.kubernetes_version
-  log_analytics_workspace_id  = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  name                       = format("%s-aks", local.project)
+  location                   = azurerm_resource_group.rg_aks.location
+  dns_prefix                 = format("%s-aks", local.project)
+  resource_group_name        = azurerm_resource_group.rg_aks.name
+  availability_zones         = var.aks_availability_zones
+  kubernetes_version         = var.kubernetes_version
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
 
-  vm_size                     = var.aks_vm_size
-  enable_auto_scaling         = var.aks_enable_auto_scaling
-  node_count                  = var.aks_node_count
-  min_count                   = var.aks_node_min_count
-  max_count                   = var.aks_node_max_count
-  max_pods                    = var.aks_max_pods
-  sku_tier                    = var.aks_sku_tier
+  vm_size             = var.aks_vm_size
+  enable_auto_scaling = var.aks_enable_auto_scaling
+  node_count          = var.aks_node_count
+  min_count           = var.aks_node_min_count
+  max_count           = var.aks_node_max_count
+  max_pods            = var.aks_max_pods
+  sku_tier            = var.aks_sku_tier
 
-  private_cluster_enabled     = var.aks_private_cluster_enabled
+  private_cluster_enabled = var.aks_private_cluster_enabled
 
   rbac_enabled        = true
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]

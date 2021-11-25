@@ -1,6 +1,6 @@
 # general
 env_short = "u"
-location  = "germanywestcentral"
+location  = "northeurope"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -17,13 +17,12 @@ key_vault_name    = "usrreg-u-kv"
 key_vault_rg_name = "usrreg-u-sec-rg"
 
 # ☁️ networking
-cidr_vnet               = ["10.1.0.0/16"]
-cidr_subnet_postgres    = ["10.1.129.0/24"]
-cidr_subnet_appgateway  = ["10.1.128.0/24"]
-cidr_subnet_postgres    = ["10.1.129.0/24"]
-cidr_subnet_azdoa       = ["10.1.130.0/24"]
-cidr_subnet_apim        = ["10.1.136.0/24"]
-cidr_subnet_k8s         = ["10.1.0.0/17"]
+cidr_vnet              = ["10.1.0.0/16"]
+cidr_subnet_appgateway = ["10.1.128.0/24"]
+cidr_subnet_postgres   = ["10.1.129.0/24"]
+cidr_subnet_azdoa      = ["10.1.130.0/24"]
+cidr_subnet_apim       = ["10.1.136.0/24"]
+cidr_subnet_k8s        = ["10.1.0.0/17"]
 
 # dns
 external_domain = "pagopa.it"
@@ -55,8 +54,8 @@ postgres_network_rules = {
 #
 # 🗺 APIM
 #
-apim_publisher_name = "PagoPA SelfCare UAT"
-apim_sku            = "Developer_1"
+apim_publisher_name                = "PagoPA SelfCare UAT"
+apim_sku                           = "Developer_1"
 apim_api_internal_certificate_name = "api-internal-uat-userregistry-pagopa-it"
 
 #
@@ -65,9 +64,9 @@ apim_api_internal_certificate_name = "api-internal-uat-userregistry-pagopa-it"
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip            = "10.1.0.250"
-aks_max_pods                = 100
-aks_enable_auto_scaling     = true
-aks_node_min_count          = 1
-aks_node_max_count          = 1
-aks_vm_size                 = "Standard_D4s_v3"
+reverse_proxy_ip        = "10.1.0.250"
+aks_max_pods            = 100
+aks_enable_auto_scaling = true
+aks_node_min_count      = 1
+aks_node_max_count      = 1
+aks_vm_size             = "Standard_D4s_v3"
