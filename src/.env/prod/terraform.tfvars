@@ -1,6 +1,7 @@
 # general
 env_short = "p"
-location = "westeurope"
+location  = "westeurope"
+
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Prod"
@@ -16,32 +17,34 @@ key_vault_rg_name = "usrreg-p-sec-rg"
 
 # ☁️ networking
 cidr_vnet               = ["10.1.0.0/16"]
-cidr_subnet_azdoa       = ["10.1.130.0/24"]
 cidr_subnet_postgres    = ["10.1.129.0/24"]
 cidr_subnet_appgateway  = ["10.1.128.0/24"]
+cidr_subnet_postgres    = ["10.1.129.0/24"]
+cidr_subnet_azdoa       = ["10.1.130.0/24"]
 cidr_subnet_apim        = ["10.1.136.0/24"]
+cidr_subnet_k8s         = ["10.1.0.0/17"]
 
 # dns
 external_domain = "pagopa.it"
-dns_zone_prefix = "prod.userregistry"
+dns_zone_prefix = "userregistry"
 
 # azure devops
-enable_azdoa             = true
-enable_iac_pipeline      = true
+enable_azdoa        = true
+enable_iac_pipeline = true
 
 # ❇️ app_gateway
 app_gateway_sku_name              = "Standard_v2" # TODO change to WAF_v2
 app_gateway_sku_tier              = "Standard_v2" # TODO change to WAF_v2
+app_gateway_alerts_enabled        = false # TODO change to true
+app_gateway_waf_enabled           = false # TODO change to true
 app_gateway_api_certificate_name  = "api-userregistry-pagopa-it"
 
-app_gateway_alerts_enabled        = false
-app_gateway_waf_enabled           = false # TODO change to true
-
-# 🗄 postgresql
-postgres_sku_name       = "GP_Gen5_2"
-postgres_enable_replica = false
+# postgres
+postgres_private_endpoint_enabled      = true
+postgres_sku_name                      = "GP_Gen5_2"
 postgres_public_network_access_enabled = false
-postgres_alerts_enabled = true
+postgres_geo_redundant_backup_enabled  = true
+postgres_alerts_enabled                = true
 
 #
 # 🗺 APIM

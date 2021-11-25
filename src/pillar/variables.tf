@@ -45,6 +45,11 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
+variable "cidr_subnet_postgres" {
+  type        = list(string)
+  description = "Database network address space."
+}
+
 # dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -62,13 +67,6 @@ variable "dns_zone_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
-}
-
-# azure devops
-variable "azdo_sp_tls_cert_enabled" {
-  type        = string
-  description = "Enable Azure DevOps connection for TLS cert management"
-  default     = false
 }
 
 variable "enable_azdoa" {
@@ -104,6 +102,47 @@ variable "law_daily_quota_gb" {
   type        = number
   description = "The workspace daily quota for ingestion in GB."
   default     = -1
+}
+
+# 🗄 Database server postgres
+variable "postgres_sku_name" {
+  type        = string
+  description = "Specifies the SKU Name for this PostgreSQL Server."
+}
+
+variable "postgres_private_endpoint_enabled" {
+  type        = bool
+  description = "Enable vnet private endpoint for postgres"
+}
+
+variable "postgres_public_network_access_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable/Disable public network access"
+}
+
+variable "postgres_network_rules" {
+  type = object({
+    ip_rules                       = list(string)
+    allow_access_to_azure_services = bool
+  })
+  default = {
+    ip_rules                       = []
+    allow_access_to_azure_services = false
+  }
+  description = "Database network rules"
+}
+
+variable "postgres_geo_redundant_backup_enabled" {
+  type        = bool
+  default     = false
+  description = "Turn Geo-redundant server backups on/off."
+}
+
+variable "postgres_alerts_enabled" {
+  type        = bool
+  default     = false
+  description = "Database alerts enabled?"
 }
 
 #
