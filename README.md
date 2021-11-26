@@ -66,3 +66,11 @@ https://github.com/antonbabenko/pre-commit-terraform#how-to-install
 ```sh
 pre-commit run -a
 ```
+
+Install the pre-commit hook globally
+
+```sh
+DIR=~/.git-template
+git config --global init.templateDir ${DIR}
+pre-commit init-templatedir -t pre-commit ${DIR}
+```
