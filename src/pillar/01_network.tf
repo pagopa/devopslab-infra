@@ -16,6 +16,17 @@ module "vnet" {
   tags = var.tags
 }
 
+## Application gateway public ip ##
+resource "azurerm_public_ip" "appgateway_public_ip" {
+  name                = format("%s-appgateway-pip", local.project)
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = azurerm_resource_group.rg_vnet.location
+  sku                 = "Standard"
+  allocation_method   = "Static"
+
+  tags = var.tags
+}
+
 #
 # 🗂 AKS public IP
 #

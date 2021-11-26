@@ -1,12 +1,6 @@
-## Application gateway public ip ##
-resource "azurerm_public_ip" "appgateway_public_ip" {
-  name                = format("%s-appgateway-pip", local.project)
+data "azurerm_public_ip" "appgateway_public_ip" {
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  location            = data.azurerm_resource_group.rg_vnet.location
-  sku                 = "Standard"
-  allocation_method   = "Static"
-
-  tags = var.tags
+  name                = format("%s-appgateway-pip", local.project)
 }
 
 # Subnet to host the application gateway
@@ -35,7 +29,7 @@ module "app_gw" {
 
   # Networking
   subnet_id    = module.appgateway_snet.id
-  public_ip_id = azurerm_public_ip.appgateway_public_ip.id
+  public_ip_id = data.azurerm_public_ip.appgateway_public_ip.id
 
   # Configure backends
   backends = {
