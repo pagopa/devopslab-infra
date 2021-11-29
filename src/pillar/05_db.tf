@@ -138,3 +138,45 @@ module "postgres" {
 
   tags = var.tags
 }
+
+data "azuread_group" "postgres" {
+  display_name = module.postgres.name
+}
+
+resource "azurerm_key_vault_access_policy" "postgres" {
+  count = var.postgres_byok_enabled ? 1 : 0
+
+  key_vault_id            = data.azurerm_key_vault.kv.id
+  tenant_id               = data.azurerm_client_config.current.tenant_id
+  object_id               = data.azuread_group.postgres.object_id
+  key_permissions         = ["Get", "WrapKey", "UnwrapKey", ]
+  secret_permissions      = []
+  certificate_permissions = []
+  storage_permissions     = []
+}
+
+resource "azurerm_key_vault_key" "postgres" {
+  count = var.postgres_byok_enabled ? 1 : 0
+
+  name         = "postgres-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
+  key_type     = "RSA-HSM"
+  key_size     = 2048
+
+  key_opts = [
+    "decrypt",
+    "encrypt",
+    "sign",
+    "unwrapKey",
+    "verify",
+    "wrapKey",
+  ]
+}
+
+resource "azurerm_postgresql_server_key" "postgres" {
+  count      = var.postgres_byok_enabled ? 1 : 0
+  depends_on = [azurerm_key_vault_access_policy.postgres]
+
+  server_id        = module.postgres.id
+  key_vault_key_id = azurerm_key_vault_key.postgres[0].id
+}

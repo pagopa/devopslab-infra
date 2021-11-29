@@ -145,6 +145,12 @@ variable "postgres_alerts_enabled" {
   description = "Database alerts enabled?"
 }
 
+variable "postgres_byok_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
+}
+
 #
 # Key Vault
 #

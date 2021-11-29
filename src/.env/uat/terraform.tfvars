@@ -42,6 +42,7 @@ app_gateway_api_certificate_name = "api-uat-userregistry-pagopa-it"
 # postgres
 postgres_private_endpoint_enabled      = false
 postgres_sku_name                      = "GP_Gen5_2"
+postgres_byok_enabled                  = true
 postgres_public_network_access_enabled = true
 postgres_network_rules = {
   ip_rules = [
