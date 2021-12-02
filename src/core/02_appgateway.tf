@@ -3,6 +3,13 @@ data "azurerm_public_ip" "appgateway_public_ip" {
   name                = format("%s-appgateway-pip", local.project)
 }
 
+data "azurerm_key_vault_certificate" "app_gw_api" {
+  name         = var.app_gateway_api_certificate_name
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+#--------------------------------------------------------------------------------------------------
+
 # Subnet to host the application gateway
 module "appgateway_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.90"
@@ -253,11 +260,6 @@ resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
   secret_permissions      = ["Get", "List"]
   certificate_permissions = ["Get", "List"]
   storage_permissions     = []
-}
-
-data "azurerm_key_vault_certificate" "app_gw_api" {
-  name         = var.app_gateway_api_certificate_name
-  key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 # resource "azurerm_web_application_firewall_policy" "api" {

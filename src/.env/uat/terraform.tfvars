@@ -1,5 +1,6 @@
 # general
 env_short = "u"
+env       = "uat"
 location  = "northeurope"
 
 tags = {
@@ -12,9 +13,9 @@ tags = {
 
 lock_enable = false
 
-# key vault
-key_vault_name    = "usrreg-u-kv"
-key_vault_rg_name = "usrreg-u-sec-rg"
+# 🔐 key vault
+key_vault_name    = "usrreg-u-kv-neu"
+key_vault_rg_name = "usrreg-u-sec-rg-neu"
 
 # ☁️ networking
 cidr_vnet              = ["10.1.0.0/16"]
@@ -71,3 +72,9 @@ aks_enable_auto_scaling = true
 aks_node_min_count      = 1
 aks_node_max_count      = 1
 aks_vm_size             = "Standard_D4s_v3"
+
+#
+# 📦 ACR Docker registry
+#
+docker_registry_rg_name = "usrreg-u-docker-rg"
+docker_registry_name    = "usrreguacr"

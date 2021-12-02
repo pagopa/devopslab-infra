@@ -1,5 +1,6 @@
 # general
 env_short = "d"
+env       = "dev"
 location  = "northeurope"
 
 tags = {
@@ -13,8 +14,8 @@ tags = {
 lock_enable = false
 
 # 🔐 key vault
-key_vault_name    = "usrreg-d-kv"
-key_vault_rg_name = "usrreg-d-sec-rg"
+key_vault_name    = "usrreg-d-kv-neu"
+key_vault_rg_name = "usrreg-d-sec-rg-neu"
 
 # ☁️ networking
 cidr_vnet              = ["10.1.0.0/16"]
@@ -70,3 +71,9 @@ aks_enable_auto_scaling = false
 aks_node_min_count      = null
 aks_node_max_count      = null
 aks_vm_size             = "Standard_B4ms"
+
+#
+# 📦 ACR Docker registry
+#
+docker_registry_rg_name = "usrreg-d-docker-rg"
+docker_registry_name    = "usrregdacr"

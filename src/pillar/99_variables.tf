@@ -39,7 +39,7 @@ variable "tags" {
   }
 }
 
-# network
+# ☁️ network
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
@@ -50,7 +50,7 @@ variable "cidr_subnet_postgres" {
   description = "Database network address space."
 }
 
-# dns
+# 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
   description = "value"
@@ -85,7 +85,7 @@ variable "enable_iac_pipeline" {
   default     = false
 }
 
-## Monitor
+## 🔭 Monitor
 variable "law_sku" {
   type        = string
   description = "Sku of the Log Analytics Workspace"
@@ -152,7 +152,7 @@ variable "postgres_byok_enabled" {
 }
 
 #
-# Key Vault
+# 🔐 Key Vault
 #
 variable "key_vault_name" {
   type        = string
@@ -167,7 +167,7 @@ variable "key_vault_rg_name" {
 }
 
 #
-# AKS
+# ⛴ AKS
 #
 variable "aks_num_outbound_ips" {
   type        = number

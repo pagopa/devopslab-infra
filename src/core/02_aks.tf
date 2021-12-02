@@ -5,6 +5,13 @@ data "azurerm_public_ip" "aks_outbound" {
   name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
 }
 
+data "azurerm_container_registry" "acr" {
+  name                = var.docker_registry_name
+  resource_group_name = var.docker_registry_rg_name
+}
+
+#--------------------------------------------------------------------------------------------------
+
 resource "azurerm_resource_group" "rg_aks" {
   name     = format("%s-aks-rg", local.project)
   location = var.location
@@ -13,7 +20,7 @@ resource "azurerm_resource_group" "rg_aks" {
 
 # k8s cluster subnet
 module "k8s_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.91"
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.0.3"
   name                                           = format("%s-k8s-snet", local.project)
   address_prefixes                               = var.cidr_subnet_k8s
   resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
@@ -27,7 +34,7 @@ module "k8s_snet" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v1.0.91"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.0.3"
 
   name                       = format("%s-aks", local.project)
   location                   = azurerm_resource_group.rg_aks.location
@@ -83,7 +90,7 @@ module "aks" {
 
 # add the role to the identity the kubernetes cluster was assigned
 resource "azurerm_role_assignment" "aks_to_acr" {
-  scope                = module.acr.id
+  scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = module.aks.kubelet_identity_id
 }

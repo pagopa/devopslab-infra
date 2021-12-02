@@ -480,6 +480,19 @@ variable "aks_alerts_enabled" {
 }
 
 #
+# 📦 Docker registry ACR
+#
+variable "docker_registry_name" {
+  type        = string
+  description = "ACR docker registry name"
+}
+
+variable "docker_registry_rg_name" {
+  type        = string
+  description = "ACR docker registry, resource group name"
+}
+
+#
 # Locals
 #
 locals {

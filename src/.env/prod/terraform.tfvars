@@ -1,5 +1,6 @@
 # general
 env_short = "p"
+env       = "prod"
 location  = "westeurope"
 
 tags = {
@@ -12,8 +13,8 @@ tags = {
 lock_enable = true
 
 # 🔐 key vault
-key_vault_name    = "usrreg-p-kv"
-key_vault_rg_name = "usrreg-p-sec-rg"
+key_vault_name    = "usrreg-p-kv-weu"
+key_vault_rg_name = "usrreg-p-sec-rg-weu"
 
 # ☁️ networking
 cidr_vnet              = ["10.1.0.0/16"]
@@ -65,3 +66,9 @@ aks_enable_auto_scaling = true
 aks_node_min_count      = 1
 aks_node_max_count      = 3
 aks_vm_size             = "Standard_D4s_v3"
+
+#
+# 📦 ACR Docker registry
+#
+docker_registry_rg_name = "usrreg-p-docker-rg"
+docker_registry_name    = "usrregpacr"
