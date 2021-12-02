@@ -10,6 +10,7 @@ module "nginx_ingress" {
     name          = "nginx-ingress"
     version       = var.nginx_helm_version
     chart         = "ingress-nginx"
+    recreate_pods = false #https://github.com/helm/helm/issues/6378 -> fixed in k8s 1.22
     deploy        = 1
   }
 
@@ -41,9 +42,5 @@ module "nginx_ingress" {
       name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
       value = "linux"
     }
-  ]
-
-  depends_on = [
-    kubernetes_namespace.ingress
   ]
 }

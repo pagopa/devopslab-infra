@@ -94,3 +94,9 @@ resource "azurerm_role_assignment" "aks_to_acr" {
   role_definition_name = "AcrPull"
   principal_id         = module.aks.kubelet_identity_id
 }
+
+resource "azurerm_key_vault_secret" "aks_apiserver_url" {
+  name         = "aks-apiserver-url"
+  value        = module.aks.fqdn
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
