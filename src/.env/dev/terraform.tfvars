@@ -1,21 +1,22 @@
 # general
 env_short = "d"
 env       = "dev"
+prefix    = "dvopla"
 location  = "northeurope"
 
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "UserRegistry"
-  Source      = "https://github.com/pagopa/userregistry-infra"
+  Owner       = "DevOps"
+  Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
 lock_enable = false
 
 # 🔐 key vault
-key_vault_name    = "usrreg-d-kv-neu"
-key_vault_rg_name = "usrreg-d-sec-rg-neu"
+key_vault_name    = "kv-dvopla-lab-neu"
+key_vault_rg_name = "rg-dvopla-sec-lab-neu"
 
 # ☁️ networking
 cidr_vnet              = ["10.1.0.0/16"]
@@ -26,7 +27,7 @@ cidr_subnet_apim       = ["10.1.136.0/24"]
 cidr_subnet_k8s        = ["10.1.0.0/17"]
 
 # dns
-dns_zone_prefix = "dev.userregistry"
+dns_zone_prefix = "dev.devopslab"
 external_domain = "pagopa.it"
 
 # azure devops
@@ -38,7 +39,7 @@ app_gateway_sku_name             = "Standard_v2"
 app_gateway_sku_tier             = "Standard_v2"
 app_gateway_alerts_enabled       = false
 app_gateway_waf_enabled          = false
-app_gateway_api_certificate_name = "api-dev-userregistry-pagopa-it"
+app_gateway_api_certificate_name = "api-dev-devopslab-pagopa-it"
 
 # postgres
 postgres_private_endpoint_enabled      = false
@@ -55,9 +56,9 @@ postgres_network_rules = {
 #
 # 🗺 APIM
 #
-apim_publisher_name                = "PagoPA SelfCare DEV"
+apim_publisher_name                = "PagoPA DevOpsLab DEV"
 apim_sku                           = "Developer_1"
-apim_api_internal_certificate_name = "api-internal-dev-userregistry-pagopa-it"
+apim_api_internal_certificate_name = "api-internal-dev-devopslab-pagopa-it"
 
 #
 # ⛴ AKS
@@ -71,9 +72,3 @@ aks_enable_auto_scaling = false
 aks_node_min_count      = null
 aks_node_max_count      = null
 aks_vm_size             = "Standard_B4ms"
-
-#
-# 📦 ACR Docker registry
-#
-docker_registry_rg_name = "usrreg-d-docker-rg"
-docker_registry_name    = "usrregdacr"

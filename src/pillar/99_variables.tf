@@ -2,7 +2,7 @@
 
 variable "prefix" {
   type    = string
-  default = "usrreg"
+  default = "dvopla"
   validation {
     condition = (
       length(var.prefix) <= 6
@@ -173,4 +173,13 @@ variable "aks_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS cluster"
+}
+
+locals {
+  project = "${var.prefix}-${var.env_short}"
+  vnet_resource_group = "rg-vnet-${var.project}"
+  vnet_name = "vnet-${var.project}"
+
+  appgateway_public_ip_name = "pip-agw-${var.project}"
+  aks_public_ip_name = "pip-aksoutbound-${var.project}"
 }
