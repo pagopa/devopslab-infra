@@ -28,7 +28,7 @@ cidr_subnet_k8s        = ["10.1.0.0/17"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
-dev_dns_zone_prefix = "dev.devopslab"
+lab_dns_zone_prefix = "lab.devopslab"
 external_domain = "pagopa.it"
 
 # azure devops

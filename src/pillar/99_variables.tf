@@ -63,7 +63,13 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
-variable "dns_zone_prefix" {
+variable "prod_dns_zone_prefix" {
+  type        = string
+  default     = null
+  description = "The dns subdomain."
+}
+
+variable "lab_dns_zone_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
@@ -177,9 +183,16 @@ variable "aks_num_outbound_ips" {
 
 locals {
   project = "${var.prefix}-${var.env_short}"
-  vnet_resource_group = "rg-vnet-${var.project}"
-  vnet_name = "vnet-${var.project}"
+  vnet_resource_group = "rg-vnet-${local.project}"
+  vnet_name = "vnet-${local.project}"
 
-  appgateway_public_ip_name = "pip-agw-${var.project}"
-  aks_public_ip_name = "pip-aksoutbound-${var.project}"
+  appgateway_public_ip_name = "pip-agw-${local.project}"
+  aks_public_ip_name = "pip-aksoutbound-${local.project}"
+
+  prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
+  lab_dns_zone_public_name = "${var.lab_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+
+  # ACR DOCKER
+  docker_registry_name = ""
 }
