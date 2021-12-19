@@ -110,52 +110,52 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-# 🗄 Database server postgres
-variable "postgres_sku_name" {
-  type        = string
-  description = "Specifies the SKU Name for this PostgreSQL Server."
-}
+# # 🗄 Database server postgres
+# variable "postgres_sku_name" {
+#   type        = string
+#   description = "Specifies the SKU Name for this PostgreSQL Server."
+# }
 
-variable "postgres_private_endpoint_enabled" {
-  type        = bool
-  description = "Enable vnet private endpoint for postgres"
-}
+# variable "postgres_private_endpoint_enabled" {
+#   type        = bool
+#   description = "Enable vnet private endpoint for postgres"
+# }
 
-variable "postgres_public_network_access_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable/Disable public network access"
-}
+# variable "postgres_public_network_access_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Enable/Disable public network access"
+# }
 
-variable "postgres_network_rules" {
-  type = object({
-    ip_rules                       = list(string)
-    allow_access_to_azure_services = bool
-  })
-  default = {
-    ip_rules                       = []
-    allow_access_to_azure_services = false
-  }
-  description = "Database network rules"
-}
+# variable "postgres_network_rules" {
+#   type = object({
+#     ip_rules                       = list(string)
+#     allow_access_to_azure_services = bool
+#   })
+#   default = {
+#     ip_rules                       = []
+#     allow_access_to_azure_services = false
+#   }
+#   description = "Database network rules"
+# }
 
-variable "postgres_geo_redundant_backup_enabled" {
-  type        = bool
-  default     = false
-  description = "Turn Geo-redundant server backups on/off."
-}
+# variable "postgres_geo_redundant_backup_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Turn Geo-redundant server backups on/off."
+# }
 
-variable "postgres_alerts_enabled" {
-  type        = bool
-  default     = false
-  description = "Database alerts enabled?"
-}
+# variable "postgres_alerts_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Database alerts enabled?"
+# }
 
-variable "postgres_byok_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
-}
+# variable "postgres_byok_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
+# }
 
 #
 # 🔐 Key Vault
@@ -191,7 +191,7 @@ locals {
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name = "${var.lab_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
   docker_registry_name = ""
