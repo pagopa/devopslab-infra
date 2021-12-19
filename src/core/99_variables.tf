@@ -2,7 +2,7 @@
 
 variable "prefix" {
   type    = string
-  default = "usrreg"
+  default = "dvopla"
   validation {
     condition = (
       length(var.prefix) <= 6

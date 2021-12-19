@@ -1,7 +1,7 @@
 # resource "kubernetes_config_map" "inner-service-url" {
 #   metadata {
 #     name      = "inner-service-url"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -18,7 +18,7 @@
 # resource "kubernetes_config_map" "hub-spid-login-ms" {
 #   metadata {
 #     name      = "hub-spid-login-ms"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
@@ -70,12 +70,12 @@
 # resource "kubernetes_config_map" "ms-product" {
 #   metadata {
 #     name      = "ms-product"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
 #     JWT_TOKEN_PUBLIC_KEY = module.key_vault_secrets_query.values["jwt-public-key"].value
-#     MONGODB_NAME         = local.mongodb_name_usrreg_product
+#     MONGODB_NAME         = local.mongodb_name_dvopla_product
 #   },
 #   var.configmaps_ms-product
 #   )
@@ -84,7 +84,7 @@
 # resource "kubernetes_config_map" "b4f-dashboard" {
 #   metadata {
 #     name      = "b4f-dashboard"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
@@ -97,7 +97,7 @@
 # resource "kubernetes_config_map" "uservice-attribute-registry-management" {
 #   metadata {
 #     name      = "uservice-attribute-registry-management"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
@@ -111,7 +111,7 @@
 # resource "kubernetes_config_map" "uservice-party-management" {
 #   metadata {
 #     name      = "uservice-party-management"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
@@ -125,7 +125,7 @@
 # resource "kubernetes_config_map" "uservice-party-process" {
 #   metadata {
 #     name      = "uservice-party-process"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({
@@ -144,7 +144,7 @@
 # resource "kubernetes_config_map" "uservice-party-registry-proxy" {
 #   metadata {
 #     name      = "uservice-party-registry-proxy"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = merge({

@@ -4,7 +4,7 @@ resource "kubernetes_namespace" "ingress" {
   }
 }
 
-resource "kubernetes_namespace" "usrreg" {
+resource "kubernetes_namespace" "dvopla" {
   metadata {
     name = var.prefix
   }
