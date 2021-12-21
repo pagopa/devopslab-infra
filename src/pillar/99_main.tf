@@ -8,6 +8,9 @@ terraform {
       source  = "hashicorp/azuread"
       version = "= 2.10.0"
     }
+    null = {
+      version = "= 3.1.0"
+    }
 
   }
 

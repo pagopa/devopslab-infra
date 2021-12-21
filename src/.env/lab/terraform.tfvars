@@ -1,12 +1,13 @@
 # general
-env_short = "d"
-env       = "dev"
+env_short = "l"
+env       = "lab"
 prefix    = "dvopla"
 location  = "northeurope"
+location_short = "neu"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Dev"
+  Environment = "Lab"
   Owner       = "DevOps"
   Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
