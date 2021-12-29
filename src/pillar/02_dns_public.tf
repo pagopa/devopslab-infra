@@ -29,6 +29,8 @@ resource "azurerm_dns_cname_record" "public_healthy" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = 300
   record              = "google.com"
+
+  tags = var.tags
 }
 
 #
@@ -47,4 +49,6 @@ resource "azurerm_dns_cname_record" "lab_healthy" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   ttl                 = 300
   record              = "google.com"
+
+  tags = var.tags
 }

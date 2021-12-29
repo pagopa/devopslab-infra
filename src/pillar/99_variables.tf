@@ -11,6 +11,16 @@ variable "prefix" {
   }
 }
 
+variable "env" {
+  type = string
+  validation {
+    condition = (
+      length(var.env) <= 3
+    )
+    error_message = "Max length is 3 chars."
+  }
+}
+
 variable "env_short" {
   type = string
   validation {
@@ -182,7 +192,7 @@ variable "aks_num_outbound_ips" {
 }
 
 locals {
-  project = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env}"
   vnet_resource_group = "rg-vnet-${local.project}"
   vnet_name = "vnet-${local.project}"
 
@@ -194,5 +204,11 @@ locals {
   dns_zone_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
-  docker_registry_name = ""
+  docker_rg_name = "rg-docker-${var.env}"
+  docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
+
+  # MONITORING
+  monitoring_rg_name = "rg-monitor-${var.env}"
+  monitoring_analytics_workspace_name = "law-${local.project}"
+  monitoring_appinsights_name = "appinsights-${local.project}"
 }
