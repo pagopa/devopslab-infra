@@ -2,12 +2,22 @@
 
 variable "prefix" {
   type    = string
-  default = "usrreg"
+  default = "dvopla"
   validation {
     condition = (
       length(var.prefix) <= 6
     )
     error_message = "Max length is 6 chars."
+  }
+}
+
+variable "env" {
+  type = string
+  validation {
+    condition = (
+      length(var.env) <= 3
+    )
+    error_message = "Max length is 3 chars."
   }
 }
 
@@ -63,7 +73,13 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
-variable "dns_zone_prefix" {
+variable "prod_dns_zone_prefix" {
+  type        = string
+  default     = null
+  description = "The dns subdomain."
+}
+
+variable "lab_dns_zone_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
@@ -104,52 +120,52 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-# 🗄 Database server postgres
-variable "postgres_sku_name" {
-  type        = string
-  description = "Specifies the SKU Name for this PostgreSQL Server."
-}
+# # 🗄 Database server postgres
+# variable "postgres_sku_name" {
+#   type        = string
+#   description = "Specifies the SKU Name for this PostgreSQL Server."
+# }
 
-variable "postgres_private_endpoint_enabled" {
-  type        = bool
-  description = "Enable vnet private endpoint for postgres"
-}
+# variable "postgres_private_endpoint_enabled" {
+#   type        = bool
+#   description = "Enable vnet private endpoint for postgres"
+# }
 
-variable "postgres_public_network_access_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable/Disable public network access"
-}
+# variable "postgres_public_network_access_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Enable/Disable public network access"
+# }
 
-variable "postgres_network_rules" {
-  type = object({
-    ip_rules                       = list(string)
-    allow_access_to_azure_services = bool
-  })
-  default = {
-    ip_rules                       = []
-    allow_access_to_azure_services = false
-  }
-  description = "Database network rules"
-}
+# variable "postgres_network_rules" {
+#   type = object({
+#     ip_rules                       = list(string)
+#     allow_access_to_azure_services = bool
+#   })
+#   default = {
+#     ip_rules                       = []
+#     allow_access_to_azure_services = false
+#   }
+#   description = "Database network rules"
+# }
 
-variable "postgres_geo_redundant_backup_enabled" {
-  type        = bool
-  default     = false
-  description = "Turn Geo-redundant server backups on/off."
-}
+# variable "postgres_geo_redundant_backup_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Turn Geo-redundant server backups on/off."
+# }
 
-variable "postgres_alerts_enabled" {
-  type        = bool
-  default     = false
-  description = "Database alerts enabled?"
-}
+# variable "postgres_alerts_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Database alerts enabled?"
+# }
 
-variable "postgres_byok_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
-}
+# variable "postgres_byok_enabled" {
+#   type        = bool
+#   default     = false
+#   description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
+# }
 
 #
 # 🔐 Key Vault
@@ -173,4 +189,26 @@ variable "aks_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS cluster"
+}
+
+locals {
+  project = "${var.prefix}-${var.env}"
+  vnet_resource_group = "rg-vnet-${local.project}"
+  vnet_name = "vnet-${local.project}"
+
+  appgateway_public_ip_name = "pip-agw-${local.project}"
+  aks_public_ip_name = "pip-aksoutbound-${local.project}"
+
+  prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
+  lab_dns_zone_public_name = "${var.lab_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
+
+  # ACR DOCKER
+  docker_rg_name = "rg-docker-${var.env}"
+  docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
+
+  # MONITORING
+  monitoring_rg_name = "rg-monitor-${var.env}"
+  monitoring_analytics_workspace_name = "law-${local.project}"
+  monitoring_appinsights_name = "appinsights-${local.project}"
 }

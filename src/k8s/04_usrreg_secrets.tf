@@ -1,7 +1,7 @@
 # resource "kubernetes_secret" "hub-spid-login-ms" {
 #   metadata {
 #     name      = "hub-spid-login-ms"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -16,10 +16,10 @@
 #   type = "Opaque"
 # }
 
-# resource "kubernetes_secret" "usrreg-redis-credentials" {
+# resource "kubernetes_secret" "dvopla-redis-credentials" {
 #   metadata {
 #     name      = "redis-credentials"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -31,10 +31,10 @@
 #   type = "Opaque"
 # }
 
-# resource "kubernetes_secret" "usrreg-application-insights" {
+# resource "kubernetes_secret" "dvopla-application-insights" {
 #   metadata {
 #     name      = "application-insights"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -47,18 +47,18 @@
 # resource "kubernetes_secret" "postgres" {
 #   metadata {
 #     name      = "postgres"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
 #     #principal database name
-#     POSTGRES_DB = "usrreg"
+#     POSTGRES_DB = "dvopla"
 #     #principal database hostname or ip
 #     POSTGRES_HOST = local.postgres_hostname
 #     #principal database hostname or ip
 #     POSTGRES_PORT = "5432"
 #     #replica database name
-#     POSTGRES_REPLICA_DB = "usrreg"
+#     POSTGRES_REPLICA_DB = "dvopla"
 #     #replica database hostname or ip
 #     POSTGRES_REPLICA_HOST = local.postgres_replica_hostname
 #     #replica database hostname or ip
@@ -71,7 +71,7 @@
 # resource "kubernetes_secret" "mail" {
 #   metadata {
 #     name      = "mail"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -88,7 +88,7 @@
 # resource "kubernetes_secret" "contracts-storage" {
 #   metadata {
 #     name      = "contracts-storage"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -105,7 +105,7 @@
 # resource "kubernetes_secret" "b4f-dashboard" {
 #   metadata {
 #     name      = "b4f-dashboard"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -118,7 +118,7 @@
 # resource "kubernetes_secret" "uservice-attribute-registry-management" {
 #   metadata {
 #     name      = "uservice-attribute-registry-management"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {
@@ -132,7 +132,7 @@
 # resource "kubernetes_secret" "uservice-party-management" {
 #   metadata {
 #     name      = "uservice-party-management"
-#     namespace = kubernetes_namespace.usrreg.metadata[0].name
+#     namespace = kubernetes_namespace.dvopla.metadata[0].name
 #   }
 
 #   data = {

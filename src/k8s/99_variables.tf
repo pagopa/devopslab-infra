@@ -5,7 +5,7 @@ variable "location" {
 
 variable "prefix" {
   type    = string
-  default = "usrreg"
+  default = "dvopla"
 }
 
 variable "env" {

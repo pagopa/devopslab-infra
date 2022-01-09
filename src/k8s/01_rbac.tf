@@ -19,7 +19,7 @@ data "azuread_group" "adgroup_technical_project_managers" {
 }
 
 locals {
-  kubernetes_app_namespace = kubernetes_namespace.usrreg.metadata[0].name
+  kubernetes_app_namespace = kubernetes_namespace.dvopla.metadata[0].name
 }
 
 
