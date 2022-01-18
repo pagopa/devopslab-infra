@@ -2,12 +2,12 @@ data "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  name                = format("%s-aksoutbound-pip-%02d", local.project, count.index + 1)
+  name                = "${local.aks_public_ip_name}-${count.index + 1}"
 }
 
 data "azurerm_container_registry" "acr" {
-  name                = var.docker_registry_name
-  resource_group_name = var.docker_registry_rg_name
+  name                = local.docker_registry_name
+  resource_group_name = local.docker_rg_name
 }
 
 #--------------------------------------------------------------------------------------------------

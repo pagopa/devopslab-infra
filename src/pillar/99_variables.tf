@@ -193,8 +193,11 @@ variable "aks_num_outbound_ips" {
 
 locals {
   project = "${var.prefix}-${var.env}"
-  vnet_resource_group = "rg-vnet-${local.project}"
+  project_short = "${var.prefix}-${var.env}"
+
+  # VNET
   vnet_name = "vnet-${local.project}"
+  vnet_resource_group_name = "rg-vnet-${local.project}"
 
   appgateway_public_ip_name = "pip-agw-${local.project}"
   aks_public_ip_name = "pip-aksoutbound-${local.project}"
@@ -207,8 +210,8 @@ locals {
   docker_rg_name = "rg-docker-${var.env}"
   docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
 
-  # MONITORING
-  monitoring_rg_name = "rg-monitor-${var.env}"
-  monitoring_analytics_workspace_name = "law-${local.project}"
-  monitoring_appinsights_name = "appinsights-${local.project}"
+  # monitor
+  monitor_rg_name = "rg-monitor-${var.env}"
+  monitor_log_analytics_workspace_name = "law-${local.project}"
+  monitor_appinsights_name = "appinsights-${local.project}"
 }

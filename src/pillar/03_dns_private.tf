@@ -7,7 +7,7 @@ resource "azurerm_private_dns_zone" "internal" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "internal_vnet" {
-  name                  = local.vnet_resource_group
+  name                  = local.vnet_resource_group_name
   resource_group_name   = azurerm_resource_group.rg_vnet.name
   private_dns_zone_name = azurerm_private_dns_zone.internal[0].name
   virtual_network_id    = module.vnet.id

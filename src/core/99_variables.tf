@@ -11,6 +11,16 @@ variable "prefix" {
   }
 }
 
+variable "env" {
+  type = string
+  validation {
+    condition = (
+      length(var.env) <= 3
+    )
+    error_message = "Max length is 3 chars."
+  }
+}
+
 variable "env_short" {
   type = string
   validation {
@@ -97,85 +107,92 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
-variable "dns_zone_prefix" {
+variable "prod_dns_zone_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
 }
 
-# ❇️ api gateway
-variable "app_gateway_sku_name" {
+variable "lab_dns_zone_prefix" {
   type        = string
-  description = "SKU Name of the App GW"
-  default     = "Standard_v2"
+  default     = null
+  description = "The dns subdomain."
 }
 
-variable "app_gateway_sku_tier" {
-  type        = string
-  description = "SKU tier of the App GW"
-  default     = "Standard_v2"
-}
+# # ❇️ api gateway
+# variable "app_gateway_sku_name" {
+#   type        = string
+#   description = "SKU Name of the App GW"
+#   default     = "Standard_v2"
+# }
 
-variable "app_gateway_alerts_enabled" {
-  type        = bool
-  description = "Enable alerts"
-  default     = false
-}
+# variable "app_gateway_sku_tier" {
+#   type        = string
+#   description = "SKU tier of the App GW"
+#   default     = "Standard_v2"
+# }
+
+# variable "app_gateway_alerts_enabled" {
+#   type        = bool
+#   description = "Enable alerts"
+#   default     = false
+# }
 
 variable "app_gateway_waf_enabled" {
   type        = bool
   description = "Enable WAF"
   default     = false
 }
-## appgateway: Scaling
 
-variable "app_gateway_min_capacity" {
-  type    = number
-  default = 0
-}
+# ## appgateway: Scaling
 
-variable "app_gateway_max_capacity" {
-  type    = number
-  default = 2
-}
+# variable "app_gateway_min_capacity" {
+#   type    = number
+#   default = 0
+# }
 
-variable "app_gateway_api_certificate_name" {
-  type        = string
-  description = "Application gateway api certificate name on Key Vault"
-}
+# variable "app_gateway_max_capacity" {
+#   type    = number
+#   default = 2
+# }
 
-# 🚀 azure devops
-variable "enable_azdoa" {
-  type        = bool
-  description = "Enable Azure DevOps agent."
-}
+# variable "app_gateway_api_certificate_name" {
+#   type        = string
+#   description = "Application gateway api certificate name on Key Vault"
+# }
 
-variable "enable_iac_pipeline" {
-  type        = bool
-  description = "If true create the key vault policy to allow used by azure devops iac pipelines."
-  default     = false
-}
+# # 🚀 azure devops
+# variable "enable_azdoa" {
+#   type        = bool
+#   description = "Enable Azure DevOps agent."
+# }
 
-#
-# 🗺 APIM
-#
+# variable "enable_iac_pipeline" {
+#   type        = bool
+#   description = "If true create the key vault policy to allow used by azure devops iac pipelines."
+#   default     = false
+# }
 
-variable "apim_publisher_name" {
-  type        = string
-  default     = ""
-  description = "Apim publisher name"
-}
+# #
+# # 🗺 APIM
+# #
 
-variable "apim_sku" {
-  type        = string
-  default     = "Developer_1"
-  description = "APIM SKU type"
-}
+# variable "apim_publisher_name" {
+#   type        = string
+#   default     = ""
+#   description = "Apim publisher name"
+# }
 
-variable "apim_api_internal_certificate_name" {
-  type        = string
-  description = "KeyVault certificate name"
-}
+# variable "apim_sku" {
+#   type        = string
+#   default     = "Developer_1"
+#   description = "APIM SKU type"
+# }
+
+# variable "apim_api_internal_certificate_name" {
+#   type        = string
+#   description = "KeyVault certificate name"
+# }
 
 #
 # ⛴ AKS
@@ -480,26 +497,31 @@ variable "aks_alerts_enabled" {
 }
 
 #
-# 📦 Docker registry ACR
-#
-variable "docker_registry_name" {
-  type        = string
-  description = "ACR docker registry name"
-}
-
-variable "docker_registry_rg_name" {
-  type        = string
-  description = "ACR docker registry, resource group name"
-}
-
-#
 # Locals
 #
 locals {
-  monitor_rg                      = format("%s-monitor-rg", local.project)
-  monitor_action_group_slack_name = "SlackPagoPA"
-  monitor_action_group_email_name = "PagoPA"
+  project = "${var.prefix}-${var.env}"
+  project_short = "${var.prefix}-${var.env_short}"
+
+  # VNET
+  vnet_name = "vnet-${local.project}"
+  vnet_resource_group_name = "rg-vnet-${local.project}"
 
   # api.internal.*.userregistry.pagopa.it
-  api_internal_domain = format("api.internal.%s.%s", var.dns_zone_prefix, var.external_domain)
+  # api_internal_domain = format("api.internal.%s.%s", var.dns_zone_prefix, var.external_domain)
+
+  # ACR DOCKER
+  docker_rg_name = "rg-docker-${var.env}"
+  docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
+
+  # AKS
+  aks_public_ip_name = "pip-aksoutbound-${local.project}"
+
+  # monitor
+  monitor_rg_name = "rg-monitor-${var.env}"
+  monitor_appinsights_name = "appinsights-${local.project}"
+  monitor_log_analytics_workspace_name = "law-${local.project}"
+
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
 }

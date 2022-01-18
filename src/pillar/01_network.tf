@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg_vnet" {
-  name     = local.vnet_resource_group
+  name     = local.vnet_resource_group_name
   location = var.location
 
   tags = var.tags

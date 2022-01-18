@@ -1,12 +1,12 @@
 resource "azurerm_resource_group" "monitor_rg" {
-  name     = "${local.monitoring_rg_name}"
+  name     = "${local.monitor_rg_name}"
   location = var.location
 
   tags = var.tags
 }
 
 resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name                = "${local.monitoring_analytics_workspace_name}"
+  name                = "${local.monitor_log_analytics_workspace_name}"
   location            = azurerm_resource_group.monitor_rg.location
   resource_group_name = azurerm_resource_group.monitor_rg.name
   sku                 = var.law_sku
@@ -18,7 +18,7 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
 
 # Application insights
 resource "azurerm_application_insights" "application_insights" {
-  name                = "${local.monitoring_appinsights_name}"
+  name                = "${local.monitor_appinsights_name}"
   location            = azurerm_resource_group.monitor_rg.location
   resource_group_name = azurerm_resource_group.monitor_rg.name
   application_type    = "other"
