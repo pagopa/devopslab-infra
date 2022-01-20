@@ -59,7 +59,7 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
 
 resource "kubernetes_role_binding" "deployer_binding" {
   depends_on = [
-    kubernetes_namespace.dvopla
+    kubernetes_namespace.platform_namespace
   ]
 
   for_each = toset(var.rbac_namespaces_for_deployer_binding)

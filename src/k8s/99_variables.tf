@@ -32,12 +32,19 @@ variable "key_vault_rg_name" {
 }
 
 #
+# namespace
+#
+variable "namespace" {
+  type = string
+  description = "name of namespace for application"
+}
+
+#
 # ⛴ AKS
 #
 variable "aks_private_cluster_enabled" {
   type        = bool
   description = "Enable or not public visibility of AKS"
-  default     = false
 }
 
 #
@@ -101,5 +108,8 @@ variable "nginx_helm_version" {
 #
 locals {
   project                  = "${var.prefix}-${var.env_short}"
-  public_ip_resource_group = "${var.prefix}-${var.env_short}-vnet-rg"
+  public_ip_resource_group = "rg-vnet-dvopla-lab"
+
+  aks_rg_name = "${local.project}-aks-rg"
+  aks_cluster_name = "${local.project}-aks"
 }

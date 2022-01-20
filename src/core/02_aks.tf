@@ -13,7 +13,7 @@ data "azurerm_container_registry" "acr" {
 #--------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "rg_aks" {
-  name     = format("%s-aks-rg", local.project)
+  name     = local.aks_rg_name
   location = var.location
   tags     = var.tags
 }
@@ -36,7 +36,7 @@ module "k8s_snet" {
 module "aks" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.0.3"
 
-  name                       = format("%s-aks", local.project)
+  name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = format("%s-aks", local.project)
   resource_group_name        = azurerm_resource_group.rg_aks.name

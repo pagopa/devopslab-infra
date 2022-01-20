@@ -516,6 +516,8 @@ locals {
 
   # AKS
   aks_public_ip_name = "pip-aksoutbound-${local.project}"
+  aks_rg_name = "${local.project}-aks-rg"
+  aks_cluster_name = "${local.project}-aks"
 
   # monitor
   monitor_rg_name = "rg-monitor-${var.env}"
