@@ -36,7 +36,7 @@ external_domain = "pagopa.it"
 enable_azdoa        = true
 enable_iac_pipeline = true
 
-# ❇️ app_gateway
+# app_gateway
 app_gateway_sku_name             = "Standard_v2"
 app_gateway_sku_tier             = "Standard_v2"
 app_gateway_alerts_enabled       = false

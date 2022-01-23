@@ -1,121 +1,114 @@
-# # 🔐 KV
-# data "azurerm_key_vault_secret" "apim_publisher_email" {
-#   name         = "apim-publisher-email"
-#   key_vault_id = data.azurerm_key_vault.kv.id
-# }
+# 🔐 KV
+data "azurerm_key_vault_secret" "apim_publisher_email" {
+  name         = "apim-publisher-email"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
 
-# #--------------------------------------------------------------------------------------------------
+## 🎫  Certificates
 
-# resource "azurerm_resource_group" "rg_api" {
-#   name     = format("%s-api-rg", local.project)
-#   location = var.location
+data "azurerm_key_vault_certificate" "apim_internal" {
+  name         = var.apim_api_internal_certificate_name
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
 
-#   tags = var.tags
-# }
+# 🧵 DNS ZONE
+data "azurerm_private_dns_zone" "internal" {
+  name                = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  resource_group_name = data.azurerm_resource_group.rg_vnet.name
+}
 
-# # APIM subnet
-# module "apim_snet" {
-#   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.84"
-#   name                 = format("%s-apim-snet", local.project)
-#   resource_group_name  = data.azurerm_resource_group.rg_vnet.name
-#   virtual_network_name = data.azurerm_virtual_network.vnet.name
-#   address_prefixes     = var.cidr_subnet_apim
+#--------------------------------------------------------------------------------------------------
 
-#   enforce_private_link_endpoint_network_policies = true
-#   service_endpoints                              = ["Microsoft.Web"]
-# }
+resource "azurerm_resource_group" "rg_api" {
+  name     = "${local.project}-api-rg"
+  location = var.location
 
-# ###########################
-# ## Api Management (apim) ##
-# ###########################
+  tags = var.tags
+}
 
-# module "apim" {
-#   source = "git::https://github.com/pagopa/azurerm.git//api_management?ref=INFRA-316-azurerm-apim-redis-not-mandatory"
+# APIM subnet
+module "apim_snet" {
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.84"
+  name                 = "${local.project}-apim-snet"
+  resource_group_name  = data.azurerm_resource_group.rg_vnet.name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = var.cidr_subnet_apim
 
-#   name = format("%s-apim", local.project)
+  enforce_private_link_endpoint_network_policies = true
+  service_endpoints                              = ["Microsoft.Web"]
+}
 
-#   subnet_id           = module.apim_snet.id
-#   location            = azurerm_resource_group.rg_api.location
-#   resource_group_name = azurerm_resource_group.rg_api.name
+###########################
+## Api Management (apim) ##
+###########################
 
-#   publisher_name       = var.apim_publisher_name
-#   publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
-#   sku_name             = var.apim_sku
-#   virtual_network_type = "Internal"
+module "apim" {
+  source = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v2.0.18"
 
-#   #   redis_connection_string = module.redis.primary_connection_string
-#   #   redis_cache_id          = module.redis.id
+  name = "${local.project}-apim"
 
-#   # This enables the Username and Password Identity Provider
-#   sign_up_enabled = false
+  subnet_id           = module.apim_snet.id
+  location            = azurerm_resource_group.rg_api.location
+  resource_group_name = azurerm_resource_group.rg_api.name
 
-#   lock_enable = var.lock_enable
+  publisher_name       = var.apim_publisher_name
+  publisher_email      = data.azurerm_key_vault_secret.apim_publisher_email.value
+  sku_name             = var.apim_sku
+  virtual_network_type = "Internal"
 
-#   # sign_up_terms_of_service = {
-#   #   consent_required = false
-#   #   enabled          = false
-#   #   text             = ""
-#   # }
+  redis_connection_string = null
+  redis_cache_id          = null
 
-#   application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
+  # This enables the Username and Password Identity Provider
+  sign_up_enabled = false
 
-#   #   xml_content = templatefile("./api/base_policy.tpl", {
-#   #     origins = local.origins.base
-#   #   })
+  lock_enable                              = var.lock_enable
+  application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
 
-#   tags = var.tags
+  tags = var.tags
+}
 
-#   #   depends_on = [
-#   #     azurerm_application_insights.application_insights,
-#   #     module.redis
-#   #   ]
+#
+# 🔐 Key Vault Access Policies
+#
 
-# }
+## api management policy ##
+resource "azurerm_key_vault_access_policy" "api_management_policy" {
+  key_vault_id = data.azurerm_key_vault.kv.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.apim.principal_id
 
-# #
-# # 🔐 Key Vault Access Policies
-# #
+  key_permissions         = []
+  secret_permissions      = ["Get", "List"]
+  certificate_permissions = ["Get", "List"]
+  storage_permissions     = []
+}
 
-# ## api management policy ##
-# resource "azurerm_key_vault_access_policy" "api_management_policy" {
-#   key_vault_id = data.azurerm_key_vault.kv.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = module.apim.principal_id
+#
+# 🏷 custom domain
+#
+resource "azurerm_api_management_custom_domain" "api_custom_domain" {
+  api_management_id = module.apim.id
 
-#   key_permissions         = []
-#   secret_permissions      = ["Get", "List"]
-#   certificate_permissions = ["Get", "List"]
-#   storage_permissions     = []
-# }
+  proxy {
+    host_name = local.api_internal_domain
+    key_vault_id = replace(
+      data.azurerm_key_vault_certificate.apim_internal.secret_id,
+      "/${data.azurerm_key_vault_certificate.apim_internal.version}",
+      ""
+    )
+  }
+}
 
-# # #
-# # # 🏷 custom domain
-# # #
-# # resource "azurerm_api_management_custom_domain" "api_custom_domain" {
-# #   api_management_id = module.apim.id
+# api.internal.*.userregistry.pagopa.it
+resource "azurerm_private_dns_a_record" "api_internal" {
 
-# #   proxy {
-# #     host_name = local.api_internal_domain
-# #     key_vault_id = replace(
-# #       data.azurerm_key_vault_certificate.apim_internal.secret_id,
-# #       "/${data.azurerm_key_vault_certificate.apim_internal.version}",
-# #       ""
-# #     )
-# #   }
-# # }
+  name    = "api"
+  records = module.apim.*.private_ip_addresses[0]
+  ttl     = var.dns_default_ttl_sec
 
-# # data "azurerm_private_dns_zone" "internal" {
-# #   name                = join(".", ["internal", var.dns_zone_prefix, var.external_domain])
-# #   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-# # }
+  zone_name           = data.azurerm_private_dns_zone.internal.name
+  resource_group_name = data.azurerm_resource_group.rg_vnet.name
 
-# # # api.internal.*.userregistry.pagopa.it
-# # resource "azurerm_private_dns_a_record" "api_internal" {
-# #   name                = "api"
-# #   zone_name           = data.azurerm_private_dns_zone.internal.name
-# #   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-# #   ttl                 = var.dns_default_ttl_sec
-# #   records             = module.apim.*.private_ip_addresses[0]
-
-# #   tags = var.tags
-# # }
+  tags = var.tags
+}

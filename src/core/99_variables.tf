@@ -173,26 +173,26 @@ variable "app_gateway_waf_enabled" {
 #   default     = false
 # }
 
-# #
-# # 🗺 APIM
-# #
+#
+# 🗺 APIM
+#
 
-# variable "apim_publisher_name" {
-#   type        = string
-#   default     = ""
-#   description = "Apim publisher name"
-# }
+variable "apim_publisher_name" {
+  type        = string
+  default     = ""
+  description = "Apim publisher name"
+}
 
-# variable "apim_sku" {
-#   type        = string
-#   default     = "Developer_1"
-#   description = "APIM SKU type"
-# }
+variable "apim_sku" {
+  type        = string
+  default     = "Developer_1"
+  description = "APIM SKU type"
+}
 
-# variable "apim_api_internal_certificate_name" {
-#   type        = string
-#   description = "KeyVault certificate name"
-# }
+variable "apim_api_internal_certificate_name" {
+  type        = string
+  description = "KeyVault certificate name"
+}
 
 #
 # ⛴ AKS
@@ -507,8 +507,8 @@ locals {
   vnet_name = "vnet-${local.project}"
   vnet_resource_group_name = "rg-vnet-${local.project}"
 
-  # api.internal.*.userregistry.pagopa.it
-  # api_internal_domain = format("api.internal.%s.%s", var.dns_zone_prefix, var.external_domain)
+  # api.internal.*.devopslab.pagopa.it
+  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
   docker_rg_name = "rg-docker-${var.env}"
