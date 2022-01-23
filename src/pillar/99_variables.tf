@@ -204,7 +204,8 @@ locals {
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name = "${var.lab_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_lab_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
   docker_rg_name = "rg-docker-${var.env}"
