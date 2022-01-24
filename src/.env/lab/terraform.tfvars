@@ -58,9 +58,9 @@ postgres_network_rules = {
 #
 # 🗺 APIM
 #
-apim_publisher_name                = "PagoPA DevOpsLab DEV"
+apim_publisher_name                = "PagoPA DevOpsLab LAB"
 apim_sku                           = "Developer_1"
-apim_api_internal_certificate_name = "api-internal-dev-devopslab-pagopa-it"
+apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
 
 #
 # ⛴ AKS

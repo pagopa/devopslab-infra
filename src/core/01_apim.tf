@@ -6,7 +6,7 @@ data "azurerm_key_vault_secret" "apim_publisher_email" {
 
 ## 🎫  Certificates
 
-data "azurerm_key_vault_certificate" "apim_internal" {
+data "azurerm_key_vault_certificate" "apim_internal_certificate" {
   name         = var.apim_api_internal_certificate_name
   key_vault_id = data.azurerm_key_vault.kv.id
 }
@@ -93,8 +93,8 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   proxy {
     host_name = local.api_internal_domain
     key_vault_id = replace(
-      data.azurerm_key_vault_certificate.apim_internal.secret_id,
-      "/${data.azurerm_key_vault_certificate.apim_internal.version}",
+      data.azurerm_key_vault_certificate.apim_internal_certificate.secret_id,
+      "/${data.azurerm_key_vault_certificate.apim_internal_certificate.version}",
       ""
     )
   }
