@@ -102,7 +102,7 @@
 # }
 
 # module "postgres" {
-#   source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v2.0.0"
+#   source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v2.1.20"
 
 #   name                = format("%s-postgres", local.project)
 #   location            = azurerm_resource_group.data_rg.location
@@ -144,14 +144,11 @@
 # # #
 # # # 🔐 KV section
 # # #
-
 # # data "azuread_application" "postgres" {
 # #   display_name = module.postgres.name
 # # }
-
 # # resource "azurerm_key_vault_access_policy" "postgres" {
 # #   count = var.postgres_byok_enabled ? 1 : 0
-
 # #   key_vault_id            = data.azurerm_key_vault.kv.id
 # #   tenant_id               = data.azurerm_client_config.current.tenant_id
 # #   object_id               = data.azuread_application.postgres.object_id
@@ -163,12 +160,10 @@
 
 # # resource "azurerm_key_vault_key" "postgres" {
 # #   count = var.postgres_byok_enabled ? 1 : 0
-
 # #   name         = "postgres-key"
 # #   key_vault_id = data.azurerm_key_vault.kv.id
 # #   key_type     = "RSA-HSM"
 # #   key_size     = 2048
-
 # #   key_opts = [
 # #     "decrypt",
 # #     "encrypt",
@@ -182,7 +177,6 @@
 # # resource "azurerm_postgresql_server_key" "postgres" {
 # #   count      = var.postgres_byok_enabled ? 1 : 0
 # #   depends_on = [azurerm_key_vault_access_policy.postgres]
-
 # #   server_id        = module.postgres.id
 # #   key_vault_key_id = azurerm_key_vault_key.postgres[0].id
 # # }
