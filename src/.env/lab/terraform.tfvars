@@ -41,7 +41,7 @@ app_gateway_sku_name             = "Standard_v2"
 app_gateway_sku_tier             = "Standard_v2"
 app_gateway_alerts_enabled       = false
 app_gateway_waf_enabled          = false
-app_gateway_api_certificate_name = "api-dev-devopslab-pagopa-it"
+app_gateway_api_certificate_name = "api-devopslab-pagopa-it"
 
 # postgres
 postgres_private_endpoint_enabled      = false

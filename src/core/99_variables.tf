@@ -119,24 +119,24 @@ variable "lab_dns_zone_prefix" {
   description = "The dns subdomain."
 }
 
-# # ❇️ api gateway
-# variable "app_gateway_sku_name" {
-#   type        = string
-#   description = "SKU Name of the App GW"
-#   default     = "Standard_v2"
-# }
+# ❇️ app gateway
+variable "app_gateway_sku_name" {
+  type        = string
+  description = "SKU Name of the App GW"
+  default     = "Standard_v2"
+}
 
-# variable "app_gateway_sku_tier" {
-#   type        = string
-#   description = "SKU tier of the App GW"
-#   default     = "Standard_v2"
-# }
+variable "app_gateway_sku_tier" {
+  type        = string
+  description = "SKU tier of the App GW"
+  default     = "Standard_v2"
+}
 
-# variable "app_gateway_alerts_enabled" {
-#   type        = bool
-#   description = "Enable alerts"
-#   default     = false
-# }
+variable "app_gateway_alerts_enabled" {
+  type        = bool
+  description = "Enable alerts"
+  default     = false
+}
 
 variable "app_gateway_waf_enabled" {
   type        = bool
@@ -144,22 +144,22 @@ variable "app_gateway_waf_enabled" {
   default     = false
 }
 
-# ## appgateway: Scaling
+## appgateway: Scaling
 
-# variable "app_gateway_min_capacity" {
-#   type    = number
-#   default = 0
-# }
+variable "app_gateway_min_capacity" {
+  type    = number
+  default = 0
+}
 
-# variable "app_gateway_max_capacity" {
-#   type    = number
-#   default = 2
-# }
+variable "app_gateway_max_capacity" {
+  type    = number
+  default = 2
+}
 
-# variable "app_gateway_api_certificate_name" {
-#   type        = string
-#   description = "Application gateway api certificate name on Key Vault"
-# }
+variable "app_gateway_api_certificate_name" {
+  type        = string
+  description = "Application gateway api certificate name on Key Vault"
+}
 
 # # 🚀 azure devops
 # variable "enable_azdoa" {
@@ -506,6 +506,8 @@ locals {
   # VNET
   vnet_name = "vnet-${local.project}"
   vnet_resource_group_name = "rg-vnet-${local.project}"
+
+  pip_appgw_name = "pip-agw-dvopla-lab"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
