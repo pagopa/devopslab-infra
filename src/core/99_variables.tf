@@ -92,6 +92,11 @@ variable "cidr_subnet_k8s" {
   description = "Subnet cluster kubernetes."
 }
 
+variable "cidr_subnet_app_docker" {
+  type        = list(string)
+  description = "Subnet web app docker."
+}
+
 #
 # 📇 dns
 #
