@@ -25,10 +25,16 @@ module "grafana_app_docker" {
 
   app_settings = {
     #APPINSIGHTS_INSTRUMENTATIONKEY                  = azurerm_application_insights.application_insights.instrumentation_key
-    #APPLICATIONINSIGHTS_CONNECTION_STRING           = format("InstrumentationKey=%s", azurerm_application_insights.application_insights.instrumentation_key)
-    # WEBSITES_ENABLE_APP_SERVICE_STORAGE           = false
+    #APPLICATIONINSIGHTS_CONNECTION_STRING           = "InstrumentationKey=${azurerm_application_insights.application_insights.instrumentation_key}"
     WEBSITES_PORT                                   = 3000
   }
 
   tags = var.tags
+}
+
+module "grafana_app_registration" {
+  source = "git::https://github.com/pagopa/azuread-tf-modules.git//reader_application?ref=reader-app-module"
+
+  application_name = "${local.project}-grafana"
+  secret_description = "Grafana client"
 }
