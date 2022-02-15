@@ -32,9 +32,9 @@ module "grafana_app_docker" {
   tags = var.tags
 }
 
-module "grafana_app_registration" {
-  source = "git::https://github.com/pagopa/azuread-tf-modules.git//reader_application?ref=reader-app-module"
+# module "grafana_app_registration" {
+#   source = "git::https://github.com/pagopa/azuread-tf-modules.git//reader_application"
 
-  application_name = "${local.project}-grafana"
-  secret_description = "Grafana client"
-}
+#   application_name = "${local.project}-grafana"
+#   secret_description = "Grafana client"
+# }

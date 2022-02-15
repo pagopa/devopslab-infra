@@ -1,6 +1,6 @@
 data "azurerm_public_ip" "appgateway_public_ip" {
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  name                = local.pip_appgw_name
+  name                = local.appgateway_public_ip_name
 }
 
 data "azurerm_key_vault_certificate" "app_gw_api" {

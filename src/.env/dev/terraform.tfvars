@@ -1,5 +1,5 @@
 # general
-env_short = "l"
+env_short = "d"
 env       = "lab"
 prefix    = "dvopla"
 location  = "northeurope"
@@ -16,8 +16,8 @@ tags = {
 lock_enable = false
 
 # 🔐 key vault
-key_vault_name    = "kv-dvopla-lab-neu"
-key_vault_rg_name = "rg-dvopla-sec-lab-neu"
+key_vault_name    = "dvopla-d-neu-kv"
+key_vault_rg_name = "dvopla-d-sec-rg"
 
 # ☁️ networking
 cidr_vnet              = ["10.1.0.0/16"]

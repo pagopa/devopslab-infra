@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "rg_aks" {
 # k8s cluster subnet
 module "k8s_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.0.3"
-  name                                           = format("%s-k8s-snet", local.project)
+  name                                           = "${local.project}-k8s-snet"
   address_prefixes                               = var.cidr_subnet_k8s
   resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
   virtual_network_name                           = data.azurerm_virtual_network.vnet.name
@@ -33,7 +33,7 @@ module "aks" {
 
   name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
-  dns_prefix                 = format("%s-aks", local.project)
+  dns_prefix                 = "${local.project}-aks"
   resource_group_name        = azurerm_resource_group.rg_aks.name
   availability_zones         = var.aks_availability_zones
   kubernetes_version         = var.kubernetes_version

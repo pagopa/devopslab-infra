@@ -36,6 +36,11 @@ variable "location" {
   default = "westeurope"
 }
 
+variable "location_short" {
+  type    = string
+  description = "Location short like eg: neu, weu.."
+}
+
 variable "lock_enable" {
   type        = bool
   default     = false
@@ -258,7 +263,7 @@ variable "aks_node_max_count" {
 
 variable "kubernetes_version" {
   type    = string
-  default = "1.21.2"
+  description = "Kubernetes version of cluster aks"
 }
 
 variable "aks_sku_tier" {
@@ -505,31 +510,30 @@ variable "aks_alerts_enabled" {
 # Locals
 #
 locals {
-  project = "${var.prefix}-${var.env}"
-  project_short = "${var.prefix}-${var.env_short}"
+  project       = "${var.prefix}-${var.env_short}"
 
   # VNET
-  vnet_name = "vnet-${local.project}"
-  vnet_resource_group_name = "rg-vnet-${local.project}"
+  vnet_resource_group_name = "${local.project}-vnet-rg"
+  vnet_name                = "${local.project}-vnet"
 
-  pip_appgw_name = "pip-agw-dvopla-lab"
+  appgateway_public_ip_name = "${local.project}-gw-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
-  docker_rg_name = "rg-docker-${var.env}"
-  docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
+  docker_rg_name       = "${local.project}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # AKS
-  aks_public_ip_name = "pip-aksoutbound-${local.project}"
+  aks_public_ip_name        = "${local.project}-aksoutbound-pip"
   aks_rg_name = "${local.project}-aks-rg"
   aks_cluster_name = "${local.project}-aks"
 
   # monitor
-  monitor_rg_name = "rg-monitor-${var.env}"
-  monitor_appinsights_name = "appinsights-${local.project}"
-  monitor_log_analytics_workspace_name = "law-${local.project}"
+  monitor_rg_name                      = "${local.project}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.project}-law"
+  monitor_appinsights_name             = "${local.project}-appinsights"
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
