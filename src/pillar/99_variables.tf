@@ -36,6 +36,11 @@ variable "location" {
   default = "westeurope"
 }
 
+variable "location_short" {
+  type    = string
+  description = "Location short like eg: neu, weu.."
+}
+
 variable "lock_enable" {
   type        = bool
   default     = false
@@ -192,15 +197,14 @@ variable "aks_num_outbound_ips" {
 }
 
 locals {
-  project       = "${var.prefix}-${var.env}"
-  project_short = "${var.prefix}-${var.env}"
+  project       = "${var.prefix}-${var.env_short}"
 
   # VNET
-  vnet_name                = "vnet-${local.project}"
-  vnet_resource_group_name = "rg-vnet-${local.project}"
+  vnet_resource_group_name = "${local.project}-vnet-rg"
+  vnet_name                = "${local.project}-vnet"
 
-  appgateway_public_ip_name = "pip-agw-${local.project}"
-  aks_public_ip_name        = "pip-aksoutbound-${local.project}"
+  appgateway_public_ip_name = "${local.project}-gw-pip"
+  aks_public_ip_name        = "${local.project}-aksoutbound-pip"
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
@@ -208,11 +212,16 @@ locals {
   dns_zone_lab_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
-  docker_rg_name       = "rg-docker-${var.env}"
-  docker_registry_name = replace("acr-${var.prefix}-${var.env}", "-", "")
+  docker_rg_name       = "${local.project}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # monitor
-  monitor_rg_name                      = "rg-monitor-${var.env}"
-  monitor_log_analytics_workspace_name = "law-${local.project}"
-  monitor_appinsights_name             = "appinsights-${local.project}"
+  monitor_rg_name                      = "${local.project}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.project}-law"
+  monitor_appinsights_name             = "${local.project}-appinsights"
+
+  # Azure DevOps
+  azuredevops_rg_name = "${local.project}-azdoa-rg"
+  azuredevops_agent_vm_name = "${local.project}-vmss-li-azdoa"
+  azuredevops_subnet_name = "${local.project}-azdoa-snet"
 }
