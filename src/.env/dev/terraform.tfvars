@@ -76,4 +76,4 @@ aks_max_pods            = 100
 aks_enable_auto_scaling = false
 aks_node_min_count      = null
 aks_node_max_count      = null
-aks_vm_size             = "Standard_B4ms"
+aks_vm_size             = "Standard_B2ms"
