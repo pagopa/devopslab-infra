@@ -37,7 +37,7 @@ variable "location" {
 }
 
 variable "location_short" {
-  type    = string
+  type        = string
   description = "Location short like eg: neu, weu.."
 }
 
@@ -262,7 +262,7 @@ variable "aks_node_max_count" {
 }
 
 variable "kubernetes_version" {
-  type    = string
+  type        = string
   description = "Kubernetes version of cluster aks"
 }
 
@@ -510,7 +510,7 @@ variable "aks_alerts_enabled" {
 # Locals
 #
 locals {
-  project       = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}"
 
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
@@ -526,9 +526,9 @@ locals {
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # AKS
-  aks_public_ip_name        = "${local.project}-aksoutbound-pip"
-  aks_rg_name = "${local.project}-aks-rg"
-  aks_cluster_name = "${local.project}-aks"
+  aks_public_ip_name = "${local.project}-aksoutbound-pip"
+  aks_rg_name        = "${local.project}-aks-rg"
+  aks_cluster_name   = "${local.project}-aks"
 
   # monitor
   monitor_rg_name                      = "${local.project}-monitor-rg"

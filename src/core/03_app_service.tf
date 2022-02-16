@@ -7,14 +7,14 @@ resource "azurerm_resource_group" "app_docker_rg" {
 
 # Subnet to host the api config
 module "app_docker_snet" {
-  source                = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.21"
-  name                  = "${local.project}-app-docker-snet"
-  address_prefixes      = var.cidr_subnet_app_docker
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.21"
+  name                 = "${local.project}-app-docker-snet"
+  address_prefixes     = var.cidr_subnet_app_docker
   virtual_network_name = data.azurerm_virtual_network.vnet.name
 
-  resource_group_name   = data.azurerm_resource_group.rg_vnet.name
+  resource_group_name = data.azurerm_resource_group.rg_vnet.name
 
-  enforce_private_link_endpoint_network_policies = true   
+  enforce_private_link_endpoint_network_policies = true
   service_endpoints                              = ["Microsoft.Web"]
 }
 
@@ -48,14 +48,14 @@ module "web_app_docker" {
   location            = var.location
 
   plan_type = "external"
-  plan_id = azurerm_app_service_plan.app_docker.id
+  plan_id   = azurerm_app_service_plan.app_docker.id
 
   # App service plan
   name                = "${local.project}-app-app-docker"
   client_cert_enabled = false
   always_on           = false
-  linux_fx_version  = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
-  health_check_path = "/status"
+  linux_fx_version    = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
+  health_check_path   = "/status"
 
   app_settings = {
     # Monitoring
@@ -87,7 +87,7 @@ module "web_app_docker" {
   allowed_subnets = [module.apim_snet.id]
   allowed_ips     = []
 
-  subnet_id   = module.app_docker_snet.id
+  subnet_id = module.app_docker_snet.id
 
   tags = var.tags
 }

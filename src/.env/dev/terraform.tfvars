@@ -1,8 +1,8 @@
 # general
-env_short = "d"
-env       = "lab"
-prefix    = "dvopla"
-location  = "northeurope"
+env_short      = "d"
+env            = "lab"
+prefix         = "dvopla"
+location       = "northeurope"
 location_short = "neu"
 
 tags = {
@@ -30,8 +30,8 @@ cidr_subnet_k8s        = ["10.1.0.0/17"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
-lab_dns_zone_prefix = "lab.devopslab"
-external_domain = "pagopa.it"
+lab_dns_zone_prefix  = "lab.devopslab"
+external_domain      = "pagopa.it"
 
 # azure devops
 enable_azdoa        = true

@@ -37,7 +37,7 @@ variable "location" {
 }
 
 variable "location_short" {
-  type    = string
+  type        = string
   description = "Location short like eg: neu, weu.."
 }
 
@@ -197,7 +197,7 @@ variable "aks_num_outbound_ips" {
 }
 
 locals {
-  project       = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}"
 
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
@@ -221,7 +221,7 @@ locals {
   monitor_appinsights_name             = "${local.project}-appinsights"
 
   # Azure DevOps
-  azuredevops_rg_name = "${local.project}-azdoa-rg"
+  azuredevops_rg_name       = "${local.project}-azdoa-rg"
   azuredevops_agent_vm_name = "${local.project}-vmss-li-azdoa"
-  azuredevops_subnet_name = "${local.project}-azdoa-snet"
+  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 }

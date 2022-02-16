@@ -2,8 +2,8 @@ prefix = "dvopla"
 
 # AKS
 aks_private_cluster_enabled = false
-aks_num_outbound_ips = 1
-kubernetes_version = "1.21.9"
+aks_num_outbound_ips        = 1
+kubernetes_version          = "1.21.9"
 
 # namespace
 namespace = "devopslab"

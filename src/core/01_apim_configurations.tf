@@ -32,8 +32,8 @@ locals {
     path                  = "devopslab-webapp-python"
     subscription_required = true
     # service_url           = "http://${var.aks_private_cluster_enabled ? var.reverse_proxy_ip : data.azurerm_public_ip.aks_outbound[0].ip_address}/user-registry-management"
-    service_url           = "http://google.it"
-    api_name              = "${var.env}-devopslab-webapp-python-api"
+    service_url = "http://google.it"
+    api_name    = "${var.env}-devopslab-webapp-python-api"
   }
 }
 

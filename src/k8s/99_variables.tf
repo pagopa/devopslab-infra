@@ -48,7 +48,7 @@ variable "aks_private_cluster_enabled" {
 }
 
 variable "aks_num_outbound_ips" {
-  type = number
+  type        = number
   description = "Number of public outbound ips"
 }
 
@@ -112,12 +112,12 @@ variable "nginx_helm_version" {
 # 🀄️ LOCALS
 #
 locals {
-  project       = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}"
 
   #VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
-  aks_public_ip_name        = "${local.project}-aksoutbound-pip"
-  aks_public_ip_index_name      = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_public_ip_name       = "${local.project}-aksoutbound-pip"
+  aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # AKS
   aks_rg_name      = "${local.project}-aks-rg"
