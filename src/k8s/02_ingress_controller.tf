@@ -18,9 +18,9 @@ module "nginx_ingress" {
     "${templatefile(
       "${path.module}/ingress/loadbalancer.yaml.tpl",
       {
-        load_balancer_ip         = var.ingress_load_balancer_ip
+        load_balancer_ip         = data.azurerm_public_ip.aks_pip.ip_address
         is_load_balancer_private = var.aks_private_cluster_enabled
-        public_ip_resource_group = local.public_ip_resource_group
+        vnet_resource_group_name = local.vnet_resource_group_name
       }
     )}"
   ]
