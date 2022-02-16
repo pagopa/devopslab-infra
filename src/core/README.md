@@ -27,6 +27,7 @@
 | <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | git::https://github.com/pagopa/azurerm.git//app_gateway | v1.0.90 |
 | <a name="module_appgateway_snet"></a> [appgateway\_snet](#module\_appgateway\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v1.0.90 |
 | <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.0.3 |
+| <a name="module_app_service"></a> [app\_service](#module_app_service) | git::https://github.com/pagopa/azurerm.git//app_service | app-service-storage-mount |
 
 ## Resources
 
@@ -39,6 +40,12 @@
 | [azurerm_resource_group.rg_api](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/role_assignment) | resource |
 | [azurerm_user_assigned_identity.appgateway](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/user_assigned_identity) | resource |
+| [azurerm_role_assignment.reader](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.monitoring_reader](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/role_assignment) | resource |
+| [azurerm_resource_group.grafana_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/resource_group) | resource |
+| [azurerm_storage_account.grafana_storage](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/storage_account) | resource |
+| [azurerm_storage_share.grafana_volume](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/storage_share) | resource |
+| [azurerm_storage_share_file.grafana_db](https://registry.terraform.io/providers/hashicorp/azurerm/2.86.0/docs/resources/storage_share_file) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
