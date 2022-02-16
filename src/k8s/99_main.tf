@@ -22,8 +22,8 @@ terraform {
 }
 
 data "azurerm_kubernetes_cluster" "aks_cluster" {
-  name                = "dvopla-lab-aks"
-  resource_group_name = "dvopla-lab-aks-rg"
+  name                = format("%s-aks", local.project)
+  resource_group_name = format("%s-aks-rg", local.project)
 }
 
 provider "kubernetes" {

@@ -35,7 +35,7 @@ variable "key_vault_rg_name" {
 # namespace
 #
 variable "namespace" {
-  type = string
+  type        = string
   description = "name of namespace for application"
 }
 
@@ -110,6 +110,6 @@ locals {
   project                  = "${var.prefix}-${var.env_short}"
   public_ip_resource_group = "rg-vnet-dvopla-lab"
 
-  aks_rg_name = "${local.project}-aks-rg"
+  aks_rg_name      = "${local.project}-aks-rg"
   aks_cluster_name = "${local.project}-aks"
 }
