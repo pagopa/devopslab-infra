@@ -526,9 +526,10 @@ locals {
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # AKS
-  aks_public_ip_name = "${local.project}-aksoutbound-pip"
   aks_rg_name        = "${local.project}-aks-rg"
   aks_cluster_name   = "${local.project}-aks"
+  aks_public_ip_name = "${local.project}-aksoutbound-pip"
+  aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # monitor
   monitor_rg_name                      = "${local.project}-monitor-rg"
