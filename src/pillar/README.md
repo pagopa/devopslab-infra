@@ -1,3 +1,26 @@
+# Pillar
+
+## DNS setup devopslab.pagopa.it
+
+```bash
+az network dns zone show \
+  --name "devopslab.pagopa.it" \
+  --resource-group "dvopla-d-vnet-rg" \
+  --subscription "DevOpsLab" \
+  --query nameServers
+```
+
+## DNS Setup lab.devopslab.pagopa.it
+
+```bash
+az network dns zone show \
+  --name "lab.devopslab.pagopa.it" \
+  --resource-group "dvopla-d-vnet-rg" \
+  --subscription "DevOpsLab" \
+  --query nameServers
+```
+
+
 <!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
