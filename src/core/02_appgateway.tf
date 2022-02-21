@@ -14,7 +14,7 @@ data "azurerm_key_vault_certificate" "app_gw_api" {
 resource "azurerm_user_assigned_identity" "appgateway" {
   resource_group_name = data.azurerm_resource_group.kv_rg.name
   location            = data.azurerm_resource_group.kv_rg.location
-  name                = format("%s-appgateway-identity", local.project)
+  name                = "${local.project}-appgateway-identity"
 
   tags = var.tags
 }
