@@ -102,6 +102,11 @@ variable "cidr_subnet_app_docker" {
   description = "Subnet web app docker."
 }
 
+variable "cidr_subnet_bastion" {
+  type        = list(string)
+  description = "Subnet bastion vm."
+}
+
 #
 # 📇 dns
 #
