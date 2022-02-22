@@ -39,10 +39,12 @@ resource "azurerm_network_interface" "bastion_nic" {
   resource_group_name = azurerm_resource_group.bastion_rg.name
 
   ip_configuration {
-    name                          = "internal"
+    name                          = "bastion"
     subnet_id                     = azurerm_subnet.bastion_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = data.azurerm_public_ip.bastion_pip.id
   }
+
 }
 
 resource "azurerm_windows_virtual_machine" "windows_10_pro_spot" {

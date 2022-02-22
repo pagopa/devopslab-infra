@@ -28,12 +28,27 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
 }
 
 #
-# 🗂 AKS public IP
+# ⛴ AKS public IP
 #
 resource "azurerm_public_ip" "aks_outbound" {
   count = var.aks_num_outbound_ips
 
   name                = "${local.aks_public_ip_name}-${count.index + 1}"
+  location            = azurerm_resource_group.rg_vnet.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  sku                 = "Standard"
+  allocation_method   = "Static"
+
+  tags = var.tags
+}
+
+#
+# Bastion public IP
+#
+resource "azurerm_public_ip" "bastion_pip" {
+  count = var.aks_num_outbound_ips
+
+  name                = local.bastion_public_ip_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   sku                 = "Standard"

@@ -522,6 +522,7 @@ locals {
   vnet_name                = "${local.project}-vnet"
 
   appgateway_public_ip_name = "${local.project}-gw-pip"
+  bastion_public_ip_name    = "${local.project}-bastion-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
