@@ -205,6 +205,7 @@ locals {
 
   appgateway_public_ip_name = "${local.project}-gw-pip"
   aks_public_ip_name        = "${local.project}-aksoutbound-pip"
+  bastion_public_ip_name    = "${local.project}-bastion-pip"
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
