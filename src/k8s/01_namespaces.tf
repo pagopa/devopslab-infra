@@ -9,3 +9,9 @@ resource "kubernetes_namespace" "platform_namespace" {
     name = var.namespace
   }
 }
+
+resource "kubernetes_namespace" "helm_template" {
+  metadata {
+    name = "helm-template"
+  }
+}

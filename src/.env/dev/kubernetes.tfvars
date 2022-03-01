@@ -14,7 +14,7 @@ ingress_replica_count    = "2"
 ingress_load_balancer_ip = "20.67.201.123"
 
 # RBAC
-rbac_namespaces_for_deployer_binding = ["devopslab"]
+rbac_namespaces_for_deployer_binding = ["devopslab", "helm-template"]
 
 # Gateway
 api_gateway_url = "https://api.dev.userregistry.pagopa.it"
