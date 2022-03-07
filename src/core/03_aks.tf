@@ -29,7 +29,7 @@ module "k8s_snet" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.0.3"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=2.3.1"
 
   name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
@@ -63,6 +63,8 @@ module "aks" {
     outbound_type      = "loadBalancer"
     service_cidr       = "10.2.0.0/16"
   }
+
+  enable_azure_keyvault_secrets_provider = true
 
   metric_alerts = var.aks_metric_alerts
   action = [
