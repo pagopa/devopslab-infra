@@ -29,7 +29,7 @@ module "k8s_snet" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=2.3.1"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.4.0"
 
   name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
