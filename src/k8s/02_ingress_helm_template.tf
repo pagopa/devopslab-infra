@@ -1,3 +1,7 @@
+locals {
+  secret_name = "ingress-tls"
+}
+
 resource "kubernetes_ingress" "helm_template_ingress" {
   depends_on = [module.nginx_ingress]
 
@@ -15,7 +19,7 @@ resource "kubernetes_ingress" "helm_template_ingress" {
   spec {
     tls {
       hosts       = ["helm-template.ingress.devopslab.pagopa.it"]
-      secret_name = "ingress-tls"
+      secret_name = local.secret_name
     }
 
     rule {
@@ -32,3 +36,18 @@ resource "kubernetes_ingress" "helm_template_ingress" {
     }
   }
 }
+
+resource "kubernetes_manifest" "csi_certificate" {
+  manifest = yamldecode(templatefile(
+    "${path.module}/ingress/tls.yaml.tpl",
+    {
+      namespace        = kubernetes_namespace.helm_template.metadata[0].name
+      secret_name      = local.secret_name
+      certificate_name = "helm-template-ingress-devopslab-pagopa-it"
+      identity_id      = local.aks_secrets_provider.secret_identity[0].client_id
+      tenant_id        = data.azurerm_subscription.current.tenant_id
+      keyvault_name    = data.azurerm_key_vault.kv.name
+    }
+  ))
+}
+
