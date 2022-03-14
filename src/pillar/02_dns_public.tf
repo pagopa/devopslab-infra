@@ -49,6 +49,16 @@ resource "azurerm_dns_a_record" "api_devopslab_pagopa_it" {
   tags = var.tags
 }
 
+resource "azurerm_dns_a_record" "helm_template_ingress_devopslab_pagopa_it" {
+  name                = "helm-template.ingress"
+  zone_name           = azurerm_dns_zone.public.name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  ttl                 = var.dns_default_ttl_sec
+  records             = azurerm_public_ip.aks_outbound[*].ip_address
+
+  tags = var.tags
+}
+
 #
 # LAB DNS ZONE
 #
