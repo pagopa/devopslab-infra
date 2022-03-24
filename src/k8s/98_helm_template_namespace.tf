@@ -9,11 +9,7 @@ module "helm-template-ingress" {
 
   depends_on = [module.nginx_ingress]
 
-<<<<<<< HEAD
   resource_group_name = "${local.project}-aks-rg"
-=======
-  resource_group_name = format("%s-aks-rg", local.project)
->>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
@@ -34,18 +30,29 @@ module "helm-template-ingress" {
   rules = [
     {
       path         = "/(.*)"
+<<<<<<< HEAD
       service_name = "templatemicroserviziok8s-microservice-chart"
 >>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
+=======
+      service_name = "template-microservice-chart"
+>>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
       service_port = 80
     }
   ]
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
 
 module "ingress_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.6.0"
 
+<<<<<<< HEAD
   resource_group_name = "${local.project}-aks-rg"
+=======
+  resource_group_name = format("%s-aks-rg", local.project)
+>>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
   location            = var.location
   identity_name       = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
   key_vault           = data.azurerm_key_vault.kv
@@ -60,7 +67,11 @@ resource "helm_release" "reloader" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
+<<<<<<< HEAD
   version    = "v0.0.109"
+=======
+  version    = "0.0.109"
+>>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
   namespace  = kubernetes_namespace.helm_template.metadata[0].name
 
   set {
@@ -68,5 +79,8 @@ resource "helm_release" "reloader" {
     value = "false"
   }
 }
+<<<<<<< HEAD
 =======
 >>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
+=======
+>>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
