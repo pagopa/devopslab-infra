@@ -29,7 +29,7 @@ module "k8s_snet" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.4.0"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.7.0"
 
   name                       = local.aks_cluster_name
   location                   = azurerm_resource_group.rg_aks.location
@@ -65,6 +65,7 @@ module "aks" {
   }
 
   enable_azure_keyvault_secrets_provider = true
+  enable_azure_pod_identity              = true
 
   metric_alerts = var.aks_metric_alerts
   action = [
