@@ -9,7 +9,7 @@ module "helm-template-ingress" {
 
   depends_on = [module.nginx_ingress]
 
-  resource_group_name = "${local.project}-aks-rg"
+  resource_group_name = format("%s-aks-rg", local.project)
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
@@ -23,35 +23,8 @@ module "helm-template-ingress" {
   rules = [
     {
       path         = "/(.*)"
-      service_name = "template-microservice-chart"
+      service_name = "templatemicroserviziok8s-microservice-chart"
       service_port = 80
     }
   ]
-}
-
-module "ingress_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.6.0"
-
-  resource_group_name = "${local.project}-aks-rg"
-  location            = var.location
-  identity_name       = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
-  key_vault           = data.azurerm_key_vault.kv
-  tenant_id           = data.azurerm_subscription.current.tenant_id
-  cluster_name        = data.azurerm_kubernetes_cluster.aks_cluster.name
-  namespace           = kubernetes_namespace.helm_template.metadata[0].name
-
-  secret_permissions = ["get"]
-}
-
-resource "helm_release" "reloader" {
-  name       = "reloader"
-  repository = "https://stakater.github.io/stakater-charts"
-  chart      = "reloader"
-  version    = "v0.0.109"
-  namespace  = kubernetes_namespace.helm_template.metadata[0].name
-
-  set {
-    name  = "reloader.watchGlobally"
-    value = "false"
-  }
 }
