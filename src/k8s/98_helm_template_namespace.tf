@@ -1,20 +1,22 @@
-module "helm-template-ingress" {
-  source = "../../../azurerm/kubernetes_ingress"
-  # source = "git::https://github.com/pagopa/azurerm.git//kubernetes_ingress?ref=k8s-ingress"
+resource "kubernetes_namespace" "helm_template" {
+  metadata {
+    name = "helm-template"
+  }
+}
 
-  depends_on = [
-    module.nginx_ingress,
-    null_resource.enable_pod_identity
-  ]
+module "helm-template-ingress" {
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_ingress?ref=v2.7.0"
+
+  depends_on = [module.nginx_ingress]
 
   resource_group_name = format("%s-aks-rg", local.project)
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
-  keyvault           = data.azurerm_key_vault.kv
+  key_vault = data.azurerm_key_vault.kv
 
   name         = "ingress"
-  namespace    = "helm-template"
+  namespace    = kubernetes_namespace.helm_template.metadata[0].name
   cluster_name = data.azurerm_kubernetes_cluster.aks_cluster.name
 
   host  = "helm-template.ingress.devopslab.pagopa.it"
