@@ -9,7 +9,11 @@ module "helm-template-ingress" {
 
   depends_on = [module.nginx_ingress]
 
+<<<<<<< HEAD
   resource_group_name = "${local.project}-aks-rg"
+=======
+  resource_group_name = format("%s-aks-rg", local.project)
+>>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
@@ -19,15 +23,24 @@ module "helm-template-ingress" {
   namespace    = kubernetes_namespace.helm_template.metadata[0].name
   cluster_name = data.azurerm_kubernetes_cluster.aks_cluster.name
 
+<<<<<<< HEAD
   host = "helm-template.ingress.devopslab.pagopa.it"
   rules = [
     {
       path         = "/(.*)"
       service_name = "template-microservice-chart"
+=======
+  host  = "helm-template.ingress.devopslab.pagopa.it"
+  rules = [
+    {
+      path         = "/(.*)"
+      service_name = "templatemicroserviziok8s-microservice-chart"
+>>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
       service_port = 80
     }
   ]
 }
+<<<<<<< HEAD
 
 module "ingress_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.6.0"
@@ -55,3 +68,5 @@ resource "helm_release" "reloader" {
     value = "false"
   }
 }
+=======
+>>>>>>> e2f12fb (Use kubernetes_ingress module for helm_template namespace)
