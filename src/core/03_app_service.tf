@@ -1,12 +1,12 @@
-resource "azurerm_resource_group" "app_docker_rg" {
-  name     = "${local.project}-app-docker-rg"
+resource "azurerm_resource_group" "app_service_docker_rg" {
+  name     = "${local.project}-app-service-docker-rg"
   location = var.location
 
   tags = var.tags
 }
 
 # Subnet to host the api config
-module "app_docker_snet" {
+module "app_service_docker_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.21"
   name                 = "${local.project}-app-docker-snet"
   address_prefixes     = var.cidr_subnet_app_docker
@@ -26,9 +26,12 @@ locals {
 }
 
 resource "azurerm_app_service_plan" "app_docker" {
-  name                = "${local.project}-plan-app-docker"
+
+  count = var.is_web_app_service_docker_enabled ? 1 : 0
+
+  name                = "${local.project}-plan-app-service-docker"
   location            = var.location
-  resource_group_name = azurerm_resource_group.app_docker_rg.name
+  resource_group_name = azurerm_resource_group.app_service_docker_rg.name
 
   kind = "Linux"
 
@@ -41,17 +44,19 @@ resource "azurerm_app_service_plan" "app_docker" {
   tags = var.tags
 }
 
-module "web_app_docker" {
+module "web_app_service_docker" {
+  count = var.is_web_app_service_docker_enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=v2.1.21"
 
-  resource_group_name = azurerm_resource_group.app_docker_rg.name
+  resource_group_name = azurerm_resource_group.app_service_docker_rg.name
   location            = var.location
 
   plan_type = "external"
-  plan_id   = azurerm_app_service_plan.app_docker.id
+  plan_id   = azurerm_app_service_plan.app_docker[0].id
 
   # App service plan
-  name                = "${local.project}-app-app-docker"
+  name                = "${local.project}-app-service-docker"
   client_cert_enabled = false
   always_on           = false
   linux_fx_version    = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
@@ -87,7 +92,7 @@ module "web_app_docker" {
   allowed_subnets = [module.apim_snet.id]
   allowed_ips     = []
 
-  subnet_id = module.app_docker_snet.id
+  subnet_id = module.app_service_docker_snet.id
 
   tags = var.tags
 }
@@ -96,7 +101,9 @@ module "web_app_docker" {
 # Role assignments
 #
 resource "azurerm_role_assignment" "webapp_docker_to_acr" {
+  count = var.is_web_app_service_docker_enabled ? 1 : 0
+
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
-  principal_id         = module.web_app_docker.principal_id
+  principal_id         = module.web_app_service_docker[0].principal_id
 }

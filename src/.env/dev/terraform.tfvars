@@ -64,8 +64,6 @@ apim_publisher_name                = "PagoPA DevOpsLab LAB"
 apim_sku                           = "Developer_1"
 apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
 
-
-
 #
 # ⛴ AKS
 #
@@ -78,3 +76,8 @@ aks_enable_auto_scaling = false
 aks_node_min_count      = null
 aks_node_max_count      = null
 aks_vm_size             = "Standard_B2ms"
+
+#
+# Web app docker
+#
+is_web_app_service_docker_enabled = false

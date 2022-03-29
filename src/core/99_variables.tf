@@ -511,6 +511,12 @@ variable "aks_alerts_enabled" {
   description = "Aks alert enabled?"
 }
 
+### Web App
+variable "is_web_app_service_docker_enabled" {
+  type = bool
+  description = "Enable or disable this resources"
+}
+
 #
 # Locals
 #
