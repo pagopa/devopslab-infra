@@ -526,19 +526,6 @@ variable "postgres_private_endpoint_enabled" {
   description = "Enabled private comunication for postgres flexible"
 }
 
-variable "pgres_flex_public_params" {
-  type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    create_mode                  = string
-  })
-}
-
 variable "pgres_flex_private_params" {
   type = object({
     enabled                      = bool
@@ -552,6 +539,18 @@ variable "pgres_flex_private_params" {
   })
 }
 
+variable "pgres_flex_public_params" {
+  type = object({
+    enabled                      = bool
+    sku_name                     = string
+    db_version                   = string
+    storage_mb                   = string
+    zone                         = number
+    backup_retention_days        = number
+    geo_redundant_backup_enabled = bool
+    create_mode                  = string
+  })
+}
 
 #
 # Locals
@@ -564,7 +563,6 @@ locals {
   vnet_name                = "${local.project}-vnet"
 
   appgateway_public_ip_name = "${local.project}-gw-pip"
-  bastion_public_ip_name    = "${local.project}-bastion-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
