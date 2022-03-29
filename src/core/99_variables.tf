@@ -69,13 +69,14 @@ variable "key_vault_rg_name" {
   description = "Key Vault - rg name"
 }
 
+#
 # ☁️ network
+#
 variable "cidr_vnet" {
   type        = list(string)
   description = "Virtual network address space."
 }
 
-## Appgateway: Network
 variable "cidr_subnet_appgateway" {
   type        = list(string)
   description = "Application gateway address space."
@@ -102,9 +103,9 @@ variable "cidr_subnet_app_docker" {
   description = "Subnet web app docker."
 }
 
-variable "cidr_subnet_bastion" {
+variable "cidr_subnet_flex_dbms" {
   type        = list(string)
-  description = "Subnet bastion vm."
+  description = "Subnet cidr postgres flex."
 }
 
 #
@@ -516,6 +517,41 @@ variable "is_web_app_service_docker_enabled" {
   type = bool
   description = "Enable or disable this resources"
 }
+
+#
+# Postgresql Flexible
+#
+variable "postgres_private_endpoint_enabled" {
+  type = bool
+  description = "Enabled private comunication for postgres flexible"
+}
+
+variable "pgres_flex_public_params" {
+  type = object({
+    enabled                      = bool
+    sku_name                     = string
+    db_version                   = string
+    storage_mb                   = string
+    zone                         = number
+    backup_retention_days        = number
+    geo_redundant_backup_enabled = bool
+    create_mode                  = string
+  })
+}
+
+variable "pgres_flex_private_params" {
+  type = object({
+    enabled                      = bool
+    sku_name                     = string
+    db_version                   = string
+    storage_mb                   = string
+    zone                         = number
+    backup_retention_days        = number
+    geo_redundant_backup_enabled = bool
+    create_mode                  = string
+  })
+}
+
 
 #
 # Locals
