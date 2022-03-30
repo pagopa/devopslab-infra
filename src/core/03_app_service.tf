@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "app_service_docker_rg" {
 
 # Subnet to host the api config
 module "app_service_docker_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.21"
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.0"
   name                 = "${local.project}-app-docker-snet"
   address_prefixes     = var.cidr_subnet_app_docker
   virtual_network_name = data.azurerm_virtual_network.vnet.name
@@ -47,7 +47,7 @@ resource "azurerm_app_service_plan" "app_docker" {
 module "web_app_service_docker" {
   count = var.is_web_app_service_docker_enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=v2.1.21"
+  source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=v2.8.0"
 
   resource_group_name = azurerm_resource_group.app_service_docker_rg.name
   location            = var.location

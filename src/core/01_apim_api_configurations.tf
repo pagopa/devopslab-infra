@@ -3,7 +3,7 @@
 ##############
 
 module "apim_product_devopslab" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.8.0"
 
   product_id   = "devopslab"
   display_name = "DevOpsLab Product"
@@ -34,7 +34,7 @@ locals {
     path                  = "webapp-python-alpha"
     subscription_required = false
     service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-alpha"
-    api_name    = "${var.env}-webapp-python-alpha-api"
+    api_name              = "${var.env}-webapp-python-alpha-api"
   }
 }
 
@@ -47,7 +47,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_alpha_api_v1" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.8.0"
 
   name                  = local.apim_devopslab_webapp_python_alpha_api.api_name
   api_management_name   = module.apim.name
@@ -55,8 +55,8 @@ module "apim_devopslab_webapp_python_alpha_api_v1" {
   subscription_required = local.apim_devopslab_webapp_python_alpha_api.subscription_required
   # version_set_id        = azurerm_api_management_api_version_set.apim_devopslab_webapp_python_alpha_api.id
   # api_version           = "v1"
-  service_url           = "${local.apim_devopslab_webapp_python_alpha_api.service_url}/"
-  resource_group_name   = module.apim.resource_group_name
+  service_url         = "${local.apim_devopslab_webapp_python_alpha_api.service_url}/"
+  resource_group_name = module.apim.resource_group_name
 
   description  = local.apim_devopslab_webapp_python_alpha_api.description
   display_name = local.apim_devopslab_webapp_python_alpha_api.display_name
@@ -81,7 +81,7 @@ locals {
     path                  = "webapp-python-beta"
     subscription_required = false
     service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-beta"
-    api_name    = "${var.env}-webapp-python-beta-api"
+    api_name              = "${var.env}-webapp-python-beta-api"
   }
 }
 
@@ -94,7 +94,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_beta_api_v1" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.8.0"
 
   name                  = local.apim_devopslab_webapp_python_beta_api.api_name
   api_management_name   = module.apim.name
@@ -102,8 +102,8 @@ module "apim_devopslab_webapp_python_beta_api_v1" {
   subscription_required = local.apim_devopslab_webapp_python_beta_api.subscription_required
   # version_set_id        = azurerm_api_management_api_version_set.apim_devopslab_webapp_python_beta_api.id
   # api_version           = "v1"
-  service_url           = "${local.apim_devopslab_webapp_python_beta_api.service_url}/"
-  resource_group_name   = module.apim.resource_group_name
+  service_url         = "${local.apim_devopslab_webapp_python_beta_api.service_url}/"
+  resource_group_name = module.apim.resource_group_name
 
   description  = local.apim_devopslab_webapp_python_beta_api.description
   display_name = local.apim_devopslab_webapp_python_beta_api.display_name
@@ -128,7 +128,7 @@ locals {
     path                  = "webapp-python-proxy"
     subscription_required = false
     service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-proxy"
-    api_name    = "${var.env}-webapp-python-proxy-api"
+    api_name              = "${var.env}-webapp-python-proxy-api"
   }
 }
 
@@ -141,7 +141,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_proxy_api_v1" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.2.0"
+  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=v2.8.0"
 
   name                  = local.apim_devopslab_webapp_python_proxy_api.api_name
   api_management_name   = module.apim.name
@@ -149,8 +149,8 @@ module "apim_devopslab_webapp_python_proxy_api_v1" {
   subscription_required = local.apim_devopslab_webapp_python_proxy_api.subscription_required
   # version_set_id        = azurerm_api_management_api_version_set.apim_devopslab_webapp_python_proxy_api.id
   # api_version           = "v1"
-  service_url           = "${local.apim_devopslab_webapp_python_proxy_api.service_url}/"
-  resource_group_name   = module.apim.resource_group_name
+  service_url         = "${local.apim_devopslab_webapp_python_proxy_api.service_url}/"
+  resource_group_name = module.apim.resource_group_name
 
   description  = local.apim_devopslab_webapp_python_proxy_api.description
   display_name = local.apim_devopslab_webapp_python_proxy_api.display_name
