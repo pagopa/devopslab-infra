@@ -92,7 +92,7 @@
 
 # ## Database subnet
 # module "postgres_snet" {
-#   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.0.2"
+#   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.0"
 #   name                                           = format("%s-postgres-snet", local.project)
 #   address_prefixes                               = var.cidr_subnet_postgres
 #   resource_group_name                            = azurerm_resource_group.rg_vnet.name
@@ -102,7 +102,7 @@
 # }
 
 # module "postgres" {
-#   source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v2.1.20"
+#   source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v2.8.0"
 
 #   name                = format("%s-postgres", local.project)
 #   location            = azurerm_resource_group.data_rg.location

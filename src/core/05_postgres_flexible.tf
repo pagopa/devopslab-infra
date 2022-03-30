@@ -19,7 +19,7 @@ resource "azurerm_resource_group" "postgres_dbs" {
 
 # Postgres Flexible Server subnet
 module "postgres_flexible_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.1.13"
+  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.0"
   name                                           = "${local.project}-pgres-flexible-snet"
   address_prefixes                               = var.cidr_subnet_flex_dbms
   resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
@@ -62,7 +62,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_postgres_d
 
 # https://docs.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-compare-single-server-flexible-server
 module "postgres_flexible_server_private" {
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=postgres_flexible_production_ready"
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.8.0"
 
   name                = "${local.project}-private-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -110,7 +110,7 @@ module "postgres_flexible_server_private" {
 
 # https://docs.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-compare-single-server-flexible-server
 module "postgres_flexible_server_public" {
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=postgres_flexible_production_ready"
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.8.0"
 
   name                = "${local.project}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location

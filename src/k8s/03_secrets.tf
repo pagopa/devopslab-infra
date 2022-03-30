@@ -1,5 +1,5 @@
 # module "key_vault_secrets_query" {
-#   source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=v1.0.58"
+#   source = "git::https://github.com/pagopa/azurerm.git//key_vault_secrets_query?ref=v2.8.0"
 
 #   resource_group = local.key_vault_resource_group
 #   key_vault_name = local.key_vault_name

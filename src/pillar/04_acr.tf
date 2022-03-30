@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "rg_docker" {
 # 📦 ACR
 #
 module "acr" {
-  source              = "git::https://github.com/pagopa/azurerm.git//container_registry?ref=v2.0.2"
+  source              = "git::https://github.com/pagopa/azurerm.git//container_registry?ref=v2.8.0"
   name                = local.docker_registry_name
   resource_group_name = azurerm_resource_group.rg_docker.name
   location            = azurerm_resource_group.rg_docker.location

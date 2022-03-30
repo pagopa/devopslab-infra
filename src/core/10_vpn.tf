@@ -1,6 +1,6 @@
 # ## VPN subnet
 # module "vpn_snet" {
-#   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v1.0.58"
+#   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.0"
 #   name                                           = "GatewaySubnet"
 #   address_prefixes                               = var.cidr_subnet_vpn
 #   resource_group_name                            = azurerm_resource_group.rg_vnet.name
@@ -14,7 +14,7 @@
 # }
 
 # module "vpn" {
-#   source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v1.0.36"
+#   source = "git::https://github.com/pagopa/azurerm.git//vpn_gateway?ref=v2.8.0"
 
 #   depends_on = [
 #     azurerm_log_analytics_workspace.log_analytics_workspace

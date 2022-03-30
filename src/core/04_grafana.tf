@@ -28,7 +28,7 @@ resource "azurerm_storage_share" "grafana_volume" {
 module "grafana_service" {
   depends_on = [azurerm_storage_share_file.grafana_db]
 
-  source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=app-service-storage-mounts"
+  source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=v2.8.0"
 
   name                = "${local.project}-grafana-app"
   location            = var.location
