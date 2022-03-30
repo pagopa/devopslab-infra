@@ -72,7 +72,7 @@ is_web_app_service_docker_enabled = false
 
 
 # postgres
-postgres_private_endpoint_enabled      = false
+postgres_private_endpoint_enabled = false
 # postgres_sku_name                      = "B_Gen5_1"
 # postgres_public_network_access_enabled = false
 # postgres_network_rules = {
@@ -86,7 +86,7 @@ postgres_private_endpoint_enabled      = false
 #
 # Postgres Flexible
 #
-pgres_flex_private_params = {
+pgflex_private_config = {
   enabled    = true
   sku_name   = "GP_Standard_D2ds_v4"
   db_version = "13"
@@ -96,10 +96,16 @@ pgres_flex_private_params = {
   zone                         = 1
   backup_retention_days        = 7
   geo_redundant_backup_enabled = true
-  create_mode                  = "Default"
+  private_endpoint_enabled     = true
+  pgbouncer_enabled            = true
 }
 
-pgres_flex_public_params = {
+pgflex_private_ha_config = {
+  high_availability_enabled = true
+  standby_availability_zone = 3
+}
+
+pgflex_public_config = {
   enabled    = true
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
@@ -109,5 +115,11 @@ pgres_flex_public_params = {
   zone                         = 1
   backup_retention_days        = 7
   geo_redundant_backup_enabled = false
-  create_mode                  = "Default"
+  private_endpoint_enabled     = false
+  pgbouncer_enabled            = false
+}
+
+pgflex_public_ha_config = {
+  high_availability_enabled = false
+  standby_availability_zone = 3
 }

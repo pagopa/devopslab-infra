@@ -514,7 +514,7 @@ variable "aks_alerts_enabled" {
 
 ### Web App
 variable "is_web_app_service_docker_enabled" {
-  type = bool
+  type        = bool
   description = "Enable or disable this resources"
 }
 
@@ -522,11 +522,11 @@ variable "is_web_app_service_docker_enabled" {
 # Postgresql Flexible
 #
 variable "postgres_private_endpoint_enabled" {
-  type = bool
+  type        = bool
   description = "Enabled private comunication for postgres flexible"
 }
 
-variable "pgres_flex_private_params" {
+variable "pgflex_private_config" {
   type = object({
     enabled                      = bool
     sku_name                     = string
@@ -535,11 +535,21 @@ variable "pgres_flex_private_params" {
     zone                         = number
     backup_retention_days        = number
     geo_redundant_backup_enabled = bool
-    create_mode                  = string
+    private_endpoint_enabled     = bool
+    pgbouncer_enabled            = bool
   })
+  description = "Configuration parameter for postgres flexible private"
 }
 
-variable "pgres_flex_public_params" {
+variable "pgflex_private_ha_config" {
+  type = object({
+    high_availability_enabled = bool
+    standby_availability_zone = number
+  })
+  description = "Pg flex configuration for HA private"
+}
+
+variable "pgflex_public_config" {
   type = object({
     enabled                      = bool
     sku_name                     = string
@@ -548,8 +558,18 @@ variable "pgres_flex_public_params" {
     zone                         = number
     backup_retention_days        = number
     geo_redundant_backup_enabled = bool
-    create_mode                  = string
+    private_endpoint_enabled     = bool
+    pgbouncer_enabled            = bool
   })
+  description = "Configuration parameter for postgres flexible public"
+}
+
+variable "pgflex_public_ha_config" {
+  type = object({
+    high_availability_enabled = bool
+    standby_availability_zone = number
+  })
+  description = "Pg flex configuration for HA public"
 }
 
 #
@@ -572,9 +592,9 @@ locals {
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # AKS
-  aks_rg_name        = "${local.project}-aks-rg"
-  aks_cluster_name   = "${local.project}-aks"
-  aks_public_ip_name = "${local.project}-aksoutbound-pip"
+  aks_rg_name              = "${local.project}-aks-rg"
+  aks_cluster_name         = "${local.project}-aks"
+  aks_public_ip_name       = "${local.project}-aksoutbound-pip"
   aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # monitor
