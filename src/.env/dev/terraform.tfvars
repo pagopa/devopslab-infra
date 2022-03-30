@@ -87,7 +87,7 @@ postgres_private_endpoint_enabled = false
 # Postgres Flexible
 #
 pgflex_private_config = {
-  enabled    = true
+  enabled    = false
   sku_name   = "GP_Standard_D2ds_v4"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
@@ -106,7 +106,7 @@ pgflex_private_ha_config = {
 }
 
 pgflex_public_config = {
-  enabled    = true
+  enabled    = false
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,

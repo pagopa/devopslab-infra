@@ -62,6 +62,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_postgres_d
 
 # https://docs.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-compare-single-server-flexible-server
 module "postgres_flexible_server_private" {
+
+  count = var.pgflex_private_config.enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.8.0"
 
   name                = "${local.project}-private-pgflex"
@@ -110,6 +113,9 @@ module "postgres_flexible_server_private" {
 
 # https://docs.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-compare-single-server-flexible-server
 module "postgres_flexible_server_public" {
+
+  count = var.pgflex_public_config.enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.8.0"
 
   name                = "${local.project}-public-pgflex"
