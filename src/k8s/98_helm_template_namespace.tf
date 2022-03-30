@@ -49,10 +49,14 @@ module "ingress_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.6.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   resource_group_name = "${local.project}-aks-rg"
 =======
   resource_group_name = format("%s-aks-rg", local.project)
 >>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
+=======
+  resource_group_name = "${local.project}-aks-rg"
+>>>>>>> da4f840 (Use string interpolation)
   location            = var.location
   identity_name       = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
   key_vault           = data.azurerm_key_vault.kv
