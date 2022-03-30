@@ -9,7 +9,7 @@ module "helm-template-ingress" {
 
   depends_on = [module.nginx_ingress]
 
-  resource_group_name = format("%s-aks-rg", local.project)
+  resource_group_name = "${local.project}-aks-rg"
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
@@ -32,7 +32,7 @@ module "helm-template-ingress" {
 module "ingress_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.6.0"
 
-  resource_group_name = format("%s-aks-rg", local.project)
+  resource_group_name = "${local.project}-aks-rg"
   location            = var.location
   identity_name       = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
   key_vault           = data.azurerm_key_vault.kv
