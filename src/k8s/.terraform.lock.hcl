@@ -76,6 +76,7 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
     "zh:c536669089d75a9ea2582feae0204bd5989622168d99cd71822067be40223105",
     "zh:e596310a343780d4ef7ad08e05bdbcb91dc41a11ed08b58ad7590903d9d9982f",
     "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
+<<<<<<< HEAD
   ]
 }
 
@@ -95,6 +96,8 @@ provider "registry.terraform.io/hashicorp/null" {
     "zh:e356c245b3cd9d4789bab010893566acace682d7db877e52d40fc4ca34a50924",
     "zh:ea98802ba92fcfa8cf12cbce2e9e7ebe999afbf8ed47fa45fc847a098d89468b",
     "zh:eff8872458806499889f6927b5d954560f3d74bf20b6043409edf94d26cd906f",
+=======
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
   ]
 }
 
