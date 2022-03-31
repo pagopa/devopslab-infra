@@ -47,7 +47,7 @@ resource "helm_release" "reloader" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
-  version    = "0.0.109"
+  version    = "v0.0.109"
   namespace  = kubernetes_namespace.helm_template.metadata[0].name
 
   set {
