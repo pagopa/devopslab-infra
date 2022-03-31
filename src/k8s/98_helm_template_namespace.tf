@@ -72,10 +72,14 @@ resource "helm_release" "reloader" {
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
 <<<<<<< HEAD
+<<<<<<< HEAD
   version    = "v0.0.109"
 =======
   version    = "0.0.109"
 >>>>>>> d8069f1 (Move reloader and create pod identity inside helm_template namespace)
+=======
+  version    = "v0.0.109"
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
   namespace  = kubernetes_namespace.helm_template.metadata[0].name
 
   set {

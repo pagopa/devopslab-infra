@@ -6,7 +6,6 @@ provider "registry.terraform.io/hashicorp/azuread" {
   constraints = "2.10.0"
   hashes = [
     "h1:PW8Nwk1j7mm77Mlpc8DWnqjHqnSvBcvcOXDLbS1PACo=",
-    "h1:ufHQieXkEfagCV6KcXCawmg5lx0bLbYiXxeDFrJugtg=",
     "zh:0c7540003a9ce0926dbb945b07dbd853f0d476d8fa3ba9660f3419201d6ec424",
     "zh:16564bc569bf1202353aa2827257b65bd84e447ccbd777c4c79840b45421d39a",
     "zh:26b1e51d83d12561a90d917606c34a615a448338a8bb9464e2f186fca9128873",
@@ -25,7 +24,10 @@ provider "registry.terraform.io/hashicorp/azurerm" {
   version     = "2.99.0"
   constraints = "2.99.0"
   hashes = [
+<<<<<<< HEAD
     "h1:/ZY1j8YgB5GeqPnjT8avyRFjUcGH3rCk1xGLKcUCtWc=",
+=======
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
     "h1:FXBB5TkvZpZA+ZRtofPvp5IHZpz4Atw7w9J8GDgMhvk=",
     "zh:08d81e72e97351538ab4d15548942217bf0c4d3b79ad3f4c95d8f07f902d2fa6",
     "zh:11fdfa4f42d6b6f01371f336fea56f28a1db9e7b490c5ca0b352f6bbca5a27f1",
@@ -46,7 +48,10 @@ provider "registry.terraform.io/hashicorp/helm" {
   constraints = ">= 2.0.0, >= 2.4.1"
   hashes = [
     "h1:70kdfRABYIo83oSE6Ydpi9pimzQVLtn5bnJ/lnvFLmk=",
+<<<<<<< HEAD
     "h1:UTG7Aullpo9XBg7SDUfuejB+cuf7TyXjjmizEvJqm7g=",
+=======
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
     "zh:16b4dfcaf5bdef9fc10926cef8c9992a1bf3de1c99fb679923421e3b5a9d4307",
     "zh:1e1456943bea1c9f5b1671d55796c65fbe8ac0980c3a79e4fdcaf5fa320e4c8f",
     "zh:302b57485a8fe540dd55e2306680e51db54a83a630830f9a106c1ac38c1f6a91",
@@ -66,7 +71,10 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
   version     = "2.9.0"
   constraints = ">= 2.7.0"
   hashes = [
+<<<<<<< HEAD
     "h1:VDEiKlAv3KaNpfwJ7nPkqN0tLsCzepIMwo5ciyV5z5M=",
+=======
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
     "h1:tlVa13hydZH+bs1e9TTLNDqtzfXW2HgrQtDVAuZvaSg=",
     "zh:114113e9cd0489d2db8374f3352cc9b29667a42462f922eb9c891c6daf1c38fa",
     "zh:31dcf16083142f2978fc933cead038e671798053fb1fd3c18a2331afb7abe264",
@@ -80,6 +88,7 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
     "zh:c536669089d75a9ea2582feae0204bd5989622168d99cd71822067be40223105",
     "zh:e596310a343780d4ef7ad08e05bdbcb91dc41a11ed08b58ad7590903d9d9982f",
     "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
+<<<<<<< HEAD
   ]
 }
 
@@ -100,6 +109,8 @@ provider "registry.terraform.io/hashicorp/null" {
     "zh:e356c245b3cd9d4789bab010893566acace682d7db877e52d40fc4ca34a50924",
     "zh:ea98802ba92fcfa8cf12cbce2e9e7ebe999afbf8ed47fa45fc847a098d89468b",
     "zh:eff8872458806499889f6927b5d954560f3d74bf20b6043409edf94d26cd906f",
+=======
+>>>>>>> 02dc372 (Fix Reloader version and update terraform.lock)
   ]
 }
 
