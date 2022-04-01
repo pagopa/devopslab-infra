@@ -23,7 +23,7 @@ module "helm-template-ingress" {
   rules = [
     {
       path         = "/(.*)"
-      service_name = "template-microservice-chart"
+      service_name = "templatemicroserviziok8s-microservice-chart"
       service_port = 80
     }
   ]
