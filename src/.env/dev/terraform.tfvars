@@ -66,6 +66,20 @@ aks_node_max_count      = null
 aks_vm_size             = "Standard_B2ms"
 
 #
+# ⛴ AKS
+#
+aks_alpha_private_cluster_enabled = false
+aks_alpha_alerts_enabled          = false
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
+aks_alpha_reverse_proxy_ip        = "10.1.0.250"
+aks_alpha_max_pods            = 100
+aks_alpha_enable_auto_scaling = false
+aks_alpha_node_min_count      = null
+aks_alpha_node_max_count      = null
+aks_alpha_vm_size             = "Standard_B2ms"
+aks_alpha_kubernetes_version  = "1.23.3"
+
+#
 # Web app docker
 #
 is_web_app_service_docker_enabled = false

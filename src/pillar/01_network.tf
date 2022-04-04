@@ -42,10 +42,10 @@ resource "azurerm_public_ip" "aks_outbound" {
   tags = var.tags
 }
 
-resource "azurerm_public_ip" "aks_prod_outbound_ip" {
-  count = var.aks_prod_num_outbound_ips
+resource "azurerm_public_ip" "aks_alpha_outbound_ip" {
+  count = var.aks_alpha_num_outbound_ips
 
-  name                = "${local.aks_prod_public_ip_name}-${count.index + 1}"
+  name                = "${local.aks_alpha_public_ip_name}-${count.index + 1}"
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   sku                 = "Standard"
