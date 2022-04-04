@@ -1,17 +1,13 @@
-data "azurerm_public_ip" "aks_outbound" {
+data "azurerm_public_ip" "aks_prod_outbound_ip" {
   count = var.aks_num_outbound_ips
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  name                = "${local.aks_public_ip_name}-${count.index + 1}"
+  name                = "${local.aks_prod_public_ip_name}-${count.index + 1}"
 }
 
 #--------------------------------------------------------------------------------------------------
-
-resource "azurerm_resource_group" "rg_aks" {
-  name     = local.aks_rg_name
-  location = var.location
-  tags     = var.tags
-}
+### Resource group is the same as AKS
+#--------------------------------------------------------------------------------------------------
 
 # k8s cluster subnet
 module "k8s_snet" {

@@ -196,6 +196,12 @@ variable "aks_num_outbound_ips" {
   description = "How many outbound ips allocate for AKS cluster"
 }
 
+variable "aks_prod_num_outbound_ips" {
+  type        = number
+  default     = 1
+  description = "How many outbound ips allocate for AKS prod cluster"
+}
+
 locals {
   project = "${var.prefix}-${var.env_short}"
 
@@ -205,7 +211,7 @@ locals {
 
   appgateway_public_ip_name = "${local.project}-gw-pip"
   aks_public_ip_name        = "${local.project}-aksoutbound-pip"
-  bastion_public_ip_name    = "${local.project}-bastion-pip"
+  aks_prod_public_ip_name        = "${local.project}-aksprod-outbound-pip"
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
