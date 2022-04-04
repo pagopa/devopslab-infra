@@ -1,78 +1,78 @@
 #
 # ⛴ AKS PROD
 #
-variable "aks_alpha_private_cluster_enabled" {
+variable "aks_ephemeral_private_cluster_enabled" {
   type        = bool
   description = "Enable or not public visibility of AKS"
   default     = false
 }
 
-variable "aks_alpha_num_outbound_ips" {
+variable "aks_ephemeral_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS cluster"
 }
 
-variable "aks_alpha_availability_zones" {
+variable "aks_ephemeral_availability_zones" {
   type        = list(number)
   description = "A list of Availability Zones across which the Node Pool should be spread."
   default     = []
 }
 
-variable "aks_alpha_vm_size" {
+variable "aks_ephemeral_vm_size" {
   type        = string
   default     = "Standard_DS3_v2"
   description = "The size of the AKS Virtual Machine in the Node Pool."
 }
 
-variable "aks_alpha_max_pods" {
+variable "aks_ephemeral_max_pods" {
   type        = number
   description = "The maximum number of pods"
   default     = 100
 }
 
-variable "aks_alpha_enable_auto_scaling" {
+variable "aks_ephemeral_enable_auto_scaling" {
   type        = bool
   description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool? "
   default     = false
 }
 
-variable "aks_alpha_node_count" {
+variable "aks_ephemeral_node_count" {
   type        = number
   description = "The initial number of the AKS nodes which should exist in this Node Pool."
   default     = 1
 }
 
-variable "aks_alpha_node_min_count" {
+variable "aks_ephemeral_node_min_count" {
   type        = number
   description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
   default     = null
 }
 
-variable "aks_alpha_node_max_count" {
+variable "aks_ephemeral_node_max_count" {
   type        = number
   description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
   default     = null
 }
 
-variable "aks_alpha_kubernetes_version" {
+variable "aks_ephemeral_kubernetes_version" {
   type        = string
   description = "Kubernetes version of cluster aks"
 }
 
-variable "aks_alpha_sku_tier" {
+variable "aks_ephemeral_sku_tier" {
   type        = string
   description = "The SKU Tier that should be used for this Kubernetes Cluster."
   default     = "Free"
 }
 
-variable "aks_alpha_reverse_proxy_ip" {
+variable "aks_ephemeral_reverse_proxy_ip" {
   type        = string
   default     = "127.0.0.1"
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
-variable "aks_alpha_metric_alerts" {
+variable "aks_ephemeral_metric_alerts" {
   description = <<EOD
 Map of name = criteria objects
 EOD
@@ -294,7 +294,7 @@ EOD
   }
 }
 
-variable "aks_alpha_alerts_enabled" {
+variable "aks_ephemeral_alerts_enabled" {
   type        = bool
   default     = true
   description = "Aks alert enabled?"
@@ -302,8 +302,8 @@ variable "aks_alpha_alerts_enabled" {
 
 locals {
     # AKS
-  aks_alpha_rg_name              = "${local.project}-aks-alpha-rg"
-  aks_alpha_cluster_name         = "${local.project}-aks-alpha"
-  aks_alpha_public_ip_name        = "${local.project}-aks-alpha-outbound-pip"
-  aks_alpha_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_ephemeral_rg_name              = "${local.project}-aks-ephemeral-rg"
+  aks_ephemeral_cluster_name         = "${local.project}-aks-ephemeral"
+  aks_ephemeral_public_ip_name        = "${local.project}-aks-ephemeral-outbound-pip"
+  aks_ephemeral_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 }
