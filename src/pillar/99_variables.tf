@@ -209,9 +209,9 @@ locals {
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
 
-  appgateway_public_ip_name = "${local.project}-gw-pip"
-  aks_public_ip_name        = "${local.project}-aksoutbound-pip"
-  aks_ephemeral_public_ip_name        = "${local.project}-aks-ephemeral-outbound-pip"
+  appgateway_public_ip_name    = "${local.project}-gw-pip"
+  aks_public_ip_name           = "${local.project}-aksoutbound-pip"
+  aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
   prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
   lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"

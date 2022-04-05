@@ -1,6 +1,17 @@
 #
 # ⛴ AKS PROD
 #
+variable "aks_ephemeral_enabled" {
+  type = bool
+  description = "Must be the aks cluster created?"
+  default = true
+}
+
+variable "cidr_subnet_aks_ephemeral" {
+  type        = list(string)
+  description = "Subnet cluster kubernetes."
+}
+
 variable "aks_ephemeral_private_cluster_enabled" {
   type        = bool
   description = "Enable or not public visibility of AKS"
@@ -74,8 +85,8 @@ variable "aks_ephemeral_reverse_proxy_ip" {
 
 variable "aks_ephemeral_metric_alerts" {
   description = <<EOD
-Map of name = criteria objects
-EOD
+  Map of name = criteria objects
+  EOD
 
   type = map(object({
     # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
@@ -300,10 +311,54 @@ variable "aks_ephemeral_alerts_enabled" {
   description = "Aks alert enabled?"
 }
 
+variable "aks_ephemeral_system_node_pool" {
+  type = object({
+    name            = string,
+    vm_size         = string,
+    os_disk_type    = string,
+    os_disk_size_gb = string,
+    node_count_min  = number,
+    node_count_max  = number,
+    node_labels     = map(any),
+    node_tags       = map(any)
+  })
+  description = "AKS node pool system configuration"
+}
+
+variable "aks_ephemeral_user_node_pool" {
+  type = object({
+    enabled         = bool,
+    name            = string,
+    vm_size         = string,
+    os_disk_type    = string,
+    os_disk_size_gb = string,
+    node_count_min  = number,
+    node_count_max  = number,
+    node_labels     = map(any),
+    node_taints     = list(string),
+    node_tags       = map(any),
+  })
+  description = "AKS node pool user configuration"
+}
+
+variable "aks_ephemeral_addons" {
+  type = object({
+    azure_policy                    = bool,
+    azure_keyvault_secrets_provider = bool
+  })
+
+  default = {
+    azure_keyvault_secrets_provider = true
+    azure_policy                    = true
+  }
+
+  description = "Aks addons configuration"
+}
+
 locals {
-    # AKS
-  aks_ephemeral_rg_name              = "${local.project}-aks-ephemeral-rg"
-  aks_ephemeral_cluster_name         = "${local.project}-aks-ephemeral"
+  # AKS
+  aks_ephemeral_rg_name               = "${local.project}-aks-ephemeral-rg"
+  aks_ephemeral_cluster_name          = "${local.project}-aks-ephemeral"
   aks_ephemeral_public_ip_name        = "${local.project}-aks-ephemeral-outbound-pip"
-  aks_ephemeral_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_ephemeral_public_ip_index_name  = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 }
