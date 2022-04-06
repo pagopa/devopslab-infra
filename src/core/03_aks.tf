@@ -65,6 +65,7 @@ module "aks" {
   }
 
   enable_azure_keyvault_secrets_provider = true
+  enable_azure_pod_identity              = true
 
   metric_alerts = var.aks_metric_alerts
   action = [
