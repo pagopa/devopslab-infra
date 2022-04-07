@@ -19,7 +19,7 @@ module "helm-template-ingress" {
   namespace    = kubernetes_namespace.helm_template.metadata[0].name
   cluster_name = data.azurerm_kubernetes_cluster.aks_cluster.name
 
-  host  = "helm-template.ingress.devopslab.pagopa.it"
+  host = "helm-template.ingress.devopslab.pagopa.it"
   rules = [
     {
       path         = "/(.*)"

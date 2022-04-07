@@ -52,13 +52,13 @@ module "aks_ephemeral" {
   system_node_pool_node_count_max  = var.aks_ephemeral_system_node_pool.node_count_max
   ### K8s node configuration
   system_node_pool_node_labels = var.aks_ephemeral_system_node_pool.node_labels
-  system_node_pool_tags = var.aks_ephemeral_system_node_pool.node_tags
+  system_node_pool_tags        = var.aks_ephemeral_system_node_pool.node_tags
 
   #
   # 👤 User node pool
   #
-  user_node_pool_enabled = var.aks_ephemeral_user_node_pool.enabled 
-  user_node_pool_name = var.aks_ephemeral_user_node_pool.name
+  user_node_pool_enabled = var.aks_ephemeral_user_node_pool.enabled
+  user_node_pool_name    = var.aks_ephemeral_user_node_pool.name
   ### vm configuration
   user_node_pool_vm_size         = var.aks_ephemeral_user_node_pool.vm_size
   user_node_pool_os_disk_type    = var.aks_ephemeral_user_node_pool.os_disk_type
@@ -68,7 +68,7 @@ module "aks_ephemeral" {
   ### K8s node configuration
   user_node_pool_node_labels = var.aks_ephemeral_user_node_pool.node_labels
   user_node_pool_node_taints = var.aks_ephemeral_user_node_pool.node_taints
-  user_node_pool_tags = var.aks_ephemeral_user_node_pool.node_tags
+  user_node_pool_tags        = var.aks_ephemeral_user_node_pool.node_tags
   # end user node pool
 
   #
@@ -94,9 +94,9 @@ module "aks_ephemeral" {
 
   addon_azure_policy_enabled                    = var.aks_ephemeral_addons.azure_policy
   addon_azure_keyvault_secrets_provider_enabled = var.aks_ephemeral_addons.azure_keyvault_secrets_provider
-  addon_azure_pod_identity_enabled = var.aks_ephemeral_addons.pod_identity_enabled
+  addon_azure_pod_identity_enabled              = var.aks_ephemeral_addons.pod_identity_enabled
 
-  metric_alerts = var.aks_ephemeral_metric_alerts
+  metric_alerts  = var.aks_ephemeral_metric_alerts
   alerts_enabled = var.aks_ephemeral_alerts_enabled
   action = [
     {

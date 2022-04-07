@@ -70,12 +70,12 @@ aks_vm_size             = "Standard_B2ms"
 #
 # ⛴ AKS
 #
-aks_ephemeral_enabled = true
+aks_ephemeral_enabled                 = true
 aks_ephemeral_private_cluster_enabled = false
 aks_ephemeral_alerts_enabled          = false
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-aks_ephemeral_reverse_proxy_ip    = "10.1.0.250"
-aks_ephemeral_kubernetes_version  = "1.23.3"
+aks_ephemeral_reverse_proxy_ip   = "10.1.0.250"
+aks_ephemeral_kubernetes_version = "1.23.3"
 # aks_ephemeral_system_node_pool = {
 #     name = "dvladsysephm"
 #     vm_size         = "Standard_B2ms",
@@ -99,31 +99,31 @@ aks_ephemeral_kubernetes_version  = "1.23.3"
 #     node_tags       = { node_tag_1: "1"},
 # }
 aks_ephemeral_system_node_pool = {
-    name            = "dvladephmsys",
-    vm_size         = "Standard_D2ds_v5",
-    os_disk_type    = "Ephemeral",
-    os_disk_size_gb = 75,
-    node_count_min  = 1,
-    node_count_max  = 3,
-    node_labels     = { node_name: "aks-ephemeral-sys", node_type: "system"},
-    node_tags       = { node_tag_1: "1"},
+  name            = "dvladephmsys",
+  vm_size         = "Standard_D2ds_v5",
+  os_disk_type    = "Ephemeral",
+  os_disk_size_gb = 75,
+  node_count_min  = 1,
+  node_count_max  = 3,
+  node_labels     = { node_name : "aks-ephemeral-sys", node_type : "system" },
+  node_tags       = { node_tag_1 : "1" },
 }
 aks_ephemeral_user_node_pool = {
-    enabled         = true,
-    name            = "dvladephmusr",
-    vm_size         = "Standard_D2ds_v5",
-    os_disk_type    = "Ephemeral",
-    os_disk_size_gb = 75,
-    node_count_min  = 1,
-    node_count_max  = 3,
-    node_labels     = { node_name: "aks-ephemeral-user", node_type: "user"},
-    node_taints     = ["key=value:NoSchedule", "key2=value2:NoSchedule"],
-    node_tags       = { node_tag_1: "1"},
+  enabled         = true,
+  name            = "dvladephmusr",
+  vm_size         = "Standard_D2ds_v5",
+  os_disk_type    = "Ephemeral",
+  os_disk_size_gb = 75,
+  node_count_min  = 1,
+  node_count_max  = 3,
+  node_labels     = { node_name : "aks-ephemeral-user", node_type : "user" },
+  node_taints     = ["key=value:NoSchedule", "key2=value2:NoSchedule"],
+  node_tags       = { node_tag_1 : "1" },
 }
 aks_ephemeral_addons = {
-    azure_policy                    = true,
-    azure_keyvault_secrets_provider = true,
-    pod_identity_enabled            = true,
+  azure_policy                    = true,
+  azure_keyvault_secrets_provider = true,
+  pod_identity_enabled            = true,
 }
 
 #

@@ -2,9 +2,9 @@
 # ⛴ AKS PROD
 #
 variable "aks_ephemeral_enabled" {
-  type = bool
+  type        = bool
   description = "Must be the aks cluster created?"
-  default = true
+  default     = true
 }
 
 variable "cidr_subnet_aks_ephemeral" {
@@ -345,13 +345,13 @@ variable "aks_ephemeral_addons" {
   type = object({
     azure_policy                    = bool,
     azure_keyvault_secrets_provider = bool,
-    pod_identity_enabled = bool,
+    pod_identity_enabled            = bool,
   })
 
   default = {
     azure_keyvault_secrets_provider = true
     azure_policy                    = true
-    pod_identity_enabled                    = true
+    pod_identity_enabled            = true
   }
 
   description = "Aks addons configuration"
@@ -359,8 +359,8 @@ variable "aks_ephemeral_addons" {
 
 locals {
   # AKS
-  aks_ephemeral_rg_name               = "${local.project}-aks-ephemeral-rg"
-  aks_ephemeral_cluster_name          = "${local.project}-aks-ephemeral"
-  aks_ephemeral_public_ip_name        = "${local.project}-aks-ephemeral-outbound-pip"
-  aks_ephemeral_public_ip_index_name  = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_ephemeral_rg_name              = "${local.project}-aks-ephemeral-rg"
+  aks_ephemeral_cluster_name         = "${local.project}-aks-ephemeral"
+  aks_ephemeral_public_ip_name       = "${local.project}-aks-ephemeral-outbound-pip"
+  aks_ephemeral_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 }

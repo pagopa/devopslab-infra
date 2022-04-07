@@ -31,12 +31,6 @@ az network dns zone show \
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 2.99.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.0 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 2.99.0 |
-
 ## Modules
 
 | Name | Source | Version |
