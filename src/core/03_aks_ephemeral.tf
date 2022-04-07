@@ -77,6 +77,8 @@ module "aks_ephemeral" {
   vnet_id        = data.azurerm_virtual_network.vnet.id
   vnet_subnet_id = module.aks_ephemeral_snet.id
 
+  outbound_ip_address_ids = data.azurerm_public_ip.aks_ephemeral_outbound_ip.*.id
+  private_cluster_enabled = var.aks_ephemeral_private_cluster_enabled
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
     dns_service_ip     = "10.2.0.10"
@@ -85,8 +87,6 @@ module "aks_ephemeral" {
     outbound_type      = "loadBalancer"
     service_cidr       = "10.2.0.0/16"
   }
-  outbound_ip_address_ids = data.azurerm_public_ip.aks_ephemeral_outbound_ip.*.id
-  private_cluster_enabled = var.aks_ephemeral_private_cluster_enabled
   # end network
 
   rbac_enabled        = true
@@ -94,6 +94,7 @@ module "aks_ephemeral" {
 
   addon_azure_policy_enabled                    = var.aks_ephemeral_addons.azure_policy
   addon_azure_keyvault_secrets_provider_enabled = var.aks_ephemeral_addons.azure_keyvault_secrets_provider
+  addon_azure_pod_identity_enabled = var.aks_ephemeral_addons.pod_identity_enabled
 
   metric_alerts = var.aks_ephemeral_metric_alerts
   alerts_enabled = var.aks_ephemeral_alerts_enabled

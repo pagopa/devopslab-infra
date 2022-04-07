@@ -80,11 +80,23 @@ aks_ephemeral_kubernetes_version  = "1.23.3"
 #     name = "dvladsysephm"
 #     vm_size         = "Standard_B2ms",
 #     os_disk_type    = "Managed"
-#     os_disk_size_gb = 128,
+#     os_disk_size_gb = null,
 #     node_count_min  = 1,
-#     node_count_max  = 1,
+#     node_count_max  = 3,
 #     node_labels     = { node_name: "aks-ephemeral", node_type: "system"},
 #     node_tags       = { node_tag_1: "1"}
+# }
+# aks_ephemeral_user_node_pool = {
+#     enabled         = true,
+#     name            = "dvladephmusr",
+#     vm_size         = "Standard_B2ms",
+#     os_disk_type    = "Managed",
+#     os_disk_size_gb = null,
+#     node_count_min  = 1,
+#     node_count_max  = 3,
+#     node_labels     = { node_name: "aks-ephemeral-user", node_type: "user"},
+#     node_taints     = ["key=value:NoSchedule", "key2=value2:NoSchedule"],
+#     node_tags       = { node_tag_1: "1"},
 # }
 aks_ephemeral_system_node_pool = {
     name            = "dvladephmsys",
@@ -110,7 +122,8 @@ aks_ephemeral_user_node_pool = {
 }
 aks_ephemeral_addons = {
     azure_policy                    = true,
-    azure_keyvault_secrets_provider = true
+    azure_keyvault_secrets_provider = true,
+    pod_identity_enabled            = true,
 }
 
 #
@@ -154,7 +167,7 @@ pgflex_private_ha_config = {
 }
 
 pgflex_public_config = {
-  enabled    = false
+  enabled    = true
   sku_name   = "B_Standard_B1ms"
   db_version = "13"
   # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
