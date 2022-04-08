@@ -34,12 +34,14 @@ module "ingress_pod_identity" {
 
   resource_group_name = "${local.project}-aks-rg"
 
+
   location      = var.location
   identity_name = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
   key_vault     = data.azurerm_key_vault.kv
   tenant_id     = data.azurerm_subscription.current.tenant_id
   cluster_name  = data.azurerm_kubernetes_cluster.aks_cluster.name
   namespace     = kubernetes_namespace.helm_template.metadata[0].name
+
 
   secret_permissions = ["get"]
 }
