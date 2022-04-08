@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 
 # vnet
 module "vnet" {
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.8.0"
+  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.8.1"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -42,13 +42,10 @@ resource "azurerm_public_ip" "aks_outbound" {
   tags = var.tags
 }
 
-#
-# Bastion public IP
-#
-resource "azurerm_public_ip" "bastion_pip" {
-  count = var.aks_num_outbound_ips
+resource "azurerm_public_ip" "aks_ephemeral_outbound_ip" {
+  count = var.aks_ephemeral_num_outbound_ips
 
-  name                = local.bastion_public_ip_name
+  name                = "${local.aks_ephemeral_public_ip_name}-${count.index + 1}"
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   sku                 = "Standard"

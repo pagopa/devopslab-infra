@@ -120,7 +120,9 @@ locals {
   aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # AKS
-  aks_rg_name      = "${local.project}-aks-rg"
-  aks_cluster_name = "${local.project}-aks"
+
+  aks_rg_name          = "${local.project}-aks-rg"
+  aks_cluster_name     = "${local.project}-aks"
+
   aks_secrets_provider = data.azurerm_kubernetes_cluster.aks_cluster.addon_profile[0].azure_keyvault_secrets_provider[0]
 }
