@@ -143,5 +143,6 @@ module "postgres_flexible_server_public" {
 
   diagnostic_settings_enabled = true
   log_analytics_workspace_id  = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
 
 }

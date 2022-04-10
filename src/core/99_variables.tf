@@ -634,6 +634,7 @@ locals {
   monitor_rg_name                      = "${local.project}-monitor-rg"
   monitor_log_analytics_workspace_name = "${local.project}-law"
   monitor_appinsights_name             = "${local.project}-appinsights"
+  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
