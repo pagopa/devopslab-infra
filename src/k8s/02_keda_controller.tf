@@ -10,7 +10,7 @@ module "keda_pod_identity" {
   namespace           = kubernetes_namespace.keda.metadata[0].name
 }
 
-resource "azurerm_role_assignment" "example" {
+resource "azurerm_role_assignment" "keda_monitoring_reader" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Monitoring Reader"
   principal_id         = module.keda_pod_identity.identity.principal_id
