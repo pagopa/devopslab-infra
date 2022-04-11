@@ -1,5 +1,5 @@
 module "keda_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.10.0"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.12.0"
 
   resource_group_name = "${local.project}-aks-rg"
   location            = var.location
@@ -8,8 +8,12 @@ module "keda_pod_identity" {
   tenant_id           = data.azurerm_subscription.current.tenant_id
   cluster_name        = data.azurerm_kubernetes_cluster.aks_cluster.name
   namespace           = kubernetes_namespace.keda.metadata[0].name
+}
 
-  secret_permissions = ["get"]
+resource "azurerm_role_assignment" "example" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Monitoring Reader"
+  principal_id         = module.keda_pod_identity.identity.principal_id
 }
 
 resource "helm_release" "keda" {
@@ -20,7 +24,7 @@ resource "helm_release" "keda" {
   namespace  = kubernetes_namespace.keda.metadata[0].name
 
   set {
-    name  = "aadPodIdentity"
-    value = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity" # add output in module
+    name  = "podIdentity.activeDirectory.identity"
+    value = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
   }
 }
