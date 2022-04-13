@@ -57,6 +57,12 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
   }
 
   rule {
+    api_groups = ["keda.sh"]
+    resources  = ["scaledobjects", "triggerauthentications"]
+    verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
+  }
+
+  rule {
     api_groups = ["apps"]
     resources  = ["replicasets"]
     verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
