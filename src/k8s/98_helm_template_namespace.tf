@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "helm_template" {
 }
 
 module "helm_template_ingress" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_ingress?ref=v2.10.0"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_ingress?ref=v2.12.5"
 
   depends_on = [module.nginx_ingress]
 
