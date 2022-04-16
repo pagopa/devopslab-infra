@@ -116,7 +116,7 @@ module "postgres_flexible_server_public" {
 
   count = var.pgflex_public_config.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=DEVOPS-268-postgres-flexible-aggiungere-alerts-e-monitoring"
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=postgres-flexible-default-metrics"
 
   name                = "${local.project}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -138,7 +138,7 @@ module "postgres_flexible_server_public" {
 
   tags = var.tags
 
-  metric_alerts  = var.pgflex_public_metric_alerts
+  custom_metric_alerts  = var.pgflex_public_metric_alerts
   alerts_enabled = true
 
   diagnostic_settings_enabled = true

@@ -590,10 +590,12 @@ variable "pgflex_public_metric_alerts" {
     frequency = string
     # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
     window_size = string
+    # severity: The severity of this Metric Alert. Possible values are 0, 1, 2, 3 and 4. Defaults to 3. Lower is worst
+    severity = number
   }))
 
   default = {
-    node_cpu = {
+    cpu_percent = {
       frequency        = "PT1M"
       window_size      = "PT5M"
       metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
@@ -601,6 +603,47 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "cpu_percent"
       operator         = "GreaterThan"
       threshold        = 80
+      severity = 2
+    },
+    memory_percent = {
+      frequency        = "PT1M"
+      window_size      = "PT5M"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
+      aggregation      = "Average"
+      metric_name      = "memory_percent"
+      operator         = "GreaterThan"
+      threshold        = 80
+      severity = 2
+    },
+    storage_percent = {
+      frequency        = "PT1M"
+      window_size      = "PT5M"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
+      aggregation      = "Average"
+      metric_name      = "storage_percent"
+      operator         = "GreaterThan"
+      threshold        = 80
+      severity = 2
+    },
+    active_connections = {
+      frequency        = "PT1M"
+      window_size      = "PT5M"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
+      aggregation      = "Average"
+      metric_name      = "active_connections"
+      operator         = "GreaterThan"
+      threshold        = 80
+      severity = 2
+    },
+    connections_failed = {
+      frequency        = "PT1M"
+      window_size      = "PT5M"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
+      aggregation      = "Total"
+      metric_name      = "connections_failed"
+      operator         = "GreaterThan"
+      threshold        = 80
+      severity = 2
     }
   }
 }
