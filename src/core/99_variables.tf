@@ -603,7 +603,7 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "cpu_percent"
       operator         = "GreaterThan"
       threshold        = 80
-      severity = 2
+      severity         = 2
     },
     memory_percent = {
       frequency        = "PT1M"
@@ -613,7 +613,7 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "memory_percent"
       operator         = "GreaterThan"
       threshold        = 80
-      severity = 2
+      severity         = 2
     },
     storage_percent = {
       frequency        = "PT1M"
@@ -623,7 +623,7 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "storage_percent"
       operator         = "GreaterThan"
       threshold        = 80
-      severity = 2
+      severity         = 2
     },
     active_connections = {
       frequency        = "PT1M"
@@ -633,7 +633,7 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "active_connections"
       operator         = "GreaterThan"
       threshold        = 80
-      severity = 2
+      severity         = 2
     },
     connections_failed = {
       frequency        = "PT1M"
@@ -643,7 +643,7 @@ variable "pgflex_public_metric_alerts" {
       metric_name      = "connections_failed"
       operator         = "GreaterThan"
       threshold        = 80
-      severity = 2
+      severity         = 2
     }
   }
 }
