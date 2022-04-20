@@ -125,7 +125,7 @@ aks_ephemeral_user_node_pool = {
 }
 aks_ephemeral_addons = {
   azure_policy                    = true,
-  azure_keyvault_secrets_provider = true,
+  azure_key_vault_secrets_provider = true,
   pod_identity_enabled            = true,
 }
 
