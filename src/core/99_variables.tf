@@ -286,8 +286,8 @@ variable "reverse_proxy_ip" {
 
 variable "aks_metric_alerts" {
   description = <<EOD
-Map of name = criteria objects
-EOD
+  Map of name = criteria objects
+  EOD
 
   type = map(object({
     # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
@@ -574,8 +574,8 @@ variable "pgflex_public_ha_config" {
 
 variable "pgflex_public_metric_alerts" {
   description = <<EOD
-Map of name = criteria objects
-EOD
+  Map of name = criteria objects
+  EOD
 
   type = map(object({
     # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
@@ -590,206 +590,60 @@ EOD
     frequency = string
     # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
     window_size = string
-
-    dimension = list(object(
-      {
-        name     = string
-        operator = string
-        values   = list(string)
-      }
-    ))
+    # severity: The severity of this Metric Alert. Possible values are 0, 1, 2, 3 and 4. Defaults to 3. Lower is worst
+    severity = number
   }))
 
   default = {
-    node_cpu = {
+    cpu_percent = {
+      frequency        = "PT1M"
+      window_size      = "PT5M"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
       aggregation      = "Average"
-      metric_namespace = "Insights.Container/nodes"
-      metric_name      = "cpuUsagePercentage"
+      metric_name      = "cpu_percent"
       operator         = "GreaterThan"
       threshold        = 80
+      severity = 2
+    },
+    memory_percent = {
       frequency        = "PT1M"
       window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "host"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ],
-    }
-    node_memory = {
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
       aggregation      = "Average"
-      metric_namespace = "Insights.Container/nodes"
-      metric_name      = "memoryWorkingSetPercentage"
+      metric_name      = "memory_percent"
       operator         = "GreaterThan"
       threshold        = 80
+      severity = 2
+    },
+    storage_percent = {
       frequency        = "PT1M"
       window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "host"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ],
-    }
-    node_disk = {
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
       aggregation      = "Average"
-      metric_namespace = "Insights.Container/nodes"
-      metric_name      = "DiskUsedPercentage"
+      metric_name      = "storage_percent"
       operator         = "GreaterThan"
       threshold        = 80
+      severity = 2
+    },
+    active_connections = {
       frequency        = "PT1M"
       window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "host"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "device"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ],
-    }
-    node_not_ready = {
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
       aggregation      = "Average"
-      metric_namespace = "Insights.Container/nodes"
-      metric_name      = "nodesCount"
+      metric_name      = "active_connections"
       operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "status"
-          operator = "Include"
-          values   = ["NotReady"]
-        }
-      ],
-    }
-    pods_failed = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "podCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "phase"
-          operator = "Include"
-          values   = ["Failed"]
-        }
-      ]
-    }
-    pods_ready = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "PodReadyPercentage"
-      operator         = "LessThan"
       threshold        = 80
+      severity = 2
+    },
+    connections_failed = {
       frequency        = "PT1M"
       window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_cpu = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/containers"
-      metric_name      = "cpuExceededPercentage"
+      metric_namespace = "Microsoft.DBforPostgreSQL/flexibleServers"
+      aggregation      = "Total"
+      metric_name      = "connections_failed"
       operator         = "GreaterThan"
-      threshold        = 95
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_memory = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/containers"
-      metric_name      = "memoryWorkingSetExceededPercentage"
-      operator         = "GreaterThan"
-      threshold        = 95
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_oom = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "oomKilledContainerCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT1M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_restart = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "restartingContainerCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT1M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
+      threshold        = 80
+      severity = 2
     }
   }
 }
@@ -823,6 +677,7 @@ locals {
   monitor_rg_name                      = "${local.project}-monitor-rg"
   monitor_log_analytics_workspace_name = "${local.project}-law"
   monitor_appinsights_name             = "${local.project}-appinsights"
+  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
