@@ -391,8 +391,8 @@ variable "aks_ephemeral_addons" {
 
 locals {
   # AKS
-  aks_ephemeral_rg_name              = "${local.project}-aks-ephemeral-rg"
-  aks_ephemeral_cluster_name         = "${local.project}-aks-ephemeral"
+  aks_ephemeral_rg_name              = "${local.project}-ephemeral-aks-rg"
+  aks_ephemeral_cluster_name         = "${local.project}-ephemeral-aks"
   aks_ephemeral_public_ip_name       = "${local.project}-aks-ephemeral-outbound-pip"
   aks_ephemeral_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 }
