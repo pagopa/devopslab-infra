@@ -124,9 +124,9 @@ aks_ephemeral_user_node_pool = {
   node_tags       = { node_tag_1 : "1" },
 }
 aks_ephemeral_addons = {
-  azure_policy                    = true,
+  azure_policy                     = true,
   azure_key_vault_secrets_provider = true,
-  pod_identity_enabled            = true,
+  pod_identity_enabled             = true,
 }
 
 #
