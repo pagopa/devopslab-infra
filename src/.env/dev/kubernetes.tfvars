@@ -5,7 +5,7 @@ aks_private_cluster_enabled = false
 aks_num_outbound_ips        = 1
 kubernetes_version          = "1.23.3"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-# aks_ephemeral_reverse_proxy_ip = "10.1.0.250"
+# aks_reverse_proxy_ip = "10.1.0.250"
 aks_system_node_pool = {
   name            = "dvladsys",
   vm_size         = "Standard_D2ds_v5",
