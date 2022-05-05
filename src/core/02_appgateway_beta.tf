@@ -1,28 +1,29 @@
-data "azurerm_public_ip" "appgateway_public_ip" {
+
+data "azurerm_public_ip" "appgateway_beta_public_ip" {
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  name                = local.appgateway_public_ip_name
+  name                = local.appgateway_beta_public_ip_name
 }
 
-data "azurerm_key_vault_certificate" "app_gw_api" {
-  name         = var.app_gateway_api_certificate_name
+data "azurerm_key_vault_certificate" "app_gw_beta" {
+  name         = var.app_gateway_beta_certificate_name
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 #--------------------------------------------------------------------------------------------------
 
 ## user assined identity: (application gateway) ##
-resource "azurerm_user_assigned_identity" "appgateway" {
+resource "azurerm_user_assigned_identity" "appgateway_beta" {
   resource_group_name = data.azurerm_resource_group.kv_rg.name
   location            = data.azurerm_resource_group.kv_rg.location
-  name                = "${local.project}-appgateway-identity"
+  name                = "${local.project}-appgateway-beta-identity"
 
   tags = var.tags
 }
 
-resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
+resource "azurerm_key_vault_access_policy" "app_gateway_beta_policy" {
   key_vault_id            = data.azurerm_key_vault.kv.id
   tenant_id               = data.azurerm_client_config.current.tenant_id
-  object_id               = azurerm_user_assigned_identity.appgateway.principal_id
+  object_id               = azurerm_user_assigned_identity.appgateway_beta.principal_id
   key_permissions         = []
   secret_permissions      = ["Get", "List"]
   certificate_permissions = ["Get", "List"]
@@ -30,23 +31,25 @@ resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
 }
 
 # Subnet to host the application gateway
-module "appgateway_snet" {
+module "appgateway_beta_snet" {
   source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
 
-  name                 = "${local.project}-appgateway-snet"
-  address_prefixes     = var.cidr_subnet_appgateway
+  name                 = "${local.project}-appgateway-beta-snet"
+  address_prefixes     = var.cidr_subnet_appgateway_beta
   virtual_network_name = data.azurerm_virtual_network.vnet.name
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
 }
 
 ## Application gateway ##
-module "app_gw" {
+module "app_gw_beta" {
   source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=DEVOPS-264-application-gateway-aggiungere-la-ridondanza-di-zona"
+  count = var.app_gw_beta_is_enabled ? 1 : 0
 
-  name                = "${local.project}-app-gw"
+  name                = "${local.project}-app-beta-gw"
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
   location            = data.azurerm_resource_group.rg_vnet.location
+  zones = [1,2,3]
 
   # SKU
   sku_name = var.app_gateway_sku_name
@@ -56,8 +59,8 @@ module "app_gw" {
   waf_enabled = var.app_gateway_waf_enabled
 
   # Networking
-  subnet_id    = module.appgateway_snet.id
-  public_ip_id = data.azurerm_public_ip.appgateway_public_ip.id
+  subnet_id    = module.appgateway_beta_snet.id
+  public_ip_id = data.azurerm_public_ip.appgateway_beta_public_ip.id
 
   # Configure backends
   backends = {
@@ -88,10 +91,10 @@ module "app_gw" {
       firewall_policy_id = null
 
       certificate = {
-        name = var.app_gateway_api_certificate_name
+        name = var.app_gateway_beta_certificate_name
         id = replace(
-          data.azurerm_key_vault_certificate.app_gw_api.secret_id,
-          "/${data.azurerm_key_vault_certificate.app_gw_api.version}",
+          data.azurerm_key_vault_certificate.app_gw_beta.secret_id,
+          "/${data.azurerm_key_vault_certificate.app_gw_beta.version}",
           ""
         )
       }

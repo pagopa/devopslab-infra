@@ -82,6 +82,11 @@ variable "cidr_subnet_appgateway" {
   description = "Application gateway address space."
 }
 
+variable "cidr_subnet_appgateway_beta" {
+  type        = list(string)
+  description = "Application gateway beta address space."
+}
+
 variable "cidr_subnet_azdoa" {
   type        = list(string)
   description = "Azure DevOps agent network address space."
@@ -160,6 +165,12 @@ variable "app_gateway_waf_enabled" {
   default     = false
 }
 
+variable "app_gw_beta_is_enabled" {
+  type        = bool
+  description = "Enable App GW Beta"
+  default     = false
+}
+
 ## appgateway: Scaling
 
 variable "app_gateway_min_capacity" {
@@ -175,6 +186,11 @@ variable "app_gateway_max_capacity" {
 variable "app_gateway_api_certificate_name" {
   type        = string
   description = "Application gateway api certificate name on Key Vault"
+}
+
+variable "app_gateway_beta_certificate_name" {
+  type        = string
+  description = "Application gateway beta certificate name on Key Vault"
 }
 
 # # 🚀 azure devops
@@ -659,6 +675,7 @@ locals {
   vnet_name                = "${local.project}-vnet"
 
   appgateway_public_ip_name = "${local.project}-gw-pip"
+  appgateway_beta_public_ip_name    = "${local.project}-gw-beta-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"

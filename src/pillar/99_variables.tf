@@ -210,6 +210,8 @@ locals {
   vnet_name                = "${local.project}-vnet"
 
   appgateway_public_ip_name    = "${local.project}-gw-pip"
+  appgateway_beta_public_ip_name    = "${local.project}-gw-beta-pip"
+  
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
   aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
