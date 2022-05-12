@@ -16,12 +16,11 @@
 - [ ] Add new resources
 - [ ] Update configuration to existing resources
 - [ ] Remove existing resources
+- [ ] Other
 
 ### Env to apply
 
-- [ ] DEV
-- [ ] UAT
-- [ ] PROD
+- [x] DEV
 
 ### Does this introduce a change to production resources with possible user impact?
 
