@@ -73,7 +73,7 @@ aks_vm_size             = "Standard_B2ms"
 #
 # ⛴ AKS
 #
-aks_ephemeral_enabled                 = true
+aks_ephemeral_enabled                 = false
 aks_ephemeral_private_cluster_enabled = false
 aks_ephemeral_alerts_enabled          = false
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
