@@ -674,8 +674,8 @@ locals {
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
 
-  appgateway_public_ip_name = "${local.project}-gw-pip"
-  appgateway_beta_public_ip_name    = "${local.project}-gw-beta-pip"
+  appgateway_public_ip_name      = "${local.project}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
