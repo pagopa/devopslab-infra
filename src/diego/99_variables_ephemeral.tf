@@ -83,7 +83,7 @@ variable "aks_ephemeral_reverse_proxy_ip" {
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
-variable "aks_ephemeral_metric_alerts" {
+variable "aks_ephemeral_metric_alerts_default" {
   description = <<EOD
   Map of name = criteria objects
   EOD
@@ -181,6 +181,38 @@ variable "aks_ephemeral_metric_alerts" {
         }
       ],
     }
+  }
+}
+
+variable "aks_ephemeral_metric_alerts_custom" {
+  description = <<EOD
+  Map of name = criteria objects
+  EOD
+
+  type = map(object({
+    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
+    aggregation = string
+    # "Insights.Container/pods" "Insights.Container/nodes"
+    metric_namespace = string
+    metric_name      = string
+    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
+    operator  = string
+    threshold = number
+    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
+    frequency = string
+    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
+    window_size = string
+
+    dimension = list(object(
+      {
+        name     = string
+        operator = string
+        values   = list(string)
+      }
+    ))
+  }))
+
+  default = {
     pods_failed = {
       aggregation      = "Average"
       metric_namespace = "Insights.Container/pods"
@@ -359,8 +391,8 @@ variable "aks_ephemeral_addons" {
 
 locals {
   # AKS
-  aks_ephemeral_rg_name              = "${local.project}-aks-ephemeral-rg"
-  aks_ephemeral_cluster_name         = "${local.project}-aks-ephemeral"
+  aks_ephemeral_rg_name              = "${local.project}-ephemeral-aks-rg"
+  aks_ephemeral_cluster_name         = "${local.project}-ephemeral-aks"
   aks_ephemeral_public_ip_name       = "${local.project}-aks-ephemeral-outbound-pip"
   aks_ephemeral_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 }

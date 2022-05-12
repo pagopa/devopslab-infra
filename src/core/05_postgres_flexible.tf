@@ -65,7 +65,7 @@ module "postgres_flexible_server_private" {
 
   count = var.pgflex_private_config.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.8.1"
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.12.3"
 
   name                = "${local.project}-private-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -116,7 +116,7 @@ module "postgres_flexible_server_public" {
 
   count = var.pgflex_public_config.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=postgres-flexible-default-metrics"
+  source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.12.3"
 
   name                = "${local.project}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -138,11 +138,11 @@ module "postgres_flexible_server_public" {
 
   tags = var.tags
 
-  custom_metric_alerts  = var.pgflex_public_metric_alerts
-  alerts_enabled = true
+  custom_metric_alerts = var.pgflex_public_metric_alerts
+  alerts_enabled       = true
 
-  diagnostic_settings_enabled = true
-  log_analytics_workspace_id  = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  diagnostic_settings_enabled               = true
+  log_analytics_workspace_id                = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
   diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
 
 }

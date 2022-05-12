@@ -20,15 +20,16 @@ key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
 
 # ☁️ networking
-cidr_vnet                 = ["10.1.0.0/16"]
-cidr_subnet_k8s           = ["10.1.0.0/17"]
-cidr_subnet_appgateway    = ["10.1.128.0/24"]
-cidr_subnet_postgres      = ["10.1.129.0/24"]
-cidr_subnet_azdoa         = ["10.1.130.0/24"]
-cidr_subnet_app_docker    = ["10.1.132.0/24"]
-cidr_subnet_flex_dbms     = ["10.1.133.0/24"]
-cidr_subnet_apim          = ["10.1.136.0/24"]
-cidr_subnet_aks_ephemeral = ["10.1.248.0/21"]
+cidr_vnet                   = ["10.1.0.0/16"]
+cidr_subnet_k8s             = ["10.1.0.0/17"]
+cidr_subnet_appgateway      = ["10.1.128.0/24"]
+cidr_subnet_postgres        = ["10.1.129.0/24"]
+cidr_subnet_azdoa           = ["10.1.130.0/24"]
+cidr_subnet_app_docker      = ["10.1.132.0/24"]
+cidr_subnet_flex_dbms       = ["10.1.133.0/24"]
+cidr_subnet_apim            = ["10.1.136.0/24"]
+cidr_subnet_aks_ephemeral   = ["10.1.137.0/24"]
+cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
 
 
 # dns
@@ -41,11 +42,13 @@ enable_azdoa        = true
 enable_iac_pipeline = true
 
 # app_gateway
-app_gateway_sku_name             = "Standard_v2"
-app_gateway_sku_tier             = "Standard_v2"
-app_gateway_alerts_enabled       = false
-app_gateway_waf_enabled          = false
-app_gateway_api_certificate_name = "api-devopslab-pagopa-it"
+app_gateway_sku_name              = "Standard_v2"
+app_gateway_sku_tier              = "Standard_v2"
+app_gateway_alerts_enabled        = false
+app_gateway_waf_enabled           = false
+app_gateway_api_certificate_name  = "api-devopslab-pagopa-it"
+app_gateway_beta_certificate_name = "beta-devopslab-pagopa-it"
+app_gw_beta_is_enabled            = false
 
 #
 # 🗺 APIM
@@ -70,7 +73,7 @@ aks_vm_size             = "Standard_B2ms"
 #
 # ⛴ AKS
 #
-aks_ephemeral_enabled                 = true
+aks_ephemeral_enabled                 = false
 aks_ephemeral_private_cluster_enabled = false
 aks_ephemeral_alerts_enabled          = false
 # This is the k8s ingress controller ip. It must be in the aks subnet range.

@@ -209,7 +209,9 @@ locals {
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
 
-  appgateway_public_ip_name    = "${local.project}-gw-pip"
+  appgateway_public_ip_name      = "${local.project}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
+
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
   aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
@@ -226,7 +228,7 @@ locals {
   monitor_rg_name                      = "${local.project}-monitor-rg"
   monitor_log_analytics_workspace_name = "${local.project}-law"
   monitor_appinsights_name             = "${local.project}-appinsights"
-  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")          
+  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
 
   # Azure DevOps
   azuredevops_rg_name       = "${local.project}-azdoa-rg"
