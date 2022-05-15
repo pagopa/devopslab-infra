@@ -218,9 +218,9 @@ locals {
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
-  
+
   # VNET Ephemeral
-  vnet_ephemeral_resource_group_name = "${local.project}-vnet-ephemeral-rg"
+  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
   vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
 
   appgateway_public_ip_name      = "${local.project}-gw-pip"
