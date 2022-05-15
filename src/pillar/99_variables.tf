@@ -60,6 +60,16 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
+variable "cidr_ephemeral_vnet" {
+  type        = list(string)
+  description = "Virtual network ephemeral address space."
+}
+
+variable "cidr_ephemeral_subnet_aks" {
+  type        = list(string)
+  description = "Subnet ephemeral aks address space."
+}
+
 variable "cidr_subnet_postgres" {
   type        = list(string)
   description = "Database network address space."
@@ -208,6 +218,10 @@ locals {
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
+  
+  # VNET Ephemeral
+  vnet_ephemeral_resource_group_name = "${local.project}-vnet-ephemeral-rg"
+  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
 
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
