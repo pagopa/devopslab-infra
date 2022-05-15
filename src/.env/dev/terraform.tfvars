@@ -31,6 +31,8 @@ cidr_subnet_apim            = ["10.1.136.0/24"]
 cidr_subnet_aks_ephemeral   = ["10.1.137.0/24"]
 cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
 
+cidr_ephemeral_vnet       = ["10.2.0.0/16"]
+cidr_ephemeral_subnet_aks = ["10.2.0.0/17"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
