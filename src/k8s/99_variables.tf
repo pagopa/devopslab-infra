@@ -82,10 +82,6 @@ variable "rbac_namespaces_for_deployer_binding" {
 
 # ingress
 
-variable "ingress_replica_count" {
-  type = string
-}
-
 variable "ingress_load_balancer_ip" {
   type = string
 }
