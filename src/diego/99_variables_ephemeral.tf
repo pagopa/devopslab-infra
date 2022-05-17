@@ -375,15 +375,15 @@ variable "aks_ephemeral_user_node_pool" {
 
 variable "aks_ephemeral_addons" {
   type = object({
-    azure_policy                    = bool,
-    azure_keyvault_secrets_provider = bool,
-    pod_identity_enabled            = bool,
+    azure_policy                     = bool,
+    azure_key_vault_secrets_provider = bool,
+    pod_identity_enabled             = bool,
   })
 
   default = {
-    azure_keyvault_secrets_provider = true
-    azure_policy                    = true
-    pod_identity_enabled            = true
+    azure_key_vault_secrets_provider = true
+    azure_policy                     = true
+    pod_identity_enabled             = true
   }
 
   description = "Aks addons configuration"
