@@ -60,16 +60,6 @@ variable "cidr_vnet" {
   description = "Virtual network address space."
 }
 
-variable "cidr_ephemeral_vnet" {
-  type        = list(string)
-  description = "Virtual network ephemeral address space."
-}
-
-variable "cidr_ephemeral_subnet_aks" {
-  type        = list(string)
-  description = "Subnet ephemeral aks address space."
-}
-
 variable "cidr_subnet_postgres" {
   type        = list(string)
   description = "Database network address space."

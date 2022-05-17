@@ -7,11 +7,13 @@
 # module "keda_pod_identity" {
 #   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
 
-#   resource_group_name = azurerm_resource_group.aks_rg.name
+#   resource_group_name = azurerm_resource_group.rg_aks.name
 #   location            = var.location
+
 #   identity_name       = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
 #   tenant_id           = data.azurerm_subscription.current.tenant_id
-#   cluster_name        = module.aks.name
+
+#   cluster_name        = module.aks[0].name
 #   namespace           = kubernetes_namespace.keda.metadata[0].name
 # }
 

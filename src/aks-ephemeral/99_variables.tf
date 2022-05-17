@@ -39,6 +39,16 @@ variable "location_short" {
   description = "Location short like eg: neu, weu.."
 }
 
+variable "domain" {
+  type = string
+  validation {
+    condition = (
+      length(var.domain) <= 12
+    )
+    error_message = "Max length is 12 chars."
+  }
+}
+
 variable "lock_enable" {
   type        = bool
   default     = false
@@ -50,6 +60,19 @@ variable "tags" {
   default = {
     CreatedBy = "Terraform"
   }
+}
+
+#
+# Network
+#
+variable "cidr_ephemeral_vnet" {
+  type        = list(string)
+  description = "Virtual network ephemeral address space."
+}
+
+variable "cidr_ephemeral_subnet_aks" {
+  type        = list(string)
+  description = "Subnet cluster kubernetes."
 }
 
 #
@@ -67,99 +90,87 @@ variable "key_vault_rg_name" {
   description = "Key Vault - rg name"
 }
 
+#
+# ⛴ AKS PROD
+#
+variable "aks_enabled" {
+  type        = bool
+  description = "Must be the aks cluster created?"
+  default     = true
+}
+
+variable "aks_private_cluster_enabled" {
+  type        = bool
+  description = "Enable or not public visibility of AKS"
+  default     = false
+}
+
 variable "aks_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS cluster"
 }
 
-
-#
-# ⛴ AKS PROD
-#
-variable "aks_ephemeral_enabled" {
-  type        = bool
-  description = "Must be the aks cluster created?"
-  default     = true
-}
-
-variable "cidr_ephemeral_subnet_aks" {
-  type        = list(string)
-  description = "Subnet cluster kubernetes."
-}
-
-variable "aks_ephemeral_private_cluster_enabled" {
-  type        = bool
-  description = "Enable or not public visibility of AKS"
-  default     = false
-}
-
-variable "aks_ephemeral_num_outbound_ips" {
-  type        = number
-  default     = 1
-  description = "How many outbound ips allocate for AKS cluster"
-}
-
-variable "aks_ephemeral_availability_zones" {
+variable "aks_availability_zones" {
   type        = list(number)
   description = "A list of Availability Zones across which the Node Pool should be spread."
   default     = []
 }
 
-variable "aks_ephemeral_vm_size" {
+variable "aks_vm_size" {
   type        = string
   default     = "Standard_DS3_v2"
   description = "The size of the AKS Virtual Machine in the Node Pool."
 }
 
-variable "aks_ephemeral_max_pods" {
+variable "aks_max_pods" {
   type        = number
   description = "The maximum number of pods"
   default     = 100
 }
 
-variable "aks_ephemeral_enable_auto_scaling" {
+variable "aks_enable_auto_scaling" {
   type        = bool
   description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool? "
   default     = false
 }
 
-variable "aks_ephemeral_node_count" {
+variable "aks_node_count" {
   type        = number
   description = "The initial number of the AKS nodes which should exist in this Node Pool."
   default     = 1
 }
 
-variable "aks_ephemeral_node_min_count" {
+variable "aks_node_min_count" {
   type        = number
   description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
   default     = null
 }
 
-variable "aks_ephemeral_node_max_count" {
+variable "aks_node_max_count" {
   type        = number
   description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
   default     = null
 }
 
-variable "aks_ephemeral_kubernetes_version" {
+variable "aks_kubernetes_version" {
   type        = string
   description = "Kubernetes version of cluster aks"
 }
 
-variable "aks_ephemeral_sku_tier" {
+variable "aks_sku_tier" {
   type        = string
   description = "The SKU Tier that should be used for this Kubernetes Cluster."
   default     = "Free"
 }
 
-variable "aks_ephemeral_reverse_proxy_ip" {
+variable "aks_reverse_proxy_ip" {
   type        = string
   default     = "127.0.0.1"
   description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
 }
 
-variable "aks_ephemeral_metric_alerts_default" {
+variable "aks_metric_alerts_default" {
   description = <<EOD
   Map of name = criteria objects
   EOD
@@ -260,7 +271,7 @@ variable "aks_ephemeral_metric_alerts_default" {
   }
 }
 
-variable "aks_ephemeral_metric_alerts_custom" {
+variable "aks_metric_alerts_custom" {
   description = <<EOD
   Map of name = criteria objects
   EOD
@@ -413,13 +424,13 @@ variable "aks_ephemeral_metric_alerts_custom" {
   }
 }
 
-variable "aks_ephemeral_alerts_enabled" {
+variable "aks_alerts_enabled" {
   type        = bool
   default     = true
   description = "Aks alert enabled?"
 }
 
-variable "aks_ephemeral_system_node_pool" {
+variable "aks_system_node_pool" {
   type = object({
     name            = string,
     vm_size         = string,
@@ -433,7 +444,7 @@ variable "aks_ephemeral_system_node_pool" {
   description = "AKS node pool system configuration"
 }
 
-variable "aks_ephemeral_user_node_pool" {
+variable "aks_user_node_pool" {
   type = object({
     enabled         = bool,
     name            = string,
@@ -449,7 +460,7 @@ variable "aks_ephemeral_user_node_pool" {
   description = "AKS node pool user configuration"
 }
 
-variable "aks_ephemeral_addons" {
+variable "aks_addons" {
   type = object({
     azure_policy                    = bool,
     azure_keyvault_secrets_provider = bool,
@@ -465,31 +476,63 @@ variable "aks_ephemeral_addons" {
   description = "Aks addons configuration"
 }
 
+#
+# Kubernetes Cluster Configurations
+#
+variable "k8s_kube_config_path_prefix" {
+  type    = string
+  default = "~/.kube"
+}
+
+variable "ingress_replica_count" {
+  type = string
+}
+
+variable "ingress_load_balancer_ip" {
+  type = string
+}
+
+variable "default_service_port" {
+  type    = number
+  default = 8080
+}
+
+variable "nginx_helm_version" {
+  type        = string
+  description = "NGINX helm verison"
+}
+
+variable "keda_helm_version" {
+  type = string
+}
+
 locals {
-  project = "${var.prefix}-${var.env_short}"
+  product = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
   # AKS
-  aks_ephemeral_rg_name              = "${local.project}-ephemeral-aks-rg"
-  aks_ephemeral_cluster_name         = "${local.project}-ephemeral-aks"
-  aks_ephemeral_public_ip_name       = "${local.project}-aks-ephemeral-outbound-pip"
-  aks_ephemeral_public_ip_index_name = "${local.aks_ephemeral_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_rg_name      = "${local.project}-aks-rg"
+  aks_cluster_name = "${local.project}-aks"
+
+  aks_public_ip_name       = "${local.project}-aks-outbound-pip"
+  aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
 
   # VNET
-  vnet_core_resource_group_name = "${local.project}-vnet-rg"
-  vnet_core_name                = "${local.project}-vnet"
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
+  vnet_core_name                = "${local.product}-vnet"
 
-  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
-  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
+  vnet_aks_resource_group_name = "${local.project}-vnet-rg"
+  vnet_aks_name                = "${local.project}-vnet"
 
   # ACR DOCKER
-  docker_rg_name       = "${local.project}-dockerreg-rg"
+  docker_rg_name       = "${local.product}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # monitor
-  monitor_rg_name                      = "${local.project}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.project}-law"
-  monitor_appinsights_name             = "${local.project}-appinsights"
-  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
+  monitor_rg_name                      = "${local.product}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.product}-law"
+  monitor_appinsights_name             = "${local.product}-appinsights"
+  monitor_security_storage_name        = replace("${local.product}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
