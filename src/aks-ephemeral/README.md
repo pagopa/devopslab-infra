@@ -1,3 +1,42 @@
+# Kubernetes Cluster
+
+## How to install the first time
+
+### Disable components
+
+99_main.tf:
+
+* disable helm and k8s providers, because the aks is undercostruction
+
+04_ingress.tf
+04_keda.tf
+04_rbac.tf
+
+Comment this files because a cluster is mandatory to work
+
+### Target setup
+
+Start the target of some core resources:
+
+1. Vnet and vnet rg
+
+```sh
+sh terraform.sh apply <env name> -target=module.snet_aks
+
+sh terraform.sh apply ephem-dev01 -target=module.snet_aks
+```
+
+```sh
+sh terraform.sh apply <env name> -target=azurerm_public_ip.outbound_ip_aks
+
+sh terraform.sh apply ephem-dev01 -target=azurerm_public_ip.outbound_ip_aks
+```
+
+2. public outbound ip for aks
+
+
+
+
 <!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

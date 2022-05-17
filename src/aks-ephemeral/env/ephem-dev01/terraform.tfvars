@@ -2,7 +2,7 @@
 prefix         = "dvopla"
 env_short      = "d"
 env            = "dev"
-domain         = "ephemeral-dev"
+domain         = "ephem-dev01"
 location       = "northeurope"
 location_short = "neu"
 
@@ -27,7 +27,7 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_ephemeral_vnet = ["10.10.0.0/16"]
+cidr_ephemeral_vnet       = ["10.10.0.0/16"]
 cidr_ephemeral_subnet_aks = ["10.10.0.0/17"]
 
 ### External resources
