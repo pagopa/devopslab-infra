@@ -43,7 +43,7 @@ module "appgateway_beta_snet" {
 
 ## Application gateway ##
 module "app_gw_beta" {
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=DEVOPS-264-application-gateway-aggiungere-la-ridondanza-di-zona"
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
   count  = var.app_gw_beta_is_enabled ? 1 : 0
 
   name                = "${local.project}-app-beta-gw"

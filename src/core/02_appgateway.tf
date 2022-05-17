@@ -42,7 +42,7 @@ module "appgateway_snet" {
 
 ## Application gateway ##
 module "app_gw" {
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=DEVOPS-264-application-gateway-aggiungere-la-ridondanza-di-zona"
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
 
   name                = "${local.project}-app-gw"
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
