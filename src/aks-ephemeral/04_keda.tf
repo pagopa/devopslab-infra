@@ -14,13 +14,13 @@ module "keda_pod_identity" {
   resource_group_name = azurerm_resource_group.rg_aks.name
   location            = var.location
 
-  identity_name       = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
-  tenant_id           = data.azurerm_subscription.current.tenant_id
+  identity_name = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
+  tenant_id     = data.azurerm_subscription.current.tenant_id
 
-  cluster_name        = module.aks[0].name
-  namespace           = kubernetes_namespace.keda.metadata[0].name
+  cluster_name = module.aks[0].name
+  namespace    = kubernetes_namespace.keda.metadata[0].name
 
-    depends_on = [
+  depends_on = [
     module.aks
   ]
 }
@@ -37,14 +37,14 @@ resource "helm_release" "keda" {
   repository = "https://kedacore.github.io/charts"
   version    = var.keda_helm_version
   namespace  = kubernetes_namespace.keda.metadata[0].name
-  wait = false
+  wait       = false
 
   set {
     name  = "podIdentity.activeDirectory.identity"
     value = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
   }
 
-    depends_on = [
+  depends_on = [
     module.aks
   ]
 }
