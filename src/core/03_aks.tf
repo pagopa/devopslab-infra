@@ -29,31 +29,41 @@ module "k8s_snet" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.8.1"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=v2.13.1"
 
-  name                       = local.aks_cluster_name
-  location                   = azurerm_resource_group.rg_aks.location
-  dns_prefix                 = "${local.project}-aks"
-  resource_group_name        = azurerm_resource_group.rg_aks.name
-  availability_zones         = var.aks_availability_zones
-  kubernetes_version         = var.kubernetes_version
-  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  name                = local.aks_cluster_name
+  location            = azurerm_resource_group.rg_aks.location
+  dns_prefix          = "${local.project}-aks"
+  resource_group_name = azurerm_resource_group.rg_aks.name
+  kubernetes_version  = var.kubernetes_version
 
-  vm_size             = var.aks_vm_size
-  enable_auto_scaling = var.aks_enable_auto_scaling
-  node_count          = var.aks_node_count
-  min_count           = var.aks_node_min_count
-  max_count           = var.aks_node_max_count
-  max_pods            = var.aks_max_pods
-  sku_tier            = var.aks_sku_tier
+  system_node_pool_name            = var.aks_system_node_pool.name
+  system_node_pool_vm_size         = var.aks_system_node_pool.vm_size
+  system_node_pool_os_disk_type    = var.aks_system_node_pool.os_disk_type
+  system_node_pool_os_disk_size_gb = var.aks_system_node_pool.os_disk_size_gb
+  system_node_pool_node_count_min  = var.aks_system_node_pool.node_count_min
+  system_node_pool_node_count_max  = var.aks_system_node_pool.node_count_max
+  system_node_pool_node_labels     = var.aks_system_node_pool.node_labels
+  system_node_pool_tags            = var.aks_system_node_pool.node_tags
 
-  private_cluster_enabled = var.aks_private_cluster_enabled
+  system_node_pool_only_critical_addons_enabled = true
 
-  rbac_enabled        = true
-  aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
+  user_node_pool_enabled         = var.aks_user_node_pool.enabled
+  user_node_pool_name            = var.aks_user_node_pool.name
+  user_node_pool_vm_size         = var.aks_user_node_pool.vm_size
+  user_node_pool_os_disk_type    = var.aks_user_node_pool.os_disk_type
+  user_node_pool_os_disk_size_gb = var.aks_user_node_pool.os_disk_size_gb
+  user_node_pool_node_count_min  = var.aks_user_node_pool.node_count_min
+  user_node_pool_node_count_max  = var.aks_user_node_pool.node_count_max
+  user_node_pool_node_labels     = var.aks_user_node_pool.node_labels
+  user_node_pool_node_taints     = var.aks_user_node_pool.node_taints
+  user_node_pool_tags            = var.aks_user_node_pool.node_tags
 
   vnet_id        = data.azurerm_virtual_network.vnet.id
   vnet_subnet_id = module.k8s_snet.id
+
+  outbound_ip_address_ids = data.azurerm_public_ip.aks_outbound.*.id
+  private_cluster_enabled = var.aks_private_cluster_enabled
 
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
@@ -64,10 +74,18 @@ module "aks" {
     service_cidr       = "10.2.0.0/16"
   }
 
-  enable_azure_keyvault_secrets_provider = true
-  enable_azure_pod_identity              = true
+  rbac_enabled        = true
+  aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
 
-  metric_alerts = var.aks_metric_alerts
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+
+  addon_azure_policy_enabled                     = var.aks_addons.azure_policy
+  addon_azure_key_vault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
+  addon_azure_pod_identity_enabled               = var.aks_addons.pod_identity_enabled
+
+  metric_alerts  = var.aks_metric_alerts
+  alerts_enabled = var.aks_alerts_enabled
+
   action = [
     {
       action_group_id    = data.azurerm_monitor_action_group.slack.id
@@ -78,10 +96,6 @@ module "aks" {
       webhook_properties = null
     }
   ]
-
-  alerts_enabled = var.aks_alerts_enabled
-
-  outbound_ip_address_ids = data.azurerm_public_ip.aks_outbound.*.id
 
   tags = var.tags
 }

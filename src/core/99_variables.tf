@@ -241,57 +241,39 @@ variable "aks_num_outbound_ips" {
   description = "How many outbound ips allocate for AKS cluster"
 }
 
-variable "aks_availability_zones" {
-  type        = list(number)
-  description = "A list of Availability Zones across which the Node Pool should be spread."
-  default     = []
+variable "aks_system_node_pool" {
+  type = object({
+    name            = string,
+    vm_size         = string,
+    os_disk_type    = string,
+    os_disk_size_gb = string,
+    node_count_min  = number,
+    node_count_max  = number,
+    node_labels     = map(any),
+    node_tags       = map(any)
+  })
+  description = "AKS node pool system configuration"
 }
 
-variable "aks_vm_size" {
-  type        = string
-  default     = "Standard_DS3_v2"
-  description = "The size of the AKS Virtual Machine in the Node Pool."
-}
-
-variable "aks_max_pods" {
-  type        = number
-  description = "The maximum number of pods"
-  default     = 100
-}
-
-variable "aks_enable_auto_scaling" {
-  type        = bool
-  description = "Should the Kubernetes Auto Scaler be enabled for this Node Pool? "
-  default     = false
-}
-
-variable "aks_node_count" {
-  type        = number
-  description = "The initial number of the AKS nodes which should exist in this Node Pool."
-  default     = 1
-}
-
-variable "aks_node_min_count" {
-  type        = number
-  description = "The minimum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
-  default     = null
-}
-
-variable "aks_node_max_count" {
-  type        = number
-  description = "The maximum number of nodes which should exist in this Node Pool. If specified this must be between 1 and 1000"
-  default     = null
+variable "aks_user_node_pool" {
+  type = object({
+    enabled         = bool,
+    name            = string,
+    vm_size         = string,
+    os_disk_type    = string,
+    os_disk_size_gb = string,
+    node_count_min  = number,
+    node_count_max  = number,
+    node_labels     = map(any),
+    node_taints     = list(string),
+    node_tags       = map(any),
+  })
+  description = "AKS node pool user configuration"
 }
 
 variable "kubernetes_version" {
   type        = string
   description = "Kubernetes version of cluster aks"
-}
-
-variable "aks_sku_tier" {
-  type        = string
-  description = "The SKU Tier that should be used for this Kubernetes Cluster."
-  default     = "Free"
 }
 
 variable "reverse_proxy_ip" {
@@ -662,6 +644,22 @@ variable "pgflex_public_metric_alerts" {
       severity         = 2
     }
   }
+}
+
+variable "aks_addons" {
+  type = object({
+    azure_policy                     = bool,
+    azure_key_vault_secrets_provider = bool,
+    pod_identity_enabled             = bool,
+  })
+
+  default = {
+    azure_key_vault_secrets_provider = true
+    azure_policy                     = true
+    pod_identity_enabled             = true
+  }
+
+  description = "AKS addons configuration"
 }
 
 #

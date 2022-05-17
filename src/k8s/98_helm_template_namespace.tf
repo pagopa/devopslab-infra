@@ -7,8 +7,6 @@ resource "kubernetes_namespace" "helm_template" {
 module "helm_template_ingress" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_ingress?ref=v2.12.5"
 
-  depends_on = [module.nginx_ingress]
-
   resource_group_name = "${local.project}-aks-rg"
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
