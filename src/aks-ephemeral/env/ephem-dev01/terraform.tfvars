@@ -88,7 +88,7 @@ aks_user_node_pool = {
   node_count_min  = 1,
   node_count_max  = 3,
   node_labels     = { node_name : "aks-ephemeral-user", node_type : "user" },
-  node_taints     = ["key=value:NoSchedule", "key2=value2:NoSchedule"],
+  node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
 aks_addons = {
