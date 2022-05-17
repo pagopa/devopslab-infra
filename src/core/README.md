@@ -12,7 +12,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster | DEVOPS-246-aks-improvements |
+| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster | v2.13.1 |
 | <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/azurerm.git//api_management | v2.8.1 |
 | <a name="module_apim_devopslab_webapp_python_alpha_api_v1"></a> [apim\_devopslab\_webapp\_python\_alpha\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_alpha\_api\_v1) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.8.1 |
 | <a name="module_apim_devopslab_webapp_python_beta_api_v1"></a> [apim\_devopslab\_webapp\_python\_beta\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_beta\_api\_v1) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.8.1 |

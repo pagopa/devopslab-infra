@@ -98,7 +98,7 @@ Re-enable all the resource, commented before to complete the procedure
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aks_addons"></a> [aks\_addons](#input\_aks\_addons) | Aks addons configuration | <pre>object({<br>    azure_policy                    = bool,<br>    azure_keyvault_secrets_provider = bool,<br>    pod_identity_enabled            = bool,<br>  })</pre> | <pre>{<br>  "azure_keyvault_secrets_provider": true,<br>  "azure_policy": true,<br>  "pod_identity_enabled": true<br>}</pre> | no |
+| <a name="input_aks_addons"></a> [aks\_addons](#input\_aks\_addons) | Aks addons configuration | <pre>object({<br>    azure_policy                     = bool,<br>    azure_key_vault_secrets_provider = bool,<br>    pod_identity_enabled             = bool,<br>  })</pre> | <pre>{<br>  "azure_key_vault_secrets_provider": true,<br>  "azure_policy": true,<br>  "pod_identity_enabled": true<br>}</pre> | no |
 | <a name="input_aks_alerts_enabled"></a> [aks\_alerts\_enabled](#input\_aks\_alerts\_enabled) | Aks alert enabled? | `bool` | `true` | no |
 | <a name="input_aks_availability_zones"></a> [aks\_availability\_zones](#input\_aks\_availability\_zones) | A list of Availability Zones across which the Node Pool should be spread. | `list(number)` | `[]` | no |
 | <a name="input_aks_enable_auto_scaling"></a> [aks\_enable\_auto\_scaling](#input\_aks\_enable\_auto\_scaling) | Should the Kubernetes Auto Scaler be enabled for this Node Pool? | `bool` | `false` | no |
