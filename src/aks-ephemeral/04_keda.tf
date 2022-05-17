@@ -2,6 +2,10 @@ resource "kubernetes_namespace" "keda" {
   metadata {
     name = "keda"
   }
+
+  depends_on = [
+    module.aks
+  ]
 }
 
 module "keda_pod_identity" {
@@ -15,6 +19,10 @@ module "keda_pod_identity" {
 
   cluster_name        = module.aks[0].name
   namespace           = kubernetes_namespace.keda.metadata[0].name
+
+    depends_on = [
+    module.aks
+  ]
 }
 
 resource "azurerm_role_assignment" "keda_monitoring_reader" {
@@ -35,4 +43,8 @@ resource "helm_release" "keda" {
     name  = "podIdentity.activeDirectory.identity"
     value = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
   }
+
+    depends_on = [
+    module.aks
+  ]
 }

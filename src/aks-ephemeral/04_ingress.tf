@@ -2,6 +2,10 @@ resource "kubernetes_namespace" "ingress" {
   metadata {
     name = "ingress"
   }
+
+    depends_on = [
+    module.aks
+  ]
 }
 
 # from Microsoft docs https://docs.microsoft.com/it-it/azure/aks/ingress-internal-ip
@@ -41,5 +45,9 @@ module "nginx_ingress" {
       name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
       value = "linux"
     }
+  ]
+
+  depends_on = [
+    module.aks
   ]
 }

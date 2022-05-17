@@ -32,4 +32,8 @@ resource "kubernetes_cluster_role" "cluster_deployer" {
     resources  = ["deployments"]
     verbs      = ["get", "list", "watch", "create", "update", "patch", "delete"]
   }
+
+    depends_on = [
+    module.aks
+  ]
 }
