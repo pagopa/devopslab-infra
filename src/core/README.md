@@ -19,8 +19,8 @@
 | <a name="module_apim_devopslab_webapp_python_proxy_api_v1"></a> [apim\_devopslab\_webapp\_python\_proxy\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_proxy\_api\_v1) | git::https://github.com/pagopa/azurerm.git//api_management_api | v2.8.1 |
 | <a name="module_apim_product_devopslab"></a> [apim\_product\_devopslab](#module\_apim\_product\_devopslab) | git::https://github.com/pagopa/azurerm.git//api_management_product | v2.8.1 |
 | <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
-| <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | git::https://github.com/pagopa/azurerm.git//app_gateway | DEVOPS-264-application-gateway-aggiungere-la-ridondanza-di-zona |
-| <a name="module_app_gw_beta"></a> [app\_gw\_beta](#module\_app\_gw\_beta) | git::https://github.com/pagopa/azurerm.git//app_gateway | DEVOPS-264-application-gateway-aggiungere-la-ridondanza-di-zona |
+| <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | git::https://github.com/pagopa/azurerm.git//app_gateway | v2.15.1 |
+| <a name="module_app_gw_beta"></a> [app\_gw\_beta](#module\_app\_gw\_beta) | git::https://github.com/pagopa/azurerm.git//app_gateway | v2.15.1 |
 | <a name="module_app_service_docker_snet"></a> [app\_service\_docker\_snet](#module\_app\_service\_docker\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
 | <a name="module_appgateway_beta_snet"></a> [appgateway\_beta\_snet](#module\_appgateway\_beta\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
 | <a name="module_appgateway_snet"></a> [appgateway\_snet](#module\_appgateway\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
