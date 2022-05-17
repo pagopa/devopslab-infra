@@ -16,7 +16,7 @@ Comment this files because a cluster is mandatory to work
 
 ### Target setup
 
-Start the target of some core resources:
+Start the target terraform of some core resources, to create some core features needed by cluster
 
 1. Vnet and vnet rg
 
@@ -26,16 +26,21 @@ sh terraform.sh apply <env name> -target=module.snet_aks
 sh terraform.sh apply ephem-dev01 -target=module.snet_aks
 ```
 
+1. public outbound ip for aks
+
 ```sh
 sh terraform.sh apply <env name> -target=azurerm_public_ip.outbound_ip_aks
 
 sh terraform.sh apply ephem-dev01 -target=azurerm_public_ip.outbound_ip_aks
 ```
 
-2. public outbound ip for aks
+### Cluster Creation
 
+Launch the cluster creation
 
+### Re-enable resources
 
+Re-enable all the resource, commented before to complete the procedure
 
 <!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
