@@ -697,8 +697,8 @@ locals {
     "ephem-dev01",
     "ephem-dev02"
   ]
-  aks_rg_name              = "${local.program}-aks-rg"
-  aks_cluster_name         = "${local.program}-aks"
+  aks_rg_name      = "${local.program}-aks-rg"
+  aks_cluster_name = "${local.program}-aks"
 
   # monitor
   monitor_rg_name                      = "${local.program}-monitor-rg"

@@ -27,8 +27,8 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_ephemeral_vnet       = ["10.10.0.0/16"]
-cidr_ephemeral_subnet_aks = ["10.10.0.0/17"]
+cidr_ephemeral_vnet       = ["10.11.0.0/16"]
+cidr_ephemeral_subnet_aks = ["10.11.0.0/17"]
 
 ### External resources
 
@@ -44,9 +44,7 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-# This is the k8s ingress controller ip. It must be in the aks subnet range.
-aks_reverse_proxy_ip   = "10.2.0.250"
-aks_kubernetes_version = "1.23.3"
+aks_kubernetes_version      = "1.23.3"
 # aks_system_node_pool = {
 #     name = "dvladsysephm"
 #     vm_size         = "Standard_B2ms",
@@ -97,7 +95,8 @@ aks_addons = {
   pod_identity_enabled            = true,
 }
 
-ingress_replica_count    = "2"
-ingress_load_balancer_ip = "10.2.100.250"
+ingress_replica_count = "2"
+# This is the k8s ingress controller ip. It must be in the aks subnet range.
+ingress_load_balancer_ip = "10.11.100.250"
 nginx_helm_version       = "4.1.0"
 keda_helm_version        = "2.6.2"

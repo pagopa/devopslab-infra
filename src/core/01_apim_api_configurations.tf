@@ -6,7 +6,7 @@ module "apim_product_devopslab" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management_product?ref=v2.8.1"
 
   product_id   = "devopslab"
-  display_name = "DevOpsLab Product"
+  display_name = "DevOpsLab Program"
   description  = "Product for DevOpsLab backend"
 
   api_management_name = module.apim.name
@@ -33,7 +33,7 @@ locals {
     description           = "Webapp Python Alpha api"
     path                  = "webapp-python-alpha"
     subscription_required = false
-    service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-alpha"
+    service_url           = "http://mock-aks/webapp-python-alpha"
     api_name              = "${var.env}-webapp-python-alpha-api"
   }
 }
@@ -80,7 +80,7 @@ locals {
     description           = "Webapp Python beta api"
     path                  = "webapp-python-beta"
     subscription_required = false
-    service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-beta"
+    service_url           = "http://mock-aks/webapp-python-beta"
     api_name              = "${var.env}-webapp-python-beta-api"
   }
 }
@@ -127,7 +127,7 @@ locals {
     description           = "Webapp Python proxy api"
     path                  = "webapp-python-proxy"
     subscription_required = false
-    service_url           = "http://${data.azurerm_public_ip.aks_pip.ip_address}/webapp-python-proxy"
+    service_url           = "http://mock-aks/webapp-python-proxy"
     api_name              = "${var.env}-webapp-python-proxy-api"
   }
 }

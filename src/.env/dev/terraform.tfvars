@@ -58,6 +58,18 @@ apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
 #
 # ⛴ AKS
 #
+aks_networks = [
+  {
+    domain_name = "ephem-dev01"
+    vnet_cidr   = ["10.11.0.0/16"]
+  },
+  {
+    domain_name = "ephem-dev02"
+    vnet_cidr   = ["10.12.0.0/16"]
+  }
+]
+
+
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
 # This is the k8s ingress controller ip. It must be in the aks subnet range.

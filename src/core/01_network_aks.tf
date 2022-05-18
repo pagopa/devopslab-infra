@@ -1,11 +1,11 @@
 locals {
   aks_network_prefix = "${var.prefix}-${var.env_short}-${var.location_short}"
-  iterate_network = {for n in var.aks_networks:  index(var.aks_networks.*.domain_name, n.domain_name) => n}
+  iterate_network    = { for n in var.aks_networks : index(var.aks_networks.*.domain_name, n.domain_name) => n }
 }
 
 resource "azurerm_resource_group" "rg_vnet_aks" {
 
-  for_each = {for n in var.aks_networks:  n.domain_name => n}
+  for_each = { for n in var.aks_networks : n.domain_name => n }
   name     = "${local.aks_network_prefix}-${each.key}-aks-vnet-rg"
   location = var.location
 
@@ -15,14 +15,14 @@ resource "azurerm_resource_group" "rg_vnet_aks" {
 # vnet
 module "vnet_aks" {
 
-  for_each = {for n in var.aks_networks:  n.domain_name => n}
+  for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.8.1"
-  
-  name     = "${local.aks_network_prefix}-${each.key}-aks-vnet"
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.8.1"
+
+  name                = "${local.aks_network_prefix}-${each.key}-aks-vnet"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
-  address_space       = "${each.value["vnet_cidr"]}"
+  address_space       = each.value["vnet_cidr"]
 
   tags = var.tags
 }
@@ -32,7 +32,7 @@ module "vnet_aks" {
 #
 
 resource "azurerm_public_ip" "outbound_ip_aks" {
-  for_each = {for n in var.aks_networks:  n.domain_name => index(var.aks_networks.*.domain_name, n.domain_name)}
+  for_each = { for n in var.aks_networks : n.domain_name => index(var.aks_networks.*.domain_name, n.domain_name) }
 
 
   name                = "${local.program}-${each.key}-aksoutbound-pip-${each.value + 1}"
@@ -51,7 +51,7 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 module "vnet_peering_core_2_aks" {
   source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.12.2"
 
-    for_each = {for n in var.aks_networks:  n.domain_name => n}
+  for_each = { for n in var.aks_networks : n.domain_name => n }
 
 
   location = var.location

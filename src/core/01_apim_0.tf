@@ -20,7 +20,7 @@ data "azurerm_private_dns_zone" "internal" {
 #--------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "rg_api" {
-  name     = "${local.project}-api-rg"
+  name     = "${local.program}-api-rg"
   location = var.location
 
   tags = var.tags
@@ -29,7 +29,7 @@ resource "azurerm_resource_group" "rg_api" {
 # APIM subnet
 module "apim_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
-  name                 = "${local.project}-apim-snet"
+  name                 = "${local.program}-apim-snet"
   resource_group_name  = data.azurerm_resource_group.rg_vnet.name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = var.cidr_subnet_apim
@@ -45,7 +45,7 @@ module "apim_snet" {
 module "apim" {
   source = "git::https://github.com/pagopa/azurerm.git//api_management?ref=v2.8.1"
 
-  name = "${local.project}-apim"
+  name = "${local.program}-apim"
 
   subnet_id           = module.apim_snet.id
   location            = azurerm_resource_group.rg_api.location

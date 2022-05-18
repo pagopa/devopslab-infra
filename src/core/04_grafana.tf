@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "grafana_rg" {
-  name     = "${local.project}-grafana-rg"
+  name     = "${local.program}-grafana-rg"
   location = var.location
 
   tags = var.tags
@@ -30,12 +30,12 @@ module "grafana_service" {
 
   source = "git::https://github.com/pagopa/azurerm.git//app_service?ref=app-service-storage-mounts"
 
-  name                = "${local.project}-grafana-app"
+  name                = "${local.program}-grafana-app"
   location            = var.location
   resource_group_name = azurerm_resource_group.grafana_rg.name
 
   plan_type     = "internal"
-  plan_name     = "${local.project}-grafana-plan"
+  plan_name     = "${local.program}-grafana-plan"
   plan_kind     = "Linux"
   plan_sku_tier = "Basic"
   plan_sku_size = "B2"

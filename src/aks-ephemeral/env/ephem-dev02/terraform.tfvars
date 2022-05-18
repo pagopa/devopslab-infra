@@ -27,8 +27,8 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_ephemeral_vnet       = ["10.11.0.0/16"]
-cidr_ephemeral_subnet_aks = ["10.11.0.0/17"]
+cidr_ephemeral_vnet       = ["10.12.0.0/16"]
+cidr_ephemeral_subnet_aks = ["10.12.0.0/17"]
 
 ### External resources
 
@@ -98,6 +98,6 @@ aks_addons = {
 }
 
 ingress_replica_count    = "2"
-ingress_load_balancer_ip = "10.2.100.250"
+ingress_load_balancer_ip = "10.12.100.250"
 nginx_helm_version       = "4.1.0"
 keda_helm_version        = "2.6.2"

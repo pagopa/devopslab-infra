@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "app_service_docker_rg" {
-  name     = "${local.project}-app-service-docker-rg"
+  name     = "${local.program}-app-service-docker-rg"
   location = var.location
 
   tags = var.tags
@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "app_service_docker_rg" {
 # Subnet to host the api config
 module "app_service_docker_snet" {
   source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
-  name                 = "${local.project}-app-docker-snet"
+  name                 = "${local.program}-app-docker-snet"
   address_prefixes     = var.cidr_subnet_app_docker
   virtual_network_name = data.azurerm_virtual_network.vnet.name
 
@@ -29,7 +29,7 @@ resource "azurerm_app_service_plan" "app_docker" {
 
   count = var.is_web_app_service_docker_enabled ? 1 : 0
 
-  name                = "${local.project}-plan-app-service-docker"
+  name                = "${local.program}-plan-app-service-docker"
   location            = var.location
   resource_group_name = azurerm_resource_group.app_service_docker_rg.name
 
@@ -56,7 +56,7 @@ module "web_app_service_docker" {
   plan_id   = azurerm_app_service_plan.app_docker[0].id
 
   # App service plan
-  name                = "${local.project}-app-service-docker"
+  name                = "${local.program}-app-service-docker"
   client_cert_enabled = false
   always_on           = false
   linux_fx_version    = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
