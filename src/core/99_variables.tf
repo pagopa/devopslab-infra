@@ -662,37 +662,49 @@ variable "aks_addons" {
   description = "AKS addons configuration"
 }
 
+variable "aks_networks" {
+  type = list(
+    object({
+      domain_name = string
+      vnet_cidr   = list(string)
+    })
+  )
+  description = "VNETs configuration for AKS"
+}
+
 #
 # Locals
 #
 locals {
-  project = "${var.prefix}-${var.env_short}"
+  program = "${var.prefix}-${var.env_short}"
 
   # VNET
-  vnet_resource_group_name = "${local.project}-vnet-rg"
-  vnet_name                = "${local.project}-vnet"
+  vnet_resource_group_name = "${local.program}-vnet-rg"
+  vnet_name                = "${local.program}-vnet"
 
-  appgateway_public_ip_name      = "${local.project}-gw-pip"
-  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
+  appgateway_public_ip_name      = "${local.program}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
 
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
-  docker_rg_name       = "${local.project}-dockerreg-rg"
+  docker_rg_name       = "${local.program}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   # AKS
-  aks_rg_name              = "${local.project}-aks-rg"
-  aks_cluster_name         = "${local.project}-aks"
-  aks_public_ip_name       = "${local.project}-aksoutbound-pip"
-  aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
+  aks_networks = [
+    "ephem-dev01",
+    "ephem-dev02"
+  ]
+  aks_rg_name              = "${local.program}-aks-rg"
+  aks_cluster_name         = "${local.program}-aks"
 
   # monitor
-  monitor_rg_name                      = "${local.project}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.project}-law"
-  monitor_appinsights_name             = "${local.project}-appinsights"
-  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
+  monitor_rg_name                      = "${local.program}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.program}-law"
+  monitor_appinsights_name             = "${local.program}-appinsights"
+  monitor_security_storage_name        = replace("${local.program}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
