@@ -92,9 +92,9 @@ aks_user_node_pool = {
   node_tags       = { node_tag_2 : "2" },
 }
 aks_addons = {
-  azure_policy                    = true,
-  azure_keyvault_secrets_provider = true,
-  pod_identity_enabled            = true,
+  azure_policy                     = true,
+  azure_key_vault_secrets_provider = true,
+  pod_identity_enabled             = true,
 }
 
 ingress_replica_count    = "2"

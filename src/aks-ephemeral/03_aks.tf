@@ -52,10 +52,10 @@ module "aks" {
   #
   # ☁️ Network
   #
-  vnet_id        = module.vnet_aks.id
+  vnet_id        = data.azurerm_virtual_network.vnet_aks.id
   vnet_subnet_id = module.snet_aks.id
 
-  outbound_ip_address_ids = azurerm_public_ip.outbound_ip_aks.*.id
+  outbound_ip_address_ids = [data.azurerm_public_ip.pip_aks_outboud.id]
   private_cluster_enabled = var.aks_private_cluster_enabled
   network_profile = {
     docker_bridge_cidr = "172.17.0.1/16"
@@ -71,7 +71,7 @@ module "aks" {
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
 
   addon_azure_policy_enabled = var.aks_addons.azure_policy
-  # addon_azure_keyvault_secrets_provider_enabled = var.aks_addons.azure_keyvault_secrets_provider
+  # addon_azure_keyvault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
   addon_azure_pod_identity_enabled = var.aks_addons.pod_identity_enabled
 
   default_metric_alerts = var.aks_metric_alerts_default

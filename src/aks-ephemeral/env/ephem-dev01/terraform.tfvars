@@ -41,36 +41,18 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
+rg_vnet_aks                = "dvopla-d-neu-ephem-dev01-aks-vnet-rg"
+vnet_aks_name              = "dvopla-d-neu-ephem-dev01-aks-vnet"
+public_ip_aksoutbound_name = "dvopla-d-ephem-dev01-aksoutbound-pip-1"
+
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
 aks_kubernetes_version      = "1.23.3"
-# aks_system_node_pool = {
-#     name = "dvladsysephm"
-#     vm_size         = "Standard_B2ms",
-#     os_disk_type    = "Managed"
-#     os_disk_size_gb = null,
-#     node_count_min  = 1,
-#     node_count_max  = 3,
-#     node_labels     = { node_name: "aks-ephemeral", node_type: "system"},
-#     node_tags       = { node_tag_1: "1"}
-# }
-# aks_user_node_pool = {
-#     enabled         = true,
-#     name            = "dvladephmusr",
-#     vm_size         = "Standard_B2ms",
-#     os_disk_type    = "Managed",
-#     os_disk_size_gb = null,
-#     node_count_min  = 1,
-#     node_count_max  = 3,
-#     node_labels     = { node_name: "aks-ephemeral-user", node_type: "user"},
-#     node_taints     = ["key=value:NoSchedule", "key2=value2:NoSchedule"],
-#     node_tags       = { node_tag_1: "1"},
-# }
 aks_system_node_pool = {
   name            = "dvladephmsys",
-  vm_size         = "Standard_D2ds_v5",
-  os_disk_type    = "Ephemeral",
+  vm_size         = "Standard_B2ms",
+  os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
   node_count_max  = 3,
@@ -80,8 +62,8 @@ aks_system_node_pool = {
 aks_user_node_pool = {
   enabled         = true,
   name            = "dvladephmusr",
-  vm_size         = "Standard_D2ds_v5",
-  os_disk_type    = "Ephemeral",
+  vm_size         = "Standard_B2ms",
+  os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
   node_count_max  = 3,
@@ -89,10 +71,33 @@ aks_user_node_pool = {
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
+
+# aks_system_node_pool = {
+#   name            = "dvladephmsys",
+#   vm_size         = "Standard_D2ds_v5",
+#   os_disk_type    = "Ephemeral",
+#   os_disk_size_gb = 75,
+#   node_count_min  = 1,
+#   node_count_max  = 3,
+#   node_labels     = { node_name : "aks-ephemeral-sys", node_type : "system" },
+#   node_tags       = { node_tag_1 : "1" },
+# }
+# aks_user_node_pool = {
+#   enabled         = true,
+#   name            = "dvladephmusr",
+#   vm_size         = "Standard_D2ds_v5",
+#   os_disk_type    = "Ephemeral",
+#   os_disk_size_gb = 75,
+#   node_count_min  = 1,
+#   node_count_max  = 3,
+#   node_labels     = { node_name : "aks-ephemeral-user", node_type : "user" },
+#   node_taints     = [],
+#   node_tags       = { node_tag_2 : "2" },
+# }
 aks_addons = {
-  azure_policy                    = true,
-  azure_keyvault_secrets_provider = true,
-  pod_identity_enabled            = true,
+  azure_policy                     = true,
+  azure_key_vault_secrets_provider = true,
+  pod_identity_enabled             = true,
 }
 
 ingress_replica_count = "2"

@@ -65,9 +65,19 @@ variable "tags" {
 #
 # Network
 #
-variable "cidr_ephemeral_vnet" {
-  type        = list(string)
-  description = "Virtual network ephemeral address space."
+variable "rg_vnet_aks" {
+  type        = string
+  description = "Resource group dedicated to VNet AKS"
+}
+
+variable "vnet_aks_name" {
+  type        = string
+  description = "VNet dedicated to AKS"
+}
+
+variable "public_ip_aksoutbound_name" {
+  type        = string
+  description = "Public IP AKS outbound"
 }
 
 variable "cidr_ephemeral_subnet_aks" {
