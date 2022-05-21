@@ -65,7 +65,7 @@ variable "tags" {
 #
 # Network
 #
-variable "rg_vnet_aks" {
+variable "rg_vnet_aks_name" {
   type        = string
   description = "Resource group dedicated to VNet AKS"
 }

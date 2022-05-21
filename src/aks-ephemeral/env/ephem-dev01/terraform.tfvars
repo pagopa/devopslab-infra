@@ -41,7 +41,7 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks                = "dvopla-d-neu-ephem-dev01-aks-vnet-rg"
+rg_vnet_aks_name                = "dvopla-d-neu-ephem-dev01-aks-vnet-rg"
 vnet_aks_name              = "dvopla-d-neu-ephem-dev01-aks-vnet"
 public_ip_aksoutbound_name = "dvopla-d-ephem-dev01-aksoutbound-pip-1"
 

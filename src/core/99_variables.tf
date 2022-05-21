@@ -692,14 +692,6 @@ locals {
   docker_rg_name       = "${local.program}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
-  # AKS
-  aks_networks = [
-    "ephem-dev01",
-    "ephem-dev02"
-  ]
-  aks_rg_name      = "${local.program}-aks-rg"
-  aks_cluster_name = "${local.program}-aks"
-
   # monitor
   monitor_rg_name                      = "${local.program}-monitor-rg"
   monitor_log_analytics_workspace_name = "${local.program}-law"
