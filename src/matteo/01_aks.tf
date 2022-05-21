@@ -80,13 +80,9 @@ module "aks" {
   addon_azure_key_vault_secrets_provider_enabled = var.aks_addons.azure_key_vault_secrets_provider
   addon_azure_pod_identity_enabled               = var.aks_addons.pod_identity_enabled
 
-<<<<<<<< HEAD:src/matteo/01_aks.tf
   default_metric_alerts = var.aks_metric_alerts_default
   custom_metric_alerts  = var.aks_metric_alerts_custom
 
-========
-  metric_alerts  = var.aks_metric_alerts
->>>>>>>> origin/main:src/core/03_aks.tf
   alerts_enabled = var.aks_alerts_enabled
 
   action = [
