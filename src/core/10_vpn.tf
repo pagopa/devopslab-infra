@@ -10,7 +10,7 @@
 # }
 
 # data "azuread_application" "vpn_app" {
-#   display_name = format("%s-app-vpn", local.project)
+#   display_name = format("%s-app-vpn", local.program)
 # }
 
 # module "vpn" {
@@ -20,14 +20,14 @@
 #     azurerm_log_analytics_workspace.log_analytics_workspace
 #   ]
 
-#   name                = format("%s-vpn", local.project)
+#   name                = format("%s-vpn", local.program)
 #   location            = var.location
 #   resource_group_name = azurerm_resource_group.rg_vnet.name
 #   sku                 = var.vpn_sku
 #   pip_sku             = var.vpn_pip_sku
 #   subnet_id           = module.vpn_snet.id
 
-#   # TODO uncomment when security team will allow this project
+#   # TODO uncomment when security team will allow this program
 #   #log_analytics_workspace_id = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_workspace_id[0].value : null
 #   #log_storage_account_id     = var.env_short == "p" ? data.azurerm_key_vault_secret.sec_storage_id[0].value : null
 

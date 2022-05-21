@@ -14,7 +14,7 @@ data "azurerm_key_vault_certificate" "app_gw_api" {
 resource "azurerm_user_assigned_identity" "appgateway" {
   resource_group_name = data.azurerm_resource_group.kv_rg.name
   location            = data.azurerm_resource_group.kv_rg.location
-  name                = "${local.project}-appgateway-identity"
+  name                = "${local.program}-appgateway-identity"
 
   tags = var.tags
 }
@@ -33,7 +33,7 @@ resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
 module "appgateway_snet" {
   source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
 
-  name                 = "${local.project}-appgateway-snet"
+  name                 = "${local.program}-appgateway-snet"
   address_prefixes     = var.cidr_subnet_appgateway
   virtual_network_name = data.azurerm_virtual_network.vnet.name
 
@@ -44,7 +44,7 @@ module "appgateway_snet" {
 module "app_gw" {
   source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
 
-  name                = "${local.project}-app-gw"
+  name                = "${local.program}-app-gw"
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
   location            = data.azurerm_resource_group.rg_vnet.location
 
@@ -268,7 +268,7 @@ module "app_gw" {
 }
 
 # resource "azurerm_web_application_firewall_policy" "api" {
-#   name                = format("%s-waf-appgateway-api-policy", local.project)
+#   name                = format("%s-waf-appgateway-api-policy", local.program)
 #   resource_group_name = azurerm_resource_group.rg_external.name
 #   location            = azurerm_resource_group.rg_external.location
 

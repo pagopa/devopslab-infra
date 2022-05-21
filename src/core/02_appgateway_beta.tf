@@ -15,7 +15,7 @@ data "azurerm_key_vault_certificate" "app_gw_beta" {
 resource "azurerm_user_assigned_identity" "appgateway_beta" {
   resource_group_name = data.azurerm_resource_group.kv_rg.name
   location            = data.azurerm_resource_group.kv_rg.location
-  name                = "${local.project}-appgateway-beta-identity"
+  name                = "${local.program}-appgateway-beta-identity"
 
   tags = var.tags
 }
@@ -34,7 +34,7 @@ resource "azurerm_key_vault_access_policy" "app_gateway_beta_policy" {
 module "appgateway_beta_snet" {
   source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
 
-  name                 = "${local.project}-appgateway-beta-snet"
+  name                 = "${local.program}-appgateway-beta-snet"
   address_prefixes     = var.cidr_subnet_appgateway_beta
   virtual_network_name = data.azurerm_virtual_network.vnet.name
 
@@ -46,7 +46,7 @@ module "app_gw_beta" {
   source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
   count  = var.app_gw_beta_is_enabled ? 1 : 0
 
-  name                = "${local.project}-app-beta-gw"
+  name                = "${local.program}-app-beta-gw"
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
   location            = data.azurerm_resource_group.rg_vnet.location
   zones               = [1, 2, 3]
@@ -271,7 +271,7 @@ module "app_gw_beta" {
 }
 
 # resource "azurerm_web_application_firewall_policy" "api" {
-#   name                = format("%s-waf-appgateway-api-policy", local.project)
+#   name                = format("%s-waf-appgateway-api-policy", local.program)
 #   resource_group_name = azurerm_resource_group.rg_external.name
 #   location            = azurerm_resource_group.rg_external.location
 

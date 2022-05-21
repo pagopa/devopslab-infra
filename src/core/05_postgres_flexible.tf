@@ -11,7 +11,7 @@ data "azurerm_key_vault_secret" "pgres_flex_admin_pwd" {
 
 #------------------------------------------------
 resource "azurerm_resource_group" "postgres_dbs" {
-  name     = "${local.project}-postgres-dbs-rg"
+  name     = "${local.program}-postgres-dbs-rg"
   location = var.location
 
   tags = var.tags
@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "postgres_dbs" {
 # Postgres Flexible Server subnet
 module "postgres_flexible_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
-  name                                           = "${local.project}-pgres-flexible-snet"
+  name                                           = "${local.program}-pgres-flexible-snet"
   address_prefixes                               = var.cidr_subnet_flex_dbms
   resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
   virtual_network_name                           = data.azurerm_virtual_network.vnet.name
@@ -49,7 +49,7 @@ resource "azurerm_private_dns_zone" "privatelink_postgres_database_azure_com" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_postgres_database_azure_com_vnet" {
 
-  name                  = "${local.project}-pg-flex-link"
+  name                  = "${local.program}-pg-flex-link"
   private_dns_zone_name = azurerm_private_dns_zone.privatelink_postgres_database_azure_com.name
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
@@ -67,7 +67,7 @@ module "postgres_flexible_server_private" {
 
   source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.12.3"
 
-  name                = "${local.project}-private-pgflex"
+  name                = "${local.program}-private-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
   resource_group_name = azurerm_resource_group.postgres_dbs.name
 
@@ -118,7 +118,7 @@ module "postgres_flexible_server_public" {
 
   source = "git::https://github.com/pagopa/azurerm.git//postgres_flexible_server?ref=v2.12.3"
 
-  name                = "${local.project}-public-pgflex"
+  name                = "${local.program}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
   resource_group_name = azurerm_resource_group.postgres_dbs.name
 

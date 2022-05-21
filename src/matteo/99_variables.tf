@@ -689,7 +689,7 @@ variable "key_vault_name" {
 }
 
 variable "k8s_kube_config_path_prefix" {
-  type = string
+  type    = string
   default = "~/.kube"
 }
 

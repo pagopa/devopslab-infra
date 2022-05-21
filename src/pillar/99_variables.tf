@@ -209,6 +209,10 @@ locals {
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
 
+  # VNET Ephemeral
+  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
+  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
+
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
 

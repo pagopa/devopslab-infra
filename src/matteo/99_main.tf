@@ -44,4 +44,3 @@ provider "helm" {
     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_cluster_name}"
   }
 }
-

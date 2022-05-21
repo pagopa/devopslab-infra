@@ -1,4 +1,4 @@
-data "azurerm_resource_group" "kv_rg" {
+data "azurerm_resource_group" "rg_kv" {
   name = var.key_vault_rg_name
 }
 
