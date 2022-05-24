@@ -40,7 +40,7 @@ az account set -s "${subscription}"
 
 aks_name="dvopla-d-aksmatteo"
 echo "[INFO] aks_name: ${aks_name}"
-aks_resource_group_name="dvopla-d-aks-rg"
+aks_resource_group_name="dvopla-d-aksmatteo-rg"
 echo "[INFO] aks_resource_group_name: ${aks_resource_group_name}"
 
 # if using cygwin, we have to transcode the WORKDIR
