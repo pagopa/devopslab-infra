@@ -1,7 +1,7 @@
 module "keda_pod_identity" {
   source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.12.5"
 
-  resource_group_name = "${local.project}-aks-rg"
+  resource_group_name = local.aks_rg_name
   location            = var.location
   identity_name       = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
   cluster_name        = module.aks.name

@@ -5,6 +5,7 @@ module "nginx_controller" {
 
   namespace  = kubernetes_namespace.ingress.metadata[0].name
   repository = "https://kubernetes.github.io/ingress-nginx"
+
   app = {
     name          = "nginx-ingress"
     version       = var.nginx_helm_version

@@ -708,7 +708,7 @@ locals {
   docker_rg_name       = "${local.project}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
-  aks_rg_name              = "${local.project}-aks-rg"
+  aks_rg_name              = "${local.project}-aksmatteo-rg"
   aks_cluster_name         = "${local.project}-aksmatteo"
   aks_public_ip_name       = "${local.project}-aksoutbound-pip"
   aks_public_ip_index_name = "${local.aks_public_ip_name}-${var.aks_num_outbound_ips}"
