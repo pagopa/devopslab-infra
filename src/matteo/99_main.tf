@@ -31,10 +31,6 @@ provider "azurerm" {
   }
 }
 
-data "azurerm_subscription" "current" {}
-
-data "azurerm_client_config" "current" {}
-
 provider "kubernetes" {
   config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_cluster_name}"
 }
@@ -44,3 +40,8 @@ provider "helm" {
     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_cluster_name}"
   }
 }
+
+data "azurerm_subscription" "current" {}
+
+data "azurerm_client_config" "current" {}
+

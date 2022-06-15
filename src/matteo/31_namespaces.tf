@@ -10,6 +10,12 @@ resource "kubernetes_namespace" "keda" {
   }
 }
 
+resource "kubernetes_namespace" "sftp" {
+  metadata {
+    name = "sftp"
+  }
+}
+
 resource "kubernetes_namespace" "platform_namespace" {
   metadata {
     name = var.namespace
