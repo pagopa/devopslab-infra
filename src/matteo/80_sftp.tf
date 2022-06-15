@@ -28,6 +28,38 @@ resource "azurerm_storage_container" "ade" {
   container_access_type = "private"
 }
 
+# Function
+##############################################
+resource "azurerm_application_insights" "sftp" {
+  name                = "${local.project}-sftpstresstest"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  application_type    = "web"
+}
+
+module "function_app" {
+  source = "git::https://github.com/pagopa/azurerm.git//function_app?ref=v2.18.0"
+
+  name                = "${local.project}-sftpstresstest"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+
+  app_service_plan_info = {
+    kind     = "Windows"
+    sku_tier = "Standard"
+    sku_size = "B1"
+    maximum_elastic_worker_count = 1
+  }
+
+  subnet_id = module.k8s_snet.id
+
+  application_insights_instrumentation_key = azurerm_application_insights.sftp.instrumentation_key
+
+  tags = var.tags
+}
+
+# K8s
+##############################################
 # resource "kubernetes_manifest" "users_key" {
 #   manifest = yamldecode(templatefile("${path.module}/sftp/k8s/users_key.yaml.tpl", {
 #     namespace          = kubernetes_namespace.sftp.metadata[0].name
