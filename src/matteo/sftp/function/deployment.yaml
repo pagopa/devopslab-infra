@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sftp-stress-test-deployment
+  namespace: sftp
+  labels:
+    app: sftp-stress-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sftp-stress-test
+  template:
+    metadata:
+      labels:
+        app: sftp-stress-test
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: sftp-stress-test
+          image: sftp-stress-test:latest
+          imagePullPolicy: Never
+          securityContext:
+            runAsUser: 10000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 20Mi
+              cpu: 100m
+            limits:
+              memory: 5120Mi
+              cpu: 1000m
+          env:
+            - name: FUNCTION_WORKER_RUNTIME
+              value: dotnet
+            - name: APPINSIGHTS_INSTRUMENTATIONKEY
+              value: InstrumentationKey=bae980e7-b75f-4c4a-8355-e4a8c5c03079;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/
+            - name: TIME_TRIGGER
+              value: "0 * * * * *"
+            - name: AzureWebJobsStorage
+              value: DefaultEndpointsProtocol=https;AccountName=dvopladsftp;AccountKey=rfmeXmQoJ+6DxmA5VhoEmiRJCReIgNQHhf6CSaF/BpbvzQ+31SQOXE88wT/IczUa/AYem5E9DUWx+AStE1069A==;EndpointSuffix=core.windows.net
+            - name: Region
+              value: North Europe
+            - name: FileSizeInMb
+              value: 1
+            - name: SftpHost
+              value: dvopladsftp.blob.core.windows.net
+            - name: SftpUsername
+              value: dvopladsftp.ade.matteo
+            - name: SftpPassword
+              value: rzSUgWfJ6bRS/0RhtJhERdJu55BHNi4gTdmoF8z/WyWfDBrs4v+Ueb1wmFkuvu9KvySKOnxa3OZAaVh5kix6ZA==
