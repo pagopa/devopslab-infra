@@ -50,7 +50,7 @@ spec:
             - name: Region
               value: North Europe
             - name: FileSizeInMb
-              value: 1
+              value: "1"
             - name: SftpHost
               value: dvopladsftp.blob.core.windows.net
             - name: SftpUsername
