@@ -11,6 +11,7 @@ namespace PagoPA
   public class Test
   {
     private long filesize;
+    private string filename;
     private Random rnd;
 
     private FileStream uploadFs;
@@ -20,7 +21,10 @@ namespace PagoPA
 
     public Test(long filesize)
     {
+      DateTimeOffset now = (DateTimeOffset)DateTime.UtcNow;
+
       this.filesize = filesize;
+      this.filename = now.ToString("yyyyMMddHHmmssfff");
       this.rnd = new Random();
     }
 
@@ -45,13 +49,13 @@ namespace PagoPA
           {
             log.LogDebug("[DEBUG] Connecting via SFTP..");
             client.Connect();
-            log.LogDebug("[DEBUG] Uploading dummy file..");
-            client.UploadFile(uploadFs, "dummy");
-            log.LogDebug("[DEBUG] Downloading dummy file..");
+            log.LogDebug($"[DEBUG] Uploading {filename} file..");
+            client.UploadFile(uploadFs, filename);
+            log.LogDebug($"[DEBUG] Downloading {filename} file..");
 
             using (downloadFs = new FileStream(Path.GetTempFileName(), FileMode.Create))
             {
-              client.DownloadFile("dummy", downloadFs);
+              client.DownloadFile(filename, downloadFs);
 
               downloadChecksum = GetHash(sha, downloadFs, log);
 
