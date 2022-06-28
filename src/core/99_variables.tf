@@ -141,6 +141,12 @@ variable "lab_dns_zone_prefix" {
 }
 
 # ❇️ app gateway
+variable "app_gateway_is_enabled" {
+  type        = bool
+  description = "Enable App GW Beta"
+  default     = false
+}
+
 variable "app_gateway_sku_name" {
   type        = string
   description = "SKU Name of the App GW"
@@ -165,6 +171,9 @@ variable "app_gateway_waf_enabled" {
   default     = false
 }
 
+#
+# Beta
+#
 variable "app_gw_beta_is_enabled" {
   type        = bool
   description = "Enable App GW Beta"
