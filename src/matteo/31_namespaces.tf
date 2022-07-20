@@ -10,9 +10,9 @@ resource "kubernetes_namespace" "keda" {
   }
 }
 
-resource "kubernetes_namespace" "sftp" {
+resource "kubernetes_namespace" "monitoring" {
   metadata {
-    name = "sftp"
+    name = "monitoring"
   }
 }
 

@@ -13,3 +13,13 @@ data "azurerm_key_vault_secret" "sftp_private_key" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
+data "azurerm_key_vault_secret" "grafana_admin_username" {
+  name         = "grafana-admin-username"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "grafana_admin_password" {
+  name         = "grafana-admin-password"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
