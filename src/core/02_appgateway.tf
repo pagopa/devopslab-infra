@@ -42,7 +42,7 @@ module "appgateway_snet" {
 
 ## Application gateway ##
 module "app_gw" {
-  count  = var.app_gateway_is_enabled ? 1 : 0
+  count = var.app_gateway_is_enabled ? 1 : 0
 
   source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
 
