@@ -81,5 +81,3 @@ resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
 
   key_vault_id = data.azurerm_key_vault.kv.id
 }
-
-
