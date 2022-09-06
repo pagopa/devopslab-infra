@@ -61,25 +61,14 @@ apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
 #
 aks_networks = [
   {
-    domain_name = "ephem-dev01"
+    domain_name = "dev01"
     vnet_cidr   = ["10.11.0.0/16"]
   },
   {
-    domain_name = "ephem-dev02"
+    domain_name = "dev02"
     vnet_cidr   = ["10.12.0.0/16"]
   }
 ]
-
-
-aks_private_cluster_enabled = false
-aks_alerts_enabled          = false
-# This is the k8s ingress controller ip. It must be in the aks subnet range.
-reverse_proxy_ip        = "10.1.0.250"
-aks_max_pods            = 100
-aks_enable_auto_scaling = false
-aks_node_min_count      = null
-aks_node_max_count      = null
-aks_vm_size             = "Standard_B2ms"
 
 #
 # Web app docker
