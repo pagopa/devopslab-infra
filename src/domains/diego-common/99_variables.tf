@@ -86,7 +86,7 @@ variable "external_domain" {
 
 variable "dns_zone_prefix" {
   type        = string
-  default     = "cstar"
+  default     = "devopslab"
   description = "The dns subdomain."
 }
 
@@ -117,6 +117,6 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
-  container_registry_common_name    = "${local.project}-common-acr"
-  rg_container_registry_common_name = "${local.project}-container-registry-rg"
+  container_registry_common_name    = "dvopladneuacr"
+  rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
 }
