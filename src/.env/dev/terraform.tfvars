@@ -29,6 +29,8 @@ cidr_subnet_app_docker      = ["10.1.132.0/24"]
 cidr_subnet_flex_dbms       = ["10.1.133.0/24"]
 cidr_subnet_apim            = ["10.1.136.0/24"]
 cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
+cidr_subnet_vpn             = ["10.1.139.0/24"]
+cidr_subnet_dnsforwarder    = ["10.1.140.0/29"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
@@ -38,6 +40,10 @@ external_domain      = "pagopa.it"
 # azure devops
 enable_azdoa        = true
 enable_iac_pipeline = true
+
+# VPN
+vpn_enabled           = false
+dns_forwarder_enabled = false
 
 # app_gateway
 app_gateway_is_enabled            = false

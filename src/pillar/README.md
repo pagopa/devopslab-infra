@@ -38,6 +38,7 @@ az network dns zone show \
 | <a name="module_acr"></a> [acr](#module\_acr) | git::https://github.com/pagopa/azurerm.git//container_registry | v2.8.1 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
 | <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent | v2.8.1 |
+| <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.18.10 |
 | <a name="module_security_monitoring_storage"></a> [security\_monitoring\_storage](#module\_security\_monitoring\_storage) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.10.0 |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network | v2.8.1 |
 
@@ -46,6 +47,7 @@ az network dns zone show \
 | Name | Type |
 |------|------|
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/application_insights) | resource |
+| [azurerm_container_group.coredns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/container_group) | resource |
 | [azurerm_dns_a_record.api_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_a_record.helm_template_ingress_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_a_record) | resource |
 | [azurerm_dns_cname_record.lab_healthy](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_cname_record) | resource |
@@ -57,6 +59,7 @@ az network dns zone show \
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_network_profile.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/network_profile) | resource |
 | [azurerm_private_dns_zone.internal_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.internal_lab_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.internal_devopslab_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
@@ -65,14 +68,19 @@ az network dns zone show \
 | [azurerm_public_ip.appgateway_beta_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/public_ip) | resource |
 | [azurerm_public_ip.appgateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/public_ip) | resource |
 | [azurerm_resource_group.azdo_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_docker](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
+| [azurerm_storage_account.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/storage_account) | resource |
+| [azurerm_storage_share.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/storage_share) | resource |
+| [null_resource.upload_corefile](https://registry.terraform.io/providers/hashicorp/null/3.1.0/docs/resources/resource) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/subscription) | data source |
+| [local_file.corefile](https://registry.terraform.io/providers/hashicorp/local/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
@@ -81,9 +89,12 @@ az network dns zone show \
 | <a name="input_aks_ephemeral_num_outbound_ips"></a> [aks\_ephemeral\_num\_outbound\_ips](#input\_aks\_ephemeral\_num\_outbound\_ips) | How many outbound ips allocate for AKS prod cluster | `number` | `1` | no |
 | <a name="input_aks_num_outbound_ips"></a> [aks\_num\_outbound\_ips](#input\_aks\_num\_outbound\_ips) | How many outbound ips allocate for AKS cluster | `number` | `1` | no |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_dnsforwarder"></a> [cidr\_subnet\_dnsforwarder](#input\_cidr\_subnet\_dnsforwarder) | DNS Forwarder network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_postgres"></a> [cidr\_subnet\_postgres](#input\_cidr\_subnet\_postgres) | Database network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_vpn"></a> [cidr\_subnet\_vpn](#input\_cidr\_subnet\_vpn) | VPN network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_vnet"></a> [cidr\_vnet](#input\_cidr\_vnet) | Virtual network address space. | `list(string)` | n/a | yes |
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
+| <a name="input_dns_forwarder_enabled"></a> [dns\_forwarder\_enabled](#input\_dns\_forwarder\_enabled) | Enable dns forwarder setup | `bool` | `false` | no |
 | <a name="input_enable_azdoa"></a> [enable\_azdoa](#input\_enable\_azdoa) | Enable Azure DevOps agent. | `bool` | n/a | yes |
 | <a name="input_enable_iac_pipeline"></a> [enable\_iac\_pipeline](#input\_enable\_iac\_pipeline) | If true create the key vault policy to allow used by azure devops iac pipelines. | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
@@ -101,6 +112,7 @@ az network dns zone show \
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"dvopla"` | no |
 | <a name="input_prod_dns_zone_prefix"></a> [prod\_dns\_zone\_prefix](#input\_prod\_dns\_zone\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
+| <a name="input_vpn_enabled"></a> [vpn\_enabled](#input\_vpn\_enabled) | Enable VPN setup | `bool` | `false` | no |
 
 ## Outputs
 
