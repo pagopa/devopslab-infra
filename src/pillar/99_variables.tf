@@ -65,6 +65,16 @@ variable "cidr_subnet_postgres" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_vpn" {
+  type        = list(string)
+  description = "VPN network address space."
+}
+
+variable "cidr_subnet_dnsforwarder" {
+  type        = list(string)
+  description = "DNS Forwarder network address space."
+}
+
 # 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -200,6 +210,21 @@ variable "aks_ephemeral_num_outbound_ips" {
   type        = number
   default     = 1
   description = "How many outbound ips allocate for AKS prod cluster"
+}
+
+#
+# VPN
+#
+variable "vpn_enabled" {
+  type        = bool
+  description = "Enable VPN setup"
+  default     = false
+}
+
+variable "dns_forwarder_enabled" {
+  type        = bool
+  description = "Enable dns forwarder setup"
+  default     = false
 }
 
 locals {
