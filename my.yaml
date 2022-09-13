@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
   - name: utils
-    image: ubuntu:22.10
+    image: alpine/curl
     command:
       - sleep
       - "3600"
