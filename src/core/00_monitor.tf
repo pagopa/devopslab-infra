@@ -30,3 +30,16 @@ data "azurerm_storage_account" "security_monitoring_storage" {
   name                = local.monitor_security_storage_name
   resource_group_name = data.azurerm_resource_group.rg_monitor.name
 }
+
+#
+# prod-error
+#
+data "azurerm_key_vault_secret" "alert_error_notification_email" {
+  name         = "alert-error-notification-email"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+data "azurerm_key_vault_secret" "alert_error_notification_slack" {
+  name         = "alert-error-notification-slack"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
