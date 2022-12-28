@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "diego_storage_rg" {
 }
 
 module "diego_storage_account" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.4.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.4.1"
 
   name                            = replace("${local.product}-${var.domain}-st", "-", "")
   account_kind                    = "StorageV2"
