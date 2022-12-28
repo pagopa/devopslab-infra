@@ -11,8 +11,8 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
 
   # ACR DOCKER
-  docker_rg_name       = "${local.product}-container-registry-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-common-acr", "-", "")
+  docker_rg_name       = "dvopla-d-dockerreg-rg"
+  docker_registry_name = "dvopladneuacr"
 
   # monitor
   monitor_rg_name                      = "${local.product}-monitor-rg"
