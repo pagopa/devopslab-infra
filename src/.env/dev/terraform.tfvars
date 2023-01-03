@@ -33,6 +33,7 @@ cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
 cidr_subnet_vpn             = ["10.1.139.0/24"]
 cidr_subnet_dnsforwarder    = ["10.1.140.0/29"]
 cidr_subnet_private_endpoints    = ["10.1.141.0/24"]
+cidr_subnet_eventhub    = ["10.1.142.0/24"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
@@ -136,3 +137,43 @@ pgflex_public_ha_config = {
   high_availability_enabled = false
   standby_availability_zone = 3
 }
+
+
+#
+# Event hub
+#
+ehns_sku_name = "Standard"
+eventhubs = [
+  {
+    name              = "rtd-trx"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-csv-connector"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "bpd-payment-instrument"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
+]
