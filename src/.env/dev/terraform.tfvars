@@ -45,8 +45,8 @@ enable_azdoa        = true
 enable_iac_pipeline = true
 
 # VPN
-vpn_enabled           = false
-dns_forwarder_enabled = false
+vpn_enabled           = true
+dns_forwarder_enabled = true
 
 # app_gateway
 app_gateway_is_enabled            = false
@@ -87,15 +87,15 @@ is_web_app_service_docker_enabled = false
 
 # postgres
 postgres_private_endpoint_enabled = false
-# postgres_sku_name                      = "B_Gen5_1"
-# postgres_public_network_access_enabled = false
-# postgres_network_rules = {
-#   ip_rules = [
-#     "0.0.0.0/0"
-#   ]
-#   # dblink
-#   allow_access_to_azure_services = false
-# }
+postgres_sku_name                      = "B_Gen5_1"
+postgres_public_network_access_enabled = false
+postgres_network_rules = {
+  ip_rules = [
+    "0.0.0.0/0"
+  ]
+  # dblink
+  allow_access_to_azure_services = false
+}
 
 #
 # Postgres Flexible

@@ -76,3 +76,11 @@ provider "registry.terraform.io/hashicorp/null" {
     "zh:fea4227271ebf7d9e2b61b89ce2328c7262acd9fd190e1fd6d15a591abfa848e",
   ]
 }
+
+provider "registry.terraform.io/hashicorp/random" {
+  version     = "3.4.3"
+  constraints = ">= 3.1.2"
+  hashes = [
+    "h1:tL3katm68lX+4lAncjQA9AXL4GR/VM+RPwqYf4D2X8Q=",
+  ]
+}
