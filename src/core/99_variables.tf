@@ -168,6 +168,11 @@ variable "cidr_subnet_vpn" {
   description = "Subnet cidr postgres flex."
 }
 
+variable "cidr_subnet_eventhub" {
+  type        = list(string)
+  description = "Eventhub network address space."
+}
+
 ## VPN ##
 variable "vpn_sku" {
   type        = string
@@ -747,4 +752,53 @@ variable "aks_networks" {
     })
   )
   description = "VNETs configuration for AKS"
+}
+
+
+## Event hub
+variable "ehns_sku_name" {
+  type        = string
+  description = "Defines which tier to use."
+  default     = "Basic"
+}
+
+variable "ehns_capacity" {
+  type        = number
+  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
+  default     = null
+}
+
+variable "ehns_maximum_throughput_units" {
+  type        = number
+  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
+  default     = null
+}
+
+variable "ehns_auto_inflate_enabled" {
+  type        = bool
+  description = "Is Auto Inflate enabled for the EventHub Namespace?"
+  default     = false
+}
+
+variable "ehns_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
+  default     = false
+}
+
+variable "eventhubs" {
+  description = "A list of event hubs to add to namespace for BPD application."
+  type = list(object({
+    name              = string
+    partitions        = number
+    message_retention = number
+    consumers         = list(string)
+    keys = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  }))
+  default = []
 }
