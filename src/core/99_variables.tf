@@ -1,5 +1,40 @@
 # general
 
+#
+# Locals
+#
+locals {
+  program = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+
+  # VNET
+  vnet_resource_group_name = "${local.program}-vnet-rg"
+  vnet_name                = "${local.program}-vnet"
+
+  appgateway_public_ip_name      = "${local.program}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
+
+  # api.internal.*.devopslab.pagopa.it
+  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+
+  # ACR DOCKER
+  docker_rg_name       = "${local.program}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+
+  # monitor
+  monitor_rg_name                      = "${local.program}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.program}-law"
+  monitor_appinsights_name             = "${local.program}-appinsights"
+  monitor_security_storage_name        = replace("${local.program}-sec-monitor-st", "-", "")
+
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
+
+  cosmosdb_enable = 1
+
+  dns_zone_private_name     = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+}
+
 variable "prefix" {
   type    = string
   default = "dvopla"
@@ -28,6 +63,16 @@ variable "env_short" {
       length(var.env_short) <= 1
     )
     error_message = "Max length is 1 chars."
+  }
+}
+
+variable "domain" {
+  type = string
+  validation {
+    condition = (
+      length(var.domain) <= 12
+    )
+    error_message = "Max length is 12 chars."
   }
 }
 
@@ -111,6 +156,29 @@ variable "cidr_subnet_app_docker" {
 variable "cidr_subnet_flex_dbms" {
   type        = list(string)
   description = "Subnet cidr postgres flex."
+}
+
+variable "cidr_subnet_private_endpoints" {
+  type        = list(string)
+  description = "Subnet cidr postgres flex."
+}
+
+variable "cidr_subnet_vpn" {
+  type        = list(string)
+  description = "Subnet cidr postgres flex."
+}
+
+## VPN ##
+variable "vpn_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "VPN Gateway SKU"
+}
+
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
 }
 
 #
@@ -679,34 +747,4 @@ variable "aks_networks" {
     })
   )
   description = "VNETs configuration for AKS"
-}
-
-#
-# Locals
-#
-locals {
-  program = "${var.prefix}-${var.env_short}"
-
-  # VNET
-  vnet_resource_group_name = "${local.program}-vnet-rg"
-  vnet_name                = "${local.program}-vnet"
-
-  appgateway_public_ip_name      = "${local.program}-gw-pip"
-  appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
-
-  # api.internal.*.devopslab.pagopa.it
-  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
-
-  # ACR DOCKER
-  docker_rg_name       = "${local.program}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
-
-  # monitor
-  monitor_rg_name                      = "${local.program}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.program}-law"
-  monitor_appinsights_name             = "${local.program}-appinsights"
-  monitor_security_storage_name        = replace("${local.program}-sec-monitor-st", "-", "")
-
-  monitor_action_group_slack_name = "SlackPagoPA"
-  monitor_action_group_email_name = "PagoPA"
 }

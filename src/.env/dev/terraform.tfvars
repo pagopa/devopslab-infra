@@ -2,6 +2,7 @@
 env_short      = "d"
 env            = "lab"
 prefix         = "dvopla"
+domain         = "core"
 location       = "northeurope"
 location_short = "neu"
 
@@ -31,6 +32,7 @@ cidr_subnet_apim            = ["10.1.136.0/24"]
 cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
 cidr_subnet_vpn             = ["10.1.139.0/24"]
 cidr_subnet_dnsforwarder    = ["10.1.140.0/29"]
+cidr_subnet_private_endpoints    = ["10.1.141.0/24"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"

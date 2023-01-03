@@ -11,12 +11,6 @@ data "azurerm_key_vault_certificate" "apim_internal_certificate" {
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
-# 🧵 DNS ZONE
-data "azurerm_private_dns_zone" "internal" {
-  name                = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
-  resource_group_name = data.azurerm_resource_group.rg_vnet.name
-}
-
 #--------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "rg_api" {
