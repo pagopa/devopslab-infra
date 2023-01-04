@@ -14,7 +14,7 @@ locals {
 
 module "cosmos_mongo" {
   source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v3.12.0"
-  name     = format("%s-cosmos-mongo", local.project)
+  name     = "${local.project}-cosmos-mongo"
   location = var.location
   domain = var.domain
 
@@ -56,7 +56,7 @@ module "cosmos_mongo" {
   ]
 
   # private endpoint
-  private_endpoint_name    = format("%s-cosmos-mongo-sql-endpoint", local.project)
+  private_endpoint_name    = "${local.project}-cosmos-mongo-sql-endpoint"
   private_endpoint_enabled = true
   subnet_id                = module.private_endpoints_snet.id
   private_dns_zone_ids     = [data.azurerm_private_dns_zone.internal.id]

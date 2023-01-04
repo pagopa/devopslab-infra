@@ -34,6 +34,7 @@ cidr_subnet_vpn             = ["10.1.139.0/24"]
 cidr_subnet_dnsforwarder    = ["10.1.140.0/29"]
 cidr_subnet_private_endpoints    = ["10.1.141.0/24"]
 cidr_subnet_eventhub    = ["10.1.142.0/24"]
+cidr_subnet_redis    = ["10.1.143.0/24"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
@@ -177,3 +178,8 @@ eventhubs = [
     ]
   }
 ]
+
+#
+# Redis
+#
+redis_enabled = true

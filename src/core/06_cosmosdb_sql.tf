@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "cosmos_rg" {
 
 module "cosmos_core" {
   source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v3.12.0"
-  name     = format("%s-cosmos-core", local.project)
+  name     = "${local.project}-cosmos-core"
   location = var.location
   domain = var.domain
 
@@ -49,7 +49,7 @@ module "cosmos_core" {
   ]
 
   # private endpoint
-  private_endpoint_name    = format("%s-cosmos-core-sql-endpoint", local.project)
+  private_endpoint_name    = "${local.project}-cosmos-core-sql-endpoint"
   private_endpoint_enabled = true
   subnet_id                = module.private_endpoints_snet.id
   private_dns_zone_ids     = [data.azurerm_private_dns_zone.internal.id]

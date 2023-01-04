@@ -84,7 +84,7 @@ data "azurerm_key_vault_secret" "postgres_administrator_login_password" {
 #--------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "data_rg" {
-  name     = format("%s-data-rg", local.project)
+  name     = "${local.project}-data-rg"
   location = var.location
 
   tags = var.tags
@@ -93,7 +93,7 @@ resource "azurerm_resource_group" "data_rg" {
 ## Database subnet
 module "postgres_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
-  name                                           = format("%s-postgres-snet", local.project)
+  name                                           = "${local.project}-postgres-snet"
   address_prefixes                               = var.cidr_subnet_postgres
   resource_group_name                            = azurerm_resource_group.rg_vnet.name
   virtual_network_name                           = module.vnet.name
@@ -104,7 +104,7 @@ module "postgres_snet" {
 module "postgres" {
   source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=v2.8.1"
 
-  name                = format("%s-postgres", local.project)
+  name                = "${local.project}-postgres"
   location            = azurerm_resource_group.data_rg.location
   resource_group_name = azurerm_resource_group.data_rg.name
 

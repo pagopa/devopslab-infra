@@ -79,7 +79,7 @@ module "dns_forwarder_snet" {
 module "dns_forwarder" {
   source = "git::https://github.com/pagopa/azurerm.git//dns_forwarder?ref=v2.0.28"
 
-  name                = format("%s-dns-forwarder", local.project)
+  name                = "${local.project}-dns-forwarder"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
   subnet_id           = module.dns_forwarder_snet[0].id

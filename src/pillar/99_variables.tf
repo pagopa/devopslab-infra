@@ -113,6 +113,11 @@ variable "cidr_subnet_dnsforwarder" {
   description = "DNS Forwarder network address space."
 }
 
+variable "cidr_subnet_redis" {
+  type        = list(string)
+  description = "Redis."
+}
+
 # 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -276,5 +281,13 @@ variable "vpn_pip_sku" {
   type        = string
   default     = "Basic"
   description = "VPN GW PIP SKU"
+}
+
+#
+# Redis
+#
+variable "redis_enabled" {
+  type = bool
+  default = false
 }
 
