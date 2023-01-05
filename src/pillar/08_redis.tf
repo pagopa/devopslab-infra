@@ -24,7 +24,6 @@ module "redis" {
   family                = "P"
   sku_name              = "Premium"
   enable_authentication = true
-  subnet_id             = module.redis_snet.id
 
   private_endpoint = {
     enabled              = true
