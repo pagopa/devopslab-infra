@@ -20,6 +20,7 @@ module "web_test_availability_alert_rules_for_api" {
   location                          = azurerm_resource_group.monitor_rg.location
   resource_group                    = azurerm_resource_group.monitor_rg.name
   application_insight_name          = azurerm_application_insights.application_insights.name
+  application_insight_id            = azurerm_application_insights.application_insights.id
   request_url                       = "https://${each.value.host}${each.value.path}"
   ssl_cert_remaining_lifetime_check = 7
   expected_http_status              = each.value.expected_http_status
