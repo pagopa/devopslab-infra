@@ -1,6 +1,6 @@
 # Subnet to host the api config
 module "private_endpoints_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
+  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
   name                 = "${local.program}-private-endpoints-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints
   virtual_network_name = data.azurerm_virtual_network.vnet.name

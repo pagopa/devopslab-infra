@@ -13,7 +13,7 @@ locals {
 }
 
 module "cosmos_mongo" {
-  source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v3.12.0"
+  source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=version-unlocked"
   name     = "${local.project}-cosmos-mongo"
   location = var.location
   domain   = var.domain

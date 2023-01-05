@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_aks" {
 
 module "aks" {
   # source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=version-unlocked"
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v3.4.3"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=version-unlocked"
 
 
   count = var.aks_enabled ? 1 : 0

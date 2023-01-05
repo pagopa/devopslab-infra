@@ -68,7 +68,7 @@ resource "azurerm_monitor_action_group" "slack" {
 # Monitor storage
 #
 module "security_monitoring_storage" {
-  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=v2.10.0"
+  source = "git::https://github.com/pagopa/azurerm.git//storage_account?ref=version-unlocked"
 
   name                       = local.monitor_security_storage_name
   account_kind               = "StorageV2"

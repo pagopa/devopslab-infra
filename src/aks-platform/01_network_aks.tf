@@ -1,6 +1,6 @@
 # k8s cluster subnet
 module "snet_aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.4.2"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=version-unlocked"
 
   name = "${local.project}-aks-snet"
 

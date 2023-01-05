@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "domain_namespace" {
 }
 
 module "domain_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.13.1"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=version-unlocked"
 
   resource_group_name = local.aks_resource_group_name
   location            = var.location

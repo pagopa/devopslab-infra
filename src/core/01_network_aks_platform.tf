@@ -17,7 +17,7 @@ module "vnet_aks" {
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=v2.8.1"
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=version-unlocked"
 
   name                = "${local.aks_network_prefix}-${each.key}-aks-vnet"
   location            = var.location
@@ -49,7 +49,7 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
 # #
 
 module "vnet_peering_core_2_aks" {
-  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=v2.12.2"
+  source = "git::https://github.com/pagopa/azurerm.git//virtual_network_peering?ref=version-unlocked"
 
   for_each = { for n in var.aks_networks : n.domain_name => n }
 

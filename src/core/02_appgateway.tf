@@ -31,7 +31,7 @@ resource "azurerm_key_vault_access_policy" "app_gateway_policy" {
 
 # Subnet to host the application gateway
 module "appgateway_snet" {
-  source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=v2.8.1"
+  source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
 
   name                 = "${local.program}-appgateway-snet"
   address_prefixes     = var.cidr_subnet_appgateway
@@ -44,7 +44,7 @@ module "appgateway_snet" {
 module "app_gw" {
   count = var.app_gateway_is_enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=version-unlocked"
 
   name                = "${local.program}-app-gw"
   resource_group_name = data.azurerm_resource_group.rg_vnet.name

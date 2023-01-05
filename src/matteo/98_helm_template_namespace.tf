@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "helm_template" {
 }
 
 module "namespace_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v2.15.1"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=version-unlocked"
 
   resource_group_name = "${local.project}-aks-rg"
 
