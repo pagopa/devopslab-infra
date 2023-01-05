@@ -13,7 +13,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_diego_storage_account"></a> [diego\_storage\_account](#module\_diego\_storage\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v3.4.0 |
+| <a name="module_diego_storage_account"></a> [diego\_storage\_account](#module\_diego\_storage\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v3.4.1 |
 | <a name="module_key_vault_domain"></a> [key\_vault\_domain](#module\_key\_vault\_domain) | git::https://github.com/pagopa/azurerm.git//key_vault | version-unlocked |
 
 ## Resources

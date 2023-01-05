@@ -287,7 +287,6 @@ variable "vpn_pip_sku" {
 # Redis
 #
 variable "redis_enabled" {
-  type = bool
+  type    = bool
   default = false
 }
-

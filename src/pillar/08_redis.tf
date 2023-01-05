@@ -14,7 +14,7 @@ module "redis_snet" {
 }
 
 module "redis" {
-  count = var.redis_enabled ? 1: 0
+  count                 = var.redis_enabled ? 1 : 0
   source                = "git::https://github.com/pagopa/azurerm.git//redis_cache?ref=version-unlocked"
   name                  = "${local.project}-redis"
   resource_group_name   = azurerm_resource_group.redis.name

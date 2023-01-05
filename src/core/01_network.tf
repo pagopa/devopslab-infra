@@ -14,7 +14,3 @@ module "private_endpoints_snet" {
     "Microsoft.Storage",
   ]
 }
-
-
-
-

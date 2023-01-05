@@ -11,7 +11,7 @@ module "cosmos_core" {
   source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v3.12.0"
   name     = "${local.project}-cosmos-core"
   location = var.location
-  domain = var.domain
+  domain   = var.domain
 
   resource_group_name = azurerm_resource_group.cosmos_rg[0].name
   offer_type          = "Standard"

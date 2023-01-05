@@ -16,10 +16,10 @@ module "cosmos_mongo" {
   source   = "git::https://github.com/pagopa/azurerm.git//cosmosdb_account?ref=v3.12.0"
   name     = "${local.project}-cosmos-mongo"
   location = var.location
-  domain = var.domain
+  domain   = var.domain
 
-  resource_group_name = azurerm_resource_group.cosmos_mongo_rg[0].name
-  offer_type          = "Standard"
+  resource_group_name  = azurerm_resource_group.cosmos_mongo_rg[0].name
+  offer_type           = "Standard"
   kind                 = "MongoDB"
   capabilities         = ["EnableMongo"]
   mongo_server_version = "4.0"
@@ -73,7 +73,7 @@ resource "azurerm_cosmosdb_mongo_database" "mongo_db" {
   throughput = null
 
   dynamic "autoscale_settings" {
-    for_each =  []
+    for_each = []
     content {
       max_throughput = 100
     }
