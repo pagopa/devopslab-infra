@@ -2,6 +2,7 @@
 env_short      = "d"
 env            = "lab"
 prefix         = "dvopla"
+domain         = "core"
 location       = "northeurope"
 location_short = "neu"
 
@@ -20,17 +21,20 @@ key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
 
 # ☁️ networking
-cidr_vnet                   = ["10.1.0.0/16"]
-cidr_subnet_k8s             = ["10.1.0.0/17"]
-cidr_subnet_appgateway      = ["10.1.128.0/24"]
-cidr_subnet_postgres        = ["10.1.129.0/24"]
-cidr_subnet_azdoa           = ["10.1.130.0/24"]
-cidr_subnet_app_docker      = ["10.1.132.0/24"]
-cidr_subnet_flex_dbms       = ["10.1.133.0/24"]
-cidr_subnet_apim            = ["10.1.136.0/24"]
-cidr_subnet_appgateway_beta = ["10.1.138.0/24"]
-cidr_subnet_vpn             = ["10.1.139.0/24"]
-cidr_subnet_dnsforwarder    = ["10.1.140.0/29"]
+cidr_vnet                     = ["10.1.0.0/16"]
+cidr_subnet_k8s               = ["10.1.0.0/17"]
+cidr_subnet_appgateway        = ["10.1.128.0/24"]
+cidr_subnet_postgres          = ["10.1.129.0/24"]
+cidr_subnet_azdoa             = ["10.1.130.0/24"]
+cidr_subnet_app_docker        = ["10.1.132.0/24"]
+cidr_subnet_flex_dbms         = ["10.1.133.0/24"]
+cidr_subnet_apim              = ["10.1.136.0/24"]
+cidr_subnet_appgateway_beta   = ["10.1.138.0/24"]
+cidr_subnet_vpn               = ["10.1.139.0/24"]
+cidr_subnet_dnsforwarder      = ["10.1.140.0/29"]
+cidr_subnet_private_endpoints = ["10.1.141.0/24"]
+cidr_subnet_eventhub          = ["10.1.142.0/24"]
+cidr_subnet_redis             = ["10.1.143.0/24"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
@@ -42,8 +46,8 @@ enable_azdoa        = true
 enable_iac_pipeline = true
 
 # VPN
-vpn_enabled           = false
-dns_forwarder_enabled = false
+vpn_enabled           = true
+dns_forwarder_enabled = true
 
 # app_gateway
 app_gateway_is_enabled            = false
@@ -83,16 +87,16 @@ is_web_app_service_docker_enabled = false
 
 
 # postgres
-postgres_private_endpoint_enabled = false
-# postgres_sku_name                      = "B_Gen5_1"
-# postgres_public_network_access_enabled = false
-# postgres_network_rules = {
-#   ip_rules = [
-#     "0.0.0.0/0"
-#   ]
-#   # dblink
-#   allow_access_to_azure_services = false
-# }
+postgres_private_endpoint_enabled      = false
+postgres_sku_name                      = "B_Gen5_1"
+postgres_public_network_access_enabled = false
+postgres_network_rules = {
+  ip_rules = [
+    "0.0.0.0/0"
+  ]
+  # dblink
+  allow_access_to_azure_services = false
+}
 
 #
 # Postgres Flexible
@@ -134,3 +138,48 @@ pgflex_public_ha_config = {
   high_availability_enabled = false
   standby_availability_zone = 3
 }
+
+
+#
+# Event hub
+#
+ehns_sku_name = "Standard"
+eventhubs = [
+  {
+    name              = "rtd-trx"
+    partitions        = 1
+    message_retention = 1
+    consumers         = ["bpd-payment-instrument", "rtd-trx-fa-comsumer-group", "idpay-consumer-group"]
+    keys = [
+      {
+        name   = "rtd-csv-connector"
+        listen = false
+        send   = true
+        manage = false
+      },
+      {
+        name   = "bpd-payment-instrument"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-consumer"
+        listen = true
+        send   = false
+        manage = false
+      },
+      {
+        name   = "rtd-trx-producer"
+        listen = false
+        send   = true
+        manage = false
+      }
+    ]
+  }
+]
+
+#
+# Redis
+#
+redis_enabled = true

@@ -1,5 +1,40 @@
 # general
 
+#
+# Locals
+#
+locals {
+  program = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+
+  # VNET
+  vnet_resource_group_name = "${local.program}-vnet-rg"
+  vnet_name                = "${local.program}-vnet"
+
+  appgateway_public_ip_name      = "${local.program}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
+
+  # api.internal.*.devopslab.pagopa.it
+  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+
+  # ACR DOCKER
+  docker_rg_name       = "${local.program}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+
+  # monitor
+  monitor_rg_name                      = "${local.program}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.program}-law"
+  monitor_appinsights_name             = "${local.program}-appinsights"
+  monitor_security_storage_name        = replace("${local.program}-sec-monitor-st", "-", "")
+
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
+
+  cosmosdb_enable = 1
+
+  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+}
+
 variable "prefix" {
   type    = string
   default = "dvopla"
@@ -28,6 +63,16 @@ variable "env_short" {
       length(var.env_short) <= 1
     )
     error_message = "Max length is 1 chars."
+  }
+}
+
+variable "domain" {
+  type = string
+  validation {
+    condition = (
+      length(var.domain) <= 12
+    )
+    error_message = "Max length is 12 chars."
   }
 }
 
@@ -111,6 +156,34 @@ variable "cidr_subnet_app_docker" {
 variable "cidr_subnet_flex_dbms" {
   type        = list(string)
   description = "Subnet cidr postgres flex."
+}
+
+variable "cidr_subnet_private_endpoints" {
+  type        = list(string)
+  description = "Subnet cidr postgres flex."
+}
+
+variable "cidr_subnet_vpn" {
+  type        = list(string)
+  description = "Subnet cidr postgres flex."
+}
+
+variable "cidr_subnet_eventhub" {
+  type        = list(string)
+  description = "Eventhub network address space."
+}
+
+## VPN ##
+variable "vpn_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "VPN Gateway SKU"
+}
+
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
 }
 
 #
@@ -681,32 +754,51 @@ variable "aks_networks" {
   description = "VNETs configuration for AKS"
 }
 
-#
-# Locals
-#
-locals {
-  program = "${var.prefix}-${var.env_short}"
 
-  # VNET
-  vnet_resource_group_name = "${local.program}-vnet-rg"
-  vnet_name                = "${local.program}-vnet"
+## Event hub
+variable "ehns_sku_name" {
+  type        = string
+  description = "Defines which tier to use."
+  default     = "Basic"
+}
 
-  appgateway_public_ip_name      = "${local.program}-gw-pip"
-  appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
+variable "ehns_capacity" {
+  type        = number
+  description = "Specifies the Capacity / Throughput Units for a Standard SKU namespace."
+  default     = null
+}
 
-  # api.internal.*.devopslab.pagopa.it
-  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+variable "ehns_maximum_throughput_units" {
+  type        = number
+  description = "Specifies the maximum number of throughput units when Auto Inflate is Enabled"
+  default     = null
+}
 
-  # ACR DOCKER
-  docker_rg_name       = "${local.program}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+variable "ehns_auto_inflate_enabled" {
+  type        = bool
+  description = "Is Auto Inflate enabled for the EventHub Namespace?"
+  default     = false
+}
 
-  # monitor
-  monitor_rg_name                      = "${local.program}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.program}-law"
-  monitor_appinsights_name             = "${local.program}-appinsights"
-  monitor_security_storage_name        = replace("${local.program}-sec-monitor-st", "-", "")
+variable "ehns_zone_redundant" {
+  type        = bool
+  description = "Specifies if the EventHub Namespace should be Zone Redundant (created across Availability Zones)."
+  default     = false
+}
 
-  monitor_action_group_slack_name = "SlackPagoPA"
-  monitor_action_group_email_name = "PagoPA"
+variable "eventhubs" {
+  description = "A list of event hubs to add to namespace for BPD application."
+  type = list(object({
+    name              = string
+    partitions        = number
+    message_retention = number
+    consumers         = list(string)
+    keys = list(object({
+      name   = string
+      listen = bool
+      send   = bool
+      manage = bool
+    }))
+  }))
+  default = []
 }

@@ -1,16 +1,16 @@
 # Azure AD
 data "azuread_group" "adgroup_admin" {
-  display_name = format("%s-adgroup-admin", local.program)
+  display_name = "${local.program}-adgroup-admin"
 }
 
 data "azuread_group" "adgroup_developers" {
-  display_name = format("%s-adgroup-developers", local.program)
+  display_name = "${local.program}-adgroup-developers"
 }
 
 data "azuread_group" "adgroup_externals" {
-  display_name = format("%s-adgroup-externals", local.program)
+  display_name = "${local.program}-adgroup-externals"
 }
 
 data "azuread_group" "adgroup_security" {
-  display_name = format("%s-adgroup-security", local.program)
+  display_name = "${local.program}-adgroup-security"
 }

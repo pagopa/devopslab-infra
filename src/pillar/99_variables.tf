@@ -1,5 +1,43 @@
 # general
 
+locals {
+  project = "${var.prefix}-${var.env_short}"
+
+  # VNET
+  vnet_resource_group_name = "${local.project}-vnet-rg"
+  vnet_name                = "${local.project}-vnet"
+
+  # VNET Ephemeral
+  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
+  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
+
+  appgateway_public_ip_name      = "${local.project}-gw-pip"
+  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
+
+  aks_public_ip_name           = "${local.project}-aksoutbound-pip"
+  aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
+
+  prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
+  lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name     = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_lab_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
+
+  # ACR DOCKER
+  docker_rg_name       = "${local.project}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+
+  # monitor
+  monitor_rg_name                      = "${local.project}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.project}-law"
+  monitor_appinsights_name             = "${local.project}-appinsights"
+  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
+
+  # Azure DevOps
+  azuredevops_rg_name       = "${local.project}-azdoa-rg"
+  azuredevops_agent_vm_name = "${local.project}-vmss-li-azdoa"
+  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
+}
+
 variable "prefix" {
   type    = string
   default = "dvopla"
@@ -75,6 +113,11 @@ variable "cidr_subnet_dnsforwarder" {
   description = "DNS Forwarder network address space."
 }
 
+variable "cidr_subnet_redis" {
+  type        = list(string)
+  description = "Redis."
+}
+
 # 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -136,51 +179,51 @@ variable "law_daily_quota_gb" {
 }
 
 # # 🗄 Database server postgres
-# variable "postgres_sku_name" {
-#   type        = string
-#   description = "Specifies the SKU Name for this PostgreSQL Server."
-# }
+variable "postgres_sku_name" {
+  type        = string
+  description = "Specifies the SKU Name for this PostgreSQL Server."
+}
 
-# variable "postgres_private_endpoint_enabled" {
-#   type        = bool
-#   description = "Enable vnet private endpoint for postgres"
-# }
+variable "postgres_private_endpoint_enabled" {
+  type        = bool
+  description = "Enable vnet private endpoint for postgres"
+}
 
-# variable "postgres_public_network_access_enabled" {
-#   type        = bool
-#   default     = false
-#   description = "Enable/Disable public network access"
-# }
+variable "postgres_public_network_access_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable/Disable public network access"
+}
 
-# variable "postgres_network_rules" {
-#   type = object({
-#     ip_rules                       = list(string)
-#     allow_access_to_azure_services = bool
-#   })
-#   default = {
-#     ip_rules                       = []
-#     allow_access_to_azure_services = false
-#   }
-#   description = "Database network rules"
-# }
+variable "postgres_network_rules" {
+  type = object({
+    ip_rules                       = list(string)
+    allow_access_to_azure_services = bool
+  })
+  default = {
+    ip_rules                       = []
+    allow_access_to_azure_services = false
+  }
+  description = "Database network rules"
+}
 
-# variable "postgres_geo_redundant_backup_enabled" {
-#   type        = bool
-#   default     = false
-#   description = "Turn Geo-redundant server backups on/off."
-# }
+variable "postgres_geo_redundant_backup_enabled" {
+  type        = bool
+  default     = false
+  description = "Turn Geo-redundant server backups on/off."
+}
 
-# variable "postgres_alerts_enabled" {
-#   type        = bool
-#   default     = false
-#   description = "Database alerts enabled?"
-# }
+variable "postgres_alerts_enabled" {
+  type        = bool
+  default     = false
+  description = "Database alerts enabled?"
+}
 
-# variable "postgres_byok_enabled" {
-#   type        = bool
-#   default     = false
-#   description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
-# }
+variable "postgres_byok_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable postgresql encryption with Customer Managed Key (BYOK)"
+}
 
 #
 # 🔐 Key Vault
@@ -227,40 +270,23 @@ variable "dns_forwarder_enabled" {
   default     = false
 }
 
-locals {
-  project = "${var.prefix}-${var.env_short}"
+## VPN ##
+variable "vpn_sku" {
+  type        = string
+  default     = "VpnGw1"
+  description = "VPN Gateway SKU"
+}
 
-  # VNET
-  vnet_resource_group_name = "${local.project}-vnet-rg"
-  vnet_name                = "${local.project}-vnet"
+variable "vpn_pip_sku" {
+  type        = string
+  default     = "Basic"
+  description = "VPN GW PIP SKU"
+}
 
-  # VNET Ephemeral
-  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
-  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
-
-  appgateway_public_ip_name      = "${local.project}-gw-pip"
-  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
-
-  aks_public_ip_name           = "${local.project}-aksoutbound-pip"
-  aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
-
-  prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
-  lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_private_name     = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_lab_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
-
-  # ACR DOCKER
-  docker_rg_name       = "${local.project}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
-
-  # monitor
-  monitor_rg_name                      = "${local.project}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.project}-law"
-  monitor_appinsights_name             = "${local.project}-appinsights"
-  monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
-
-  # Azure DevOps
-  azuredevops_rg_name       = "${local.project}-azdoa-rg"
-  azuredevops_agent_vm_name = "${local.project}-vmss-li-azdoa"
-  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
+#
+# Redis
+#
+variable "redis_enabled" {
+  type    = bool
+  default = false
 }
