@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 
 # vnet
 module "vnet" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=virtual-network-migration-v2"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v3.6.7"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
