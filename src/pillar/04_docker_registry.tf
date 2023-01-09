@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_docker" {
 }
 
 module "container_registry_private" {
-  source              = "git::https://github.com/pagopa/azurerm.git//container_registry?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry?ref=container-registry-migration-v2"
   name                = local.docker_registry_name
   resource_group_name = azurerm_resource_group.rg_docker.name
   location            = azurerm_resource_group.rg_docker.location
