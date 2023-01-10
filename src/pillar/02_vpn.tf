@@ -73,7 +73,7 @@ module "dns_forwarder_snet" {
 }
 
 module "dns_forwarder" {
-  source = "git::https://github.com/pagopa/azurerm.git//dns_forwarder?ref=v3.6.7"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v3.6.7"
 
   name                = "${local.project}-dns-forwarder"
   location            = var.location
