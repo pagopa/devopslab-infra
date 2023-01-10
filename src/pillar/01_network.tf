@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 
 # vnet
 module "vnet" {
-  source              = "git::https://github.com/pagopa/azurerm.git//virtual_network?ref=version-unlocked"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v3.6.7"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -24,6 +24,8 @@ resource "azurerm_public_ip" "appgateway_public_ip" {
   sku                 = "Standard"
   allocation_method   = "Static"
 
+  zones = [1,2,3]
+
   tags = var.tags
 }
 
@@ -33,6 +35,8 @@ resource "azurerm_public_ip" "appgateway_beta_public_ip" {
   location            = azurerm_resource_group.rg_vnet.location
   sku                 = "Standard"
   allocation_method   = "Static"
+
+  zones = [1,2,3]
 
   tags = var.tags
 }
@@ -48,6 +52,8 @@ resource "azurerm_public_ip" "aks_outbound" {
   resource_group_name = azurerm_resource_group.rg_vnet.name
   sku                 = "Standard"
   allocation_method   = "Static"
+
+  zones = [1,2,3]
 
   tags = var.tags
 }

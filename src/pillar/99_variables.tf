@@ -178,12 +178,6 @@ variable "law_daily_quota_gb" {
   default     = -1
 }
 
-# # 🗄 Database server postgres
-variable "postgres_sku_name" {
-  type        = string
-  description = "Specifies the SKU Name for this PostgreSQL Server."
-}
-
 variable "postgres_private_endpoint_enabled" {
   type        = bool
   description = "Enable vnet private endpoint for postgres"
@@ -205,12 +199,6 @@ variable "postgres_network_rules" {
     allow_access_to_azure_services = false
   }
   description = "Database network rules"
-}
-
-variable "postgres_geo_redundant_backup_enabled" {
-  type        = bool
-  default     = false
-  description = "Turn Geo-redundant server backups on/off."
 }
 
 variable "postgres_alerts_enabled" {

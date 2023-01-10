@@ -92,17 +92,17 @@ resource "azurerm_resource_group" "data_rg" {
 
 ## Database subnet
 module "postgres_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
   name                                           = "${local.project}-postgres-snet"
   address_prefixes                               = var.cidr_subnet_postgres
   resource_group_name                            = azurerm_resource_group.rg_vnet.name
   virtual_network_name                           = module.vnet.name
   service_endpoints                              = ["Microsoft.Sql"]
-  enforce_private_link_endpoint_network_policies = true
+  private_endpoint_network_policies_enabled = true
 }
 
 module "postgres" {
-  source = "git::https://github.com/pagopa/azurerm.git//postgresql_server?ref=version-unlocked"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v3.6.7"
 
   name                = "${local.project}-postgres"
   location            = azurerm_resource_group.data_rg.location
@@ -110,9 +110,9 @@ module "postgres" {
 
   administrator_login          = data.azurerm_key_vault_secret.postgres_administrator_login.value
   administrator_login_password = data.azurerm_key_vault_secret.postgres_administrator_login_password.value
-  sku_name                     = var.postgres_sku_name
+  sku_name                     = "B_Gen5_1"
   db_version                   = 11
-  geo_redundant_backup_enabled = var.postgres_geo_redundant_backup_enabled
+  geo_redundant_backup_enabled = false
 
   public_network_access_enabled = var.env_short == "p" ? false : var.postgres_public_network_access_enabled
   network_rules                 = var.postgres_network_rules

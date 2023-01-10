@@ -88,7 +88,6 @@ is_web_app_service_docker_enabled = false
 
 # postgres
 postgres_private_endpoint_enabled      = false
-postgres_sku_name                      = "B_Gen5_1"
 postgres_public_network_access_enabled = false
 postgres_network_rules = {
   ip_rules = [
