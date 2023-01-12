@@ -5,13 +5,11 @@
 locals {
   function_app = {
     app_settings_common = {
-      FUNCTIONS_WORKER_RUNTIME       = "node"
-      WEBSITE_NODE_DEFAULT_VERSION   = "14.16.0"
+      FUNCTIONS_WORKER_RUNTIME       = "python"
       WEBSITE_RUN_FROM_PACKAGE       = "1"
       WEBSITE_VNET_ROUTE_ALL         = "1"
       WEBSITE_DNS_SERVER             = "168.63.129.16"
-      FUNCTIONS_WORKER_PROCESS_COUNT = 4
-      NODE_ENV                       = "production"
+      FUNCTIONS_WORKER_PROCESS_COUNT = 1
     }
     app_settings_1 = {
     }
@@ -28,126 +26,73 @@ locals {
   }
 }
 
-resource "azurerm_resource_group" "func_python_rg" {
-  name     = "${local.project}-func-python-rg"
-  location = var.location
-
-  tags = var.tags
-}
-
-# Subnet to host app function
-module "func_python_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
-  name                                           = "${local.project}-func-python-snet"
-  address_prefixes                               = var.cidr_subnet_app_async
-  resource_group_name                            = data.azurerm_resource_group.vnet_common_rg.name
-  virtual_network_name                           = data.azurerm_virtual_network.vnet_common.name
-  enforce_private_link_endpoint_network_policies = true
-
-  service_endpoints = [
-    "Microsoft.Web",
-    "Microsoft.AzureCosmosDB",
-    "Microsoft.Storage",
-  ]
-
-  delegation = {
-    name = "default"
-    service_delegation = {
-      name    = "Microsoft.Web/serverFarms"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
-}
-
-#tfsec:ignore:azure-storage-queue-services-logging-enabled:exp:2022-05-01 # already ignored, maybe a bug in tfsec
+# #tfsec:ignore:azure-storage-queue-services-logging-enabled:exp:2022-05-01 # already ignored, maybe a bug in tfsec
 module "func_python" {
   source = "git::https://github.com/pagopa/azurerm.git//function_app?ref=version-unlocked"
 
-  resource_group_name = azurerm_resource_group.func_python_rg.name
-  name                = "${local.project}-func-python"
+  resource_group_name = azurerm_resource_group.funcs_diego_rg.name
+  name                = "${local.project}-fn-py"
   location            = var.location
   health_check_path   = "/api/v1/info"
 
   os_type          = "linux"
-  linux_fx_version = "NODE|14"
+  linux_fx_version = "python|3.9"
   runtime_version  = "~4"
 
-  always_on                                = "true"
+  always_on                                = true
   application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
 
-  app_service_plan_info = {
-    kind                         = var.function_app_async_kind
-    sku_tier                     = var.function_app_async_sku_tier
-    sku_size                     = var.function_app_async_sku_size
-    maximum_elastic_worker_count = 0
-  }
+  app_service_plan_id = azurerm_app_service_plan.func_python.id
 
   app_settings = merge(
-    local.func_python.app_settings_common, {
-      "AzureWebJobs.StoreSpidLogs.Disabled" = "0",
-    }
+    local.func_python.app_settings_common, {}
   )
 
-  # internal_storage = {
-  #   "enable"                     = true,
-  #   "private_endpoint_subnet_id" = data.azurerm_subnet.private_endpoints_subnet.id,
-  #   "private_dns_zone_blob_ids"  = [data.azurerm_private_dns_zone.privatelink_blob_core_windows_net.id],
-  #   "private_dns_zone_queue_ids" = [data.azurerm_private_dns_zone.privatelink_queue_core_windows_net.id],
-  #   "private_dns_zone_table_ids" = [data.azurerm_private_dns_zone.privatelink_table_core_windows_net.id],
-  #   "queues"                     = [],
-  #   "containers"                 = [],
-  #   "blobs_retention_days"       = 1,
-  # }
-
-  subnet_id = module.func_python_snet.id
+  subnet_id = module.funcs_diego_snet.id
 
   allowed_subnets = [
-    module.func_python_snet.id,
+    module.funcs_diego_snet.id,
   ]
 
   tags = var.tags
 }
 
-# module "function_app_async_staging_slot" {
-#   source = "git::https://github.com/pagopa/azurerm.git//function_app_slot?ref=v3.4.0"
+module "func_python_staging_slot" {
+  source = "git::https://github.com/pagopa/azurerm.git//function_app_slot?ref=version-unlocked"
 
-#   name                = "staging"
-#   location            = var.location
-#   resource_group_name = azurerm_resource_group.func_python_rg.name
-#   function_app_name   = module.func_python.name
-#   function_app_id     = module.func_python.id
-#   app_service_plan_id = module.func_python.app_service_plan_id
-#   health_check_path   = "/api/v1/info"
+  name                = "staging"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.funcs_diego_rg.name
+  function_app_name   = module.func_python.name
+  function_app_id     = module.func_python.id
+  app_service_plan_id = module.func_python.app_service_plan_id
+  health_check_path   = "/api/v1/info"
 
-#   storage_account_name               = module.func_python.storage_account.name
-#   storage_account_access_key         = module.func_python.storage_account.primary_access_key
-#   internal_storage_connection_string = module.func_python.storage_account_internal_function.primary_connection_string
+  storage_account_name               = module.func_python.storage_account.name
+  storage_account_access_key         = module.func_python.storage_account.primary_access_key
 
-#   os_type                                  = "linux"
-#   linux_fx_version                         = "NODE|14"
-#   always_on                                = "true"
-#   runtime_version                          = "~4"
-#   application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
+  os_type          = "linux"
+  linux_fx_version = "python|3.9"
+  always_on                                = "true"
+  runtime_version                          = "~4"
+  application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
 
-#   app_settings = merge(
-#     local.func_python.app_settings_common, {
-#       "AzureWebJobs.StoreSpidLogs.Disabled" = "1",
-#     }
-#   )
+  app_settings = merge(
+    local.func_python.app_settings_common, {}
+  )
 
-#   subnet_id = module.func_python_snet.id
+  subnet_id = module.funcs_diego_snet.id
 
-#   allowed_subnets = [
-#     module.func_python_snet.id,
-#     data.azurerm_subnet.azdoa_snet[0].id,
-#   ]
+  allowed_subnets = [
+    module.funcs_diego_snet.id,
+  ]
 
-#   tags = var.tags
-# }
+  tags = var.tags
+}
 
 # resource "azurerm_monitor_autoscale_setting" "func_python" {
 #   name                = format("%s-autoscale", module.func_python.name)
-#   resource_group_name = azurerm_resource_group.func_python_rg.name
+#   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
 #   location            = var.location
 #   target_resource_id  = module.func_python.app_service_plan_id
 
@@ -254,7 +199,7 @@ module "func_python" {
 
 # resource "azurerm_monitor_metric_alert" "function_app_async_health_check" {
 #   name                = "${module.func_python.name}-health-check-failed"
-#   resource_group_name = azurerm_resource_group.func_python_rg.name
+#   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
 #   scopes              = [module.func_python.id]
 #   description         = "${module.func_python.name} health check failed"
 #   severity            = 1
