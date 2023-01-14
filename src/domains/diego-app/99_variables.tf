@@ -123,6 +123,7 @@ variable "ingress_load_balancer_ip" {
 
 variable "ingress_load_balancer_hostname" {
   type = string
+  default = ""
 }
 
 # DNS
@@ -134,7 +135,6 @@ variable "external_domain" {
 
 variable "dns_zone_prefix" {
   type        = string
-  default     = "cstar"
   description = "The dns subdomain."
 }
 
@@ -142,37 +142,4 @@ variable "dns_zone_internal_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
-}
-
-#APP IO
-variable "appio_timeout_sec" {
-  type        = number
-  description = "AppIo timeout (sec)"
-  default     = 5
-}
-
-variable "reverse_proxy_be_io" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "AKS external ip. Also the ingress-nginx-controller external ip. Value known after installing the ingress controller."
-}
-
-variable "eventhub_enrolled_pi" {
-  type = object({
-    resource_group_name = string,
-    namespace_name      = string
-  })
-  description = "Namespace and groupname configuration for enrolled payment instrument eventhub"
-}
-
-variable "pdv_tokenizer_url" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "PDV uri. Endpoint for encryption of pii information."
-}
-
-variable "checkiban_base_url" {
-  type        = string
-  default     = "127.0.0.1"
-  description = "Check IBAN uri."
 }
