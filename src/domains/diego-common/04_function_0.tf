@@ -50,5 +50,3 @@ resource "azurerm_app_service_plan" "funcs_diego" {
 
   tags = var.tags
 }
-
-

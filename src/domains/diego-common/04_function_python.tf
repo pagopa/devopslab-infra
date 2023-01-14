@@ -30,7 +30,7 @@ locals {
 module "func_python" {
   source = "git::https://github.com/pagopa/azurerm.git//function_app?ref=version-unlocked"
 
-    count = var.function_python_diego_enabled ? 1 : 0
+  count = var.function_python_diego_enabled ? 1 : 0
 
   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
   name                = "${local.project}-fn-py"
@@ -72,11 +72,11 @@ module "func_python_staging_slot" {
   app_service_plan_id = module.func_python[0].app_service_plan_id
   health_check_path   = "/api/v1/info"
 
-  storage_account_name               = module.func_python[0].storage_account.name
-  storage_account_access_key         = module.func_python[0].storage_account.primary_access_key
+  storage_account_name       = module.func_python[0].storage_account.name
+  storage_account_access_key = module.func_python[0].storage_account.primary_access_key
 
-  os_type          = "linux"
-  linux_fx_version = "python|3.9"
+  os_type                                  = "linux"
+  linux_fx_version                         = "python|3.9"
   always_on                                = "true"
   runtime_version                          = "~4"
   application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key

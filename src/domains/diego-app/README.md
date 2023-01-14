@@ -14,7 +14,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | v2.13.1 |
+| <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | version-unlocked |
 
 ## Resources
 

@@ -138,11 +138,11 @@ variable "log_analytics_workspace_resource_group_name" {
 variable "function_python_diego_enabled" {
   type        = bool
   description = "Is function python enabled."
-  default = false
+  default     = false
 }
 
 variable "app_service_plan_enabled" {
   type        = bool
   description = "Is app service plan enabled."
-  default = false
+  default     = false
 }

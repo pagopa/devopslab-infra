@@ -28,68 +28,66 @@ az network dns zone show \
 | Name | Version |
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.10.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 2.99.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.36.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | = 3.1.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
-| <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/azurerm.git//azure_devops_agent | v2.8.1 |
-| <a name="module_container_registry_private"></a> [container\_registry\_private](#module\_container\_registry\_private) | git::https://github.com/pagopa/azurerm.git//container_registry | version-unlocked |
-| <a name="module_devopslab_cdn"></a> [devopslab\_cdn](#module\_devopslab\_cdn) | git::https://github.com/pagopa/azurerm.git//cdn | version-unlocked |
-| <a name="module_dns_forwarder"></a> [dns\_forwarder](#module\_dns\_forwarder) | git::https://github.com/pagopa/azurerm.git//dns_forwarder | v2.0.28 |
-| <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.18.10 |
-| <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/azurerm.git//postgresql_server | v2.8.1 |
-| <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
-| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/azurerm.git//redis_cache | version-unlocked |
-| <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | version-unlocked |
-| <a name="module_security_monitoring_storage"></a> [security\_monitoring\_storage](#module\_security\_monitoring\_storage) | git::https://github.com/pagopa/azurerm.git//storage_account | v2.10.0 |
-| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/azurerm.git//virtual_network | v2.8.1 |
-| <a name="module_vpn"></a> [vpn](#module\_vpn) | git::https://github.com/pagopa/azurerm.git//vpn_gateway | v2.8.1 |
-| <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v2.8.1 |
-| <a name="module_web_test_availability_alert_rules_for_api"></a> [web\_test\_availability\_alert\_rules\_for\_api](#module\_web\_test\_availability\_alert\_rules\_for\_api) | git::https://github.com/pagopa/azurerm.git//application_insights_web_test_preview | v2.8.2 |
+| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.6.7 |
+| <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v3.6.7 |
+| <a name="module_container_registry_private"></a> [container\_registry\_private](#module\_container\_registry\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v3.6.7 |
+| <a name="module_dns_forwarder"></a> [dns\_forwarder](#module\_dns\_forwarder) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder | v3.6.7 |
+| <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.6.7 |
+| <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v3.6.7 |
+| <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.6.7 |
+| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | v3.6.7 |
+| <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.6.7 |
+| <a name="module_security_monitoring_storage"></a> [security\_monitoring\_storage](#module\_security\_monitoring\_storage) | git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account | v3.6.7 |
+| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v3.6.7 |
+| <a name="module_vpn"></a> [vpn](#module\_vpn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway | v3.6.7 |
+| <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.6.7 |
+| <a name="module_web_test_availability_alert_rules_for_api"></a> [web\_test\_availability\_alert\_rules\_for\_api](#module\_web\_test\_availability\_alert\_rules\_for\_api) | git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_web_test_preview | v3.6.7 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/application_insights) | resource |
-| [azurerm_dns_a_record.api_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_a_record) | resource |
-| [azurerm_dns_a_record.helm_template_ingress_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_a_record) | resource |
-| [azurerm_dns_cname_record.lab_healthy](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_cname_record) | resource |
-| [azurerm_dns_cname_record.public_healthy](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_cname_record) | resource |
-| [azurerm_dns_ns_record.lab_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_ns_record) | resource |
-| [azurerm_dns_zone.lab](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_zone) | resource |
-| [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/dns_zone) | resource |
-| [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/key_vault_secret) | resource |
-| [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/log_analytics_workspace) | resource |
-| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_action_group) | resource |
-| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/monitor_action_group) | resource |
-| [azurerm_private_dns_zone.internal_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone) | resource |
-| [azurerm_private_dns_zone.internal_lab_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone) | resource |
-| [azurerm_private_dns_zone_virtual_network_link.internal_devopslab_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_private_dns_zone_virtual_network_link.internal_lab_devopslab_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
-| [azurerm_public_ip.aks_outbound](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/public_ip) | resource |
-| [azurerm_public_ip.appgateway_beta_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/public_ip) | resource |
-| [azurerm_public_ip.appgateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/public_ip) | resource |
-| [azurerm_resource_group.azdo_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.data_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.devopslab_cdn_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.redis](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.rg_docker](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/resources/resource_group) | resource |
+| [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/application_insights) | resource |
+| [azurerm_dns_a_record.api_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_a_record.helm_template_ingress_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_a_record) | resource |
+| [azurerm_dns_cname_record.lab_healthy](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_cname_record) | resource |
+| [azurerm_dns_cname_record.public_healthy](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_cname_record) | resource |
+| [azurerm_dns_ns_record.lab_it_ns](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_ns_record) | resource |
+| [azurerm_dns_zone.lab](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_zone) | resource |
+| [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/dns_zone) | resource |
+| [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/key_vault_secret) | resource |
+| [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/log_analytics_workspace) | resource |
+| [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/monitor_action_group) | resource |
+| [azurerm_private_dns_zone.internal_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone.internal_lab_devopslab](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/private_dns_zone) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.internal_devopslab_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_private_dns_zone_virtual_network_link.internal_lab_devopslab_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/private_dns_zone_virtual_network_link) | resource |
+| [azurerm_public_ip.aks_outbound](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/public_ip) | resource |
+| [azurerm_public_ip.appgateway_beta_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/public_ip) | resource |
+| [azurerm_public_ip.appgateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/public_ip) | resource |
+| [azurerm_resource_group.azdo_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.data_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.dns_forwarder](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.redis](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.rg_docker](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/resources/resource_group) | resource |
 | [azuread_application.vpn_app](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/application) | data source |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/client_config) | data source |
-| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault) | data source |
-| [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.postgres_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.postgres_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/2.99.0/docs/data-sources/subscription) | data source |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/client_config) | data source |
+| [azurerm_key_vault.kv](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/key_vault) | data source |
+| [azurerm_key_vault_secret.monitor_notification_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.monitor_notification_slack_email](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.postgres_administrator_login](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.postgres_administrator_login_password](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.36.0/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -121,11 +119,9 @@ az network dns zone show \
 | <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
 | <a name="input_postgres_alerts_enabled"></a> [postgres\_alerts\_enabled](#input\_postgres\_alerts\_enabled) | Database alerts enabled? | `bool` | `false` | no |
 | <a name="input_postgres_byok_enabled"></a> [postgres\_byok\_enabled](#input\_postgres\_byok\_enabled) | Enable postgresql encryption with Customer Managed Key (BYOK) | `bool` | `false` | no |
-| <a name="input_postgres_geo_redundant_backup_enabled"></a> [postgres\_geo\_redundant\_backup\_enabled](#input\_postgres\_geo\_redundant\_backup\_enabled) | Turn Geo-redundant server backups on/off. | `bool` | `false` | no |
 | <a name="input_postgres_network_rules"></a> [postgres\_network\_rules](#input\_postgres\_network\_rules) | Database network rules | <pre>object({<br>    ip_rules                       = list(string)<br>    allow_access_to_azure_services = bool<br>  })</pre> | <pre>{<br>  "allow_access_to_azure_services": false,<br>  "ip_rules": []<br>}</pre> | no |
 | <a name="input_postgres_private_endpoint_enabled"></a> [postgres\_private\_endpoint\_enabled](#input\_postgres\_private\_endpoint\_enabled) | Enable vnet private endpoint for postgres | `bool` | n/a | yes |
 | <a name="input_postgres_public_network_access_enabled"></a> [postgres\_public\_network\_access\_enabled](#input\_postgres\_public\_network\_access\_enabled) | Enable/Disable public network access | `bool` | `false` | no |
-| <a name="input_postgres_sku_name"></a> [postgres\_sku\_name](#input\_postgres\_sku\_name) | Specifies the SKU Name for this PostgreSQL Server. | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"dvopla"` | no |
 | <a name="input_prod_dns_zone_prefix"></a> [prod\_dns\_zone\_prefix](#input\_prod\_dns\_zone\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_redis_enabled"></a> [redis\_enabled](#input\_redis\_enabled) | Redis | `bool` | `false` | no |

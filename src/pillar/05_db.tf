@@ -92,17 +92,17 @@ resource "azurerm_resource_group" "data_rg" {
 
 ## Database subnet
 module "postgres_snet" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
-  name                                           = "${local.project}-postgres-snet"
-  address_prefixes                               = var.cidr_subnet_postgres
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
-  service_endpoints                              = ["Microsoft.Sql"]
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
+  name                                      = "${local.project}-postgres-snet"
+  address_prefixes                          = var.cidr_subnet_postgres
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet.name
+  service_endpoints                         = ["Microsoft.Sql"]
   private_endpoint_network_policies_enabled = true
 }
 
 module "postgres" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v3.6.7"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v3.6.7"
 
   name                = "${local.project}-postgres"
   location            = azurerm_resource_group.data_rg.location
