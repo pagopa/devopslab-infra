@@ -1,7 +1,7 @@
 # Subnet to host app function
 module "funcs_diego_snet" {
   source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
-  name                                           = "${local.project}-func-python-snet"
+  name                                           = "${local.project}-funcs-snet"
   address_prefixes                               = var.cidr_subnet_funcs_diego_domain
   resource_group_name                            = data.azurerm_resource_group.rg_vnet_core.name
   virtual_network_name                           = data.azurerm_virtual_network.vnet_core.name
@@ -23,15 +23,17 @@ module "funcs_diego_snet" {
 }
 
 resource "azurerm_resource_group" "funcs_diego_rg" {
-  name     = "${local.project}-funcs-diego-rg"
+  name     = "${local.project}-funcs-rg"
   location = var.location
 
   tags = var.tags
 }
 
-resource "azurerm_app_service_plan" "func_python" {
+resource "azurerm_app_service_plan" "funcs_diego" {
 
-  name                = "func-diego-plan"
+  count = var.app_service_plan_enabled ? 1 : 0
+
+  name                = "${local.project}-funcs-plan"
   location            = var.location
   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
   kind                = "Linux"

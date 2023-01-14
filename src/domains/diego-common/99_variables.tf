@@ -132,3 +132,17 @@ variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
+
+### Functions
+
+variable "function_python_diego_enabled" {
+  type        = bool
+  description = "Is function python enabled."
+  default = false
+}
+
+variable "app_service_plan_enabled" {
+  type        = bool
+  description = "Is app service plan enabled."
+  default = false
+}

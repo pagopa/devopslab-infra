@@ -30,6 +30,8 @@ locals {
 module "func_python" {
   source = "git::https://github.com/pagopa/azurerm.git//function_app?ref=version-unlocked"
 
+    count = var.function_python_diego_enabled ? 1 : 0
+
   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
   name                = "${local.project}-fn-py"
   location            = var.location
@@ -42,7 +44,7 @@ module "func_python" {
   always_on                                = true
   application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
 
-  app_service_plan_id = azurerm_app_service_plan.func_python.id
+  app_service_plan_id = azurerm_app_service_plan.funcs_diego[0].id
 
   app_settings = merge(
     local.func_python.app_settings_common, {}
@@ -60,16 +62,18 @@ module "func_python" {
 module "func_python_staging_slot" {
   source = "git::https://github.com/pagopa/azurerm.git//function_app_slot?ref=version-unlocked"
 
+  count = var.function_python_diego_enabled ? 1 : 0
+
   name                = "staging"
   location            = var.location
   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
-  function_app_name   = module.func_python.name
-  function_app_id     = module.func_python.id
-  app_service_plan_id = module.func_python.app_service_plan_id
+  function_app_name   = module.func_python[0].name
+  function_app_id     = module.func_python[0].id
+  app_service_plan_id = module.func_python[0].app_service_plan_id
   health_check_path   = "/api/v1/info"
 
-  storage_account_name               = module.func_python.storage_account.name
-  storage_account_access_key         = module.func_python.storage_account.primary_access_key
+  storage_account_name               = module.func_python[0].storage_account.name
+  storage_account_access_key         = module.func_python[0].storage_account.primary_access_key
 
   os_type          = "linux"
   linux_fx_version = "python|3.9"
@@ -91,10 +95,10 @@ module "func_python_staging_slot" {
 }
 
 # resource "azurerm_monitor_autoscale_setting" "func_python" {
-#   name                = format("%s-autoscale", module.func_python.name)
+#   name                = format("%s-autoscale", module.func_python[0].name)
 #   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
 #   location            = var.location
-#   target_resource_id  = module.func_python.app_service_plan_id
+#   target_resource_id  = module.func_python[0].app_service_plan_id
 
 #   profile {
 #     name = "default"
@@ -108,7 +112,7 @@ module "func_python_staging_slot" {
 #     rule {
 #       metric_trigger {
 #         metric_name              = "Requests"
-#         metric_resource_id       = module.func_python.id
+#         metric_resource_id       = module.func_python[0].id
 #         metric_namespace         = "microsoft.web/sites"
 #         time_grain               = "PT1M"
 #         statistic                = "Average"
@@ -130,7 +134,7 @@ module "func_python_staging_slot" {
 #     rule {
 #       metric_trigger {
 #         metric_name              = "CpuPercentage"
-#         metric_resource_id       = module.func_python.app_service_plan_id
+#         metric_resource_id       = module.func_python[0].app_service_plan_id
 #         metric_namespace         = "microsoft.web/serverfarms"
 #         time_grain               = "PT1M"
 #         statistic                = "Average"
@@ -152,7 +156,7 @@ module "func_python_staging_slot" {
 #     rule {
 #       metric_trigger {
 #         metric_name              = "Requests"
-#         metric_resource_id       = module.func_python.id
+#         metric_resource_id       = module.func_python[0].id
 #         metric_namespace         = "microsoft.web/sites"
 #         time_grain               = "PT1M"
 #         statistic                = "Average"
@@ -174,7 +178,7 @@ module "func_python_staging_slot" {
 #     rule {
 #       metric_trigger {
 #         metric_name              = "CpuPercentage"
-#         metric_resource_id       = module.func_python.app_service_plan_id
+#         metric_resource_id       = module.func_python[0].app_service_plan_id
 #         metric_namespace         = "microsoft.web/serverfarms"
 #         time_grain               = "PT1M"
 #         statistic                = "Average"
@@ -198,10 +202,10 @@ module "func_python_staging_slot" {
 # ## Alerts
 
 # resource "azurerm_monitor_metric_alert" "function_app_async_health_check" {
-#   name                = "${module.func_python.name}-health-check-failed"
+#   name                = "${module.func_python[0].name}-health-check-failed"
 #   resource_group_name = azurerm_resource_group.funcs_diego_rg.name
-#   scopes              = [module.func_python.id]
-#   description         = "${module.func_python.name} health check failed"
+#   scopes              = [module.func_python[0].id]
+#   description         = "${module.func_python[0].name} health check failed"
 #   severity            = 1
 #   frequency           = "PT5M"
 #   auto_mitigate       = false
