@@ -3,11 +3,6 @@ data "azurerm_virtual_network" "vnet_core" {
   resource_group_name = local.vnet_core_resource_group_name
 }
 
-data "azurerm_virtual_network" "vnet" {
-  name                = "${var.prefix}-${var.env_short}-vnet"
-  resource_group_name = local.vnet_core_resource_group_name
-}
-
 data "azurerm_resource_group" "rg_vnet_core" {
   name = local.vnet_core_resource_group_name
 }

@@ -1,11 +1,11 @@
 ## VPN subnet
 module "vpn_snet" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
-  name                                           = "GatewaySubnet"
-  address_prefixes                               = var.cidr_subnet_vpn
-  virtual_network_name                           = module.vnet.name
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  service_endpoints                              = []
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
+  name                                      = "GatewaySubnet"
+  address_prefixes                          = var.cidr_subnet_vpn
+  virtual_network_name                      = module.vnet.name
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  service_endpoints                         = []
   private_endpoint_network_policies_enabled = true
 }
 
@@ -56,11 +56,11 @@ resource "azurerm_resource_group" "dns_forwarder" {
 module "dns_forwarder_snet" {
   count = var.dns_forwarder_enabled ? 1 : 0
 
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
-  name                                           = "${local.project}-dnsforwarder-snet"
-  address_prefixes                               = var.cidr_subnet_dnsforwarder
-  resource_group_name                            = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = module.vnet.name
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.7"
+  name                                      = "${local.project}-dnsforwarder-snet"
+  address_prefixes                          = var.cidr_subnet_dnsforwarder
+  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
 
   delegation = {

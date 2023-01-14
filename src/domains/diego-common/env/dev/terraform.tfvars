@@ -25,8 +25,15 @@ terraform_remote_state_core = {
   key                  = "terraform.tfstate"
 }
 
+cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
+
 ### External resources
 
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+
+# Function
+
+function_python_diego_enabled = false
+app_service_plan_enabled      = false

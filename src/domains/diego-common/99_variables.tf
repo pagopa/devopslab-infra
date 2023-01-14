@@ -1,4 +1,23 @@
 # general
+locals {
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  product = "${var.prefix}-${var.env_short}"
+
+  # monitor
+  monitor_rg_name                      = "${local.product}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.product}-law"
+  monitor_appinsights_name             = "${local.product}-appinsights"
+  monitor_security_storage_name        = replace("${local.product}-sec-monitor-st", "-", "")
+
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
+
+  vnet_core_name                = "${local.product}-vnet"
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
+
+  container_registry_common_name    = "dvopladneuacr"
+  rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
+}
 
 variable "prefix" {
   type = string
@@ -90,6 +109,13 @@ variable "dns_zone_prefix" {
   description = "The dns subdomain."
 }
 
+# VNET
+
+variable "cidr_subnet_funcs_diego_domain" {
+  type        = list(string)
+  description = "Subnet for funcs in diego domain"
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -107,16 +133,16 @@ variable "log_analytics_workspace_resource_group_name" {
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
 
-locals {
-  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
-  product = "${var.prefix}-${var.env_short}"
+### Functions
 
-  monitor_action_group_slack_name = "SlackPagoPA"
-  monitor_action_group_email_name = "PagoPA"
+variable "function_python_diego_enabled" {
+  type        = bool
+  description = "Is function python enabled."
+  default     = false
+}
 
-  vnet_core_name                = "${local.product}-vnet"
-  vnet_core_resource_group_name = "${local.product}-vnet-rg"
-
-  container_registry_common_name    = "dvopladneuacr"
-  rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
+variable "app_service_plan_enabled" {
+  type        = bool
+  description = "Is app service plan enabled."
+  default     = false
 }
