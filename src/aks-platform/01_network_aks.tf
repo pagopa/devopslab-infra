@@ -8,7 +8,7 @@ module "snet_aks" {
   virtual_network_name = data.azurerm_virtual_network.vnet_aks.name
 
   address_prefixes                               = var.cidr_subnet_aks
-  enforce_private_link_endpoint_network_policies = var.aks_private_cluster_enabled
+  private_endpoint_network_policies_enabled = var.aks_private_cluster_enabled
 
   service_endpoints = [
     "Microsoft.Web",
