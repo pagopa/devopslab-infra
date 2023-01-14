@@ -1,7 +1,7 @@
 # general
 prefix         = "dvopla"
 env_short      = "d"
-env            = "lab"
+env            = "dev"
 location       = "northeurope"
 location_short = "neu"
 domain         = "diego"
@@ -13,7 +13,7 @@ tags = {
   Owner       = "devops"
   Source      = "https://github.com/pagopa/dvopla-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Application = "IdPay"
+  Application = "diego.common"
 }
 
 lock_enable = true
@@ -24,11 +24,9 @@ terraform_remote_state_core = {
   container_name       = "corestate"
   key                  = "terraform.tfstate"
 }
-
 cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
 
 ### External resources
-
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
