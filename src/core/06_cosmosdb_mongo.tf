@@ -87,7 +87,7 @@ resource "azurerm_cosmosdb_mongo_database" "mongo_db" {
 }
 
 module "mongdb_collection_name" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v3.6.8"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=cosmosdb-migrate-from-v2"
 
   name                = "collectionName"
   resource_group_name = azurerm_resource_group.cosmos_mongo_rg[0].name
