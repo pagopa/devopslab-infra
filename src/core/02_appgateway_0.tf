@@ -115,7 +115,7 @@ module "app_gw" {
       rewrite_rules = [{
         name          = "http-headers-api"
         rule_sequence = 100
-        condition     = null
+        conditions     = []
         request_header_configurations = [
           {
             header_name  = "X-Forwarded-For"
