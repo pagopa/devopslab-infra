@@ -122,7 +122,7 @@ variable "ingress_load_balancer_ip" {
 }
 
 variable "ingress_load_balancer_hostname" {
-  type = string
+  type    = string
   default = ""
 }
 
