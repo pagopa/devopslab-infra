@@ -141,7 +141,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_proxy_api_v1" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management_api?ref=version-unlocked"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v3.6.8"
 
   name                  = local.apim_devopslab_webapp_python_proxy_api.api_name
   api_management_name   = module.apim.name
