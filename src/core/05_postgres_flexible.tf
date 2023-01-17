@@ -19,12 +19,12 @@ resource "azurerm_resource_group" "postgres_dbs" {
 
 # Postgres Flexible Server subnet
 module "postgres_flexible_snet" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.6.8"
-  name                                           = "${local.program}-pgres-flexible-snet"
-  address_prefixes                               = var.cidr_subnet_flex_dbms
-  resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = data.azurerm_virtual_network.vnet.name
-  service_endpoints                              = ["Microsoft.Storage"]
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.11.0"
+  name                                      = "${local.program}-pgres-flexible-snet"
+  address_prefixes                          = var.cidr_subnet_flex_dbms
+  resource_group_name                       = data.azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = data.azurerm_virtual_network.vnet.name
+  service_endpoints                         = ["Microsoft.Storage"]
   private_endpoint_network_policies_enabled = true
 
   delegation = {
@@ -65,14 +65,14 @@ module "postgres_flexible_server_private" {
 
   count = var.pgflex_private_config.enabled ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v3.6.8"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v3.11.0"
 
   name                = "${local.program}-private-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
   resource_group_name = azurerm_resource_group.postgres_dbs.name
 
   ### Network
-  private_endpoint_enabled = var.pgflex_private_config.private_endpoint_enabled
+  private_endpoint_enabled = false
   private_dns_zone_id      = azurerm_private_dns_zone.privatelink_postgres_database_azure_com.id
   delegated_subnet_id      = module.postgres_flexible_snet.id
 
@@ -80,14 +80,16 @@ module "postgres_flexible_server_private" {
   administrator_login    = data.azurerm_key_vault_secret.pgres_flex_admin_login.value
   administrator_password = data.azurerm_key_vault_secret.pgres_flex_admin_pwd.value
 
-  sku_name   = var.pgflex_private_config.sku_name
-  db_version = var.pgflex_private_config.db_version
-  storage_mb = var.pgflex_private_config.storage_mb
+  sku_name   = "B_Standard_B1ms"
+  db_version = "13"
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
+  # 2097152, 4194304, 8388608, 16777216, and 33554432.
+  storage_mb = 32768
 
   ### zones & HA
-  zone                      = var.pgflex_private_config.zone
-  high_availability_enabled = var.pgflex_private_ha_config.high_availability_enabled
-  standby_availability_zone = var.pgflex_private_ha_config.standby_availability_zone
+  zone                      = 1
+  high_availability_enabled = false
+  standby_availability_zone = 3
 
   maintenance_window_config = {
     day_of_week  = 0
@@ -96,12 +98,19 @@ module "postgres_flexible_server_private" {
   }
 
   ### backup
-  backup_retention_days        = var.pgflex_private_config.backup_retention_days
-  geo_redundant_backup_enabled = var.pgflex_private_config.geo_redundant_backup_enabled
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
 
-  pgbouncer_enabled = var.pgflex_private_config.pgbouncer_enabled
+  pgbouncer_enabled = false
 
   tags = var.tags
+
+  custom_metric_alerts = var.pgflex_public_metric_alerts
+  alerts_enabled       = true
+
+  diagnostic_settings_enabled               = true
+  log_analytics_workspace_id                = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
+  diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
 
   depends_on = [azurerm_private_dns_zone_virtual_network_link.privatelink_postgres_database_azure_com_vnet]
 
@@ -116,7 +125,7 @@ module "postgres_flexible_server_public" {
 
   count = var.pgflex_public_config.enabled ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v3.6.8"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v3.11.0"
 
   name                = "${local.program}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -125,16 +134,18 @@ module "postgres_flexible_server_public" {
   administrator_login    = data.azurerm_key_vault_secret.pgres_flex_admin_login.value
   administrator_password = data.azurerm_key_vault_secret.pgres_flex_admin_pwd.value
 
-  sku_name                     = var.pgflex_public_config.sku_name
-  db_version                   = var.pgflex_public_config.db_version
-  storage_mb                   = var.pgflex_public_config.storage_mb
-  zone                         = var.pgflex_public_config.zone
-  backup_retention_days        = var.pgflex_public_config.backup_retention_days
-  geo_redundant_backup_enabled = var.pgflex_public_config.geo_redundant_backup_enabled
+  sku_name   = "B_Standard_B1ms"
+  db_version = "13"
+  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
+  # 2097152, 4194304, 8388608, 16777216, and 33554432.
+  storage_mb                   = 32768
+  zone                         = 1
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
 
-  high_availability_enabled = var.pgflex_public_ha_config.high_availability_enabled
-  private_endpoint_enabled  = var.pgflex_public_config.private_endpoint_enabled
-  pgbouncer_enabled         = var.pgflex_public_config.pgbouncer_enabled
+  high_availability_enabled = false
+  private_endpoint_enabled  = false
+  pgbouncer_enabled         = false
 
   tags = var.tags
 

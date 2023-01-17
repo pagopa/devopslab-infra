@@ -84,7 +84,7 @@ aks_networks = [
 #
 # Web app docker
 #
-is_web_app_service_docker_enabled = false
+is_web_app_service_docker_enabled = true
 
 
 # postgres
@@ -102,43 +102,12 @@ postgres_network_rules = {
 # Postgres Flexible
 #
 pgflex_private_config = {
-  enabled    = false
-  sku_name   = "GP_Standard_D2ds_v4"
-  db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
-  # 2097152, 4194304, 8388608, 16777216, and 33554432.
-  storage_mb                   = 32768
-  zone                         = 1
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = true
-  private_endpoint_enabled     = true
-  pgbouncer_enabled            = true
-}
-
-pgflex_private_ha_config = {
-  high_availability_enabled = true
-  standby_availability_zone = 3
+  enabled = true
 }
 
 pgflex_public_config = {
-  enabled    = true
-  sku_name   = "B_Standard_B1ms"
-  db_version = "13"
-  # Possible values are 32768, 65536, 131072, 262144, 524288, 1048576,
-  # 2097152, 4194304, 8388608, 16777216, and 33554432.
-  storage_mb                   = 32768
-  zone                         = 1
-  backup_retention_days        = 7
-  geo_redundant_backup_enabled = false
-  private_endpoint_enabled     = false
-  pgbouncer_enabled            = false
+  enabled = true
 }
-
-pgflex_public_ha_config = {
-  high_availability_enabled = false
-  standby_availability_zone = 3
-}
-
 
 #
 # Event hub

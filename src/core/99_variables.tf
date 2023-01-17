@@ -608,48 +608,16 @@ variable "postgres_private_endpoint_enabled" {
 
 variable "pgflex_private_config" {
   type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    private_endpoint_enabled     = bool
-    pgbouncer_enabled            = bool
+    enabled = bool
   })
   description = "Configuration parameter for postgres flexible private"
 }
 
-variable "pgflex_private_ha_config" {
-  type = object({
-    high_availability_enabled = bool
-    standby_availability_zone = number
-  })
-  description = "Pg flex configuration for HA private"
-}
-
 variable "pgflex_public_config" {
   type = object({
-    enabled                      = bool
-    sku_name                     = string
-    db_version                   = string
-    storage_mb                   = string
-    zone                         = number
-    backup_retention_days        = number
-    geo_redundant_backup_enabled = bool
-    private_endpoint_enabled     = bool
-    pgbouncer_enabled            = bool
+    enabled = bool
   })
   description = "Configuration parameter for postgres flexible public"
-}
-
-variable "pgflex_public_ha_config" {
-  type = object({
-    high_availability_enabled = bool
-    standby_availability_zone = number
-  })
-  description = "Pg flex configuration for HA public"
 }
 
 variable "pgflex_public_metric_alerts" {
