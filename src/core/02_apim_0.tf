@@ -22,14 +22,14 @@ resource "azurerm_resource_group" "rg_api" {
 
 # APIM subnet
 module "apim_snet" {
-  source               = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.11.0"
   name                 = "${local.program}-apim-snet"
   resource_group_name  = data.azurerm_resource_group.rg_vnet.name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = var.cidr_subnet_apim
 
-  enforce_private_link_endpoint_network_policies = true
-  service_endpoints                              = ["Microsoft.Web"]
+  private_endpoint_network_policies_enabled = true
+  service_endpoints                         = ["Microsoft.Web"]
 }
 
 ###########################
@@ -37,7 +37,7 @@ module "apim_snet" {
 ###########################
 
 module "apim" {
-  source = "git::https://github.com/pagopa/azurerm.git//api_management?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v3.11.0"
 
   name = "${local.program}-apim"
 
@@ -84,7 +84,7 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 resource "azurerm_api_management_custom_domain" "api_custom_domain" {
   api_management_id = module.apim.id
 
-  proxy {
+  gateway {
     host_name = local.api_internal_domain
     key_vault_id = replace(
       data.azurerm_key_vault_certificate.apim_internal_certificate.secret_id,

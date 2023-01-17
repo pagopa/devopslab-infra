@@ -32,7 +32,7 @@ resource "azurerm_key_vault_access_policy" "app_gateway_beta_policy" {
 
 # Subnet to host the application gateway
 module "appgateway_beta_snet" {
-  source = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.11.0"
 
   name                 = "${local.program}-appgateway-beta-snet"
   address_prefixes     = var.cidr_subnet_appgateway_beta
@@ -43,7 +43,7 @@ module "appgateway_beta_snet" {
 
 ## Application gateway ##
 module "app_gw_beta" {
-  source = "git::https://github.com/pagopa/azurerm.git//app_gateway?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway?ref=v3.11.0"
   count  = var.app_gw_beta_is_enabled ? 1 : 0
 
   name                = "${local.program}-app-beta-gw"
@@ -116,7 +116,7 @@ module "app_gw_beta" {
       rewrite_rules = [{
         name          = "http-headers-api"
         rule_sequence = 100
-        condition     = null
+        conditions    = null
         request_header_configurations = [
           {
             header_name  = "X-Forwarded-For"

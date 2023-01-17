@@ -7,18 +7,18 @@ resource "azurerm_resource_group" "eventhub_rg" {
 
 ## Eventhub subnet
 module "eventhub_snet" {
-  source                                         = "git::https://github.com/pagopa/azurerm.git//subnet?ref=version-unlocked"
-  name                                           = "${local.project}-eventhub-snet"
-  address_prefixes                               = var.cidr_subnet_eventhub
-  resource_group_name                            = data.azurerm_resource_group.rg_vnet.name
-  virtual_network_name                           = data.azurerm_virtual_network.vnet.name
-  service_endpoints                              = ["Microsoft.EventHub"]
-  enforce_private_link_endpoint_network_policies = true
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.11.0"
+  name                                      = "${local.project}-eventhub-snet"
+  address_prefixes                          = var.cidr_subnet_eventhub
+  resource_group_name                       = data.azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = data.azurerm_virtual_network.vnet.name
+  service_endpoints                         = ["Microsoft.EventHub"]
+  private_endpoint_network_policies_enabled = true
 }
 
 
 module "event_hub" {
-  source                   = "git::https://github.com/pagopa/azurerm.git//eventhub?ref=version-unlocked"
+  source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v3.11.0"
   name                     = "${local.project}-evh-ns"
   location                 = var.location
   resource_group_name      = azurerm_resource_group.eventhub_rg.name
