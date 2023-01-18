@@ -14,6 +14,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_key_vault_domain"></a> [key\_vault\_domain](#module\_key\_vault\_domain) | git::https://github.com/pagopa/azurerm.git//key_vault | version-unlocked |
+| <a name="module_letsencrypt_diego"></a> [letsencrypt\_diego](#module\_letsencrypt\_diego) | git::https://github.com/pagopa/azurerm.git//letsencrypt_credential | version-unlocked |
 
 ## Resources
 

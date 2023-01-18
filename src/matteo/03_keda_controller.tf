@@ -6,6 +6,7 @@ module "keda_pod_identity" {
   identity_name       = "${kubernetes_namespace.keda.metadata[0].name}-pod-identity"
   cluster_name        = module.aks.name
   namespace           = kubernetes_namespace.keda.metadata[0].name
+  tenant_id           = data.azurerm_subscription.current.tenant_id
 }
 
 resource "azurerm_role_assignment" "keda_monitoring_reader" {
