@@ -1,4 +1,29 @@
-# general
+locals {
+  product = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+
+  monitor_appinsights_name        = "${local.product}-appinsights"
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
+
+  ingress_hostname_prefix               = "${var.instance}.${var.domain}"
+  internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
+  internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
+
+  # ACR DOCKER
+  docker_rg_name       = "${local.product}-dockerreg-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+
+  aks_name                = var.aks_name
+  aks_resource_group_name = var.aks_resource_group_name
+
+  vnet_core_name                = "${local.product}-vnet"
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
+
+  # DOMAINS
+  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
+  domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+}
 
 variable "prefix" {
   type = string
@@ -142,4 +167,36 @@ variable "dns_zone_internal_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
+}
+
+#
+# VNET
+#
+variable "cidr_subnet_app_diego_app" {
+  type        = list(string)
+  description = "Subnet diego app."
+}
+
+variable "cidr_subnet_funcs_diego_domain" {
+  type        = list(string)
+  description = "Subnet for funcs in diego domain"
+}
+
+#
+# App service
+#
+variable "app_service_plan_enabled" {
+  type = bool
+}
+
+variable "app_service_diego_app_is_enabled" {
+  type = bool
+}
+
+### Functions
+
+variable "function_python_diego_enabled" {
+  type        = bool
+  description = "Is function python enabled."
+  default     = false
 }

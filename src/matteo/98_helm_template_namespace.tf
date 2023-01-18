@@ -11,7 +11,7 @@ module "namespace_pod_identity" {
 
   location      = var.location
   identity_name = "${kubernetes_namespace.helm_template.metadata[0].name}-pod-identity"
-  key_vault     = data.azurerm_key_vault.kv
+  key_vault_id  = data.azurerm_key_vault.kv.id
   tenant_id     = data.azurerm_subscription.current.tenant_id
   cluster_name  = module.aks.name
   namespace     = kubernetes_namespace.helm_template.metadata[0].name
