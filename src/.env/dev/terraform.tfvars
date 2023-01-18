@@ -36,6 +36,7 @@ cidr_subnet_private_endpoints  = ["10.1.141.0/24"]
 cidr_subnet_eventhub           = ["10.1.142.0/24"]
 cidr_subnet_redis              = ["10.1.143.0/24"]
 cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
+cidr_subnet_app_diego_app      = ["10.1.145.0/24"]
 
 # dns
 prod_dns_zone_prefix = "devopslab"
