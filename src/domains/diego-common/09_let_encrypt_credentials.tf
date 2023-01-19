@@ -1,5 +1,5 @@
 module "letsencrypt_diego" {
-  source = "git::https://github.com/pagopa/azurerm.git//letsencrypt_credential?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential?ref=v3.11.0"
 
   prefix            = "dvopla"
   env               = "d"
