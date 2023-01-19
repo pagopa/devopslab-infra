@@ -1,6 +1,6 @@
 # Subnet to host the api config
 module "private_endpoints_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.15.0"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.0"
   name                 = "${local.program}-private-endpoints-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints
   virtual_network_name = data.azurerm_virtual_network.vnet.name

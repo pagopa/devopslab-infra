@@ -14,10 +14,10 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster | version-unlocked |
-| <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | version-unlocked |
-| <a name="module_keda_pod_identity"></a> [keda\_pod\_identity](#module\_keda\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | version-unlocked |
-| <a name="module_namespace_pod_identity"></a> [namespace\_pod\_identity](#module\_namespace\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | version-unlocked |
+| <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/azurerm.git//kubernetes_cluster | v4.1.0 |
+| <a name="module_k8s_snet"></a> [k8s\_snet](#module\_k8s\_snet) | git::https://github.com/pagopa/azurerm.git//subnet | v4.1.0 |
+| <a name="module_keda_pod_identity"></a> [keda\_pod\_identity](#module\_keda\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | v4.1.0 |
+| <a name="module_namespace_pod_identity"></a> [namespace\_pod\_identity](#module\_namespace\_pod\_identity) | git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity | v4.1.0 |
 | <a name="module_nginx_controller"></a> [nginx\_controller](#module\_nginx\_controller) | terraform-module/release/helm | 2.7.0 |
 
 ## Resources
