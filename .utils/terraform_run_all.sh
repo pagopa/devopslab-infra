@@ -39,11 +39,11 @@ for index in "${array[@]}" ; do
         echo "🔬 folder: $(pwd) in under terraform: $ACTION action"
         sh terraform.sh "$ACTION" "$COMMAND" &
 
-        terraform providers lock \
-          -platform=windows_amd64 \
-          -platform=darwin_amd64 \
-          -platform=darwin_arm64 \
-          -platform=linux_amd64
+        # terraform providers lock \
+        #   -platform=windows_amd64 \
+        #   -platform=darwin_amd64 \
+        #   -platform=darwin_arm64 \
+        #   -platform=linux_amd64
 
         pids+=($!)
     popd

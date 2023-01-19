@@ -13,7 +13,7 @@ locals {
 }
 
 module "cosmos_mongo" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v3.11.0"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v4.1.0"
   name     = "${local.project}-cosmos-mongo"
   location = var.location
   domain   = var.domain
@@ -87,7 +87,7 @@ resource "azurerm_cosmosdb_mongo_database" "mongo_db" {
 }
 
 module "mongdb_collection_name" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v3.11.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v4.1.0"
 
   name                = "collectionName"
   resource_group_name = azurerm_resource_group.cosmos_mongo_rg[0].name

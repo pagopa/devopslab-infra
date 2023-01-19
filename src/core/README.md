@@ -12,31 +12,31 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management | v3.11.0 |
-| <a name="module_apim_devopslab_webapp_python_alpha_api_v1"></a> [apim\_devopslab\_webapp\_python\_alpha\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_alpha\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.11.0 |
-| <a name="module_apim_devopslab_webapp_python_beta_api_v1"></a> [apim\_devopslab\_webapp\_python\_beta\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_beta\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.11.0 |
-| <a name="module_apim_devopslab_webapp_python_proxy_api_v1"></a> [apim\_devopslab\_webapp\_python\_proxy\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_proxy\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v3.11.0 |
-| <a name="module_apim_product_devopslab"></a> [apim\_product\_devopslab](#module\_apim\_product\_devopslab) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v3.11.0 |
-| <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v3.11.0 |
-| <a name="module_app_gw_beta"></a> [app\_gw\_beta](#module\_app\_gw\_beta) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v3.11.0 |
-| <a name="module_app_service_docker_snet"></a> [app\_service\_docker\_snet](#module\_app\_service\_docker\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_appgateway_beta_snet"></a> [appgateway\_beta\_snet](#module\_appgateway\_beta\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_appgateway_snet"></a> [appgateway\_snet](#module\_appgateway\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_core_cosmos_db"></a> [core\_cosmos\_db](#module\_core\_cosmos\_db) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_database | v3.11.0 |
-| <a name="module_core_cosmosdb_containers"></a> [core\_cosmosdb\_containers](#module\_core\_cosmosdb\_containers) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_container | v3.11.0 |
-| <a name="module_cosmos_core"></a> [cosmos\_core](#module\_cosmos\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v3.11.0 |
-| <a name="module_cosmos_mongo"></a> [cosmos\_mongo](#module\_cosmos\_mongo) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v3.11.0 |
-| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v3.11.0 |
-| <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_mongdb_collection_name"></a> [mongdb\_collection\_name](#module\_mongdb\_collection\_name) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v3.11.0 |
-| <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v3.11.0 |
-| <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v3.11.0 |
-| <a name="module_postgres_flexible_snet"></a> [postgres\_flexible\_snet](#module\_postgres\_flexible\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.11.0 |
-| <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v3.11.0 |
-| <a name="module_vnet_peering_core_2_aks"></a> [vnet\_peering\_core\_2\_aks](#module\_vnet\_peering\_core\_2\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering | v3.11.0 |
-| <a name="module_web_app_service_docker"></a> [web\_app\_service\_docker](#module\_web\_app\_service\_docker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service | v3.11.0 |
+| <a name="module_apim"></a> [apim](#module\_apim) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management | v4.1.0 |
+| <a name="module_apim_devopslab_webapp_python_alpha_api_v1"></a> [apim\_devopslab\_webapp\_python\_alpha\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_alpha\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v4.1.0 |
+| <a name="module_apim_devopslab_webapp_python_beta_api_v1"></a> [apim\_devopslab\_webapp\_python\_beta\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_beta\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v4.1.0 |
+| <a name="module_apim_devopslab_webapp_python_proxy_api_v1"></a> [apim\_devopslab\_webapp\_python\_proxy\_api\_v1](#module\_apim\_devopslab\_webapp\_python\_proxy\_api\_v1) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api | v4.1.0 |
+| <a name="module_apim_product_devopslab"></a> [apim\_product\_devopslab](#module\_apim\_product\_devopslab) | git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product | v4.1.0 |
+| <a name="module_apim_snet"></a> [apim\_snet](#module\_apim\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_app_gw"></a> [app\_gw](#module\_app\_gw) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v4.1.0 |
+| <a name="module_app_gw_beta"></a> [app\_gw\_beta](#module\_app\_gw\_beta) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_gateway | v4.1.0 |
+| <a name="module_app_service_docker_snet"></a> [app\_service\_docker\_snet](#module\_app\_service\_docker\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_appgateway_beta_snet"></a> [appgateway\_beta\_snet](#module\_appgateway\_beta\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_appgateway_snet"></a> [appgateway\_snet](#module\_appgateway\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_core_cosmos_db"></a> [core\_cosmos\_db](#module\_core\_cosmos\_db) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_database | v4.1.0 |
+| <a name="module_core_cosmosdb_containers"></a> [core\_cosmosdb\_containers](#module\_core\_cosmosdb\_containers) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_container | v4.1.0 |
+| <a name="module_cosmos_core"></a> [cosmos\_core](#module\_cosmos\_core) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v4.1.0 |
+| <a name="module_cosmos_mongo"></a> [cosmos\_mongo](#module\_cosmos\_mongo) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v4.1.0 |
+| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v4.1.0 |
+| <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_mongdb_collection_name"></a> [mongdb\_collection\_name](#module\_mongdb\_collection\_name) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v4.1.0 |
+| <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
+| <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
+| <a name="module_postgres_flexible_snet"></a> [postgres\_flexible\_snet](#module\_postgres\_flexible\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v4.1.0 |
+| <a name="module_vnet_peering_core_2_aks"></a> [vnet\_peering\_core\_2\_aks](#module\_vnet\_peering\_core\_2\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering | v4.1.0 |
+| <a name="module_web_app_service_docker"></a> [web\_app\_service\_docker](#module\_web\_app\_service\_docker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service | v4.1.0 |
 
 ## Resources
 

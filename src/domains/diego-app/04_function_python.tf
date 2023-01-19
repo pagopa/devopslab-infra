@@ -28,7 +28,7 @@ locals {
 
 # #tfsec:ignore:azure-storage-queue-services-logging-enabled:exp:2022-05-01 # already ignored, maybe a bug in tfsec
 module "func_python" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app?ref=v3.13.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app?ref=v4.1.0"
 
   count = var.function_python_diego_enabled ? 1 : 0
 
@@ -60,7 +60,7 @@ module "func_python" {
 }
 
 module "func_python_staging_slot" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot?ref=v3.13.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot?ref=v4.1.0"
 
   count = var.function_python_diego_enabled ? 1 : 0
 

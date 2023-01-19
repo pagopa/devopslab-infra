@@ -1,4 +1,3 @@
-#--------------------------------------------------------------------------------------------------
 resource "azurerm_resource_group" "rg_aks" {
   name     = local.aks_rg_name
   location = var.location
@@ -6,9 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  # source = "git::https://github.com/pagopa/azurerm.git//kubernetes_cluster?ref=version-unlocked"
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v3.6.7"
-
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v4.1.0"
 
   count = var.aks_enabled ? 1 : 0
 

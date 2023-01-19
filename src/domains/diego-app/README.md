@@ -14,12 +14,12 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_app_service_docker_snet"></a> [app\_service\_docker\_snet](#module\_app\_service\_docker\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.13.0 |
-| <a name="module_diego_app_service_docker"></a> [diego\_app\_service\_docker](#module\_diego\_app\_service\_docker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service | v3.13.0 |
-| <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v3.13.0 |
-| <a name="module_func_python"></a> [func\_python](#module\_func\_python) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app | v3.13.0 |
-| <a name="module_func_python_staging_slot"></a> [func\_python\_staging\_slot](#module\_func\_python\_staging\_slot) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot | v3.13.0 |
-| <a name="module_funcs_diego_snet"></a> [funcs\_diego\_snet](#module\_funcs\_diego\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v3.13.0 |
+| <a name="module_app_service_docker_snet"></a> [app\_service\_docker\_snet](#module\_app\_service\_docker\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_diego_app_service_docker"></a> [diego\_app\_service\_docker](#module\_diego\_app\_service\_docker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service | v4.1.0 |
+| <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v4.1.0 |
+| <a name="module_func_python"></a> [func\_python](#module\_func\_python) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app | v4.1.0 |
+| <a name="module_func_python_staging_slot"></a> [func\_python\_staging\_slot](#module\_func\_python\_staging\_slot) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot | v4.1.0 |
+| <a name="module_funcs_diego_snet"></a> [funcs\_diego\_snet](#module\_funcs\_diego\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
 
 ## Resources
 

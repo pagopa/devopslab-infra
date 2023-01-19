@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "app_service_diego_app_rg" {
 
 # Subnet to host the api config
 module "app_service_docker_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v3.13.0"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.0"
   name                 = "${local.product}-app-diego-app-snet"
   address_prefixes     = var.cidr_subnet_app_diego_app
   virtual_network_name = data.azurerm_virtual_network.vnet_core.name
@@ -47,7 +47,7 @@ resource "azurerm_app_service_plan" "app_service_diego_app" {
 module "diego_app_service_docker" {
   count = var.app_service_diego_app_is_enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service?ref=v3.13.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service?ref=v4.1.0"
 
   resource_group_name = azurerm_resource_group.app_service_diego_app_rg.name
   location            = var.location

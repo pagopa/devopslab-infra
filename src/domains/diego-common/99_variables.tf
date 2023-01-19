@@ -15,6 +15,9 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
+  dns_zone_public_name  = "devopslab.pagopa.it"
+  dns_zone_private_name = "internal.devopslab.pagopa.it"
+
   container_registry_common_name    = "dvopladneuacr"
   rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
 }

@@ -68,7 +68,7 @@ resource "azurerm_monitor_action_group" "slack" {
 # Monitor storage
 #
 module "security_monitoring_storage" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v3.6.7"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//storage_account?ref=v4.1.0"
 
   name                            = local.monitor_security_storage_name
   account_kind                    = "StorageV2"
