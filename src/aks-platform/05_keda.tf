@@ -13,7 +13,7 @@ locals {
 }
 
 module "keda_pod_identity" {
-  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=version-unlocked"
+  source = "git::https://github.com/pagopa/azurerm.git//kubernetes_pod_identity?ref=v3.15.0"
 
   resource_group_name = azurerm_resource_group.rg_aks.name
   location            = var.location
