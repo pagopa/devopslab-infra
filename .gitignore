@@ -1,6 +1,7 @@
 # Project
 deleteme
 state.json
+*.deleteme
 
 # Local .terraform directories
 **/.terraform/*
