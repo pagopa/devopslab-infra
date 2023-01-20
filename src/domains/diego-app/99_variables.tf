@@ -25,7 +25,6 @@ locals {
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
-
 }
 
 variable "prefix" {
@@ -175,31 +174,6 @@ variable "dns_zone_internal_prefix" {
 #
 # VNET
 #
-variable "cidr_subnet_app_diego_app" {
-  type        = list(string)
-  description = "Subnet diego app."
-}
 
-variable "cidr_subnet_funcs_diego_domain" {
-  type        = list(string)
-  description = "Subnet for funcs in diego domain"
-}
 
-#
-# App service
-#
-variable "app_service_plan_enabled" {
-  type = bool
-}
 
-variable "app_service_diego_app_is_enabled" {
-  type = bool
-}
-
-### Functions
-
-variable "function_python_diego_enabled" {
-  type        = bool
-  description = "Is function python enabled."
-  default     = false
-}
