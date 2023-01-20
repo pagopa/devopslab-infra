@@ -1,4 +1,4 @@
-data "azurerm_key_vault" "kv" {
+data "azurerm_key_vault" "kv_domain" {
   name                = "${local.product}-${var.domain}-kv"
   resource_group_name = "${local.product}-${var.domain}-sec-rg"
 }

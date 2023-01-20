@@ -12,7 +12,7 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace" {
 
   provisioner "local-exec" {
     command = <<EOT
-      az role assignment create --role "Azure Kubernetes Service RBAC Writer" \
+      az role assignment create --role "Azure Kubernetes Service RBAC Admin" \
       --assignee ${self.triggers.service_principal_id} \
       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
     EOT
@@ -29,9 +29,11 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace_system" {
 
   provisioner "local-exec" {
     command = <<EOT
-      az role assignment create --role "Azure Kubernetes Service RBAC Writer" \
+      az role assignment create --role "Azure Kubernetes Service RBAC Admin" \
       --assignee ${self.triggers.service_principal_id} \
       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}-system
     EOT
   }
 }
+
+

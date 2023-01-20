@@ -69,7 +69,7 @@ resource "azurerm_key_vault_secret" "azure_devops_sa_token" {
   value        = data.kubernetes_secret.azure_devops_secret.binary_data["token"] # base64 value
   content_type = "text/plain"
 
-  key_vault_id = data.azurerm_key_vault.kv.id
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
 
 #tfsec:ignore:AZU023
@@ -79,5 +79,5 @@ resource "azurerm_key_vault_secret" "azure_devops_sa_cacrt" {
   value        = data.kubernetes_secret.azure_devops_secret.binary_data["ca.crt"] # base64 value
   content_type = "text/plain"
 
-  key_vault_id = data.azurerm_key_vault.kv.id
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
