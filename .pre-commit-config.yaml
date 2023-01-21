@@ -37,3 +37,4 @@ repos:
           - --init-args=-lockfile=readonly
           - --args=-json
           - --args=-no-color
+          - --args=-compact-warnings
