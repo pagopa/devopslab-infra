@@ -173,6 +173,16 @@ variable "cidr_subnet_eventhub" {
   description = "Eventhub network address space."
 }
 
+variable "cidr_subnet_app_diego_app" {
+  type        = list(string)
+  description = "Subnet diego app."
+}
+
+variable "cidr_subnet_funcs_diego_domain" {
+  type        = list(string)
+  description = "Subnet for funcs in diego domain"
+}
+
 ## VPN ##
 variable "vpn_sku" {
   type        = string
@@ -769,4 +779,23 @@ variable "eventhubs" {
     }))
   }))
   default = []
+}
+
+#
+# App service
+#
+variable "app_service_plan_enabled" {
+  type = bool
+}
+
+variable "app_service_diego_app_is_enabled" {
+  type = bool
+}
+
+### Functions
+
+variable "function_python_diego_enabled" {
+  type        = bool
+  description = "Is function python enabled."
+  default     = false
 }

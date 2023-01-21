@@ -4,7 +4,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.7 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.10.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | > 2.99.0 |
 
@@ -29,6 +29,9 @@
 | <a name="module_cosmos_mongo"></a> [cosmos\_mongo](#module\_cosmos\_mongo) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account | v4.1.0 |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub | v4.1.0 |
 | <a name="module_eventhub_snet"></a> [eventhub\_snet](#module\_eventhub\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
+| <a name="module_func_python"></a> [func\_python](#module\_func\_python) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app | v4.1.0 |
+| <a name="module_func_python_staging_slot"></a> [func\_python\_staging\_slot](#module\_func\_python\_staging\_slot) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot | v4.1.0 |
+| <a name="module_funcs_diego_snet"></a> [funcs\_diego\_snet](#module\_funcs\_diego\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
 | <a name="module_mongdb_collection_name"></a> [mongdb\_collection\_name](#module\_mongdb\_collection\_name) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v4.1.0 |
 | <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
 | <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
@@ -44,6 +47,7 @@
 |------|------|
 | [azurerm_api_management_custom_domain.api_custom_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/api_management_custom_domain) | resource |
 | [azurerm_app_service_plan.app_docker](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_plan) | resource |
+| [azurerm_app_service_plan.funcs_diego](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service_plan) | resource |
 | [azurerm_cosmosdb_mongo_database.mongo_db](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_mongo_database) | resource |
 | [azurerm_key_vault_access_policy.api_management_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.app_gateway_beta_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
@@ -57,6 +61,7 @@
 | [azurerm_resource_group.cosmos_mongo_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.cosmos_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.eventhub_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.funcs_diego_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.postgres_dbs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_vnet_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
@@ -119,13 +124,17 @@
 | <a name="input_app_gateway_sku_tier"></a> [app\_gateway\_sku\_tier](#input\_app\_gateway\_sku\_tier) | SKU tier of the App GW | `string` | `"Standard_v2"` | no |
 | <a name="input_app_gateway_waf_enabled"></a> [app\_gateway\_waf\_enabled](#input\_app\_gateway\_waf\_enabled) | Enable WAF | `bool` | `false` | no |
 | <a name="input_app_gw_beta_is_enabled"></a> [app\_gw\_beta\_is\_enabled](#input\_app\_gw\_beta\_is\_enabled) | Enable App GW Beta | `bool` | `false` | no |
+| <a name="input_app_service_diego_app_is_enabled"></a> [app\_service\_diego\_app\_is\_enabled](#input\_app\_service\_diego\_app\_is\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_app_service_plan_enabled"></a> [app\_service\_plan\_enabled](#input\_app\_service\_plan\_enabled) | App service | `bool` | n/a | yes |
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
+| <a name="input_cidr_subnet_app_diego_app"></a> [cidr\_subnet\_app\_diego\_app](#input\_cidr\_subnet\_app\_diego\_app) | Subnet diego app. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_app_docker"></a> [cidr\_subnet\_app\_docker](#input\_cidr\_subnet\_app\_docker) | Subnet web app docker. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_appgateway"></a> [cidr\_subnet\_appgateway](#input\_cidr\_subnet\_appgateway) | Application gateway address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_appgateway_beta"></a> [cidr\_subnet\_appgateway\_beta](#input\_cidr\_subnet\_appgateway\_beta) | Application gateway beta address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_eventhub"></a> [cidr\_subnet\_eventhub](#input\_cidr\_subnet\_eventhub) | Eventhub network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_flex_dbms"></a> [cidr\_subnet\_flex\_dbms](#input\_cidr\_subnet\_flex\_dbms) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_funcs_diego_domain"></a> [cidr\_subnet\_funcs\_diego\_domain](#input\_cidr\_subnet\_funcs\_diego\_domain) | Subnet for funcs in diego domain | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_k8s"></a> [cidr\_subnet\_k8s](#input\_cidr\_subnet\_k8s) | Subnet cluster kubernetes. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_private_endpoints"></a> [cidr\_subnet\_private\_endpoints](#input\_cidr\_subnet\_private\_endpoints) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_vpn"></a> [cidr\_subnet\_vpn](#input\_cidr\_subnet\_vpn) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
@@ -141,6 +150,7 @@
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_eventhubs"></a> [eventhubs](#input\_eventhubs) | A list of event hubs to add to namespace for BPD application. | <pre>list(object({<br>    name              = string<br>    partitions        = number<br>    message_retention = number<br>    consumers         = list(string)<br>    keys = list(object({<br>      name   = string<br>      listen = bool<br>      send   = bool<br>      manage = bool<br>    }))<br>  }))</pre> | `[]` | no |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
+| <a name="input_function_python_diego_enabled"></a> [function\_python\_diego\_enabled](#input\_function\_python\_diego\_enabled) | Is function python enabled. | `bool` | `false` | no |
 | <a name="input_is_web_app_service_docker_enabled"></a> [is\_web\_app\_service\_docker\_enabled](#input\_is\_web\_app\_service\_docker\_enabled) | Enable or disable this resources | `bool` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |

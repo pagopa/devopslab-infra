@@ -153,3 +153,14 @@ eventhubs = [
 # Redis
 #
 redis_enabled = false
+
+
+# Function
+
+function_python_diego_enabled = false
+
+#
+# App service
+#
+app_service_plan_enabled         = true
+app_service_diego_app_is_enabled = true

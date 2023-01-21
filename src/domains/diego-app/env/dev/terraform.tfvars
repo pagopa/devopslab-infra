@@ -25,9 +25,6 @@ terraform_remote_state_core = {
   key                  = "terraform.tfstate"
 }
 
-cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
-cidr_subnet_app_diego_app      = ["10.1.145.0/24"]
-
 ### External resources
 
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
@@ -48,13 +45,3 @@ ingress_load_balancer_ip = "10.11.100.250"
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "devopslab"
 dns_zone_internal_prefix = "internal.devopslab"
-
-# Function
-
-function_python_diego_enabled = false
-
-#
-# App service
-#
-app_service_plan_enabled         = true
-app_service_diego_app_is_enabled = true
