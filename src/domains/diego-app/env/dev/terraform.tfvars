@@ -45,5 +45,3 @@ ingress_load_balancer_ip = "10.11.100.250"
 external_domain          = "pagopa.it"
 dns_zone_prefix          = "devopslab"
 dns_zone_internal_prefix = "internal.devopslab"
-
-

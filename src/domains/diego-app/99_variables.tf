@@ -174,6 +174,3 @@ variable "dns_zone_internal_prefix" {
 #
 # VNET
 #
-
-
-

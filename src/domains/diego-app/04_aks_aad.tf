@@ -5,9 +5,9 @@ data "azuread_service_principal" "iac_service_principal" {
 resource "null_resource" "aks_with_iac_aad_plus_namespace" {
 
   triggers = {
-    aks_id = data.azurerm_kubernetes_cluster.aks.id
+    aks_id               = data.azurerm_kubernetes_cluster.aks.id
     service_principal_id = data.azuread_service_principal.iac_service_principal.id
-    namespace = var.domain
+    namespace            = var.domain
   }
 
   provisioner "local-exec" {
@@ -22,9 +22,9 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace" {
 resource "null_resource" "aks_with_iac_aad_plus_namespace_system" {
 
   triggers = {
-    aks_id = data.azurerm_kubernetes_cluster.aks.id
+    aks_id               = data.azurerm_kubernetes_cluster.aks.id
     service_principal_id = data.azuread_service_principal.iac_service_principal.id
-    namespace = var.domain
+    namespace            = var.domain
   }
 
   provisioner "local-exec" {
@@ -35,5 +35,3 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace_system" {
     EOT
   }
 }
-
-
