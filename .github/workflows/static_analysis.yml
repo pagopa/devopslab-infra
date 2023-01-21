@@ -15,12 +15,12 @@ jobs:
       - name: init_terraform_folders
         env:
           FOLDERS: >
-            'src/pillar'
-            'src/core'
-            'src/aks-platform'
-            'src/domains/diego-app'
-            'src/domains/diego-common'
-            'src/matteo'
+            src/pillar
+            src/core
+            src/aks-platform
+            src/domains/diego-app
+            src/domains/diego-common
+            src/matteo
         run: |
           pids=()
 
