@@ -25,6 +25,11 @@ locals {
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
+
+  #
+  # Container App
+  #
+  container_app_revision_id = "v2"
 }
 
 variable "prefix" {
@@ -174,3 +179,7 @@ variable "dns_zone_internal_prefix" {
 #
 # VNET
 #
+variable "cidr_subnet_container_apps" {
+  type        = list(string)
+  description = "Subnet for container apps in diego domain"
+}
