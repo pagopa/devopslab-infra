@@ -38,9 +38,13 @@ locals {
   container_app_diego_environment_name           = "dvopla-d-diego-cappenv"
   container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
 
-  container_app_devops_java_springboot_color_name           = "dvopla-d-diego-ambassador-capp"
-  container_app_devops_java_springboot_color_revision_id    = "v5"
-  container_app_devops_java_springboot_color_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-devops-java-springboot-color.yaml"
+  container_app_devops_java_springboot_color_name           = "devops-color-java-capp"
+  container_app_devops_java_springboot_color_revision_id    = "v1"
+  container_app_devops_java_springboot_color_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_java_springboot_color_name}.yaml"
+
+  container_app_devops_ambassador_name           = "ambassador-capp"
+  container_app_devops_ambassador_revision_id    = "v3"
+  container_app_devops_ambassador_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_ambassador_name}.yaml"
 }
 
 variable "prefix" {
