@@ -1,13 +1,13 @@
 ---
 kind: containerapp
 location: northeurope
-name: ${CONTAINER_APP_DEVOPS_JAVA_SPRINGBOOT_COLOR_NAME}
-resourceGroup: ${CONTAINER_APP_DIEGO_ENVIRONMENT_RESOURCE_GROUP}
+name: ${CONTAINER_APP_NAME}
+resourceGroup: ${CONTAINER_APP_RESOURCE_GROUP}
 type: Microsoft.App/containerApps
 tags:
   tagname: value
 properties:
-  managedEnvironmentId: /subscriptions/ac17914c-79bf-48fa-831e-1359ef74c1d5/resourceGroups/${CONTAINER_APP_DIEGO_ENVIRONMENT_RESOURCE_GROUP}/providers/Microsoft.App/managedEnvironments/${CONTAINER_APP_DIEGO_ENVIRONMENT_NAME}
+  managedEnvironmentId: /subscriptions/ac17914c-79bf-48fa-831e-1359ef74c1d5/resourceGroups/${CONTAINER_APP_RESOURCE_GROUP}/providers/Microsoft.App/managedEnvironments/${CONTAINER_APP_ENVIRONMENT_NAME}
   configuration:
     activeRevisionsMode: Single #Setting to single automatically deactivates old revisions, and only keeps the latest revision active. Setting to multiple allows you to maintain multiple revisions.
     secrets:
