@@ -6,3 +6,11 @@ resource "azurerm_key_vault_secret" "aks_apiserver_url" {
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
 }
+
+resource "azurerm_key_vault_secret" "app_insights_connection_string" {
+  name         = "${local.monitor_appinsights_name}-connection-string"
+  value        = data.azurerm_application_insights.application_insights.connection_string
+  content_type = "text/plain"
+
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+}
