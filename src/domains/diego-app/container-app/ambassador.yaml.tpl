@@ -16,7 +16,7 @@ properties:
     ingress:
       external: true
       allowInsecure: false
-      targetPort: 8080
+      targetPort: 3000
       traffic:
         - latestRevision: true
           weight: 100
@@ -33,8 +33,8 @@ properties:
   template:
     revisionSuffix: rev-${REVISION_ID}
     containers:
-      - image: ghcr.io/pagopa/devops-java-springboot-color:0.8.1
-        name: devops-java-springboot-color
+      - image: ghcr.io/pagopa/devops-app-insights-ambassador:main
+        name: ambassador-app
         env:
           - name: APPLICATIONINSIGHTS_CONNECTION_STRING
             secretRef: dvopla-d-appinsights-connection-string
@@ -45,7 +45,7 @@ properties:
           - type: liveness
             httpGet:
               path: "/status"
-              port: 8080
+              port: 3000
               # httpHeaders:
               #   - name: "Custom-Header"
               #     value: "liveness probe"
@@ -56,9 +56,9 @@ properties:
           - type: readiness
             httpGet:
               path: "/status"
-              port: 8080
+              port: 3000
             # tcpSocket:
-            #   port: 8080
+            #   port: 3000
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 6
@@ -66,7 +66,7 @@ properties:
           - type: startup
             httpGet:
               path: "/status"
-              port: 8080
+              port: 3000
               # httpHeaders:
               #   - name: "Custom-Header"
               #     value: "startup probe"
