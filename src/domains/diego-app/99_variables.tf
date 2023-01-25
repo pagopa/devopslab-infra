@@ -29,17 +29,17 @@ locals {
   #
   # KeyVault
   #
-  key_vault_domain_name = "dvopla-d-diego-kv"
+  key_vault_domain_name           = "dvopla-d-diego-kv"
   key_vault_domain_resource_group = "dvopla-d-diego-sec-rg"
 
   #
   # Container App
   #
-  container_app_diego_environment_name = "dvopla-d-diego-cappenv"
+  container_app_diego_environment_name           = "dvopla-d-diego-cappenv"
   container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
 
-  container_app_devops_java_springboot_color_name = "dvopla-d-diego-ambassador-capp"
-  container_app_devops_java_springboot_color_revision_id = "v5"
+  container_app_devops_java_springboot_color_name           = "dvopla-d-diego-ambassador-capp"
+  container_app_devops_java_springboot_color_revision_id    = "v5"
   container_app_devops_java_springboot_color_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-devops-java-springboot-color.yaml"
 }
 

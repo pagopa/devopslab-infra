@@ -49,4 +49,4 @@ dns_zone_internal_prefix = "internal.devopslab"
 #
 # VNET
 #
-cidr_subnet_container_apps      = ["10.1.146.0/23"]
+cidr_subnet_container_apps = ["10.1.146.0/23"]
