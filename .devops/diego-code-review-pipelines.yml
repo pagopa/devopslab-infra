@@ -54,7 +54,7 @@ stages:
       #     # 2. Run terraform plan diego-common
       #     - template: templates/terraform-plan/template.yaml@terraform
       #       parameters:
-      #         ENVIRONMENT: "dev"
+      #         TF_ENVIRONMENT_FOLDER: "dev"
       #         WORKINGDIR: 'src/domains/diego-common'
       #         AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
       - job: terraform_plan_diego_app
@@ -68,7 +68,7 @@ stages:
           # Run terraform plan diego-app
           - template: templates/terraform-plan-with-aks/template.yaml@terraform
             parameters:
-              ENVIRONMENT: "dev"
+              TF_ENVIRONMENT_FOLDER: "dev"
               WORKINGDIR: 'src/domains/diego-app'
               AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
