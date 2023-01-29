@@ -1,13 +1,15 @@
 pr:
+  autoCancel: false
   branches:
     include:
       - main
   paths:
     include:
-      - 'src/*'
-      - '.devops/*'
+      - 'src/domains/diego-app'
+      - 'src/domains/diego-common'
     exclude:
-      - 'src/k8s/*'
+      - '**/*.lock.hcl'
+      - '**/*.md'
 
 parameters:
   - name: 'DEV'
@@ -17,23 +19,11 @@ parameters:
     values:
       - False
       - True
-  - name: 'UAT'
-    displayName: 'Run on UAT environment'
-    type: boolean
-    default: True
-    values:
-      - False
-      - True
-  - name: 'PROD'
-    displayName: 'Run on PROD environment'
-    type: boolean
-    default: True
-    values:
-      - False
-      - True
 
 variables:
-  TIME_OUT: 5
+  TIME_OUT: 15
+  AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
+  AKS_DEV_RESOURCE_GROUP: '$(TF_AKS_DEV_RESOURCE_GROUP)'
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -43,7 +33,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v17
+      ref: refs/heads/DEVOPS-839-aks-pipelines-connessione-tramite-sp
       endpoint: 'azure-devops-github-ro'
 
 stages:
@@ -51,64 +41,35 @@ stages:
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: product-dev-linux
+      name: devopslab-dev-linux
     jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
+      # - job: terraform_plan_diego_common
+      #   strategy:
+      #     parallel: 1
+      #   timeoutInMinutes: $[variables.TIME_OUT]
+      #   steps:
+      #     - checkout: self
+      #     # 1. Install terraform and terragrunt
+      #     - template: templates/terraform-setup/template.yaml@terraform
+      #     # 2. Run terraform plan diego-common
+      #     - template: templates/terraform-plan/template.yaml@terraform
+      #       parameters:
+      #         ENVIRONMENT: "dev"
+      #         WORKINGDIR: 'src/domains/diego-common'
+      #         AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+      - job: terraform_plan_diego_app
         timeoutInMinutes: $[variables.TIME_OUT]
+        strategy:
+          parallel: 1
         steps:
           - checkout: self
-          # 2. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: DEV-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: dev
-              WORKINGDIR: 'src/core'
-
-  - stage: UAT
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: product-uat-linux
-    jobs:
-      - job: terraform_install
-        steps:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 2. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
+          # Run terraform plan diego-app
+          - template: templates/terraform-plan-with-aks/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: UAT-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: uat
-              WORKINGDIR: 'src/core'
-
-  - stage: PROD
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: product-prod-linux
-    jobs:
-      - job: terraform_install
-        steps:
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-      - job: terraform_plan
-        dependsOn: terraform_install
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 2. Run terragrunt plan
-          - template: templates/terraform-plan/template.yaml@terraform
-            parameters:
-              SUBSCRIPTION: PROD-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: prod
-              WORKINGDIR: 'src/core'
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/diego-app'
+              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}

@@ -10,23 +10,27 @@ parameters:
     values:
       - False
       - True
-  - name: 'UAT'
-    displayName: 'Run on UAT environment'
-    type: boolean
-    default: True
-    values:
-      - False
-      - True
-  - name: 'PROD'
-    displayName: 'Run on PROD environment'
-    type: boolean
-    default: True
-    values:
-      - False
-      - True
+  # - name: 'UAT'
+  #   displayName: 'Run on UAT environment'
+  #   type: boolean
+  #   default: True
+  #   values:
+  #     - False
+  #     - True
+  # - name: 'PROD'
+  #   displayName: 'Run on PROD environment'
+  #   type: boolean
+  #   default: True
+  #   values:
+  #     - False
+  #     - True
 
 variables:
-  TIME_OUT: 5
+  TIME_OUT: 10
+  DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
+  DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
+  DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'
+  AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
 
 pool:
   vmImage: 'ubuntu-20.04'
@@ -36,141 +40,105 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v17
-      endpoint: 'azure-devops-github-ro'
+      ref: refs/heads/DEVOPS-492-cstar-rtd-creazione-deploy-pipeline
+      endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  # DEV
-  - stage: plan_DEV
+  - stage: DEV
     dependsOn: []
     condition: and(succeeded(), eq(${{parameters.DEV}}, true))
     pool:
-      name: product-dev-linux
+      name: cstar-dev-linux
     jobs:
-      - job: plan
+      #
+      # rtd_common
+      #
+      - job: tf_plan_rtd_common
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
+          - checkout: self
           # 1. Install terraform
           - template: templates/terraform-setup/template.yaml@terraform
           # 2. Run terraform plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: DEV-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: dev
-              WORKINGDIR: 'src/core'
-
-  - stage: apply_DEV
-    dependsOn: [plan_DEV]
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: product-dev-linux
-    jobs:
-      # - job: init
-      #   steps:
-      #     # 1. Install terraform
-      #     - template: templates/terraform-setup/template.yaml@terraform
-      - deployment: apply
-        continueOnError: false
-        # dependsOn: init
-        environment: 'DEV'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                # 3. Run terraform apply
-                - template: templates/terraform-apply/template.yaml@terraform
-                  parameters:
-                    SUBSCRIPTION: DEV-PRODUCT-SERVICE-CONN
-                    ENVIRONMENT: dev
-                    WORKINGDIR: 'src/core'
-
-  # UAT
-  - stage: plan_UAT
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: product-uat-linux
-    jobs:
-      - job: plan
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-common'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
+            parameters:
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-common'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+      #
+      # rtd_app
+      #
+      - job: tf_plan_rtd_app
         timeoutInMinutes: $[variables.TIME_OUT]
         steps:
-          # 1. Install terraform
+          - checkout: self
+          # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
           # 2. Run terraform plan
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: UAT-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: uat
-              WORKINGDIR: 'src/core'
-
-  - stage: apply_UAT
-    dependsOn: [plan_UAT]
-    condition: and(succeeded(), eq(${{parameters.UAT}}, true))
-    pool:
-      name: product-uat-linux
-    jobs:
-      # - job: init
-      #   steps:
-      #     # 1. Install terraform
-      #     - template: templates/terraform-setup/template.yaml@terraform
-      - deployment: apply
-        continueOnError: false
-        # dependsOn: init
-        environment: 'UAT'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                # 3. Run terraform apply
-                - template: templates/terraform-apply/template.yaml@terraform
-                  parameters:
-                    SUBSCRIPTION: UAT-PRODUCT-SERVICE-CONN
-                    ENVIRONMENT: uat
-                    WORKINGDIR: 'src/core'
-
-  # PROD
-  - stage: plan_PROD
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: product-prod-linux
-    jobs:
-      - job: plan
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          # 1. Install terraform
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-plan/template.yaml@terraform
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-app'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+          # 3. Run terraform apply
+          - template: templates/terraform-apply/template.yaml@terraform
             parameters:
-              SUBSCRIPTION: PROD-PRODUCT-SERVICE-CONN
-              ENVIRONMENT: prod
-              WORKINGDIR: 'src/core'
+              ENVIRONMENT: "dev"
+              WORKINGDIR: 'src/domains/rtd-app'
+              AZURE_SERVICE_CONNECTION_NAME: DEV-CSTAR-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+              AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+              AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
 
-  - stage: apply_PROD
-    dependsOn: [plan_PROD]
-    condition: and(succeeded(), eq(${{parameters.PROD}}, true))
-    pool:
-      name: product-prod-linux
-    jobs:
-      # - job: init
-      #   steps:
-      #     # 1. Install terraform
-      #     - template: templates/terraform-setup/template.yaml@terraform
-      - deployment: apply
-        continueOnError: false
-        # dependsOn: init
-        environment: 'PROD'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                # 3. Run terraform apply
-                - template: templates/terraform-apply/template.yaml@terraform
-                  parameters:
-                    SUBSCRIPTION: PROD-PRODUCT-SERVICE-CONN
-                    ENVIRONMENT: prod
-                    WORKINGDIR: 'src/core'
+  # - stage: UAT
+  #   dependsOn: []
+  #   condition: and(succeeded(), eq(${{parameters.UAT}}, true))
+  #   pool:
+  #     name: cstar-uat-linux
+  #   jobs:
+  #     - job: tf_install
+  #       steps:
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #     - job: tf_plan
+  #       dependsOn: tf_install
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       steps:
+  #         - checkout: self
+  #         # 2. Run terragrunt plan
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             SUBSCRIPTION: UAT-CSTAR-SERVICE-CONN
+  #             ENVIRONMENT: uat
+
+  # - stage: PROD
+  #   dependsOn: []
+  #   condition: and(succeeded(), eq(${{parameters.PROD}}, true))
+  #   pool:
+  #     name: cstar-prod-linux
+  #   jobs:
+  #     - job: tf_install
+  #       steps:
+  #         # 1. Install terraform and terragrunt
+  #         - template: templates/terraform-setup/template.yaml@terraform
+  #     - job: tf_plan
+  #       dependsOn: tf_install
+  #       timeoutInMinutes: $[variables.TIME_OUT]
+  #       steps:
+  #         - checkout: self
+  #         # 2. Run terragrunt plan
+  #         - template: templates/terraform-plan/template.yaml@terraform
+  #           parameters:
+  #             SUBSCRIPTION: PROD-CSTAR-SERVICE-CONN
+  #             ENVIRONMENT: prod
