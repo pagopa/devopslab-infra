@@ -42,7 +42,7 @@ stages:
         # DEV diego APP
         - template: templates/terraform-aks-plan-apply/template.yaml@terraform
           parameters:
-            DOMAIN_NAME: 'diego-app'
+            DOMAIN_NAME: 'diego_app'
             AZURE_DEVOPS_POOL_AGENT_NAME: "devopslab-dev-linux"
             AZURE_DEVOPS_ENVIRONMENT: "dev"
             TF_ENVIRONMENT_FOLDER: "dev"
