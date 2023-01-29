@@ -29,61 +29,21 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-  - stage: DEV
-    dependsOn: []
-    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
-    pool:
-      name: devopslab-dev-linux
-    jobs:
-      #
-      # diego_common
-      #
-      - job: tf_diego_common
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-aks-action/template.yaml@terraform
-            parameters:
-              TF_ACTION: "plan"
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: 'src/domains/diego-app'
-              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
-          # 3. Run terraform apply
-          - template: templates/terraform-aks-plan-apply/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: 'src/domains/diego-app'
-              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
-      #
-      # diego_app
-      #
-      - job: tf_diego_app
-        timeoutInMinutes: $[variables.TIME_OUT]
-        steps:
-          - checkout: self
-          # 1. Install terraform and terragrunt
-          - template: templates/terraform-setup/template.yaml@terraform
-          # 2. Run terraform plan
-          - template: templates/terraform-aks-action/template.yaml@terraform
-            parameters:
-              TF_ACTION: "plan"
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: 'src/domains/diego-app'
-              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
-          # 3. Run terraform apply
-          - template: templates/terraform-aks-plan-apply/template.yaml@terraform
-            parameters:
-              TF_ENVIRONMENT_FOLDER: "dev"
-              WORKINGDIR: 'src/domains/diego-app'
-              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
+      - ${{ if eq(parameters['DEV'], true) }}:
+        # # DEV ecommerce COMMON
+        # - template: templates/terraform-aks-plan-apply/template.yaml@terraform
+        #   parameters:
+        #     TF_ENVIRONMENT_FOLDER: "dev"
+        #     WORKINGDIR: 'src/domains/diego-common'
+        #     AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+        #     AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+        #     AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
+
+        # DEV diego APP
+        - template: templates/terraform-aks-plan-apply/template.yaml@terraform
+          parameters:
+            TF_ENVIRONMENT_FOLDER: "dev"
+            WORKINGDIR: 'src/domains/diego-app'
+            AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+            AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+            AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
