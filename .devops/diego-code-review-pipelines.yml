@@ -66,8 +66,9 @@ stages:
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
           # Run terraform plan diego-app
-          - template: templates/terraform-plan-with-aks/template.yaml@terraform
+          - template: templates/terraform-aks-action/template.yaml@terraform
             parameters:
+              TF_ACTION: "plan"
               TF_ENVIRONMENT_FOLDER: "dev"
               WORKINGDIR: 'src/domains/diego-app'
               AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
