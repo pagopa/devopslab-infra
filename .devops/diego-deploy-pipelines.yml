@@ -44,6 +44,7 @@ stages:
           parameters:
             DOMAIN_NAME: 'diego-app'
             AZURE_DEVOPS_POOL_AGENT_NAME: "devopslab-dev-linux"
+            AZURE_DEVOPS_ENVIRONMENT: "dev"
             TF_ENVIRONMENT_FOLDER: "dev"
             WORKINGDIR: 'src/domains/diego-app'
             AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
