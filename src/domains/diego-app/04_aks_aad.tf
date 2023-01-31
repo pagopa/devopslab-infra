@@ -17,6 +17,15 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace" {
       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
     EOT
   }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      az role assignment delete --role "Azure Kubernetes Service RBAC Admin" \
+      --assignee ${self.triggers.service_principal_id} \
+      --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
+    EOT
+  }
 }
 
 resource "null_resource" "aks_with_iac_aad_plus_namespace_system" {
@@ -30,6 +39,15 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace_system" {
   provisioner "local-exec" {
     command = <<EOT
       az role assignment create --role "Azure Kubernetes Service RBAC Admin" \
+      --assignee ${self.triggers.service_principal_id} \
+      --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}-system
+    EOT
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+      az role assignment delete --role "Azure Kubernetes Service RBAC Admin" \
       --assignee ${self.triggers.service_principal_id} \
       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}-system
     EOT

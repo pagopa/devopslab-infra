@@ -1,0 +1,76 @@
+pr:
+  autoCancel: false
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - 'src/domains/diego-app'
+      - 'src/domains/diego-common'
+    exclude:
+      - '**/*.lock.hcl'
+      - '**/*.md'
+
+parameters:
+  - name: 'DEV'
+    displayName: 'Run on DEV environment'
+    type: boolean
+    default: True
+    values:
+      - False
+      - True
+
+variables:
+  TIME_OUT: 15
+  AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
+  AKS_DEV_RESOURCE_GROUP: '$(TF_AKS_DEV_RESOURCE_GROUP)'
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+resources:
+  repositories:
+    - repository: terraform
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/tags/v3.7.0
+      endpoint: 'io-azure-devops-github-ro'
+
+stages:
+  - stage: DEV
+    dependsOn: []
+    condition: and(succeeded(), eq(${{parameters.DEV}}, true))
+    pool:
+      name: devopslab-dev-linux
+    jobs:
+      # - job: terraform_plan_diego_common
+      #   strategy:
+      #     parallel: 1
+      #   timeoutInMinutes: $[variables.TIME_OUT]
+      #   steps:
+      #     - checkout: self
+      #     # 1. Install terraform and terragrunt
+      #     - template: templates/terraform-setup/template.yaml@terraform
+      #     # 2. Run terraform plan diego-common
+      #     - template: templates/terraform-plan/template.yaml@terraform
+      #       parameters:
+      #         TF_ENVIRONMENT_FOLDER: "dev"
+      #         WORKINGDIR: 'src/domains/diego-common'
+      #         AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+      - job: terraform_plan_diego_app
+        timeoutInMinutes: $[variables.TIME_OUT]
+        strategy:
+          parallel: 1
+        steps:
+          - checkout: self
+          # 1. Install terraform and terragrunt
+          - template: templates/terraform-setup/template.yaml@terraform
+          # Run terraform plan diego-app
+          - template: templates/terraform-aks-action/template.yaml@terraform
+            parameters:
+              TF_ACTION: "plan"
+              TF_ENVIRONMENT_FOLDER: "dev"
+              WORKINGDIR: 'src/domains/diego-app'
+              AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
+              AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+              AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
