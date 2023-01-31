@@ -33,7 +33,7 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/heads/DEVOPS-839-aks-pipelines-connessione-tramite-sp
+      ref: refs/tags/v3.7.0
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
