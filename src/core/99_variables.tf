@@ -33,6 +33,12 @@ locals {
   cosmosdb_enable = 1
 
   dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+
+  #
+  # Container App
+  #
+  container_app_github_runner_env_name           = "${local.project}-github-runner-cae"
+  container_app_github_runner_env_rg = "${local.project}-github-runner-rg"
 }
 
 variable "prefix" {
@@ -179,6 +185,11 @@ variable "cidr_subnet_app_diego_app" {
 }
 
 variable "cidr_subnet_funcs_diego_domain" {
+  type        = list(string)
+  description = "Subnet for funcs in diego domain"
+}
+
+variable "cidr_subnet_github_runner_self_hosted" {
   type        = list(string)
   description = "Subnet for funcs in diego domain"
 }
