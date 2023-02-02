@@ -28,7 +28,7 @@ resource "azurerm_role_assignment" "environment_cd_subscription" {
 }
 
 resource "azurerm_role_assignment" "environment_cd_tfstate_inf" {
-  scope                = data.azurerm_storage_account.tfstate_inf.id
+  scope                = data.azurerm_storage_account.tfstate_storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azuread_service_principal.environment_cd.object_id
 }

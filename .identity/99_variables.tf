@@ -1,6 +1,20 @@
 locals {
   project  = "${var.prefix}-${var.env_short}"
   app_name = "github-${var.github.org}-${var.github.repository}-${var.env}"
+
+  #
+  # Storage state
+  #
+  tfstate_storage_account_name = "dvopladstinfraterraform"
+  tfstate_storage_account_rg_name = "io-infra-rg"
+
+
+  #
+  # Container app
+  #
+  container_app_github_runner_env_name           = "dvopla-d-neu-core-github-runner-cae"
+  container_app_github_runner_env_rg = "dvopla-d-neu-core-github-runner-rg"
+
 }
 
 variable "prefix" {
@@ -34,10 +48,6 @@ variable "github" {
     repository = string
   })
   description = "GitHub Organization and repository name"
-  default = {
-    org        = "pagopa"
-    repository = "github-actions-infra-azure-poc"
-  }
 }
 
 variable "github_token" {

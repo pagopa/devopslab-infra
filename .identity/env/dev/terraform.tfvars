@@ -2,6 +2,11 @@ prefix    = "dvopla"
 env_short = "d"
 env       = "dev"
 
+github = {
+  org        = "pagopa"
+  repository = "devopslab-infra"
+}
+
 environment_ci_roles = {
   subscription = [
     "Reader",
