@@ -5,15 +5,15 @@ locals {
   #
   # Storage state
   #
-  tfstate_storage_account_name = "dvopladstinfraterraform"
+  tfstate_storage_account_name    = "dvopladstinfraterraform"
   tfstate_storage_account_rg_name = "io-infra-rg"
 
 
   #
   # Container app
   #
-  container_app_github_runner_env_name           = "dvopla-d-neu-core-github-runner-cae"
-  container_app_github_runner_env_rg = "dvopla-d-neu-core-github-runner-rg"
+  container_app_github_runner_env_name = "dvopla-d-neu-core-github-runner-cae"
+  container_app_github_runner_env_rg   = "dvopla-d-neu-core-github-runner-rg"
 
 }
 

@@ -37,8 +37,8 @@ locals {
   #
   # Container App
   #
-  container_app_github_runner_env_name           = "${local.project}-github-runner-cae"
-  container_app_github_runner_env_rg = "${local.project}-github-runner-rg"
+  container_app_github_runner_env_name = "${local.project}-github-runner-cae"
+  container_app_github_runner_env_rg   = "${local.project}-github-runner-rg"
 }
 
 variable "prefix" {
