@@ -70,7 +70,7 @@ jobs:
           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           dir: ${{ env.DIR }}
           azure_environment: ${{ env.AZURE_ENVIRONMENT }}
-          terraform_action: plan
+          terraform_action: "plan"
           aks_name: "dvopla-d-neu-dev01-aks"
           aks_resource_group: "dvopla-d-neu-dev01-aks-rg"
 
