@@ -1,4 +1,4 @@
-name: Continuous Integration on dev core
+name: Continuous Integration on DEV@src/domains/diego-app
 
 on:
   workflow_dispatch:
