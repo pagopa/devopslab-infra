@@ -61,14 +61,18 @@ jobs:
         uses: pagopa/terraform-install-action@1f76f593176e58c423b88d72273a612ba7ba430b
 
       - name: Terraform plan
-        # from https://github.com/pagopa/terraform-plan-azure-action/commits/main
-        uses: pagopa/terraform-plan-azure-action@392aca28cbb33f5dc28215dfb72385e136fd813b
+        # from https://github.com/pagopa/terraform-aks-azure-action/blob/main/action.yml
+        uses: pagopa/terraform-aks-azure-action@beta-version
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
+          client_secret: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           dir: ${{ env.DIR }}
           azure_environment: ${{ env.AZURE_ENVIRONMENT }}
+          terraform_action: plan
+          aks_name: "dvopla-d-neu-dev01-aks"
+          aks_resource_group: "dvopla-d-neu-dev01-aks-rg"
 
   cleanup_runner:
     name: Cleanup Runner
