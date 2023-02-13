@@ -15,10 +15,15 @@ resource "azuread_application_federated_identity_credential" "environment_ci" {
   subject               = "repo:${var.github.org}/${var.github.repository}:environment:${var.env}-ci"
 }
 
-resource "azuread_directory_role_assignment" "environment_ci_directory_readers" {
-  role_id             = azuread_directory_role.directory_readers.template_id
-  principal_object_id = azuread_service_principal.environment_ci.object_id
+resource "azuread_group_member" "add_environment_ci_to_directory_readers_group" {
+  group_object_id  = data.azuread_group.github_runners_iac_permissions.id
+  member_object_id = azuread_service_principal.environment_ci.object_id
 }
+
+# resource "azuread_directory_role_assignment" "environment_ci_directory_readers" {
+#   role_id             = azuread_directory_role.directory_readers.template_id
+#   principal_object_id = azuread_service_principal.environment_ci.object_id
+# }
 
 resource "azurerm_role_assignment" "environment_ci_subscription" {
   for_each             = toset(var.environment_ci_roles.subscription)
