@@ -2,10 +2,27 @@ data "azuread_service_principal" "github_runner_ci" {
   display_name = "github-pagopa-devopslab-infra-dev-ci"
 }
 
+resource "azurerm_role_definition" "pagopa_aks_service_cluster_user_role" {
+  name        = "Pagopa Azure Kubernetes Service Cluster User Role"
+  scope       = data.azurerm_kubernetes_cluster.aks.id
+  description = "AKS user can login to aks and download kubeconfig "
+  permissions {
+    actions     = [
+        "Microsoft.ContainerService/managedClusters/read",
+        "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action",
+        "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action"
+        ]
+  }
+}
+
 resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_runner_ci" {
   scope                = data.azurerm_kubernetes_cluster.aks.id
-  role_definition_name = "Azure Kubernetes Service Cluster User Role"
+  role_definition_name = "Pagopa Azure Kubernetes Service Cluster User Role"
   principal_id         = data.azuread_service_principal.github_runner_ci.id
+
+  depends_on = [
+    azurerm_role_definition.pagopa_aks_service_cluster_user_role
+  ]
 }
 
 # this was made because we need a way to achive this role: Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action
