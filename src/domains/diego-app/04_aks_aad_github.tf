@@ -8,6 +8,20 @@ resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_run
   principal_id         = data.azuread_service_principal.github_runner_ci.id
 }
 
+
+resource "azurerm_key_vault_access_policy" "github_runner_ci" {
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.github_runner_ci.object_id
+
+  secret_permissions = ["Get", "List", "Set", ]
+
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", ]
+
+  storage_permissions = []
+}
+
+
 resource "null_resource" "aks_with_iac_aad_plus_namespace_ci" {
 
   triggers = {
@@ -59,3 +73,4 @@ resource "null_resource" "aks_with_iac_aad_plus_namespace_system_ci" {
     EOT
   }
 }
+
