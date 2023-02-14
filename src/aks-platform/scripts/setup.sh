@@ -162,14 +162,14 @@ function setup() {
 ############################################################
 
 # Get the options
-while getopts ":h:l" option; do
+while getopts ":hl-:" option; do
    case $option in
+      h) # display Help
+         print_usage
+         exit;;
       l) # list available environments
          echo "the available environment(-s):"
          ls "../env"
-         exit;;
-      h) # display Help
-         print_usage
          exit;;
       *) # Invalid option
          echo "Error: Invalid option"
@@ -177,6 +177,10 @@ while getopts ":h:l" option; do
    esac
 done
 
-check_env $1
-def_var $1
-setup
+if [[ $1 ]]; then 
+  check_env $1
+  def_var $1
+  setup
+else
+  print_usage
+fi
