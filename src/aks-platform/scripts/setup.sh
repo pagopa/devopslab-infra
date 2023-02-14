@@ -30,7 +30,6 @@ function print_usage() {
 # Define variables                                         #
 ############################################################
 function def_var() {
-  # Get the current script location
   # Check if Azure CLI is installed
   ENV=$1
   which az >/dev/null
@@ -168,7 +167,7 @@ while getopts ":hl-:" option; do
          print_usage
          exit;;
       l) # list available environments
-         echo "the available environment(-s):"
+         echo "Available environment(-s):"
          ls "../env"
          exit;;
       *) # Invalid option
