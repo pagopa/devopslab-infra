@@ -8,6 +8,13 @@ resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_run
   principal_id         = data.azuread_service_principal.github_runner_ci.id
 }
 
+# this was made because we need a way to achive this role: Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action
+resource "azurerm_role_assignment" "aks_service_rbac_admin_for_github_runner_ci" {
+  scope                = data.azurerm_kubernetes_cluster.aks.id
+  role_definition_name = "Azure Kubernetes Service RBAC Admin"
+  principal_id         = data.azuread_service_principal.github_runner_ci.id
+}
+
 
 resource "azurerm_key_vault_access_policy" "github_runner_ci" {
   key_vault_id = data.azurerm_key_vault.kv_domain.id
