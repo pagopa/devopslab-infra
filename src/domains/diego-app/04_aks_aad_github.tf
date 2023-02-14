@@ -11,7 +11,7 @@ resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_run
 # this was made because we need a way to achive this role: Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action
 resource "azurerm_role_assignment" "aks_service_rbac_admin_for_github_runner_ci" {
   scope                = data.azurerm_kubernetes_cluster.aks.id
-  role_definition_name = "Azure Kubernetes Service RBAC Admin"
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = data.azuread_service_principal.github_runner_ci.id
 }
 
