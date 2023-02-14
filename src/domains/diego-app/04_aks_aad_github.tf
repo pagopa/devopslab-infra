@@ -2,6 +2,12 @@ data "azuread_service_principal" "github_runner_ci" {
   display_name = "github-pagopa-devopslab-infra-dev-ci"
 }
 
+resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_runner_ci" {
+  scope                = data.azurerm_kubernetes_cluster.aks.id
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
+  principal_id         = data.azuread_service_principal.github_runner_ci.id
+}
+
 resource "null_resource" "aks_with_iac_aad_plus_namespace_ci" {
 
   triggers = {
