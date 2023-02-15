@@ -122,7 +122,7 @@ function check_env() {
     echo "[ERROR] File ../env/$ENV/backend.ini not found."
     exit 1
   fi
-  # Check if 
+  # Check if subscription has been specified
   if [ -z "${subscription}" ]; then
     echo "[ERROR] Subscription not found in the environment file: ${env_file_path}"
     exit 1
@@ -150,7 +150,6 @@ function setup() {
 
       # with AAD auth enabled we need to authenticate the machine on the first setup
       echo "Follow Microsoft sign in steps. kubectl get namespaces command will fail but it's the expected behavior"
-      set -x
       kubectl --kubeconfig="${HOME_DIR}/.kube/config-${aks_name}" get namespaces
       kubectl config use-context "${aks_name}"
       kubectl get namespaces
@@ -179,7 +178,7 @@ while getopts ":hl-:" option; do
    esac
 done
 
-if [[ $1 ]]; then 
+if [[ $1 ]]; then
   check_env $1
   def_var $1
   setup
