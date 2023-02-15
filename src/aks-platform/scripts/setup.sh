@@ -7,11 +7,14 @@ set -e
 # script_url: https://raw.githubusercontent.com/user/repo/master/new_script.sh
 # current_version": 1.0
 ############################################################
+# Global variables
+VERS="1.0"
 
 ############################################################
 # Define a helper function to print usage information                                                     #
 ############################################################
 function print_usage() {
+  echo "Setup v."${VERS} "sets up a configuration relative to a specific subscription"
   echo "Usage: cd <scripts folder>"
   echo "  ./setup.sh <ENV>"
   for thisenv in $(ls "../env")
@@ -146,10 +149,11 @@ function setup() {
       az aks get-credentials -g "${aks_resource_group_name}" -n "${aks_name}" --subscription "${subscription}" --overwrite-existing
 
       # with AAD auth enabled we need to authenticate the machine on the first setup
-      echo "Follow Microsoft sign in steps. kubectl get pods command will fail but it's the expected behavior"
-      kubectl --kubeconfig="${HOME_DIR}/.kube/config-${aks_name}" get pods
+      echo "Follow Microsoft sign in steps. kubectl get namespaces command will fail but it's the expected behavior"
+      set -x
+      kubectl --kubeconfig="${HOME_DIR}/.kube/config-${aks_name}" get namespaces
       kubectl config use-context "${aks_name}"
-      kubectl get pods
+      kubectl get namespaces
     else
       echo "Kubectl not installed. Impossible to proceed"
       exit 1
@@ -159,7 +163,6 @@ function setup() {
 ############################################################
 # Main program                                             #
 ############################################################
-
 # Get the options
 while getopts ":hl-:" option; do
    case $option in
