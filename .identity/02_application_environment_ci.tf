@@ -6,9 +6,9 @@ resource "azuread_service_principal" "environment_ci" {
   application_id = azuread_application.environment_ci.application_id
 }
 
-resource "azuread_service_principal_password" "environment_ci" {
-  service_principal_id = azuread_service_principal.environment_ci.object_id
-}
+# resource "azuread_service_principal_password" "environment_ci" {
+#   service_principal_id = azuread_service_principal.environment_ci.object_id
+# }
 
 
 resource "azuread_application_federated_identity_credential" "environment_ci" {

@@ -65,7 +65,6 @@ jobs:
         uses: pagopa/terraform-aks-azure-action@beta-version
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          client_secret: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           dir: ${{ env.DIR }}
