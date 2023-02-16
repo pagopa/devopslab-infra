@@ -7,6 +7,7 @@ github = {
   repository = "devopslab-infra"
 }
 
+# read only roles
 environment_ci_roles = {
   subscription = [
     "Reader",
@@ -27,6 +28,7 @@ github_repository_environment_ci = {
   custom_branch_policies = true
 }
 
+# read-write roles
 environment_cd_roles = {
   subscription = [
     "Contributor",
@@ -35,6 +37,7 @@ environment_cd_roles = {
     "Storage File Data SMB Share Contributor",
     "Storage Queue Data Contributor",
     "Storage Table Data Contributor",
+
   ]
 }
 
