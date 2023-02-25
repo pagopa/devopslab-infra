@@ -10,21 +10,8 @@ locals {
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
-  # ACR DOCKER
-  docker_rg_name       = "${local.product}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
-
-  aks_name                = var.aks_name
-  aks_resource_group_name = var.aks_resource_group_name
-
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
-
-  # DOMAINS
-  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
-  domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
-
-  aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
 
   #
   # KeyVault
@@ -124,11 +111,6 @@ variable "terraform_remote_state_core" {
   })
 }
 
-variable "event_hub_port" {
-  type    = number
-  default = 9093
-}
-
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -144,19 +126,6 @@ variable "log_analytics_workspace_name" {
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
-}
-
-### Aks
-
-variable "aks_name" {
-  type        = string
-  description = "AKS cluster name"
-}
-
-variable "aks_resource_group_name" {
-  type        = string
-  description = "AKS cluster resource name"
-
 }
 
 variable "k8s_kube_config_path_prefix" {
