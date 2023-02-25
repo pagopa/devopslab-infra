@@ -75,5 +75,5 @@ properties:
             failureThreshold: 6
             timeoutSeconds: 10
     scale:
-      minReplicas: 1
+      minReplicas: 0
       maxReplicas: 3
