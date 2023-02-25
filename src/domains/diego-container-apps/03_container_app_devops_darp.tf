@@ -26,29 +26,29 @@ resource "azurerm_container_app" "frontend" {
 
       liveness_probe {
         failure_count_threshold = 10
-        initial_delay = 10
-        interval_seconds = 10
-        path = "/status"
-        port = 8000
-        transport = "HTTP"
+        initial_delay           = 10
+        interval_seconds        = 10
+        path                    = "/status"
+        port                    = 8000
+        transport               = "HTTP"
       }
 
       readiness_probe {
         failure_count_threshold = 10
-        interval_seconds = 10
-        path = "/status"
-        port = 8000
-        transport = "HTTP"
+        interval_seconds        = 10
+        path                    = "/status"
+        port                    = 8000
+        transport               = "HTTP"
       }
     }
   }
 
   ingress {
     external_enabled = true
-    target_port = 8000
+    target_port      = 8000
     traffic_weight {
       latest_revision = true
-      percentage = 100
+      percentage      = 100
     }
   }
 }

@@ -22,7 +22,7 @@ resource "azurerm_container_app_environment" "diego_env" {
   location                   = azurerm_resource_group.container_app_diego.location
   resource_group_name        = azurerm_resource_group.container_app_diego.name
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics.id
-  infrastructure_subnet_id = module.container_apps_snet.id
+  infrastructure_subnet_id   = module.container_apps_snet.id
 }
 
 # resource "null_resource" "update_az_cli" {
