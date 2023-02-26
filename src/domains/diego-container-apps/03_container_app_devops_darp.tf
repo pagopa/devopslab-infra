@@ -8,9 +8,18 @@
 #   })
 # }
 
+data "azurerm_container_app_environment" "dapr_env" {
+  name                = local.container_app_dapr_environment_name
+  resource_group_name = azurerm_resource_group.container_app_diego.name
+
+  depends_on = [
+    null_resource.container_app_dapr_create_env
+  ]
+}
+
 resource "azurerm_container_app" "frontend" {
   name                         = "frontend-dapr-showcase"
-  container_app_environment_id = azurerm_container_app_environment.diego_env.id
+  container_app_environment_id = data.azurerm_container_app_environment.dapr_env.id
   resource_group_name          = azurerm_resource_group.container_app_diego.name
   revision_mode                = "Single"
 
@@ -51,4 +60,8 @@ resource "azurerm_container_app" "frontend" {
       percentage      = 100
     }
   }
+
+  depends_on = [
+    data.azurerm_container_app_environment.dapr_env
+  ]
 }

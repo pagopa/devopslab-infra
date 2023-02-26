@@ -22,8 +22,11 @@ locals {
   #
   # Container App
   #
-  container_app_diego_environment_name           = "dvopla-d-diego-cappenv"
   container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
+
+  container_app_diego_environment_name = "dvopla-d-diego-cappenv"
+  container_app_dapr_environment_name  = "dvopla-d-dapr-cappenv"
+
 
   container_app_devops_java_springboot_color_name           = "devops-color-java-capp"
   container_app_devops_java_springboot_color_revision_id    = "v1"
@@ -133,15 +136,6 @@ variable "k8s_kube_config_path_prefix" {
   default = "~/.kube"
 }
 
-variable "ingress_load_balancer_ip" {
-  type = string
-}
-
-variable "ingress_load_balancer_hostname" {
-  type    = string
-  default = ""
-}
-
 # DNS
 variable "external_domain" {
   type        = string
@@ -166,4 +160,9 @@ variable "dns_zone_internal_prefix" {
 variable "cidr_subnet_container_apps" {
   type        = list(string)
   description = "Subnet for container apps in diego domain"
+}
+
+variable "cidr_subnet_container_apps_dapr" {
+  type        = list(string)
+  description = "Subnet for container apps dapr in diego domain"
 }

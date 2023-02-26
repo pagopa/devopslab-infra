@@ -31,10 +31,6 @@ monitor_resource_group_name                 = "dvopla-d-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
-
-ingress_load_balancer_ip = "10.11.100.250"
-# ingress_load_balancer_hostname = "dev01.diego.internal.devopslab.pagopa.it"
-
 #
 # Dns
 #
@@ -45,4 +41,5 @@ dns_zone_internal_prefix = "internal.devopslab"
 #
 # VNET
 #
-cidr_subnet_container_apps = ["10.1.146.0/23"]
+cidr_subnet_container_apps      = ["10.1.146.0/23"]
+cidr_subnet_container_apps_dapr = ["10.1.150.0/23"]
