@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 3.45.0"
+      version = "= 3.45.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -10,15 +10,15 @@ terraform {
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.2.1"
+      version = "= 3.1.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "= 2.17.0"
+      version = "= 2.11.0"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "= 2.8.0"
+      version = "= 2.5.1"
     }
     local = {
       source = "hashicorp/local"
@@ -36,16 +36,16 @@ data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
 
-data "terraform_remote_state" "core" {
-  backend = "azurerm"
+# data "terraform_remote_state" "core" {
+#   backend = "azurerm"
 
-  config = {
-    resource_group_name  = var.terraform_remote_state_core.resource_group_name
-    storage_account_name = var.terraform_remote_state_core.storage_account_name
-    container_name       = var.terraform_remote_state_core.container_name
-    key                  = var.terraform_remote_state_core.key
-  }
-}
+#   config = {
+#     resource_group_name  = var.terraform_remote_state_core.resource_group_name
+#     storage_account_name = var.terraform_remote_state_core.storage_account_name
+#     container_name       = var.terraform_remote_state_core.container_name
+#     key                  = var.terraform_remote_state_core.key
+#   }
+# }
 
 provider "kubernetes" {
   config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"

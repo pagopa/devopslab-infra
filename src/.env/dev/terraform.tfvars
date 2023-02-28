@@ -21,25 +21,25 @@ key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
 
 # ☁️ networking
-cidr_vnet                             = ["10.1.0.0/16"]
-cidr_subnet_k8s                       = ["10.1.0.0/17"]
-cidr_subnet_appgateway                = ["10.1.128.0/24"]
-cidr_subnet_postgres                  = ["10.1.129.0/24"]
-cidr_subnet_azdoa                     = ["10.1.130.0/24"]
-cidr_subnet_app_docker                = ["10.1.132.0/24"]
-cidr_subnet_flex_dbms                 = ["10.1.133.0/24"]
-cidr_subnet_apim                      = ["10.1.136.0/24"]
-cidr_subnet_appgateway_beta           = ["10.1.138.0/24"]
-cidr_subnet_vpn                       = ["10.1.139.0/24"]
-cidr_subnet_dnsforwarder              = ["10.1.140.0/29"]
-cidr_subnet_private_endpoints         = ["10.1.141.0/24"]
-cidr_subnet_eventhub                  = ["10.1.142.0/24"]
-cidr_subnet_redis                     = ["10.1.143.0/24"]
-cidr_subnet_funcs_diego_domain        = ["10.1.144.0/24"]
-cidr_subnet_app_diego_app             = ["10.1.145.0/24"]
-cidr_subnet_container_apps            = ["10.1.146.0/23"]
+cidr_vnet                      = ["10.1.0.0/16"]
+cidr_subnet_k8s                = ["10.1.0.0/17"]
+cidr_subnet_appgateway         = ["10.1.128.0/24"]
+cidr_subnet_postgres           = ["10.1.129.0/24"]
+cidr_subnet_azdoa              = ["10.1.130.0/24"]
+cidr_subnet_app_docker         = ["10.1.132.0/24"]
+cidr_subnet_flex_dbms          = ["10.1.133.0/24"]
+cidr_subnet_apim               = ["10.1.136.0/24"]
+cidr_subnet_appgateway_beta    = ["10.1.138.0/24"]
+cidr_subnet_vpn                = ["10.1.139.0/24"]
+cidr_subnet_dnsforwarder       = ["10.1.140.0/29"]
+cidr_subnet_private_endpoints  = ["10.1.141.0/24"]
+cidr_subnet_eventhub           = ["10.1.142.0/24"]
+cidr_subnet_redis              = ["10.1.143.0/24"]
+cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
+cidr_subnet_app_diego_app      = ["10.1.145.0/24"]
+cidr_subnet_container_apps     = ["10.1.146.0/23"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
-cidr_subnet_placeholder               = ["10.1.150.0/24"]
+cidr_subnet_container_apps_dapr      = ["10.1.150.0/23"] #placeholder
 
 # dns
 prod_dns_zone_prefix = "devopslab"
