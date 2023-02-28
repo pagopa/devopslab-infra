@@ -21,6 +21,7 @@
 
 | Name | Type |
 |------|------|
+| [azurerm_container_app.backend](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app) | resource |
 | [azurerm_container_app.frontend](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app) | resource |
 | [azurerm_container_app_environment.diego_env](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app_environment) | resource |
 | [azurerm_resource_group.container_app_diego](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/resource_group) | resource |

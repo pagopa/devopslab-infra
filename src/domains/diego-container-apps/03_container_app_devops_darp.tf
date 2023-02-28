@@ -65,7 +65,7 @@ resource "azurerm_container_app" "frontend" {
   }
 
   dapr {
-    app_id = "frontend"
+    app_id   = "frontend"
     app_port = 8000
   }
 
@@ -122,7 +122,7 @@ resource "azurerm_container_app" "backend" {
   }
 
   dapr {
-    app_id = "backend"
+    app_id   = "backend"
     app_port = 3000
   }
 
