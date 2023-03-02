@@ -2,7 +2,7 @@ componentType: state.azure.cosmosdb
 version: v1
 metadata:
 - name: url
-  value: https://dvopla-d-neu-diego-diego-dapr-cosmos.mongo.cosmos.azure.com:443/
+  value: ${COSMOSDB_ENDPOINT}
 - name: masterkey
   secretRef: cosmoskey
 - name: database
