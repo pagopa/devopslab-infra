@@ -3,7 +3,7 @@ resource "azuread_directory_role" "directory_readers" {
 }
 
 data "azuread_group" "github_runners_iac_permissions" {
-  display_name     = "github-runners-iac-permissions"
+  display_name = "github-runners-iac-permissions"
 }
 
 data "azurerm_storage_account" "tfstate_storage" {
