@@ -26,6 +26,7 @@ locals {
 
   container_app_diego_environment_name = "dvopla-d-diego-cappenv"
   container_app_dapr_environment_name  = "dvopla-d-dapr-cappenv"
+  container_app_dapr_environment_component_cosmosdb = "/tmp/${local.container_app_dapr_environment_name}.yaml"
 
 
   container_app_devops_java_springboot_color_name           = "devops-color-java-capp"
