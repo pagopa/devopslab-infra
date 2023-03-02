@@ -21,17 +21,18 @@ jobs:
             src/domains/diego-app
             src/domains/diego-common
             src/matteo
+            .identity
         run: |
           pids=()
 
           TAG=$(cat .terraform-version)
           for f in $FOLDERS; do
             pushd "$(pwd)/${f}"
-              sed -i -e 's/  backend "azurerm" {}//g' 99_main.tf # use local backend
+              rm -rf 99_main.tf
+              mv 99_main.tf.ci 99_main.tf
               docker run -v $(pwd):/tmp -w /tmp hashicorp/terraform:$TAG init &
               pids+=($!)
             popd
-
           done
 
           # Wait for each specific process to terminate.

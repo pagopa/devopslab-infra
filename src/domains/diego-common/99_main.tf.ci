@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 3.45.0"
+      version = "= 3.38.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -10,26 +10,22 @@ terraform {
     }
     null = {
       source  = "hashicorp/null"
-      version = "= 3.2.1"
+      version = "= 3.1.1"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "= 2.17.0"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "= 2.8.0"
-    }
-    local = {
-      source = "hashicorp/local"
+    pkcs12 = {
+      source  = "chilicat/pkcs12"
+      version = "0.0.7"
     }
   }
 
-  backend "azurerm" {}
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = false
+    }
+  }
 }
 
 data "azurerm_subscription" "current" {}
@@ -44,15 +40,5 @@ data "terraform_remote_state" "core" {
     storage_account_name = var.terraform_remote_state_core.storage_account_name
     container_name       = var.terraform_remote_state_core.container_name
     key                  = var.terraform_remote_state_core.key
-  }
-}
-
-provider "kubernetes" {
-  config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
   }
 }
