@@ -9,15 +9,7 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   location            = azurerm_resource_group.cosmosdb_dapr.location
   resource_group_name = azurerm_resource_group.cosmosdb_dapr.name
   offer_type          = "Standard"
-  kind                = "MongoDB"
-
-  capabilities {
-    name = "MongoDBv3.4"
-  }
-
-  capabilities {
-    name = "EnableMongo"
-  }
+  kind                = "GlobalDocumentDB"
 
   capabilities {
     name = "EnableServerless"
@@ -35,23 +27,17 @@ resource "azurerm_cosmosdb_account" "mongodb" {
   }
 }
 
-resource "azurerm_cosmosdb_mongo_database" "db_dapr" {
-  name                = "mydbdapr"
+resource "azurerm_cosmosdb_sql_database" "db_sql_dapr" {
+  name                = local.cosmosdb_db_name
   resource_group_name = azurerm_resource_group.cosmosdb_dapr.name
   account_name        = azurerm_cosmosdb_account.mongodb.name
 }
 
-resource "azurerm_cosmosdb_mongo_collection" "collection_dapr" {
-  name                = "mycollectiondapr"
+resource "azurerm_cosmosdb_sql_container" "collection_dapr" {
+  name                = local.cosmosdb_collection_name
   resource_group_name = azurerm_resource_group.cosmosdb_dapr.name
   account_name        = azurerm_cosmosdb_account.mongodb.name
-  database_name       = azurerm_cosmosdb_mongo_database.db_dapr.name
+  database_name       = azurerm_cosmosdb_sql_database.db_sql_dapr.name
 
-  default_ttl_seconds = "777"
-  shard_key           = "uniqueKey"
-
-  index {
-    keys   = ["_id"]
-    unique = true
-  }
+  partition_key_path    = "/id"
 }
