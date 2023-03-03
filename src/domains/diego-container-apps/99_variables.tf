@@ -36,6 +36,9 @@ locals {
   container_app_devops_ambassador_name           = "ambassador-capp"
   container_app_devops_ambassador_revision_id    = "v3"
   container_app_devops_ambassador_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_ambassador_name}.yaml"
+
+  cosmosdb_db_name = "mydbsqldapr"
+  cosmosdb_collection_name = "mycollectiondapr"
 }
 
 variable "prefix" {

@@ -6,9 +6,9 @@ metadata:
 - name: masterkey
   secretRef: cosmoskey
 - name: database
-  value: mydbdapr
+  value: ${COSMOSDB_DATABASE}
 - name: collection
-  value: mycollectiondapr
+  value: ${COSMOSDB_COLLECTION}
 secrets:
 - name: cosmoskey
   value: "${COSMOSDB_KEY}"

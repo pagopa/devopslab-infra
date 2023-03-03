@@ -52,6 +52,8 @@ locals {
   container_app_env_darp_cosmosdb_yaml_content = templatefile("${path.module}/container-app-env/cosmosdb-component-dapr.yaml.tpl", {
     COSMOSDB_KEY                     = azurerm_cosmosdb_account.mongodb.primary_key
     COSMOSDB_ENDPOINT                     = azurerm_cosmosdb_account.mongodb.endpoint
+    COSMOSDB_DATABASE                     = local.cosmosdb_db_name
+    COSMOSDB_COLLECTION                     = local.cosmosdb_collection_name
   })
 }
 

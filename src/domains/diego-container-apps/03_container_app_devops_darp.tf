@@ -32,7 +32,7 @@ resource "azurerm_container_app" "frontend" {
 
     container {
       name   = "frontend"
-      image  = "ghcr.io/pagopa/devops-webapp-python:beta-colors"
+      image  = "ghcr.io/pagopa/devops-webapp-python:beta-comosdb-component-dapr"
       cpu    = 0.5
       memory = "1Gi"
 
