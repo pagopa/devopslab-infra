@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "cafd87e6-642b-4a36-954e-a05812169dc7",
+    "name": "dapr-showcase",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2023-03-03T12:54:24.254Z",
+    "modified": "2023-03-03T12:54:24.254Z",
+    "data": [
+      {
+        "name": "hostname-container-app",
+        "value": "frontend-dapr-showcase--a123.politesky-c0eb80d4.northeurope.azurecontainerapps.io"
+      }
+    ]
+  }
+]
