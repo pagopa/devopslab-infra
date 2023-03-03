@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "932a5f71-aed0-4988-af3a-88a1b08c77e3",
+    "colId": "dbc54f0d-f000-4dc1-b5d0-e19ae3b4b680",
+    "containerId": "",
+    "name": "create_cosmosdb_record",
+    "url": "frontend-dapr-showcase--a123.politesky-c0eb80d4.northeurope.azurecontainerapps.io/cosmosdb/dapr/sdk",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-03-02T17:04:00.289Z",
+    "modified": "2023-03-03T09:08:27.932Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]
