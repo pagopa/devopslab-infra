@@ -24,8 +24,8 @@ locals {
   #
   container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
 
-  container_app_diego_environment_name = "dvopla-d-diego-cappenv"
-  container_app_dapr_environment_name  = "dvopla-d-dapr-cappenv"
+  container_app_diego_environment_name              = "dvopla-d-diego-cappenv"
+  container_app_dapr_environment_name               = "dvopla-d-dapr-cappenv"
   container_app_dapr_environment_component_cosmosdb = "/tmp/${local.container_app_dapr_environment_name}.yaml"
 
 
@@ -37,7 +37,7 @@ locals {
   container_app_devops_ambassador_revision_id    = "v3"
   container_app_devops_ambassador_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_ambassador_name}.yaml"
 
-  cosmosdb_db_name = "mydbsqldapr"
+  cosmosdb_db_name         = "mydbsqldapr"
   cosmosdb_collection_name = "mycollectiondapr"
 }
 

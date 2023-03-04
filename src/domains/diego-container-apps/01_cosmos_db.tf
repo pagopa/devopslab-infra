@@ -15,7 +15,7 @@ resource "azurerm_cosmosdb_account" "mongodb" {
     name = "EnableServerless"
   }
 
-    consistency_policy {
+  consistency_policy {
     consistency_level       = "BoundedStaleness"
     max_interval_in_seconds = 300
     max_staleness_prefix    = 100000
@@ -39,5 +39,5 @@ resource "azurerm_cosmosdb_sql_container" "collection_dapr" {
   account_name        = azurerm_cosmosdb_account.mongodb.name
   database_name       = azurerm_cosmosdb_sql_database.db_sql_dapr.name
 
-  partition_key_path    = "/id"
+  partition_key_path = "/id"
 }
