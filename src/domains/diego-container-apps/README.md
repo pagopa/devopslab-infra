@@ -24,8 +24,14 @@
 | [azurerm_container_app.backend](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app) | resource |
 | [azurerm_container_app.frontend](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app) | resource |
 | [azurerm_container_app_environment.diego_env](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app_environment) | resource |
+| [azurerm_cosmosdb_account.mongodb](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/cosmosdb_account) | resource |
+| [azurerm_cosmosdb_sql_container.collection_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/cosmosdb_sql_container) | resource |
+| [azurerm_cosmosdb_sql_database.db_sql_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/cosmosdb_sql_database) | resource |
 | [azurerm_resource_group.container_app_diego](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.cosmosdb_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/resource_group) | resource |
+| [local_file.save_yaml_file_cosmosdb_component](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [null_resource.container_app_dapr_create_env](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
+| [null_resource.container_app_env_darp_cosmosdb_yaml](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [null_resource.update_az_cli](https://registry.terraform.io/providers/hashicorp/null/3.1.1/docs/resources/resource) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.21.0/docs/data-sources/group) | data source |
