@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "dbc54f0d-f000-4dc1-b5d0-e19ae3b4b680",
+    "colName": "dapr_cosmosdb",
+    "created": "2023-03-02T17:03:41.971Z",
+    "sortNum": 10000,
+    "folders": []
+  },
+  {
+    "_id": "6e605d39-4a54-4803-afe4-2a8dbd90ecfc",
+    "colName": "dapr_color",
+    "created": "2023-03-03T12:51:49.320Z",
+    "sortNum": 20000,
+    "folders": []
+  }
+]
