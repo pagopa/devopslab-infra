@@ -1,9 +1,10 @@
 module "github_runner_ci" {
   source = "./modules/app-github-runner-ci"
 
-  env = var.env
   app_name = "${local.app_name}-ci"
   iac_aad_group_name = "github-runners-iac-permissions"
+  
+  env = var.env
   subscription_id = data.azurerm_subscription.current.id
 
   github_org = "pagopaspa"
