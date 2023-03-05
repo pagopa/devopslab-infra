@@ -1,6 +1,6 @@
 #tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
 resource "github_actions_environment_secret" "secrets" {
-  for_each = var.secrets
+  for_each        = var.secrets
   repository      = var.github_repository
   environment     = var.github_repository_environment_name
   secret_name     = each.key

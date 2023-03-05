@@ -21,36 +21,36 @@ variable "env" {
 }
 
 variable "app_name" {
-  type = string
+  type        = string
   description = "App name (SP)"
 }
 
 variable "github_org" {
-  type = string
+  type        = string
   description = "GitHub Organization"
 }
 
 variable "github_repository" {
-  type = string
+  type        = string
   description = "GitHub Repository"
 }
 
 variable "iac_aad_group_name" {
-  type = string
+  type        = string
   description = "Azure AD group name for iac sp apps (with Directory Reader permissions at leats)"
 }
 
 variable "subscription_id" {
-  type = string
+  type        = string
   description = "Suscription ID"
 }
 
 variable "tfstate_storage_account_name" {
-  type = string
+  type        = string
   description = "Storage name where the tf state is saved"
 }
 
 variable "tfstate_storage_account_rg_name" {
-  type = string
+  type        = string
   description = "Resopurce group of storage name where the tf state is saved"
 }
