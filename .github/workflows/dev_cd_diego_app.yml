@@ -73,7 +73,7 @@ jobs:
   terraform_apply_job:
     name: Terraform Apply
     runs-on: [self-hosted, "${{ needs.create_runner.outputs.runner_name }}"]
-    environment: dev-ci
+    environment: dev-cd
     needs: [create_runner]
     steps:
       - name: Checkout
