@@ -1,4 +1,4 @@
-name: Continuous Delivery on dev core
+name: CD-DEV@diego-app
 
 on:
   workflow_dispatch:
