@@ -31,3 +31,21 @@ resource "helm_release" "reloader" {
     value = "false"
   }
 }
+
+resource "kubernetes_service_v1" "example" {
+  metadata {
+    name = "terraform-example"
+    namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
+  }
+  spec {
+    selector = {
+      app = "ciao"
+    }
+    port {
+      port        = 8080
+      target_port = 80
+    }
+
+    type = "ClusterIP"
+  }
+}

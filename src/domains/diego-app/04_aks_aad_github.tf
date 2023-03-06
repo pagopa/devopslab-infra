@@ -63,27 +63,33 @@ data "azuread_service_principal" "github_runner_cd" {
 #   storage_permissions = []
 # }
 
-resource "null_resource" "aks_with_iac_aad_plus_namespace_cd" {
-  triggers = {
-    aks_id               = data.azurerm_kubernetes_cluster.aks.id
-    service_principal_id = data.azuread_service_principal.github_runner_cd.id
-    namespace            = var.domain
-  }
-
-  provisioner "local-exec" {
-    command = <<EOT
-      az role assignment create --role "Azure Kubernetes Service RBAC Admin" \
-      --assignee ${self.triggers.service_principal_id} \
-      --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
-    EOT
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<EOT
-      az role assignment delete --role "Azure Kubernetes Service RBAC Admin" \
-      --assignee ${self.triggers.service_principal_id} \
-      --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
-    EOT
-  }
+resource "azurerm_role_assignment" "environment_runner_github_runner_rg" {
+  scope                = data.azurerm_kubernetes_cluster.aks.id
+  role_definition_name = "Azure Kubernetes Service RBAC Admin"
+  principal_id         = data.azuread_service_principal.github_runner_cd.id
 }
+
+# resource "null_resource" "aks_with_iac_aad_plus_namespace_cd" {
+#   triggers = {
+#     aks_id               = data.azurerm_kubernetes_cluster.aks.id
+#     service_principal_id = data.azuread_service_principal.github_runner_cd.id
+#     namespace            = var.domain
+#   }
+
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       az role assignment create --role "Azure Kubernetes Service RBAC Admin" \
+#       --assignee ${self.triggers.service_principal_id} \
+#       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
+#     EOT
+#   }
+
+#   provisioner "local-exec" {
+#     when    = destroy
+#     command = <<EOT
+#       az role assignment delete --role "Azure Kubernetes Service RBAC Admin" \
+#       --assignee ${self.triggers.service_principal_id} \
+#       --scope ${self.triggers.aks_id}/namespaces/${self.triggers.namespace}
+#     EOT
+#   }
+# }
