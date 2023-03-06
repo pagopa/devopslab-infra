@@ -19,7 +19,8 @@ No modules.
 | [azuread_service_principal.environment_ci](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
 | [azurerm_role_assignment.environment_ci_subscription](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.environment_ci_tfstate_inf](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azuread_group.github_runners_iac_permissions](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
+| [azurerm_role_assignment.pagopa_iac_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azuread_group.group_github_runners_iac_permissions](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azurerm_storage_account.tfstate_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
 
 ## Inputs
@@ -39,8 +40,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_app_name"></a> [app\_name](#output\_app\_name) | n/a |
 | <a name="output_application_id"></a> [application\_id](#output\_application\_id) | n/a |
 | <a name="output_client_id"></a> [client\_id](#output\_client\_id) | n/a |
+| <a name="output_display_name"></a> [display\_name](#output\_display\_name) | n/a |
 | <a name="output_object_id"></a> [object\_id](#output\_object\_id) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

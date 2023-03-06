@@ -7,9 +7,9 @@ module "github_runner_ci" {
   env             = var.env
   subscription_id = data.azurerm_subscription.current.id
 
-  github_org        = "pagopaspa"
-  github_repository = "devopslab-infra"
+  github_org        = var.github.org
+  github_repository = var.github.repository
 
-  tfstate_storage_account_name    = "dvopladstinfraterraform"
-  tfstate_storage_account_rg_name = "io-infra-rg"
+  tfstate_storage_account_name    = local.tfstate_storage_account_name
+  tfstate_storage_account_rg_name = local.tfstate_storage_account_rg_name
 }

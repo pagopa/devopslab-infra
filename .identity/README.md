@@ -73,6 +73,8 @@
 | <a name="output_azure_environment_cd"></a> [azure\_environment\_cd](#output\_azure\_environment\_cd) | n/a |
 | <a name="output_azure_environment_runner"></a> [azure\_environment\_runner](#output\_azure\_environment\_runner) | n/a |
 | <a name="output_cd_service_principal_github_action_name"></a> [cd\_service\_principal\_github\_action\_name](#output\_cd\_service\_principal\_github\_action\_name) | n/a |
+| <a name="output_ci_service_principal_github_action_client_id"></a> [ci\_service\_principal\_github\_action\_client\_id](#output\_ci\_service\_principal\_github\_action\_client\_id) | n/a |
+| <a name="output_ci_service_principal_github_action_name"></a> [ci\_service\_principal\_github\_action\_name](#output\_ci\_service\_principal\_github\_action\_name) | n/a |
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | n/a |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

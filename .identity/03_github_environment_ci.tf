@@ -16,8 +16,8 @@ module "github_environment_ci_secrets" {
   secrets = {
     "AZURE_TENANT_ID" : data.azurerm_client_config.current.tenant_id,
     "AZURE_SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
-    "AZURE_CLIENT_ID" : module.github_runner_ci.client_id
+    "AZURE_CLIENT_ID" : module.github_runner_ci.client_id,
     "AZURE_CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_github_runner_env_name,
-    "AZURE_RESOURCE_GROUP_NAME" : local.container_app_github_runner_env_rg
+    "AZURE_RESOURCE_GROUP_NAME" : local.container_app_github_runner_env_rg,
   }
 }
