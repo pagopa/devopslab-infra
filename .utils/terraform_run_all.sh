@@ -15,11 +15,13 @@ pids=()
 ACTION="$1"
 
 array=(
+    '.identity::dev'
     'src/pillar::dev'
     'src/core::dev'
     'src/aks-platform::dev01'
     'src/domains/diego-app::dev'
-    'src/domains/diego-common::dev'
+    'src/domains/diego-app::dev'
+    'src/domains/diego-container-apps::dev'
     'src/matteo::dev'
 )
 
@@ -39,11 +41,11 @@ for index in "${array[@]}" ; do
         echo "🔬 folder: $(pwd) in under terraform: $ACTION action"
         sh terraform.sh "$ACTION" "$COMMAND" &
 
-        terraform providers lock \
-          -platform=windows_amd64 \
-          -platform=darwin_amd64 \
-          -platform=darwin_arm64 \
-          -platform=linux_amd64
+        # terraform providers lock \
+        #   -platform=windows_amd64 \
+        #   -platform=darwin_amd64 \
+        #   -platform=darwin_arm64 \
+        #   -platform=linux_amd64
 
         pids+=($!)
     popd
