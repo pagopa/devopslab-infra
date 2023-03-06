@@ -1,23 +1,14 @@
 locals {
-  environment_ci_roles = {
+  github_app_roles = {
     subscription = [
-      "Reader",
-      "Reader and Data Access",
-      "Storage Blob Data Reader",
-      "Storage File Data SMB Share Reader",
-      "Storage Queue Data Reader",
-      "Storage Table Data Reader",
-      "PagoPA Export Deployments Template",
-      "Key Vault Secrets User",
-      "DocumentDB Account Contributor",
-      "API Management Service Contributor",
+      "Contributor",
+      "Storage Account Contributor",
+      "Storage Blob Data Contributor",
+      "Storage File Data SMB Share Contributor",
+      "Storage Queue Data Contributor",
+      "Storage Table Data Contributor",
     ]
   }
-}
-
-variable "env" {
-  type        = string
-  description = "Environment Name"
 }
 
 variable "app_name" {
@@ -45,6 +36,11 @@ variable "subscription_id" {
   description = "Suscription ID"
 }
 
+variable "github_environment_name" {
+  type        = string
+  description = "Environemnt name created into github, associated to this account sp"
+}
+
 variable "tfstate_storage_account_name" {
   type        = string
   description = "Storage name where the tf state is saved"
@@ -53,10 +49,4 @@ variable "tfstate_storage_account_name" {
 variable "tfstate_storage_account_rg_name" {
   type        = string
   description = "Resopurce group of storage name where the tf state is saved"
-}
-
-variable "custom_role_name" {
-  type        = string
-  description = "Custom role that allows IaC SP to read resources and generate kubernetes credentials"
-  default     = "PagoPA IaC Reader"
 }
