@@ -1,13 +1,13 @@
 locals {
   github_app_roles = {
     subscription = [
-    "Contributor",
-    "Storage Account Contributor",
-    "Storage Blob Data Contributor",
-    "Storage File Data SMB Share Contributor",
-    "Storage Queue Data Contributor",
-    "Storage Table Data Contributor",
-  ]
+      "Contributor",
+      "Storage Account Contributor",
+      "Storage Blob Data Contributor",
+      "Storage File Data SMB Share Contributor",
+      "Storage Queue Data Contributor",
+      "Storage Table Data Contributor",
+    ]
   }
 }
 
@@ -37,7 +37,7 @@ variable "subscription_id" {
 }
 
 variable "github_environment_name" {
-  type = string
+  type        = string
   description = "Environemnt name created into github, associated to this account sp"
 }
 

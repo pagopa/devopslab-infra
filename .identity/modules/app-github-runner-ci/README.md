@@ -28,6 +28,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | App name (SP) | `string` | n/a | yes |
+| <a name="input_custom_role_name"></a> [custom\_role\_name](#input\_custom\_role\_name) | Custom role that allows IaC SP to read resources and generate kubernetes credentials | `string` | `"PagoPA IaC Reader"` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment Name | `string` | n/a | yes |
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | GitHub Organization | `string` | n/a | yes |
 | <a name="input_github_repository"></a> [github\_repository](#input\_github\_repository) | GitHub Repository | `string` | n/a | yes |

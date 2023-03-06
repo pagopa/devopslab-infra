@@ -56,7 +56,7 @@ variable "tfstate_storage_account_rg_name" {
 }
 
 variable "custom_role_name" {
-  type = string
+  type        = string
   description = "Custom role that allows IaC SP to read resources and generate kubernetes credentials"
-  default = "PagoPA IaC Reader"
+  default     = "PagoPA IaC Reader"
 }
