@@ -74,7 +74,7 @@ jobs:
     name: Terraform Plan
     runs-on: [self-hosted, "${{ needs.create_runner.outputs.runner_name }}"]
     environment: dev-ci
-    needs: create_runner
+    needs: [create_runner, terraform_plan_job]
     steps:
       - name: Checkout
         id: checkout
