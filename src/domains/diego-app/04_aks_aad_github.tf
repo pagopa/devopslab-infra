@@ -2,12 +2,6 @@ data "azuread_service_principal" "github_runner_ci" {
   display_name = "github-pagopa-devopslab-infra-dev-ci"
 }
 
-resource "azurerm_role_assignment" "aks_service_cluster_user_role_for_github_runner_ci" {
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = "PagoPA IaC Reader"
-  principal_id         = data.azuread_service_principal.github_runner_ci.id
-}
-
 resource "azurerm_key_vault_access_policy" "github_runner_ci" {
   key_vault_id = data.azurerm_key_vault.kv_domain.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
