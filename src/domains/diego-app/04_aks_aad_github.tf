@@ -51,17 +51,17 @@ data "azuread_service_principal" "github_runner_cd" {
   display_name = "github-pagopa-devopslab-infra-dev-cd"
 }
 
-# resource "azurerm_key_vault_access_policy" "github_runner_cd" {
-#   key_vault_id = data.azurerm_key_vault.kv_domain.id
-#   tenant_id    = data.azurerm_client_config.current.tenant_id
-#   object_id    = data.azuread_service_principal.github_runner_cd.object_id
+resource "azurerm_key_vault_access_policy" "github_runner_cd" {
+  key_vault_id = data.azurerm_key_vault.kv_domain.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azuread_service_principal.github_runner_cd.object_id
 
-#   secret_permissions = ["Get", "List", "Set", ]
+  secret_permissions = ["Get", "List", "Set", ]
 
-#   certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", ]
+  certificate_permissions = ["SetIssuers", "DeleteIssuers", "Purge", "List", "Get", ]
 
-#   storage_permissions = []
-# }
+  storage_permissions = []
+}
 
 resource "azurerm_role_assignment" "aks_cluster_role" {
   scope                = data.azurerm_kubernetes_cluster.aks.id
