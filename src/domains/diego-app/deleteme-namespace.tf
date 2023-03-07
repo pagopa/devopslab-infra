@@ -6,8 +6,8 @@ resource "kubernetes_namespace" "deleteme2" {
 
 resource "kubernetes_service_v1" "example" {
   metadata {
-    name = "terraform-example4"
-    namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
+    name      = "terraform-example4"
+    namespace = kubernetes_namespace.domain_namespace.metadata[0].name
   }
   spec {
     selector = {

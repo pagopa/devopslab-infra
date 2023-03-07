@@ -42,6 +42,6 @@ variable "github_environment_name" {
 }
 
 variable "container_app_github_runner_env_rg" {
-  type = string
+  type        = string
   description = "Resource group where the container app environment is located"
 }
