@@ -14,6 +14,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_github_environment_cd_secrets"></a> [github\_environment\_cd\_secrets](#module\_github\_environment\_cd\_secrets) | ./modules/github-environment-secrets | n/a |
 | <a name="module_github_environment_ci_secrets"></a> [github\_environment\_ci\_secrets](#module\_github\_environment\_ci\_secrets) | ./modules/github-environment-secrets | n/a |
 | <a name="module_github_runner_cd"></a> [github\_runner\_cd](#module\_github\_runner\_cd) | ./modules/app-github-runner-cd | n/a |
 | <a name="module_github_runner_ci"></a> [github\_runner\_ci](#module\_github\_runner\_ci) | ./modules/app-github-runner-ci | n/a |
@@ -32,6 +33,7 @@
 | [github_actions_environment_secret.azure_runner_resource_group_name](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.azure_runner_subscription_id](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.azure_runner_tenant_id](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
+| [github_repository_environment.github_repository_environment_cd](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_ci](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_runner](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [azuread_group.github_runners_iac_permissions](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/data-sources/group) | data source |
