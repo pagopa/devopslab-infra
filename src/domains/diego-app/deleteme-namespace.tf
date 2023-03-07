@@ -1,12 +1,12 @@
 resource "kubernetes_namespace" "deleteme2" {
   metadata {
-    name = "deleteme3"
+    name = "deleteme4"
   }
 }
 
 resource "kubernetes_service_v1" "example" {
   metadata {
-    name = "terraform-example3"
+    name = "terraform-example4"
     namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
   }
   spec {
