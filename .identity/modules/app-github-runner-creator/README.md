@@ -28,7 +28,6 @@ No modules.
 | <a name="input_github_environment_name"></a> [github\_environment\_name](#input\_github\_environment\_name) | Environemnt name created into github, associated to this account sp | `string` | n/a | yes |
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | GitHub Organization | `string` | n/a | yes |
 | <a name="input_github_repository"></a> [github\_repository](#input\_github\_repository) | GitHub Repository | `string` | n/a | yes |
-| <a name="input_iac_aad_group_name"></a> [iac\_aad\_group\_name](#input\_iac\_aad\_group\_name) | Azure AD group name for iac sp apps (with Directory Reader permissions at leats) | `string` | n/a | yes |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | Suscription ID | `string` | n/a | yes |
 
 ## Outputs
