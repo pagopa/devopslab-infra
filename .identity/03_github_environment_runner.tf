@@ -7,42 +7,17 @@ resource "github_repository_environment" "github_repository_environment_runner" 
   }
 }
 
-#tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
-resource "github_actions_environment_secret" "azure_runner_tenant_id" {
-  repository      = var.github.repository
-  environment     = "${var.env}-runner"
-  secret_name     = "AZURE_TENANT_ID"
-  plaintext_value = data.azurerm_client_config.current.tenant_id
-}
+module "github_environment_runner_secrets" {
+  source = "./modules/github-environment-secrets"
 
-#tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
-resource "github_actions_environment_secret" "azure_runner_subscription_id" {
-  repository      = var.github.repository
-  environment     = "${var.env}-runner"
-  secret_name     = "AZURE_SUBSCRIPTION_ID"
-  plaintext_value = data.azurerm_subscription.current.subscription_id
-}
+  github_repository                  = "devopslab-infra"
+  github_repository_environment_name = "${var.env}-runner"
 
-#tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
-resource "github_actions_environment_secret" "azure_runner_client_id" {
-  repository      = var.github.repository
-  environment     = "${var.env}-runner"
-  secret_name     = "AZURE_CLIENT_ID"
-  plaintext_value = azuread_service_principal.environment_runner.application_id
-}
-
-#tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
-resource "github_actions_environment_secret" "azure_runner_container_app_environment_name" {
-  repository      = var.github.repository
-  environment     = "${var.env}-runner"
-  secret_name     = "AZURE_CONTAINER_APP_ENVIRONMENT_NAME"
-  plaintext_value = local.container_app_github_runner_env_name
-}
-
-#tfsec:ignore:github-actions-no-plain-text-action-secrets # not real secret
-resource "github_actions_environment_secret" "azure_runner_resource_group_name" {
-  repository      = var.github.repository
-  environment     = "${var.env}-runner"
-  secret_name     = "AZURE_RESOURCE_GROUP_NAME"
-  plaintext_value = local.container_app_github_runner_env_rg
+  secrets = {
+    "AZURE_TENANT_ID" : data.azurerm_client_config.current.tenant_id,
+    "AZURE_SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
+    "AZURE_CLIENT_ID" : module.github_runner_creator.client_id,
+    "AZURE_CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_github_runner_env_name,
+    "AZURE_RESOURCE_GROUP_NAME" : local.container_app_github_runner_env_rg,
+  }
 }

@@ -16,30 +16,19 @@
 |------|--------|---------|
 | <a name="module_github_environment_cd_secrets"></a> [github\_environment\_cd\_secrets](#module\_github\_environment\_cd\_secrets) | ./modules/github-environment-secrets | n/a |
 | <a name="module_github_environment_ci_secrets"></a> [github\_environment\_ci\_secrets](#module\_github\_environment\_ci\_secrets) | ./modules/github-environment-secrets | n/a |
+| <a name="module_github_environment_runner_secrets"></a> [github\_environment\_runner\_secrets](#module\_github\_environment\_runner\_secrets) | ./modules/github-environment-secrets | n/a |
 | <a name="module_github_runner_cd"></a> [github\_runner\_cd](#module\_github\_runner\_cd) | ./modules/app-github-runner-cd | n/a |
 | <a name="module_github_runner_ci"></a> [github\_runner\_ci](#module\_github\_runner\_ci) | ./modules/app-github-runner-ci | n/a |
+| <a name="module_github_runner_creator"></a> [github\_runner\_creator](#module\_github\_runner\_creator) | ./modules/app-github-runner-creator | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azuread_application.environment_runner](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/resources/application) | resource |
-| [azuread_application_federated_identity_credential.environment_runner](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/resources/application_federated_identity_credential) | resource |
-| [azuread_directory_role.directory_readers](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/resources/directory_role) | resource |
-| [azuread_service_principal.environment_runner](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/resources/service_principal) | resource |
-| [azurerm_role_assignment.environment_runner_github_runner_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/role_assignment) | resource |
-| [github_actions_environment_secret.azure_runner_client_id](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
-| [github_actions_environment_secret.azure_runner_container_app_environment_name](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
-| [github_actions_environment_secret.azure_runner_resource_group_name](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
-| [github_actions_environment_secret.azure_runner_subscription_id](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
-| [github_actions_environment_secret.azure_runner_tenant_id](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_repository_environment.github_repository_environment_cd](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_ci](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_runner](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
-| [azuread_group.github_runners_iac_permissions](https://registry.terraform.io/providers/hashicorp/azuread/2.30.0/docs/data-sources/group) | data source |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/client_config) | data source |
-| [azurerm_resource_group.github_runner_rg](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/resource_group) | data source |
-| [azurerm_storage_account.tfstate_storage](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/storage_account) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/data-sources/subscription) | data source |
 | [github_organization_teams.all](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/data-sources/organization_teams) | data source |
 
@@ -61,7 +50,6 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_azure_environment_runner"></a> [azure\_environment\_runner](#output\_azure\_environment\_runner) | n/a |
 | <a name="output_ci_service_principal_github_action_client_id"></a> [ci\_service\_principal\_github\_action\_client\_id](#output\_ci\_service\_principal\_github\_action\_client\_id) | n/a |
 | <a name="output_ci_service_principal_github_action_name"></a> [ci\_service\_principal\_github\_action\_name](#output\_ci\_service\_principal\_github\_action\_name) | n/a |
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | n/a |
