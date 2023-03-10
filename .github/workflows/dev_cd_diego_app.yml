@@ -91,7 +91,7 @@ jobs:
 
       - name: Terraform Apply
         # from https://github.com/pagopa/terraform-aks-azure-action/blob/main/action.yml
-        uses: pagopa/terraform-aks-azure-action@beta-version
+        uses: pagopa/terraform-aks-azure-action@main
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
