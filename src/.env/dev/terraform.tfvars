@@ -51,8 +51,8 @@ enable_azdoa        = true
 enable_iac_pipeline = true
 
 # VPN
-vpn_enabled           = true
-dns_forwarder_enabled = true
+vpn_enabled           = false
+dns_forwarder_enabled = false
 
 # app_gateway
 app_gateway_is_enabled            = false
@@ -88,7 +88,7 @@ aks_networks = [
 #
 # Web app docker
 #
-is_web_app_service_docker_enabled = true
+is_web_app_service_docker_enabled = false
 
 
 # postgres
@@ -106,11 +106,11 @@ postgres_network_rules = {
 # Postgres Flexible
 #
 pgflex_private_config = {
-  enabled = true
+  enabled = false
 }
 
 pgflex_public_config = {
-  enabled = true
+  enabled = false
 }
 
 #
@@ -165,5 +165,11 @@ function_python_diego_enabled = false
 #
 # App service
 #
-app_service_plan_enabled         = true
-app_service_diego_app_is_enabled = true
+app_service_plan_enabled         = false
+app_service_diego_app_is_enabled = false
+
+#
+# CosmosDB
+#
+is_cosmosdb_mongo_enabled = false
+is_cosmosdb_core_enabled  = false

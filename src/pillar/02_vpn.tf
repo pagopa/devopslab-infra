@@ -14,6 +14,7 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
+  count  = var.vpn_enabled ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v4.1.0"
 
   name                = "${local.project}-vpn"
@@ -45,8 +46,6 @@ module "vpn" {
 #
 resource "azurerm_resource_group" "dns_forwarder" {
 
-  count = var.dns_forwarder_enabled ? 1 : 0
-
   name     = "${local.project}-dns-forwarder-rg"
   location = var.location
 
@@ -54,7 +53,6 @@ resource "azurerm_resource_group" "dns_forwarder" {
 }
 
 module "dns_forwarder_snet" {
-  count = var.dns_forwarder_enabled ? 1 : 0
 
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.0"
   name                                      = "${local.project}-dnsforwarder-snet"
@@ -73,12 +71,14 @@ module "dns_forwarder_snet" {
 }
 
 module "dns_forwarder" {
+  count = var.dns_forwarder_enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v4.1.0"
 
   name                = "${local.project}-dns-forwarder"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  subnet_id           = module.dns_forwarder_snet[0].id
+  subnet_id           = module.dns_forwarder_snet.id
 
   tags = var.tags
 }

@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "cosmos_rg" {
-  count = local.cosmosdb_enable
+  count = var.is_cosmosdb_core_enabled ? 1 : 0
 
   name     = "${local.program}-${var.domain}-cosmos-rg"
   location = var.location
@@ -8,6 +8,7 @@ resource "azurerm_resource_group" "cosmos_rg" {
 }
 
 module "cosmos_core" {
+  count    = var.is_cosmosdb_core_enabled ? 1 : 0
   source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v4.1.0"
   name     = "${local.project}-cosmos-core"
   location = var.location
@@ -60,15 +61,17 @@ module "cosmos_core" {
 
 ## Database
 module "core_cosmos_db" {
+  count = var.is_cosmosdb_core_enabled ? 1 : 0
+
   source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_database?ref=v4.1.0"
   name                = "db"
   resource_group_name = azurerm_resource_group.cosmos_rg[0].name
-  account_name        = module.cosmos_core.name
+  account_name        = module.cosmos_core[0].name
 }
 
 ### Containers
 locals {
-  core_cosmosdb_containers = [
+  core_cosmosdb_containers = var.is_cosmosdb_core_enabled ? [
 
     {
       name               = "user-cores"
@@ -85,7 +88,7 @@ locals {
       },
     },
 
-  ]
+  ] : []
 }
 
 
@@ -95,8 +98,8 @@ module "core_cosmosdb_containers" {
 
   name                = each.value.name
   resource_group_name = azurerm_resource_group.cosmos_rg[0].name
-  account_name        = module.cosmos_core.name
-  database_name       = module.core_cosmos_db.name
+  account_name        = module.cosmos_core[0].name
+  database_name       = module.core_cosmos_db[0].name
   partition_key_path  = each.value.partition_key_path
   throughput          = lookup(each.value, "throughput", null)
 

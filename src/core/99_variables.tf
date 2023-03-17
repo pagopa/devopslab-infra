@@ -810,3 +810,14 @@ variable "function_python_diego_enabled" {
   description = "Is function python enabled."
   default     = false
 }
+
+#
+# CosmosDB
+#
+variable "is_cosmosdb_mongo_enabled" {
+  type = bool
+}
+
+variable "is_cosmosdb_core_enabled" {
+  type = bool
+}

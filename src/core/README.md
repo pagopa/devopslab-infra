@@ -33,8 +33,8 @@
 | <a name="module_func_python_staging_slot"></a> [func\_python\_staging\_slot](#module\_func\_python\_staging\_slot) | git::https://github.com/pagopa/terraform-azurerm-v3.git//function_app_slot | v4.1.0 |
 | <a name="module_funcs_diego_snet"></a> [funcs\_diego\_snet](#module\_funcs\_diego\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
 | <a name="module_mongdb_collection_name"></a> [mongdb\_collection\_name](#module\_mongdb\_collection\_name) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection | v4.1.0 |
-| <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
-| <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v4.1.0 |
+| <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v6.1.1 |
+| <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v6.1.1 |
 | <a name="module_postgres_flexible_snet"></a> [postgres\_flexible\_snet](#module\_postgres\_flexible\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
 | <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v4.1.0 |
 | <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v4.1.0 |
@@ -156,6 +156,8 @@
 | <a name="input_eventhubs"></a> [eventhubs](#input\_eventhubs) | A list of event hubs to add to namespace for BPD application. | <pre>list(object({<br>    name              = string<br>    partitions        = number<br>    message_retention = number<br>    consumers         = list(string)<br>    keys = list(object({<br>      name   = string<br>      listen = bool<br>      send   = bool<br>      manage = bool<br>    }))<br>  }))</pre> | `[]` | no |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
 | <a name="input_function_python_diego_enabled"></a> [function\_python\_diego\_enabled](#input\_function\_python\_diego\_enabled) | Is function python enabled. | `bool` | `false` | no |
+| <a name="input_is_cosmosdb_core_enabled"></a> [is\_cosmosdb\_core\_enabled](#input\_is\_cosmosdb\_core\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_is_cosmosdb_mongo_enabled"></a> [is\_cosmosdb\_mongo\_enabled](#input\_is\_cosmosdb\_mongo\_enabled) | CosmosDB | `bool` | n/a | yes |
 | <a name="input_is_web_app_service_docker_enabled"></a> [is\_web\_app\_service\_docker\_enabled](#input\_is\_web\_app\_service\_docker\_enabled) | Enable or disable this resources | `bool` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |
