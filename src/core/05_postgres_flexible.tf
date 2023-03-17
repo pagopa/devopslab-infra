@@ -65,7 +65,7 @@ module "postgres_flexible_server_private" {
 
   count = var.pgflex_private_config.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v4.1.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v6.1.1"
 
   name                = "${local.program}-private-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -125,7 +125,7 @@ module "postgres_flexible_server_public" {
 
   count = var.pgflex_public_config.enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v4.1.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server?ref=v6.1.1"
 
   name                = "${local.program}-public-pgflex"
   location            = azurerm_resource_group.postgres_dbs.location
@@ -145,14 +145,14 @@ module "postgres_flexible_server_public" {
 
   high_availability_enabled = false
   private_endpoint_enabled  = false
-  pgbouncer_enabled         = false
+  pgbouncer_enabled         = true
 
   tags = var.tags
 
   custom_metric_alerts = var.pgflex_public_metric_alerts
-  alerts_enabled       = true
+  alerts_enabled       = false
 
-  diagnostic_settings_enabled               = true
+  diagnostic_settings_enabled               = false
   log_analytics_workspace_id                = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
   diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
 

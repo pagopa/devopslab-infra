@@ -13,6 +13,8 @@ locals {
 }
 
 module "cosmos_mongo" {
+  count = var.is_cosmosdb_mongo_enabled ? 1 : 0
+
   source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v4.1.0"
   name     = "${local.project}-cosmos-mongo"
   location = var.location
@@ -66,9 +68,11 @@ module "cosmos_mongo" {
 }
 
 resource "azurerm_cosmosdb_mongo_database" "mongo_db" {
+  count = var.is_cosmosdb_mongo_enabled ? 1 : 0
+
   name                = "mongoDB"
   resource_group_name = azurerm_resource_group.cosmos_mongo_rg[0].name
-  account_name        = module.cosmos_mongo.name
+  account_name        = module.cosmos_mongo[0].name
 
   throughput = null
 
@@ -87,13 +91,15 @@ resource "azurerm_cosmosdb_mongo_database" "mongo_db" {
 }
 
 module "mongdb_collection_name" {
+  count = var.is_cosmosdb_mongo_enabled ? 1 : 0
+
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_mongodb_collection?ref=v4.1.0"
 
   name                = "collectionName"
   resource_group_name = azurerm_resource_group.cosmos_mongo_rg[0].name
 
-  cosmosdb_mongo_account_name  = module.cosmos_mongo.name
-  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.mongo_db.name
+  cosmosdb_mongo_account_name  = module.cosmos_mongo[0].name
+  cosmosdb_mongo_database_name = azurerm_cosmosdb_mongo_database.mongo_db[0].name
 
   indexes = [{
     keys   = ["_id"]
