@@ -1,5 +1,6 @@
 # .identity
 
+<!-- markdownlint-disable -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -14,17 +15,17 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_github_environment_cd_secrets"></a> [github\_environment\_cd\_secrets](#module\_github\_environment\_cd\_secrets) | ./modules/github-environment-secrets | n/a |
-| <a name="module_github_environment_ci_secrets"></a> [github\_environment\_ci\_secrets](#module\_github\_environment\_ci\_secrets) | ./modules/github-environment-secrets | n/a |
-| <a name="module_github_environment_runner_secrets"></a> [github\_environment\_runner\_secrets](#module\_github\_environment\_runner\_secrets) | ./modules/github-environment-secrets | n/a |
-| <a name="module_github_runner_cd"></a> [github\_runner\_cd](#module\_github\_runner\_cd) | ./modules/app-github-runner-cd | n/a |
-| <a name="module_github_runner_ci"></a> [github\_runner\_ci](#module\_github\_runner\_ci) | ./modules/app-github-runner-ci | n/a |
-| <a name="module_github_runner_creator"></a> [github\_runner\_creator](#module\_github\_runner\_creator) | ./modules/app-github-runner-creator | n/a |
+| <a name="module_github_runner_cd"></a> [github\_runner\_cd](#module\_github\_runner\_cd) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-cd | v2.0.0 |
+| <a name="module_github_runner_ci"></a> [github\_runner\_ci](#module\_github\_runner\_ci) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-ci | v2.0.0 |
+| <a name="module_github_runner_creator"></a> [github\_runner\_creator](#module\_github\_runner\_creator) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-creator | v2.0.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [github_actions_environment_secret.github_environment_cd_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
+| [github_actions_environment_secret.github_environment_ci_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
+| [github_actions_environment_secret.github_environment_runner_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_repository_environment.github_repository_environment_cd](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_ci](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_runner](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/repository_environment) | resource |

@@ -19,17 +19,14 @@ resource "github_repository_environment" "github_repository_environment_cd" {
   }
 }
 
-module "github_environment_cd_secrets" {
-  source = "./modules/github-environment-secrets"
+resource "github_actions_environment_secret" "github_environment_cd_secrets" {
+  for_each        = local.cd_secrets
+  repository      = var.github.repository
+  environment     = local.github_cd_env_name
+  secret_name     = each.key
+  plaintext_value = each.value
 
-  github_repository                  = "devopslab-infra"
-  github_repository_environment_name = "${var.env}-cd"
-
-  secrets = {
-    "AZURE_TENANT_ID" : data.azurerm_client_config.current.tenant_id,
-    "AZURE_SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
-    "AZURE_CLIENT_ID" : module.github_runner_cd.client_id,
-    "AZURE_CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_github_runner_env_name,
-    "AZURE_RESOURCE_GROUP_NAME" : local.container_app_github_runner_env_rg,
-  }
+  depends_on = [
+    github_repository_environment.github_repository_environment_cd
+  ]
 }

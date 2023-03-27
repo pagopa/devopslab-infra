@@ -1,4 +1,4 @@
-name: Continuous Integration on DEV@src/domains/diego-app
+name: CI-DEV@diego-app
 
 on:
   workflow_dispatch:
@@ -30,8 +30,8 @@ jobs:
     steps:
       - name: Create GitHub Runner
         id: create_github_runner
-        # from https://github.com/pagopa/github-self-hosted-runner-azure-create-action/commits/main
-        uses: pagopa/github-self-hosted-runner-azure-create-action@b4590e069e753daee6bc9809d484523cc7026035
+        # from https://github.com/pagopa/eng-github-actions-iac-template
+        uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-create-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
@@ -57,12 +57,12 @@ jobs:
 
       - name: Setup terraform
         id: setup-version
-        # https://github.com/pagopa/terraform-install-action/commits/main
-        uses: pagopa/terraform-install-action@1f76f593176e58c423b88d72273a612ba7ba430b
+        # from https://github.com/pagopa/eng-github-actions-iac-template
+        uses: pagopa/eng-github-actions-iac-template/azure/terraform-install-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
 
-      - name: Terraform plan
-        # from https://github.com/pagopa/terraform-aks-azure-action/blob/main/action.yml
-        uses: pagopa/terraform-aks-azure-action@beta-version
+      - name: Terraform Plan
+        # from https://github.com/pagopa/eng-github-actions-iac-template
+        uses: pagopa/eng-github-actions-iac-template/azure/terraform-aks-azure-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
@@ -82,7 +82,7 @@ jobs:
       - name: Cleanup GitHub Runner
         id: cleanup_github_runner
         # from https://github.com/pagopa/github-self-hosted-runner-azure-cleanup-action/commits/main
-        uses: pagopa/github-self-hosted-runner-azure-cleanup-action@97731a35e6ffc79b66c4dfd2aae5e4fd04e3ebb5
+        uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-cleanup-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
         with:
           client_id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
