@@ -1,5 +1,5 @@
 module "github_runner_cd" {
-  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-cd?ref=main"
+  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-cd?ref=v2.0.0"
 
 
   app_name           = "${local.app_name}-cd"
@@ -17,7 +17,7 @@ module "github_runner_cd" {
 }
 
 module "github_runner_ci" {
-  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-ci?ref=main"
+  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-ci?ref=v2.0.0"
 
   app_name           = "${local.app_name}-ci"
   iac_aad_group_name = "github-runners-iac-permissions"
@@ -33,7 +33,7 @@ module "github_runner_ci" {
 }
 
 module "github_runner_creator" {
-  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-creator?ref=main"
+  source = "git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-creator?ref=v2.0.0"
 
 
   app_name = "${local.app_name}-runner"

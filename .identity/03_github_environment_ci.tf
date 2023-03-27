@@ -14,4 +14,8 @@ resource "github_actions_environment_secret" "github_environment_ci_secrets" {
   environment     = local.github_ci_env_name
   secret_name     = each.key
   plaintext_value = each.value
+
+  depends_on = [
+    github_repository_environment.github_repository_environment_ci
+  ]
 }
