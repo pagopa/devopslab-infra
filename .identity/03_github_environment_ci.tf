@@ -8,7 +8,7 @@ resource "github_repository_environment" "github_repository_environment_ci" {
 }
 
 resource "github_actions_environment_secret" "github_environment_ci_secrets" {
-  for_each        = local.ci_secrets
+  for_each = local.ci_secrets
 
   repository      = var.github.repository
   environment     = local.github_ci_env_name

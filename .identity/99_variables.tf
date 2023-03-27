@@ -36,7 +36,7 @@ locals {
   }
 
   # RUNNER
-    github_runner_env_name = "${var.env}-runner"
+  github_runner_env_name = "${var.env}-runner"
   runner_secrets = {
     "AZURE_TENANT_ID" : data.azurerm_client_config.current.tenant_id,
     "AZURE_SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,

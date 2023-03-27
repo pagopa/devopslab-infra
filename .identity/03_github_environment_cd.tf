@@ -30,4 +30,3 @@ resource "github_actions_environment_secret" "github_environment_cd_secrets" {
     github_repository_environment.github_repository_environment_cd
   ]
 }
-

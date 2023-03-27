@@ -8,7 +8,7 @@ resource "github_repository_environment" "github_repository_environment_runner" 
 }
 
 resource "github_actions_environment_secret" "github_environment_runner_secrets" {
-  for_each        = local.runner_secrets
+  for_each = local.runner_secrets
 
   repository      = var.github.repository
   environment     = local.github_runner_env_name
