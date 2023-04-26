@@ -41,3 +41,6 @@ settings.json
 __TMP
 .metals/
 __azurite_*
+
+# intellij metadata
+.idea
