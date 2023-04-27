@@ -1,6 +1,6 @@
 # Subnet to host app function
 module "funcs_diego_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
   name                                      = "${local.project}-funcs-snet"
   address_prefixes                          = var.cidr_subnet_funcs_diego_domain
   resource_group_name                       = data.azurerm_resource_group.rg_vnet.name

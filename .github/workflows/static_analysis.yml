@@ -20,6 +20,9 @@ jobs:
             src/aks-platform
             src/domains/diego-app
             src/domains/diego-common
+            src/domains/marco-common
+            src/domains/legacy-common
+            src/domains/diego-container-apps
             src/matteo
             .identity
         run: |

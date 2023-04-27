@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "cosmos_rg" {
 
 module "cosmos_core" {
   count    = var.is_cosmosdb_core_enabled ? 1 : 0
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v4.1.0"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_account?ref=v6.3.1"
   name     = "${local.project}-cosmos-core"
   location = var.location
   domain   = var.domain
@@ -63,7 +63,7 @@ module "cosmos_core" {
 module "core_cosmos_db" {
   count = var.is_cosmosdb_core_enabled ? 1 : 0
 
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_database?ref=v4.1.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_database?ref=v6.3.1"
   name                = "db"
   resource_group_name = azurerm_resource_group.cosmos_rg[0].name
   account_name        = module.cosmos_core[0].name
@@ -93,7 +93,7 @@ locals {
 
 
 module "core_cosmosdb_containers" {
-  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_container?ref=v4.1.0"
+  source   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cosmosdb_sql_container?ref=v6.3.1"
   for_each = { for c in local.core_cosmosdb_containers : c.name => c }
 
   name                = each.value.name
