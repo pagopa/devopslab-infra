@@ -21,8 +21,9 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
   # DOMAINS
-  # system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
-  domain_namespace = kubernetes_namespace.domain_namespace.metadata[0].name
+  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
+  domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
 
@@ -31,6 +32,10 @@ locals {
   #
   key_vault_domain_name           = "dvopla-d-marco-kv"
   key_vault_domain_resource_group = "dvopla-d-marco-sec-rg"
+
+  # Service account
+  azure_devops_app_service_account_name        = "azure-devops"
+  azure_devops_app_service_account_secret_name = "${local.azure_devops_app_service_account_name}-token"
 
   #
   # Container App
