@@ -63,8 +63,3 @@ resource "azurerm_key_vault_access_policy" "github_runner_cd" {
   storage_permissions = []
 }
 
-resource "azurerm_role_assignment" "aks_cluster_role" {
-  scope                = data.azurerm_kubernetes_cluster.aks.id
-  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
-  principal_id         = data.azuread_service_principal.github_runner_cd.id
-}
