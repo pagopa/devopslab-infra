@@ -5,6 +5,11 @@ set -e
 # Subscription are defined in ./subscription
 # Fingerprint: c2V0dXAuc2gK
 ############################################################
+
+############################################################
+# Execute ./k8setup.sh for instructions
+############################################################
+
 # Global variables
 VERS="1.1"
 
@@ -16,10 +21,12 @@ function print_usage() {
   echo "-------------------------------------------------------------------------"
   echo "Usage: cd <scripts folder>"
   echo "  ./k8setup.sh <ENV>"
-  for thisenv in $(ls "../env")
+  cd ../env
+  for thisenv in *
   do
       echo "  Example: ./k8setup.sh ${thisenv}"
   done
+  cd ../scripts
   echo
   echo "Syntax: setup.sh [-l|h|k|s]"
   echo "  options:"
@@ -38,24 +45,25 @@ function def_var() {
     installpkg "azure-cli"
   fi
 
-  export aks_name_from_cli=$(az aks list -o tsv --query "[?contains(name,'$ENV-aks')].{Name:name}" 2>/dev/null | tr -d '\r')
-  export aks_name=${aks_name_from_cli}
+  aks_name_from_cli=$(az aks list -o tsv --query "[?contains(name,'$ENV-aks')].{Name:name}" 2>/dev/null | tr -d '\r')
+  aks_name=${aks_name_from_cli}
   echo "[INFO] aks_name_from_cli: ${aks_name_from_cli}"
-  export aks_resource_group_name_from_cli=$(az aks list -o tsv --query "[?contains(name,'$ENV-aks')].{Name:resourceGroup}" 2>/dev/null)
+  aks_resource_group_name_from_cli=$(az aks list -o tsv --query "[?contains(name,'$ENV-aks')].{Name:resourceGroup}" 2>/dev/null)
   echo "[INFO] aks_resource_group_name_from_cli: ${aks_resource_group_name_from_cli}"
 
   # ⚠️ in windows, even if using cygwin, these variables will contain a landing \r character
-  export aks_name=${aks_name_from_cli//[$'\r']}
+  aks_name=${aks_name_from_cli//[$'\r']}
   # echo "[INFO] aks_name: ${aks_name}"
-  export aks_resource_group_name=${aks_resource_group_name_from_cli//[$'\r']}
+  aks_resource_group_name=${aks_resource_group_name_from_cli//[$'\r']}
   # echo "[INFO] aks_resource_group_name: ${aks_resource_group_name}"
 
-# if using cygwin, we have to transcode the WORKDIR
-export HOME_DIR=$HOME
-if [[ $HOME_DIR == /cygdrive/* ]]; then
-  export HOME_DIR=$(cygpath -w ~)
-  export HOME_DIR=${HOME_DIR//\\//}
-fi
+  # if using cygwin, we have to transcode the WORKDIR
+  export HOME_DIR=$HOME
+  if [[ $HOME_DIR == /cygdrive/* ]]; then
+    home_dir=$(cygpath -w ~)
+    export HOME_DIR=$home_dir
+    export HOME_DIR=${HOME_DIR//\\//}
+  fi
 }
 
 
@@ -72,6 +80,7 @@ function check_env() {
 
   # Check if backend.ini exists
   if [ -f "../env/$ENV/backend.ini" ]; then
+    #shellcheck source=../env/dev01/backend.ini
     source "../env/$ENV/backend.ini"
   else
     echo "[ERROR] File ../env/$ENV/backend.ini not found."
@@ -79,7 +88,7 @@ function check_env() {
   fi
   # Check if subscription has been specified
   if [ -z "${subscription}" ]; then
-    echo "[ERROR] Subscription not found in the environment file: ${env_file_path}"
+    echo "[ERROR] Subscription not found in the environment file: '../env/$ENV/backend.ini'}"
     exit 1
   fi
 
@@ -159,7 +168,7 @@ function setup() {
   fi
 
 
-  az aks get-credentials -g "${aks_resource_group_name}" -n "${aks_name}" --subscription "${subscription}" --file "~/.kube/config-${aks_name}"
+  az aks get-credentials -g "${aks_resource_group_name}" -n "${aks_name}" --subscription "${subscription}" --file "${HOME_DIR}/.kube/config-${aks_name}"
   # convert configuration format
   kubelogin convert-kubeconfig -l azurecli --kubeconfig "${HOME_DIR}/.kube/config-${aks_name}"
   # verify connection with k8s cluster
