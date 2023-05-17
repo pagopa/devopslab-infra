@@ -56,10 +56,10 @@ module "apim" {
   # This enables the Username and Password Identity Provider
   sign_up_enabled = false
 
-  lock_enable                              = var.lock_enable
+  lock_enable = var.lock_enable
 
   application_insights = {
-    enabled = true
+    enabled             = true
     instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
   }
 
