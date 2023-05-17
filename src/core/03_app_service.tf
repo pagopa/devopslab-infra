@@ -44,66 +44,66 @@ resource "azurerm_app_service_plan" "app_docker" {
   tags = var.tags
 }
 
-module "web_app_service_docker" {
-  count = var.is_web_app_service_docker_enabled ? 1 : 0
+# module "web_app_service_docker" {
+#   count = var.is_web_app_service_docker_enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service?ref=v6.3.1"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//app_service?ref=v6.3.1"
 
-  resource_group_name = azurerm_resource_group.app_service_docker_rg.name
-  location            = var.location
+#   resource_group_name = azurerm_resource_group.app_service_docker_rg.name
+#   location            = var.location
 
-  plan_type = "external"
-  plan_id   = azurerm_app_service_plan.app_docker[0].id
+#   plan_type = "external"
+#   plan_id   = azurerm_app_service_plan.app_docker[0].id
 
-  # App service plan
-  name                = "${local.program}-app-service-docker"
-  client_cert_enabled = false
-  always_on           = false
-  linux_fx_version    = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
-  health_check_path   = "/status"
+#   # App service plan
+#   name                = "${local.program}-app-service-docker"
+#   client_cert_enabled = false
+#   always_on           = false
+#   linux_fx_version    = "DOCKER|${data.azurerm_container_registry.acr.login_server}/devopswebapppython:latest"
+#   health_check_path   = "/status"
 
-  app_settings = {
-    # Monitoring
-    APPINSIGHTS_INSTRUMENTATIONKEY                  = data.azurerm_application_insights.application_insights.instrumentation_key
-    APPLICATIONINSIGHTS_CONNECTION_STRING           = "InstrumentationKey=${data.azurerm_application_insights.application_insights.instrumentation_key}"
-    APPINSIGHTS_PROFILERFEATURE_VERSION             = "1.0.0"
-    APPINSIGHTS_SNAPSHOTFEATURE_VERSION             = "1.0.0"
-    APPLICATIONINSIGHTS_CONFIGURATION_CONTENT       = ""
-    ApplicationInsightsAgent_EXTENSION_VERSION      = "~3"
-    DiagnosticServices_EXTENSION_VERSION            = "~3"
-    InstrumentationEngine_EXTENSION_VERSION         = "disabled"
-    SnapshotDebugger_EXTENSION_VERSION              = "disabled"
-    XDT_MicrosoftApplicationInsights_BaseExtensions = "disabled"
-    XDT_MicrosoftApplicationInsights_Mode           = "recommended"
-    XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
-    WEBSITE_HEALTHCHECK_MAXPINGFAILURES             = 10
-    TIMEOUT_DELAY                                   = 300
-    # Integration with private DNS (see more: https://docs.microsoft.com/en-us/answers/questions/85359/azure-app-service-unable-to-resolve-hostname-of-vi.html)
-    WEBSITE_DNS_SERVER = "168.63.129.16"
-    # Spring Environment
+#   app_settings = {
+#     # Monitoring
+#     APPINSIGHTS_INSTRUMENTATIONKEY                  = data.azurerm_application_insights.application_insights.instrumentation_key
+#     APPLICATIONINSIGHTS_CONNECTION_STRING           = "InstrumentationKey=${data.azurerm_application_insights.application_insights.instrumentation_key}"
+#     APPINSIGHTS_PROFILERFEATURE_VERSION             = "1.0.0"
+#     APPINSIGHTS_SNAPSHOTFEATURE_VERSION             = "1.0.0"
+#     APPLICATIONINSIGHTS_CONFIGURATION_CONTENT       = ""
+#     ApplicationInsightsAgent_EXTENSION_VERSION      = "~3"
+#     DiagnosticServices_EXTENSION_VERSION            = "~3"
+#     InstrumentationEngine_EXTENSION_VERSION         = "disabled"
+#     SnapshotDebugger_EXTENSION_VERSION              = "disabled"
+#     XDT_MicrosoftApplicationInsights_BaseExtensions = "disabled"
+#     XDT_MicrosoftApplicationInsights_Mode           = "recommended"
+#     XDT_MicrosoftApplicationInsights_PreemptSdk     = "disabled"
+#     WEBSITE_HEALTHCHECK_MAXPINGFAILURES             = 10
+#     TIMEOUT_DELAY                                   = 300
+#     # Integration with private DNS (see more: https://docs.microsoft.com/en-us/answers/questions/85359/azure-app-service-unable-to-resolve-hostname-of-vi.html)
+#     WEBSITE_DNS_SERVER = "168.63.129.16"
+#     # Spring Environment
 
-    WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
-    WEBSITES_PORT                       = 8000
-    # DOCKER_REGISTRY_SERVER_URL      = "https://${module.acr[0].login_server}"
-    # DOCKER_REGISTRY_SERVER_USERNAME = module.acr[0].admin_username
-    # DOCKER_REGISTRY_SERVER_PASSWORD = module.acr[0].admin_password
-  }
+#     WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
+#     WEBSITES_PORT                       = 8000
+#     # DOCKER_REGISTRY_SERVER_URL      = "https://${module.acr[0].login_server}"
+#     # DOCKER_REGISTRY_SERVER_USERNAME = module.acr[0].admin_username
+#     # DOCKER_REGISTRY_SERVER_PASSWORD = module.acr[0].admin_password
+#   }
 
-  allowed_subnets = [module.apim_snet.id]
-  allowed_ips     = []
+#   allowed_subnets = [module.apim_snet.id]
+#   allowed_ips     = []
 
-  subnet_id = module.app_service_docker_snet.id
+#   subnet_id = module.app_service_docker_snet.id
 
-  tags = var.tags
-}
+#   tags = var.tags
+# }
 
-#
-# Role assignments
-#
-resource "azurerm_role_assignment" "webapp_docker_to_acr" {
-  count = var.is_web_app_service_docker_enabled ? 1 : 0
+# #
+# # Role assignments
+# #
+# resource "azurerm_role_assignment" "webapp_docker_to_acr" {
+#   count = var.is_web_app_service_docker_enabled ? 1 : 0
 
-  scope                = data.azurerm_container_registry.acr.id
-  role_definition_name = "AcrPull"
-  principal_id         = module.web_app_service_docker[0].principal_id
-}
+#   scope                = data.azurerm_container_registry.acr.id
+#   role_definition_name = "AcrPull"
+#   principal_id         = module.web_app_service_docker[0].principal_id
+# }
