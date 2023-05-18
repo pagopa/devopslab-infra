@@ -19,7 +19,7 @@ array=(
     'src/aks-platform::dev01'
     'src/core::dev'
     'src/domains/diego-app::dev'
-    'src/domains/diego-app::dev'
+    'src/domains/diego-common::dev'
     'src/domains/diego-container-apps::dev'
     'src/domains/legacy-common::dev'
     # 'src/domains/marco-app::dev'
