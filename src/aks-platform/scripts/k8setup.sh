@@ -12,6 +12,8 @@ set -e
 
 # Global variables
 VERS="1.1"
+# Gestisce le diverse posizioni di "ENV"
+THISENV=$(ls -d ./env 2>/dev/null || ls -d ../env 2>/dev/null)
 
 # Define a helper function to print usage information                                                     #
 function print_usage() {
@@ -21,9 +23,10 @@ function print_usage() {
   echo "-------------------------------------------------------------------------"
   echo "Usage: cd <scripts folder>"
   echo "  ./k8setup.sh <ENV>"
-  for thisenv in "$THISENV"/*
+  cd ../env
+  for thisenv in *
   do
-    echo "  Example: ./k8setup.sh ${thisenv}"
+      echo "  Example: ./k8setup.sh ${thisenv}"
   done
   cd ../scripts
   echo
@@ -70,18 +73,27 @@ function def_var() {
 function check_env() {
   ENV=$1
 
+  # Check if env has been properly entered
+  if [ ! -d "../env/$ENV" ]; then
+    echo "[ERROR] ENV should be one of:"
+    ls "../env"
+    exit 1
+  fi
+
+  env_file_path="../env/${ENV}/backend.ini"
+
   # Check if backend.ini exists
-  if [ -f "${env_path}" ]; then
+  if [ -f "$env_file_path" ]; then
     #shellcheck source=../env/dev01/backend.ini
-    source "${env_path}"
+    source "$env_file_path"
   else
-    echo "[ERROR] File ${env_path} not found."
+    echo "[ERROR] File $env_file_path not found."
     exit 1
   fi
 
   # Check if subscription has been specified
   if [ -z "${subscription}" ]; then
-    echo "[ERROR] Subscription not found in the environment file: ${env_path}"
+    echo "[ERROR] Subscription not found in the environment file: '$env_file_path'}"
     exit 1
   fi
 
@@ -123,9 +135,7 @@ function installpkg() {
       read -p "Do you want to install ${pkg} using brew? (Y/n): " response
       if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
           echo "Installing ${pkg} using brew..."
-          brew install ${pkg}
-
-          if [ $? -eq 0 ]; then
+          if brew install "${pkg}" ; then
               echo "${pkg} successfully installed."
           else
               echo "An error occurred during the installation of ${pkg}. Check the output for more information."
@@ -191,7 +201,7 @@ while getopts ":hlks-:" option; do
         exit;;
       l) # list available environments
         echo "Available environment(-s):"
-        ls "../env"
+        ls -1 "$THISENV"
         exit;;
       s) #setup requirements
         echo "Installing requirements..."
@@ -199,7 +209,11 @@ while getopts ":hlks-:" option; do
         installpkg "kubectl"
         installpkg "kubelogin"
         installpkg "jq"
-        exit;;
+        for confg in /Users/"$(whoami)"/.kube/config*; do
+          kubelogin convert-kubeconfig -l azurecli --kubeconfig "$confg"
+          echo "${confg} converted!"
+        done
+         exit;;
       *) # Invalid option
         echo "Error: Invalid option"
         echo ""
@@ -210,8 +224,8 @@ while getopts ":hlks-:" option; do
 done
 
 if [[ $1 ]]; then
-  check_env $1
-  def_var $1
+  check_env "$1"
+  def_var "$1"
   setup
 else
   print_usage
