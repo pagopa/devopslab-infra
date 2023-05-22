@@ -37,7 +37,7 @@ module "apim_snet" {
 ###########################
 
 module "apim" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v6.10.0"
 
   name = "${local.program}-apim"
 
@@ -56,8 +56,12 @@ module "apim" {
   # This enables the Username and Password Identity Provider
   sign_up_enabled = false
 
-  lock_enable                              = var.lock_enable
-  application_insights_instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
+  lock_enable = var.lock_enable
+
+  application_insights = {
+    enabled             = true
+    instrumentation_key = data.azurerm_application_insights.application_insights.instrumentation_key
+  }
 
   tags = var.tags
 }

@@ -16,13 +16,16 @@ ACTION="$1"
 
 array=(
     '.identity::dev'
-    'src/pillar::dev'
-    'src/core::dev'
     'src/aks-platform::dev01'
+    'src/core::dev'
     'src/domains/diego-app::dev'
-    'src/domains/diego-app::dev'
+    'src/domains/diego-common::dev'
     'src/domains/diego-container-apps::dev'
+    'src/domains/legacy-common::dev'
+    # 'src/domains/marco-app::dev'
+    'src/domains/marco-common::dev'
     'src/matteo::dev'
+    'src/pillar::dev'
 )
 
 function rm_terraform {

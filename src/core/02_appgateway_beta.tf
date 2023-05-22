@@ -107,6 +107,7 @@ module "app_gw_beta" {
       listener              = "api"
       backend               = "apim"
       rewrite_rule_set_name = "rewrite-rule-set-api"
+      priority              = 100
     }
   }
 
