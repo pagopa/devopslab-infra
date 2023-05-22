@@ -21,10 +21,9 @@ function print_usage() {
   echo "-------------------------------------------------------------------------"
   echo "Usage: cd <scripts folder>"
   echo "  ./k8setup.sh <ENV>"
-  cd ../env
-  for thisenv in *
+  for thisenv in "$THISENV"/*
   do
-      echo "  Example: ./k8setup.sh ${thisenv}"
+    echo "  Example: ./k8setup.sh ${thisenv}"
   done
   cd ../scripts
   echo
@@ -71,27 +70,18 @@ function def_var() {
 function check_env() {
   ENV=$1
 
-  # Check if env has been properly entered
-  if [ ! -d "../env/$ENV" ]; then
-    echo "[ERROR] ENV should be one of:"
-    ls "../env"
-    exit 1
-  fi
-
-  env_file_path="../env/${ENV}/backend.ini"
-
   # Check if backend.ini exists
-  if [ -f "$env_file_path" ]; then
+  if [ -f "${env_path}" ]; then
     #shellcheck source=../env/dev01/backend.ini
-    source "$env_file_path"
+    source "${env_path}"
   else
-    echo "[ERROR] File $env_file_path not found."
+    echo "[ERROR] File ${env_path} not found."
     exit 1
   fi
 
   # Check if subscription has been specified
   if [ -z "${subscription}" ]; then
-    echo "[ERROR] Subscription not found in the environment file: '$env_file_path'}"
+    echo "[ERROR] Subscription not found in the environment file: ${env_path}"
     exit 1
   fi
 
@@ -118,7 +108,6 @@ function installpkg() {
   fi
 
   pkg=$1
-
   if [ -z "$2" ]
     then
       cmd=$pkg
