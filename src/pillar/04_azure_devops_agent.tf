@@ -17,45 +17,17 @@ module "azdoa_snet" {
 }
 
 
-#module packer
-
 module "azdoa_vmss_li" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v4.1.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=v6.13.0"
   count               = var.enable_azdoa ? 1 : 0
   name                = local.azuredevops_agent_vm_name
   resource_group_name = azurerm_resource_group.azdo_rg[0].name
   subnet_id           = module.azdoa_snet[0].id
-  subscription        = data.azurerm_subscription.current.display_name
-
-  tags = var.tags
-}
-
-
-#module "azdoa_vmss_li_2" {
-#  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent?ref=20f02c4"
-#  count               = var.enable_azdoa ? 1 : 0
-#  name                = "${local.azuredevops_agent_vm_name}-new"
-#  resource_group_name = azurerm_resource_group.azdo_rg[0].name
-#  subnet_id           = module.azdoa_snet[0].id
-#  subscription        = data.azurerm_subscription.current.display_name
-#  enable_disk_encryption = false
-#
-#  tags = var.tags
-#}
-
-# commented, needs fixes to handle admin ssh key
-module "azdoa_vmss_li_2" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image?ref=1eaef02"
-  count               = var.enable_azdoa ? 1 : 0
-  resource_group_name = azurerm_resource_group.azdo_rg[0].name
+  subscription_name   = data.azurerm_subscription.current.display_name
+  subscription_id     = data.azurerm_subscription.current.subscription_id
   location            = var.location
-  image_name = "my_image_name"
-  image_version = "v1"
-  subscription_id = data.azurerm_subscription.current.subscription_id
-
-
+  source_image_name   = var.azdoa_image_name
+  image_type          = "custom"
 
   tags = var.tags
-
 }
-

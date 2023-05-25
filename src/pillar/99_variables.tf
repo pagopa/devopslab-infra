@@ -34,7 +34,7 @@ locals {
 
   # Azure DevOps
   azuredevops_rg_name       = "${local.project}-azdoa-rg"
-  azuredevops_agent_vm_name = "${local.project}-vmss-li-azdoa"
+  azuredevops_agent_vm_name = "${local.project}-vmss-cust-ubuntu-azdoa"
   azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 }
 
@@ -277,4 +277,10 @@ variable "vpn_pip_sku" {
 variable "redis_enabled" {
   type    = bool
   default = false
+}
+
+
+variable "azdoa_image_name" {
+  type        = string
+  description = "Azure DevOps Agent image name"
 }
