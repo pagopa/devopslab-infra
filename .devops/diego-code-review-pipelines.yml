@@ -73,6 +73,7 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
+          - template: templates/terraform-summarize/template.yaml@terraform
           # Run terraform plan diego-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
