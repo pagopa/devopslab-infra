@@ -39,7 +39,8 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.1
+      # ref: refs/tags/v5.0.1
+      ref: refs/heads/fix-terraform-install
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
