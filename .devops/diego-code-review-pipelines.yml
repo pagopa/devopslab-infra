@@ -39,8 +39,8 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.2
-      # ref: refs/heads/fix-terraform-install
+      # ref: refs/tags/v5.0.2
+      ref: refs/heads/added-terraform-summarize
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -58,6 +58,7 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
+          - template: templates/terraform-summarize/template.yaml@terraform
           # 2. Run terraform plan diego-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
