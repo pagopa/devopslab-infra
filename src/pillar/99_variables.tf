@@ -34,7 +34,7 @@ locals {
 
   # Azure DevOps
   azuredevops_rg_name       = "${local.project}-azdoa-rg"
-  azuredevops_agent_vm_name = "${local.project}-vmss-cust-ubuntu-azdoa"
+  azuredevops_agent_vm_name = "${local.project}-vmss-ubuntu-azdoa"
   azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 }
 

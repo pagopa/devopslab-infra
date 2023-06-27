@@ -28,7 +28,7 @@ function print_usage() {
   echo
 }
 
-# Define variables                                         
+# Define variables
 function def_var() {
   # Check if Azure CLI is installed
   ENV=$1
@@ -61,7 +61,7 @@ function def_var() {
   fi
 }
 
-# Check chosen environment                                 
+# Check chosen environment
 function check_env() {
   ENV=$1
 
@@ -139,7 +139,7 @@ function setup() {
   kubectl get namespaces
 }
 
-# Main program                                             
+# Main program
 while getopts ":hlk-:" option; do
   case $option in
     h) # display Help
