@@ -77,6 +77,7 @@ stages:
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               TF_ENVIRONMENT_FOLDER: "dev"
+              TF_SUMMARIZE: true
               WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
               AZURE_SERVICE_CONNECTION_NAME: DEVOPSLAB-DEV-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}
