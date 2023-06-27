@@ -14,39 +14,49 @@ parameters:
 
 variables:
   TIME_OUT: 10
+  #dev
+  DEV01_AKS_APISERVER_URL: '$(TF_DEV01_AKS_APISERVER_URL)'
+  DEV01_AKS_AZURE_DEVOPS_SA_CACRT: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_CACRT)'
+  DEV01_AKS_AZURE_DEVOPS_SA_TOKEN: '$(TF_DEV01_AKS_AZURE_DEVOPS_SA_TOKEN)'
   AKS_DEV_NAME: '$(TF_AKS_DEV_NAME)'
-  AKS_DEV_RESOURCE_GROUP: '$(TF_AKS_DEV_RESOURCE_GROUP)'
+  # working dir
+  WORKING_DIR_COMMON: 'src/domains/diego-common'
+  WORKING_DIR_APP: 'src/domains/diego-app'
+  DOMAIN_NAME: diego
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v3.7.0
+      ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
-      - ${{ if eq(parameters['DEV'], true) }}:
-        # # DEV ecommerce COMMON
-        # - template: templates/terraform-aks-plan-apply/template.yaml@terraform
-        #   parameters:
-        #     TF_ENVIRONMENT_FOLDER: "dev"
-        #     WORKINGDIR: 'src/domains/diego-common'
-        #     AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-        #     AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-        #     AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
-
-        # DEV diego APP
-        - template: templates/terraform-aks-plan-apply/template.yaml@terraform
-          parameters:
-            DOMAIN_NAME: 'diego_app'
-            AZURE_DEVOPS_POOL_AGENT_NAME: "devopslab-dev-linux"
-            AZURE_DEVOPS_ENVIRONMENT: "dev"
-            TF_ENVIRONMENT_FOLDER: "dev"
-            WORKINGDIR: 'src/domains/diego-app'
-            AZURE_SERVICE_CONNECTION_NAME: devopslab-SERVICE-CONN
-            AKS_NAME: ${{ variables.AKS_DEV_NAME }}
-            AKS_RESOURCE_GROUP: ${{ variables.AKS_DEV_RESOURCE_GROUP }}
+#DEV
+  - ${{ if eq(parameters['DEV'], true) }}:
+    - template: templates/terraform-plan-apply/template.yaml@terraform
+      parameters:
+        FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_common"
+        TF_ENVIRONMENT_FOLDER: "dev"
+        ENVIRONMENT: "DEV"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
+        WORKINGDIR: ${{ variables.WORKING_DIR_COMMON }}
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
+    - template: templates/terraform-plan-apply/template.yaml@terraform
+      parameters:
+        FULL_DOMAIN_NAME: "${{variables.DOMAIN_NAME}}_app"
+        TF_ENVIRONMENT_FOLDER: "dev"
+        ENVIRONMENT: "DEV"
+        AZURE_DEVOPS_POOL_AGENT_NAME: "cstar-dev-linux-infra"
+        WORKINGDIR:  ${{ variables.WORKING_DIR_APP }}
+        AKS_NAME: ${{ variables.AKS_DEV_NAME }}
+        AKS_API_SERVER_URL: ${{ variables.DEV01_AKS_APISERVER_URL }}
+        AKS_AZURE_DEVOPS_SA_CA_CRT: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_CACRT }}
+        AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
+        AZURE_SERVICE_CONNECTION_PLAN_NAME: CSTAR-DEV-PLAN-SERVICE-CONN
+        AZURE_SERVICE_CONNECTION_APPLY_NAME: DEV-CSTAR-SERVICE-CONN
