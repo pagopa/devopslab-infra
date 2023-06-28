@@ -1,17 +1,19 @@
 resource "kubernetes_config_map" "changed" {
   metadata {
     name = "mock-my-changed"
+    namespace = var.domain
   }
 
   data = {
-    api_host             = "msdasdasdst:443"
-    db_host              = "dbhodasdas432"
+    api_host             = "msasdasdst:443"
+    db_host              = "dbhasdasdasdassdas432"
   }
 }
 
 # resource "kubernetes_config_map" "deleted" {
 #   metadata {
 #     name = "mock-my-deleted"
+#     namespace = var.domain
 #   }
 
 #   data = {
@@ -22,7 +24,8 @@ resource "kubernetes_config_map" "changed" {
 
 resource "kubernetes_config_map" "replaced" {
   metadata {
-    name = "mock-my-replaced-new"
+    name = "mock-my-replaced"
+    namespace = var.domain
   }
 
   data = {
@@ -34,6 +37,7 @@ resource "kubernetes_config_map" "replaced" {
 resource "kubernetes_config_map" "added" {
   metadata {
     name = "mock-my-added"
+      namespace = var.domain
   }
 
   data = {
