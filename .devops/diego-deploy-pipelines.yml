@@ -32,7 +32,8 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.1
+      ref: refs/heads/tf-apply-with-output-state
+      # ref: refs/tags/v5.0.1
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -60,3 +61,5 @@ stages:
         AKS_AZURE_DEVOPS_SA_TOKEN: ${{ variables.DEV01_AKS_AZURE_DEVOPS_SA_TOKEN }}
         AZURE_SERVICE_CONNECTION_PLAN_NAME: DEVOPSLAB-DEV-PLAN-SERVICE-CONN
         AZURE_SERVICE_CONNECTION_APPLY_NAME: devopslab-SERVICE-CONN
+        TF_SUMMARIZE: true
+        TF_OUTPUT_STATE: true
