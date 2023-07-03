@@ -39,7 +39,8 @@ resources:
     - repository: terraform
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v5.0.1
+      ref: refs/tags/v5.2.1
+      # ref: refs/heads/change-view-summarize
       endpoint: 'io-azure-devops-github-ro'
 
 stages:
@@ -57,6 +58,7 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
+          - template: templates/terraform-summarize/template.yaml@terraform
           # 2. Run terraform plan diego-common
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
@@ -71,10 +73,12 @@ stages:
           - checkout: self
           # 1. Install terraform and terragrunt
           - template: templates/terraform-setup/template.yaml@terraform
+          - template: templates/terraform-summarize/template.yaml@terraform
           # Run terraform plan diego-app
           - template: templates/terraform-plan/template.yaml@terraform
             parameters:
               TF_ENVIRONMENT_FOLDER: "dev"
+              TF_SUMMARIZE: true
               WORKINGDIR: ${{ variables.WORKING_DIR_APP }}
               AZURE_SERVICE_CONNECTION_NAME: DEVOPSLAB-DEV-PLAN-SERVICE-CONN
               AKS_NAME: ${{ variables.AKS_DEV_NAME }}

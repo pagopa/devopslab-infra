@@ -1,92 +1,92 @@
-name: CI-DEV@diego-app
+# name: CI-DEV@diego-app
 
-on:
-  workflow_dispatch:
-  pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
-    paths:
-      - 'src/domains/diego-app/**'
-      - '.github/workflows/dev**'
+# on:
+#   workflow_dispatch:
+#   pull_request:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+#       - reopened
+#     paths:
+#       - 'src/domains/diego-app/**'
+#       - '.github/workflows/dev**'
 
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
 
-env:
-  DIR: "src/domains/diego-app"
-  AZURE_ENVIRONMENT: dev
+# env:
+#   DIR: "src/domains/diego-app"
+#   AZURE_ENVIRONMENT: dev
 
-jobs:
-  create_runner:
-    name: Create Runner
-    runs-on: ubuntu-22.04
-    environment: dev-runner
-    outputs:
-      runner_name: ${{ steps.create_github_runner.outputs.runner_name }}
-    steps:
-      - name: Create GitHub Runner
-        id: create_github_runner
-        # from https://github.com/pagopa/eng-github-actions-iac-template
-        uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-create-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
-        with:
-          client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          container_app_environment_name: ${{ secrets.AZURE_CONTAINER_APP_ENVIRONMENT_NAME }}
-          resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-          pat_token: ${{ secrets.BOT_TOKEN }}
-          self_hosted_runner_image_tag: "beta-kubelogin-setup"
+# jobs:
+#   create_runner:
+#     name: Create Runner
+#     runs-on: ubuntu-22.04
+#     environment: dev-runner
+#     outputs:
+#       runner_name: ${{ steps.create_github_runner.outputs.runner_name }}
+#     steps:
+#       - name: Create GitHub Runner
+#         id: create_github_runner
+#         # from https://github.com/pagopa/eng-github-actions-iac-template
+#         uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-create-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
+#         with:
+#           client_id: ${{ secrets.AZURE_CLIENT_ID }}
+#           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+#           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#           container_app_environment_name: ${{ secrets.AZURE_CONTAINER_APP_ENVIRONMENT_NAME }}
+#           resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+#           pat_token: ${{ secrets.BOT_TOKEN }}
+#           self_hosted_runner_image_tag: "beta-kubelogin-setup"
 
-  terraform_plan_job:
-    name: Terraform Plan
-    runs-on: [self-hosted, "${{ needs.create_runner.outputs.runner_name }}"]
-    environment: dev-ci
-    needs: create_runner
-    steps:
-      - name: Checkout
-        id: checkout
-        # from https://github.com/actions/checkout/commits/main
-        uses: actions/checkout@1f9a0c22da41e6ebfa534300ef656657ea2c6707
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+#   terraform_plan_job:
+#     name: Terraform Plan
+#     runs-on: [self-hosted, "${{ needs.create_runner.outputs.runner_name }}"]
+#     environment: dev-ci
+#     needs: create_runner
+#     steps:
+#       - name: Checkout
+#         id: checkout
+#         # from https://github.com/actions/checkout/commits/main
+#         uses: actions/checkout@1f9a0c22da41e6ebfa534300ef656657ea2c6707
+#         with:
+#           persist-credentials: false
+#           fetch-depth: 0
 
-      - name: Setup terraform
-        id: setup-version
-        # from https://github.com/pagopa/eng-github-actions-iac-template
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-install-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
+#       - name: Setup terraform
+#         id: setup-version
+#         # from https://github.com/pagopa/eng-github-actions-iac-template
+#         uses: pagopa/eng-github-actions-iac-template/azure/terraform-install-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
 
-      - name: Terraform Plan
-        # from https://github.com/pagopa/eng-github-actions-iac-template
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-aks-azure-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
-        with:
-          client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          dir: ${{ env.DIR }}
-          azure_environment: ${{ env.AZURE_ENVIRONMENT }}
-          terraform_action: "plan"
-          aks_name: "dvopla-d-neu-dev01-aks"
+#       - name: Terraform Plan
+#         # from https://github.com/pagopa/eng-github-actions-iac-template
+#         uses: pagopa/eng-github-actions-iac-template/azure/terraform-aks-azure-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
+#         with:
+#           client_id: ${{ secrets.AZURE_CLIENT_ID }}
+#           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+#           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#           dir: ${{ env.DIR }}
+#           azure_environment: ${{ env.AZURE_ENVIRONMENT }}
+#           terraform_action: "plan"
+#           aks_name: "dvopla-d-neu-dev01-aks"
 
-  cleanup_runner:
-    name: Cleanup Runner
-    if: always()
-    runs-on: ubuntu-22.04
-    environment: dev-runner
-    needs: [create_runner, terraform_plan_job]
-    steps:
-      - name: Cleanup GitHub Runner
-        id: cleanup_github_runner
-        # from https://github.com/pagopa/github-self-hosted-runner-azure-cleanup-action/commits/main
-        uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-cleanup-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
-        with:
-          client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-          runner_name: ${{ needs.create_runner.outputs.runner_name }}
-          pat_token: ${{ secrets.BOT_TOKEN }}
+#   cleanup_runner:
+#     name: Cleanup Runner
+#     if: always()
+#     runs-on: ubuntu-22.04
+#     environment: dev-runner
+#     needs: [create_runner, terraform_plan_job]
+#     steps:
+#       - name: Cleanup GitHub Runner
+#         id: cleanup_github_runner
+#         # from https://github.com/pagopa/github-self-hosted-runner-azure-cleanup-action/commits/main
+#         uses: pagopa/eng-github-actions-iac-template/azure/github-self-hosted-runner-azure-cleanup-action@0ee2f58fd46d10ac7f00bce4304b98db3dbdbe9a
+#         with:
+#           client_id: ${{ secrets.AZURE_CLIENT_ID }}
+#           tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+#           subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#           resource_group_name: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+#           runner_name: ${{ needs.create_runner.outputs.runner_name }}
+#           pat_token: ${{ secrets.BOT_TOKEN }}
