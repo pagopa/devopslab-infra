@@ -29,6 +29,9 @@
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_role_assignment.aks_cluster_role](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/2.8.0/docs/resources/release) | resource |
+| [kubernetes_config_map.added](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.changed](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/config_map) | resource |
+| [kubernetes_config_map.replaced](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/config_map) | resource |
 | [kubernetes_namespace.domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/namespace) | resource |
 | [kubernetes_namespace.system_domain_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/namespace) | resource |
 | [kubernetes_role_binding.deployer_binding](https://registry.terraform.io/providers/hashicorp/kubernetes/2.17.0/docs/resources/role_binding) | resource |
