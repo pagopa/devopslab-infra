@@ -1,25 +1,25 @@
-prefix          = "pagopa"
+prefix          = "dvopla"
 env_short       = "d"
 env             = "dev"
 domain          = "elk"
-location        = "westeurope"
-location_short  = "weu"
-location_string = "West Europe"
+location        = "northeurope"
+location_short  = "neu"
+location_string = "North Europe"
 instance        = "dev"
 
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
   Owner       = "pagoPA"
-  Source      = "https://github.com/pagopa/pagopa-infra/tree/main/src/domains/elk-monitoring"
+  Source      = "https://github.com/pagopa/devopslab-infra/tree/main/src/domains/elk-monitoring"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
 ### External resources
 
-monitor_resource_group_name                 = "pagopa-d-monitor-rg"
-log_analytics_workspace_name                = "pagopa-d-law"
-log_analytics_workspace_resource_group_name = "pagopa-d-monitor-rg"
+monitor_resource_group_name                 = "dvopla-d-monitor-rg"
+log_analytics_workspace_name                = "dvopla-d-law"
+log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
 external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.dev.platform"
