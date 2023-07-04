@@ -1,6 +1,6 @@
 ## VPN subnet
 module "vpn_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.20.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v4.1.0"
   name                                      = "GatewaySubnet"
   address_prefixes                          = var.cidr_subnet_vpn
   virtual_network_name                      = module.vnet.name
@@ -15,7 +15,7 @@ data "azuread_application" "vpn_app" {
 
 module "vpn" {
   count  = var.vpn_enabled ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v6.20.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v4.1.0"
 
   name                = "${local.project}-vpn"
   location            = var.location
