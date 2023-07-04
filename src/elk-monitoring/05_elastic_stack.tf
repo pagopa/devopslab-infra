@@ -11,7 +11,7 @@ resource "azurerm_resource_group" "elk_rg" {
 }
 
 resource "azurerm_storage_account" "elk_snapshot_sa" {
-  name                     = replace(format("%s-sa", local.project), "-", "")
+  name                     = replace("${local.project}-sa", "-", "")
   resource_group_name      = azurerm_resource_group.elk_rg.name
   location                 = azurerm_resource_group.elk_rg.location
   account_tier             = "Standard"
@@ -40,7 +40,7 @@ resource "kubernetes_secret" "snapshot_secret" {
     namespace = local.elk_namespace
   }
   data = {
-    "azure.client.default.account" = replace(format("%s-sa", local.project), "-", "")
+    "azure.client.default.account" = replace("${local.project}-sa", "-", "")
     "azure.client.default.key"     = data.azurerm_storage_account.snapshot_account.primary_access_key
   }
 
