@@ -15,15 +15,15 @@ locals {
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  vnet_name                = "${local.product}-vnet"
-  vnet_resource_group_name = "${local.product}-vnet-rg"
+  vnet_name                = "dvopla-d-neu-dev01-aks-vnet"
+  vnet_resource_group_name = "dvopla-d-neu-dev01-aks-vnet-rg"
 
   acr_name                = replace("${local.product}commonacr", "-", "")
   acr_resource_group_name = "${local.product}-container-registry-rg"
 
-  aks_name                = "${local.product}-${var.location_short}-${var.instance}-aks"
-  aks_resource_group_name = "${local.product}-${var.location_short}-${var.instance}-aks-rg"
-  aks_subnet_name         = "${var.prefix}-${var.env_short}-${var.location_short}-${var.env}-aks-snet"
+  aks_name                = "dvopla-d-neu-dev01-aks"
+  aks_resource_group_name = "dvopla-d-neu-dev01-aks-rg"
+  aks_subnet_name         = "dvopla-d-neu-dev01-aks-snet"
 
   ingress_hostname                      = "${var.location_short}${var.instance}.${var.domain}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"

@@ -22,7 +22,7 @@ log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
 external_domain          = "pagopa.it"
-dns_zone_internal_prefix = "internal.dev.platform"
+dns_zone_internal_prefix = "internal.devopslab"
 apim_dns_zone_prefix     = "dev.platform"
 
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
