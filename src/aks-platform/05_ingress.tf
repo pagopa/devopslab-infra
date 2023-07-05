@@ -25,26 +25,28 @@ module "nginx_ingress" {
   }
 
   values = [
-    "${templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip })}"
-  ]
+    templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip }),
+    yamlencode({
+      controller = {
+        replicaCount = var.ingress_replica_count
+        nodeSelector = {
+          "beta.kubernetes.io/os" = "linux"
+        }
+        admissionWebhooks = {
+          patch = {
+            nodeSelector = {
+              "beta.kubernetes.io/os" = "linux"
+            }
+          }
+        }
+      }
+      defaultBackend = {
+        nodeSelector = {
+          "beta.kubernetes.io/os" = "linux"
+        }
+      }
+    })
 
-  set = [
-    {
-      name  = "controller.replicaCount"
-      value = var.ingress_replica_count
-    },
-    {
-      name  = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
-      value = "linux"
-    },
-    {
-      name  = "defaultBackend.nodeSelector.beta\\.kubernetes\\.io/os"
-      value = "linux"
-    },
-    {
-      name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
-      value = "linux"
-    }
   ]
 
   depends_on = [
