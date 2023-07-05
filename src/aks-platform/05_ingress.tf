@@ -39,6 +39,10 @@ module "nginx_ingress" {
             }
           }
         }
+        image = {
+          repository = "k8s.gcr.io/ingress-nginx/controller"
+          tag        = "v1.8.1" // new version to test
+        }
       }
       defaultBackend = {
         nodeSelector = {
