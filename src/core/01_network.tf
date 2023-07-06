@@ -7,7 +7,7 @@ module "private_endpoints_snet" {
 
   resource_group_name = data.azurerm_resource_group.rg_vnet.name
 
-  private_endpoint_network_policies_enabled = true
+  private_endpoint_network_policies_enabled = false
   service_endpoints = [
     "Microsoft.Web",
     "Microsoft.AzureCosmosDB",

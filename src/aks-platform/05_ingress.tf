@@ -34,6 +34,10 @@ module "nginx_ingress" {
       value = var.ingress_replica_count
     },
     {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+      value = "/healthz"
+    },
+    {
       name  = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
       value = "linux"
     },
