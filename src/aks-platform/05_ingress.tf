@@ -25,37 +25,30 @@ module "nginx_ingress" {
   }
 
   values = [
-    templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip }),
-    yamlencode({
-      controller = {
-        replicaCount = var.ingress_replica_count
-        nodeSelector = {
-          "beta.kubernetes.io/os" = "linux"
-        }
-        admissionWebhooks = {
-          patch = {
-            nodeSelector = {
-              "beta.kubernetes.io/os" = "linux"
-            }
-          }
-        }
-        ingressClassResource = {
-          enabled = true
-          default = true
-          name    = "nginx"
-        }
-        # image = {
-        #   repository = "k8s.gcr.io/ingress-nginx/controller"
-        #   tag        = "v1.8.1" // new version to test
-        # }
-      }
-      defaultBackend = {
-        nodeSelector = {
-          "beta.kubernetes.io/os" = "linux"
-        }
-      }
-    })
+    "${templatefile("${path.module}/ingress/loadbalancer.yaml.tpl", { load_balancer_ip = var.ingress_load_balancer_ip })}"
+  ]
 
+  set = [
+    {
+      name  = "controller.replicaCount"
+      value = var.ingress_replica_count
+    },
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+      value = "/healthz"
+    },
+    {
+      name  = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
+      value = "linux"
+    },
+    {
+      name  = "defaultBackend.nodeSelector.beta\\.kubernetes\\.io/os"
+      value = "linux"
+    },
+    {
+      name  = "controller.admissionWebhooks.patch.nodeSelector.beta\\.kubernetes\\.io/os"
+      value = "linux"
+    }
   ]
 
   depends_on = [
