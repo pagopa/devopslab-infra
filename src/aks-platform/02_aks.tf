@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v4.1.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v6.20.1"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -94,6 +94,12 @@ module "aks" {
     data.azurerm_public_ip.pip_aks_outboud,
     data.azurerm_virtual_network.vnet_aks
   ]
+}
+
+resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
+  scope                = azurerm_resource_group.rg_aks.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks[0].identity_principal_id
 }
 
 #
