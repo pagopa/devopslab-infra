@@ -10,6 +10,8 @@ locals {
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
+  domain_aks_hostname = "${var.instance}.${var.domain}.internal.devopslab.pagopa.it"
+
   # ACR DOCKER
   docker_rg_name       = "${local.product}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
@@ -201,4 +203,16 @@ variable "dns_zone_internal_prefix" {
 variable "cidr_subnet_container_apps" {
   type        = list(string)
   description = "Subnet for container apps in diego domain"
+}
+
+#
+# Tls Checker
+#
+variable "tls_cert_check_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "tls cert helm chart configuration"
 }
