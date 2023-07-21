@@ -51,8 +51,8 @@ enable_azdoa        = true
 enable_iac_pipeline = true
 
 # VPN
-vpn_enabled           = false
-dns_forwarder_enabled = false
+vpn_enabled           = true
+dns_forwarder_enabled = true
 
 # app_gateway
 app_gateway_is_enabled            = false

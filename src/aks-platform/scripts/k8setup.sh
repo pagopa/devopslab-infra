@@ -11,7 +11,7 @@ set -e
 ############################################################
 
 # Global variables
-VERS="1.1"
+VERS="1.2"
 # Gestisce le diverse posizioni di "ENV"
 THISENV=$(ls -d ./env 2>/dev/null || ls -d ../env 2>/dev/null)
 
@@ -23,12 +23,10 @@ function print_usage() {
   echo "-------------------------------------------------------------------------"
   echo "Usage: cd <scripts folder>"
   echo "  ./k8setup.sh <ENV>"
-  cd ../env
-  for thisenv in *
+  for thisenv in ${THISENV}
   do
       echo "  Example: ./k8setup.sh ${thisenv}"
   done
-  cd ../scripts
   echo
   echo "Syntax: setup.sh [-l|h|k|s]"
   echo "  options:"
@@ -74,13 +72,13 @@ function check_env() {
   ENV=$1
 
   # Check if env has been properly entered
-  if [ ! -d "../env/$ENV" ]; then
+  if [ ! -d "${THISENV}/$ENV" ]; then
     echo "[ERROR] ENV should be one of:"
-    ls "../env"
+    ls -1 ${THISENV}
     exit 1
   fi
 
-  env_file_path="../env/${ENV}/backend.ini"
+  env_file_path="${THISENV}/${ENV}/backend.ini"
 
   # Check if backend.ini exists
   if [ -f "$env_file_path" ]; then
@@ -169,23 +167,23 @@ function setup() {
     exit 1
   fi
 
-
   az aks get-credentials -g "${aks_resource_group_name}" -n "${aks_name}" --subscription "${subscription}" --file "${HOME_DIR}/.kube/config-${aks_name}"
-  # convert configuration format
-  kubelogin convert-kubeconfig -l azurecli --kubeconfig "${HOME_DIR}/.kube/config-${aks_name}"
   # verify connection with k8s cluster
   echo "Checking connection to AKS cluster ${aks_name}"
   kubectl --kubeconfig="${HOME_DIR}/.kube/config-${aks_name}" get namespaces
 
   # merge cluster configuration into global configuration
   az aks get-credentials -g "${aks_resource_group_name}" -n "${aks_name}" --subscription "${subscription}" --overwrite-existing
-  # convert global configuration format
-  kubelogin convert-kubeconfig -l azurecli
 
   # with AAD auth enabled we need to authenticate the machine on the first setup
   echo "Follow Microsoft sign in steps. kubectl get namespaces command may fail but it's the expected behavior"
   kubectl config use-context "${aks_name}"
   kubectl get namespaces
+
+  # convert configuration format
+  for confg in /Users/"$(whoami)"/.kube/config*; do
+    kubelogin convert-kubeconfig -l azurecli --kubeconfig "$confg"
+  done
 }
 
 # Main program
@@ -197,7 +195,10 @@ while getopts ":hlks-:" option; do
       k) # kubelogin convert kubeconfig
         echo "converting kubeconfig to use azurecli login mode."
         installpkg "kubelogin"
-        kubelogin convert-kubeconfig -l azurecli
+        for confg in /Users/"$(whoami)"/.kube/config*; do
+          kubelogin convert-kubeconfig -l azurecli --kubeconfig "$confg"
+          echo "${confg} converted!"
+        done
         exit;;
       l) # list available environments
         echo "Available environment(-s):"
@@ -213,7 +214,7 @@ while getopts ":hlks-:" option; do
           kubelogin convert-kubeconfig -l azurecli --kubeconfig "$confg"
           echo "${confg} converted!"
         done
-         exit;;
+        exit;;
       *) # Invalid option
         echo "Error: Invalid option"
         echo ""

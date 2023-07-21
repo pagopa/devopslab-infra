@@ -13,7 +13,7 @@ locals {
 }
 
 module "keda_pod_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v4.1.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v6.20.1"
 
   resource_group_name = azurerm_resource_group.rg_aks.name
   location            = var.location
@@ -33,6 +33,10 @@ resource "azurerm_role_assignment" "keda_monitoring_reader" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Monitoring Reader"
   principal_id         = module.keda_pod_identity.identity.principal_id
+
+  depends_on = [
+    module.aks
+  ]
 }
 
 resource "helm_release" "keda" {
