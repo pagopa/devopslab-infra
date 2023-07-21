@@ -10,7 +10,7 @@ instance        = "dev01"
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
-  Owner       = "pagoPA"
+  Owner       = "devopslab"
   Source      = "https://github.com/pagopa/devopslab-infra/tree/main/src/domains/elk-monitoring"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
@@ -23,7 +23,7 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
 external_domain          = "pagopa.it"
 dns_zone_internal_prefix = "internal.devopslab"
-apim_dns_zone_prefix     = "dev.platform"
+apim_dns_zone_prefix     = "devopslab"
 
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
 # image tags: https://github.com/pagopa/infra-ssl-check/releases
@@ -68,7 +68,7 @@ elastic_cold_storage = {
 enable_iac_pipeline = true
 
 ingress_load_balancer_ip = "10.1.100.250"
-subscription_name        = "dev-pagopa"
+subscription_name        = "devopslab"
 
 ingress_min_replica_count    = "1"
 ingress_max_replica_count    = "3"
@@ -81,8 +81,8 @@ nginx_helm = {
     image = {
       registry     = "k8s.gcr.io"
       image        = "ingress-nginx/controller"
-      tag          = "v1.2.0"
-      digest       = "sha256:d8196e3bc1e72547c5dec66d6556c0ff92a23f6d0919b206be170bc90d5f9185"
+      tag          = "v1.8.1"
+      digest       = "sha256:e5c4824e7375fcf2a393e1c03c293b69759af37a9ca6abdb91b13d78a93da8bd"
       digestchroot = "sha256:fb17f1700b77d4fcc52ca6f83ffc2821861ae887dbb87149cf5cbc52bea425e5"
     },
     config = {
@@ -96,31 +96,31 @@ nodeset_config = {
     count            = "2"
     roles            = []
     storage          = "20Gi"
-    storageClassName = "pagopa-d-weu-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
   },
   master-nodes = {
     count            = "2"
     roles            = ["master"]
     storage          = "20Gi"
-    storageClassName = "pagopa-d-weu-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
   },
   data-hot-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_hot"]
     storage          = "100Gi"
-    storageClassName = "pagopa-d-weu-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
   },
   data-warm-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_warm"]
     storage          = "100Gi"
-    storageClassName = "pagopa-d-weu-elk-elastic-aks-storage-warm"
+    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-warm"
   },
   data-cold-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_cold", "data_frozen", "ml", "transform", "remote_cluster_client"]
     storage          = "100Gi"
-    storageClassName = "pagopa-d-weu-elk-elastic-aks-storage-cold"
+    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-cold"
   }
 }
 
