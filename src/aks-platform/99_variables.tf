@@ -515,3 +515,47 @@ variable "nginx_helm_version" {
 variable "keda_helm_version" {
   type = string
 }
+
+variable "reloader_helm" {
+  type = object({
+    chart_version = string,
+    image_name    = string,
+    image_tag     = string
+  })
+  description = "reloader helm chart configuration"
+}
+
+variable "prometheus_helm" {
+  type = object({
+    chart_version = string,
+    alertmanager = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    configmap_reload_prometheus = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    configmap_reload_alertmanager = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    configmap_reload_prometheus = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    node_exporter = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    server = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+    pushgateway = object({
+      image_name = string,
+      image_tag  = string,
+    }),
+  })
+  description = "prometheus helm chart configuration"
+}
