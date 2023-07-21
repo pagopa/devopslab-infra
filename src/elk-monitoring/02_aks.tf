@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "elastic" {
   # https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general
   os_disk_type       = var.elastic_node_pool.os_disk_type # Managed or Ephemeral
   os_disk_size_gb    = var.elastic_node_pool.os_disk_size_gb
-  availability_zones = ["1", "2", "3"]
+  zones = ["1", "2", "3"]
 
   os_type = "Linux"
 

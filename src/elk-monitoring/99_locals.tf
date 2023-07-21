@@ -34,8 +34,8 @@ locals {
 
   apim_hostname = "api.${var.apim_dns_zone_prefix}.${var.external_domain}"
 
-  kibana_hostname       = var.env_short == "p" ? "weu${var.env}.kibana.internal.devopslab.pagopa.it" : "weu${var.env}.kibana.internal.${var.env}.devopslab.pagopa.it"
-  kibana_hostname_short = "weu${var.env}.kibana"
+  kibana_hostname       = "${var.instance}.kibana.internal.devopslab.pagopa.it"
+  kibana_hostname_short = "${var.instance}.kibana"
 
   elk_namespace = "elastic-system"
 }

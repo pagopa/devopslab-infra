@@ -149,6 +149,7 @@ variable "elastic_warm_storage" {
     initialStorageSize     = string
   })
 }
+
 variable "elastic_cold_storage" {
   type = object({
     storage_type           = string,
@@ -162,6 +163,7 @@ variable "enable_iac_pipeline" {
   description = "If true create the key vault policy to allow used by azure devops iac pipelines."
   default     = false
 }
+
 variable "ingress_load_balancer_ip" {
   type = string
 }
@@ -226,6 +228,7 @@ variable "opentelemetry_operator_helm" {
   })
   description = "open-telemetry/opentelemetry-operator helm chart configuration"
 }
+
 variable "elk_snapshot_versioning" {
   type        = bool
   description = "Enable sa versioning"
@@ -237,6 +240,7 @@ variable "elk_snapshot_advanced_threat_protection" {
   description = "Enable contract threat advanced protection"
   default     = false
 }
+
 variable "elk_snapshot_delete_retention_days" {
   type        = number
   description = "Number of days to retain deleted."
