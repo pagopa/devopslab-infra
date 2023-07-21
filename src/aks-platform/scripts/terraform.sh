@@ -26,7 +26,7 @@ function download_tool() {
       return 1
     else
       chmod +x $tool
-      echo "${tool} downloaded! Please note this tool WON'T be copied in your **/bin folder for safety reasons. 
+      echo "${tool} downloaded! Please note this tool WON'T be copied in your **/bin folder for safety reasons.
 You need to do it yourself!"
       read -p "Press enter to continue"
 

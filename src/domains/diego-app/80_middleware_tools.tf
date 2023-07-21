@@ -26,4 +26,3 @@ module "cert_mounter" {
   kv_name          = data.azurerm_key_vault.kv_domain.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
 }
-
