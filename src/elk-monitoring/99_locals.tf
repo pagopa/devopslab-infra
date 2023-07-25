@@ -36,6 +36,8 @@ locals {
 
   kibana_hostname       = "${var.instance}.kibana.internal.devopslab.pagopa.it"
   kibana_hostname_short = "${var.instance}.kibana"
+  kibana_external_domain = "${local.kibana_hostname}"
+  kibana_internal_domain = "${local.kibana_hostname}"
 
   elk_namespace = "elastic-system"
 }

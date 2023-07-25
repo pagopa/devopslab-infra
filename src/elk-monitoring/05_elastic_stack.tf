@@ -65,12 +65,12 @@ module "elastic_stack" {
   env_short = var.env_short
   env       = var.env
 
-  kibana_external_domain = var.env_short == "p" ? "https://kibana.platform.pagopa.it/kibana" : "https://kibana.${var.env}.platform.pagopa.it/kibana"
+  kibana_external_domain = local.kibana_external_domain
 
-  secret_name   = var.env_short == "p" ? "${var.location_short}${var.env}-kibana-internal-platform-pagopa-it" : "${var.location_short}${var.env}-kibana-internal-${var.env}-platform-pagopa-it"
+  secret_name   = replace(local.kibana_hostname, ".", "-")
   keyvault_name = module.key_vault.name
 
-  kibana_internal_hostname = var.env_short == "p" ? "${var.location_short}${var.env}.kibana.internal.platform.pagopa.it" : "${var.location_short}${var.env}.kibana.internal.${var.env}.platform.pagopa.it"
+  kibana_internal_hostname = local.kibana_internal_domain
 
   snapshot_secret_name = local.snapshot_secret_name
 }
