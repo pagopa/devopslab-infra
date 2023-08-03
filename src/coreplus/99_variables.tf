@@ -821,3 +821,12 @@ variable "is_cosmosdb_mongo_enabled" {
 variable "is_cosmosdb_core_enabled" {
   type = bool
 }
+
+#
+# Feature flags
+#
+variable "is_resource_coreplus_enabled" {
+  type = object({
+    eventhub = bool,
+  })
+}

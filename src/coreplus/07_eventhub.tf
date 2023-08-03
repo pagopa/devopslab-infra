@@ -18,6 +18,7 @@ module "eventhub_snet" {
 
 
 module "event_hub" {
+  count = var.is_resource_coreplus_enabled.eventhub ? 1 : 0
   source                   = "git::https://github.com/pagopa/terraform-azurerm-v3.git//eventhub?ref=v6.3.1"
   name                     = "${local.project}-evh-ns"
   location                 = var.location
