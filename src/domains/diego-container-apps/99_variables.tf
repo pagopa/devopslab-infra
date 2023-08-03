@@ -109,6 +109,14 @@ variable "tags" {
   }
 }
 
+variable "is_resource_enabled" {
+  type = object({
+    mongodb_dapr            = bool,
+    container_app_dapr      = bool,
+    container_app_diego_env = bool,
+  })
+}
+
 variable "terraform_remote_state_core" {
   type = object({
     resource_group_name  = string,
