@@ -72,7 +72,7 @@ subscription_name        = "devopslab"
 
 ingress_min_replica_count    = "1"
 ingress_max_replica_count    = "3"
-ingress_elk_load_balancer_ip = "10.1.100.251"
+ingress_elk_load_balancer_ip = "10.11.100.251"
 # ingress-nginx helm charts releases 4.X.X: https://github.com/kubernetes/ingress-nginx/releases?expanded=true&page=1&q=tag%3Ahelm-chart-4
 # Pinned versions from "4.7.1" release: https://github.com/kubernetes/ingress-nginx/blob/helm-chart-4.7.1/charts/ingress-nginx/values.yaml
 nginx_helm = {
@@ -96,31 +96,31 @@ nodeset_config = {
     count            = "2"
     roles            = []
     storage          = "20Gi"
-    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   master-nodes = {
     count            = "2"
     roles            = ["master"]
     storage          = "20Gi"
-    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-hot-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_hot"]
     storage          = "100Gi"
-    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-hot"
+    storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-warm-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_warm"]
     storage          = "100Gi"
-    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-warm"
+    storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-warm"
   },
   data-cold-nodes = {
     count            = "2"
     roles            = ["ingest", "data_content", "data_cold", "data_frozen", "ml", "transform", "remote_cluster_client"]
     storage          = "100Gi"
-    storageClassName = "dvopla-d-dev01-elk-elastic-aks-storage-cold"
+    storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-cold"
   }
 }
 
