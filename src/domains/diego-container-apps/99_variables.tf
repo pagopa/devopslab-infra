@@ -109,14 +109,6 @@ variable "tags" {
   }
 }
 
-variable "is_resource_enabled" {
-  type = object({
-    mongodb_dapr            = bool,
-    container_app_dapr      = bool,
-    container_app_diego_env = bool,
-  })
-}
-
 variable "terraform_remote_state_core" {
   type = object({
     resource_group_name  = string,
@@ -177,4 +169,12 @@ variable "cidr_subnet_container_apps" {
 variable "cidr_subnet_container_apps_dapr" {
   type        = list(string)
   description = "Subnet for container apps dapr in diego domain"
+}
+
+variable "is_resource_enabled" {
+  type = object({
+    mongodb_dapr            = bool,
+    container_app_dapr      = bool,
+    container_app_diego_env = bool,
+  })
 }

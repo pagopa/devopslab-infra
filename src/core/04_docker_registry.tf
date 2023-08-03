@@ -10,7 +10,7 @@ module "container_registry_private" {
   resource_group_name = azurerm_resource_group.rg_docker.name
   location            = azurerm_resource_group.rg_docker.location
 
-  sku                           = "Standard"
+  sku                           = "Basic"
   admin_enabled                 = false
   anonymous_pull_enabled        = false
   zone_redundancy_enabled       = false

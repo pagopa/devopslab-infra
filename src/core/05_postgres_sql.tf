@@ -102,6 +102,7 @@ module "postgres_snet" {
 }
 
 module "postgres" {
+  count = var.is_resource_core_enabled.postgresql_server ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v4.1.0"
 
   name                = "${local.project}-postgres"
