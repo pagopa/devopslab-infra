@@ -32,8 +32,6 @@ data "azurerm_storage_account" "snapshot_account" {
   resource_group_name = azurerm_resource_group.elk_rg.name
 }
 
-
-
 resource "kubernetes_secret" "snapshot_secret" {
   metadata {
     name      = local.snapshot_secret_name
@@ -47,18 +45,13 @@ resource "kubernetes_secret" "snapshot_secret" {
 }
 
 module "elastic_stack" {
-  depends_on = [
-    azurerm_kubernetes_cluster_node_pool.elastic,
-    kubernetes_secret.snapshot_secret
-  ]
-
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//elastic_stack?ref=elk-sync-with-v2"
-
 
   namespace      = local.elk_namespace
   nodeset_config = var.nodeset_config
 
-  dedicated_log_instance_name = ["nodo", "nodoreplica", "nodocron", "nodocronreplica", "pagopawebbo", "pagopawfespwfesp", "pagopafdr", "pagopafdrnodo"]
+  # dedicated_log_instance_name = ["nodo", "nodoreplica", "nodocron", "nodocronreplica", "pagopawebbo", "pagopawfespwfesp", "pagopafdr", "pagopafdrnodo"]
+  dedicated_log_instance_name = []
 
   eck_license = file("${path.module}/env/eck_license/pagopa-spa-4a1285e5-9c2c-4f9f-948a-9600095edc2f-orchestration.json")
 
@@ -70,9 +63,14 @@ module "elastic_stack" {
   secret_name   = replace(local.kibana_hostname, ".", "-")
   keyvault_name = module.key_vault.name
 
-  kibana_internal_hostname = local.kibana_internal_domain
+  kibana_internal_hostname = local.kibana_internal_hostname
 
   snapshot_secret_name = local.snapshot_secret_name
+
+  depends_on = [
+    azurerm_kubernetes_cluster_node_pool.elastic,
+    kubernetes_secret.snapshot_secret
+  ]
 }
 
 data "kubernetes_secret" "get_elastic_credential" {
