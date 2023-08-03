@@ -10,7 +10,7 @@ spec:
       otlp:
         protocols:
           grpc:
-        
+
     processors:
       memory_limiter:
         check_interval: 1s
@@ -36,6 +36,6 @@ spec:
         metrics:
           receivers: [otlp]
           exporters: [logging, otlphttp/elastic]
-        logs: 
+        logs:
           receivers: [otlp]
           exporters: [logging, otlphttp/elastic]

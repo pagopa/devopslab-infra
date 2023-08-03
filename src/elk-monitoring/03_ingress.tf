@@ -91,7 +91,7 @@ module "nginx_ingress" {
       name  = "controller.ingressClassResource.controllerValue"
       value = "k8s.io/nginxelk-controller"
     },
-        {
+    {
       name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
       value = "/healthz"
     },

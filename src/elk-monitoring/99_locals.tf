@@ -34,11 +34,11 @@ locals {
 
   apim_hostname = "api.${var.apim_dns_zone_prefix}.${var.external_domain}"
 
-  kibana_hostname       = "${var.instance}.kibana.internal.devopslab.pagopa.it"
-  kibana_internal_hostname       = "${var.instance}.kibana.internal.devopslab.pagopa.it"
-  kibana_hostname_short = "${var.instance}.kibana"
-  kibana_external_domain = "https://${local.kibana_hostname}/kibana"
-  kibana_internal_domain = "https://${local.kibana_hostname}/kibana"
+  kibana_hostname          = "${var.instance}.kibana.internal.devopslab.pagopa.it"
+  kibana_internal_hostname = "${var.instance}.kibana.internal.devopslab.pagopa.it"
+  kibana_hostname_short    = "${var.instance}.kibana"
+  kibana_external_domain   = "https://${local.kibana_hostname}/kibana"
+  kibana_internal_domain   = "https://${local.kibana_hostname}/kibana"
 
   elk_namespace = "elastic-system"
 }
