@@ -68,3 +68,17 @@ module "vnet_peering_core_2_aks" {
   target_remote_virtual_network_id = module.vnet_aks[each.key].id
   target_use_remote_gateways       = true # needed by vpn gateway for enabling routing from vnet to vnet_integration
 }
+
+#
+# Private DNS links
+#
+resource "azurerm_private_dns_zone_virtual_network_link" "vnet_aks" {
+  for_each = { for n in var.aks_networks : n.domain_name => n }
+
+  name                  = module.vnet_aks[each.key].name
+  resource_group_name   = data.azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = data.azurerm_private_dns_zone.internal.name
+  virtual_network_id    = module.vnet_aks[each.key].id
+
+  tags = var.tags
+}
