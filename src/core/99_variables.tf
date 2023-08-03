@@ -159,6 +159,8 @@ variable "enable_iac_pipeline" {
   default     = false
 }
 
+
+
 ## 🔭 Monitor
 variable "law_sku" {
   type        = string
@@ -283,4 +285,13 @@ variable "redis_enabled" {
 variable "azdoa_image_name" {
   type        = string
   description = "Azure DevOps Agent image name"
+}
+
+#
+# Feature flags
+#
+variable "is_resource_core_enabled" {
+  type = object({
+    postgresql_server = bool,
+  })
 }
