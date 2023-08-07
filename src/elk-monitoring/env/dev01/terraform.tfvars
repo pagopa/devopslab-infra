@@ -36,11 +36,11 @@ tls_cert_check_helm = {
 elastic_node_pool = {
   enabled         = true
   name            = "elastic01"
-  vm_size         = "Standard_B8ms"
+  vm_size         = "Standard_B4ms"
   os_disk_type    = "Managed"
   os_disk_size_gb = "300"
-  node_count_min  = "2" #TODO change to 2 or 3 in prod
-  node_count_max  = "3"
+  node_count_min  = "1" #TODO change to 2 or 3 in prod
+  node_count_max  = "1"
   node_labels = {
     elastic : "eck",
   },
@@ -67,7 +67,6 @@ elastic_cold_storage = {
 
 enable_iac_pipeline = true
 
-ingress_load_balancer_ip = "10.1.100.250"
 subscription_name        = "devopslab"
 
 ingress_min_replica_count    = "1"
@@ -93,33 +92,33 @@ nginx_helm = {
 
 nodeset_config = {
   balancer-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = []
-    storage          = "20Gi"
+    storage          = "5Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   master-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["master"]
-    storage          = "20Gi"
+    storage          = "5Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-hot-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_hot"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-warm-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_warm"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-warm"
   },
   data-cold-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_cold", "data_frozen", "ml", "transform", "remote_cluster_client"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-cold"
   }
 }
