@@ -107,6 +107,7 @@ az network dns zone show \
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
+| <a name="input_is_resource_core_enabled"></a> [is\_resource\_core\_enabled](#input\_is\_resource\_core\_enabled) | Feature flags | <pre>object({<br>    postgresql_server = bool,<br>  })</pre> | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |
 | <a name="input_lab_dns_zone_prefix"></a> [lab\_dns\_zone\_prefix](#input\_lab\_dns\_zone\_prefix) | The dns subdomain. | `string` | `null` | no |

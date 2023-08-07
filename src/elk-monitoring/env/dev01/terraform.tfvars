@@ -67,7 +67,7 @@ elastic_cold_storage = {
 
 enable_iac_pipeline = true
 
-subscription_name        = "devopslab"
+subscription_name = "devopslab"
 
 ingress_min_replica_count    = "1"
 ingress_max_replica_count    = "3"
