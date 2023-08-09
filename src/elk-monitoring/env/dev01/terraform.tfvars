@@ -36,7 +36,7 @@ tls_cert_check_helm = {
 elastic_node_pool = {
   enabled         = true
   name            = "elastic01"
-  vm_size         = "Standard_B4ms"
+  vm_size         = "Standard_B8ms"
   os_disk_type    = "Managed"
   os_disk_size_gb = "300"
   node_count_min  = "1" #TODO change to 2 or 3 in prod
@@ -52,17 +52,17 @@ elastic_node_pool = {
 elastic_hot_storage = {
   storage_type           = "StandardSSD_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 elastic_warm_storage = {
   storage_type           = "StandardSSD_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 elastic_cold_storage = {
   storage_type           = "Standard_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 
 enable_iac_pipeline = true
