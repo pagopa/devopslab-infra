@@ -7,7 +7,6 @@ data "kubernetes_namespace" "namespace" {
 module "pod_identity" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v6.20.2"
 
-
   resource_group_name = local.aks_resource_group_name
   location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
@@ -18,6 +17,8 @@ module "pod_identity" {
   key_vault_id  = module.key_vault.id
 
   secret_permissions = ["Get"]
+  certificate_permissions = ["Get"]
+
 }
 
 resource "helm_release" "reloader" {
