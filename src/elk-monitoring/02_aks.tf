@@ -49,10 +49,4 @@ resource "azurerm_kubernetes_cluster_node_pool" "elastic" {
 
   tags = merge(var.tags, var.elastic_node_pool.node_tags)
 
-  #lifecycle {
-  #  ignore_changes = [
-  #    node_count
-  #  ]
-  #}
-
 }

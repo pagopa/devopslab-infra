@@ -50,7 +50,6 @@ module "elastic_stack" {
   namespace      = local.elk_namespace
   nodeset_config = var.nodeset_config
 
-  # dedicated_log_instance_name = ["nodo", "nodoreplica", "nodocron", "nodocronreplica", "pagopawebbo", "pagopawfespwfesp", "pagopafdr", "pagopafdrnodo"]
   dedicated_log_instance_name = []
 
   eck_license = file("${path.module}/env/eck_license/pagopa-spa-4a1285e5-9c2c-4f9f-948a-9600095edc2f-orchestration.json")
@@ -69,6 +68,8 @@ module "elastic_stack" {
 
   depends_on = [
     azurerm_kubernetes_cluster_node_pool.elastic,
+    module.nginx_ingress,
+    module.pod_identity,
     kubernetes_secret.snapshot_secret
   ]
 }
@@ -82,6 +83,16 @@ data "kubernetes_secret" "get_elastic_credential" {
     name      = "quickstart-es-elastic-user"
     namespace = local.elk_namespace
   }
+}
+
+resource "azurerm_key_vault_secret" "elastic_user_password" {
+  depends_on = [data.kubernetes_secret.get_elastic_credential]
+
+  name         = "elastic-user-password"
+  value        = data.kubernetes_secret.get_elastic_credential.data.elastic
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault.id
 }
 
 # orignal

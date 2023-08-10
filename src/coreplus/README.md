@@ -155,6 +155,7 @@
 | <a name="input_function_python_diego_enabled"></a> [function\_python\_diego\_enabled](#input\_function\_python\_diego\_enabled) | Is function python enabled. | `bool` | `false` | no |
 | <a name="input_is_cosmosdb_core_enabled"></a> [is\_cosmosdb\_core\_enabled](#input\_is\_cosmosdb\_core\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_is_cosmosdb_mongo_enabled"></a> [is\_cosmosdb\_mongo\_enabled](#input\_is\_cosmosdb\_mongo\_enabled) | CosmosDB | `bool` | n/a | yes |
+| <a name="input_is_resource_coreplus_enabled"></a> [is\_resource\_coreplus\_enabled](#input\_is\_resource\_coreplus\_enabled) | Feature flags | <pre>object({<br>    eventhub = bool,<br>  })</pre> | n/a | yes |
 | <a name="input_is_web_app_service_docker_enabled"></a> [is\_web\_app\_service\_docker\_enabled](#input\_is\_web\_app\_service\_docker\_enabled) | Enable or disable this resources | `bool` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |

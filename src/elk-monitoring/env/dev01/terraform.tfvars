@@ -39,8 +39,8 @@ elastic_node_pool = {
   vm_size         = "Standard_B8ms"
   os_disk_type    = "Managed"
   os_disk_size_gb = "300"
-  node_count_min  = "2" #TODO change to 2 or 3 in prod
-  node_count_max  = "3"
+  node_count_min  = "1" #TODO change to 2 or 3 in prod
+  node_count_max  = "1"
   node_labels = {
     elastic : "eck",
   },
@@ -52,23 +52,22 @@ elastic_node_pool = {
 elastic_hot_storage = {
   storage_type           = "StandardSSD_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 elastic_warm_storage = {
   storage_type           = "StandardSSD_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 elastic_cold_storage = {
   storage_type           = "Standard_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "100Gi"
+  initialStorageSize     = "20Gi"
 }
 
 enable_iac_pipeline = true
 
-ingress_load_balancer_ip = "10.1.100.250"
-subscription_name        = "devopslab"
+subscription_name = "devopslab"
 
 ingress_min_replica_count    = "1"
 ingress_max_replica_count    = "3"
@@ -93,33 +92,33 @@ nginx_helm = {
 
 nodeset_config = {
   balancer-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = []
-    storage          = "20Gi"
+    storage          = "5Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   master-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["master"]
-    storage          = "20Gi"
+    storage          = "5Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-hot-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_hot"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-hot"
   },
   data-warm-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_warm"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-warm"
   },
   data-cold-nodes = {
-    count            = "2"
+    count            = "1"
     roles            = ["ingest", "data_content", "data_cold", "data_frozen", "ml", "transform", "remote_cluster_client"]
-    storage          = "100Gi"
+    storage          = "10Gi"
     storageClassName = "dvopla-d-neu-elk-elastic-aks-storage-cold"
   }
 }
