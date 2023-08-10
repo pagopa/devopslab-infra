@@ -85,6 +85,16 @@ data "kubernetes_secret" "get_elastic_credential" {
   }
 }
 
+resource "azurerm_key_vault_secret" "elastic_user_password" {
+  depends_on   = [data.kubernetes_secret.get_elastic_credential]
+
+  name         = "elastic-user-password"
+  value        = data.kubernetes_secret.get_elastic_credential.data.elastic
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault.id
+}
+
 # orignal
 # locals {
 #   kibana_url  = var.env_short == "p" ? "https://elastic:${data.kubernetes_secret.get_elastic_credential.data.elastic}@kibana.platform.pagopa.it/kibana" : "https://elastic:${data.kubernetes_secret.get_elastic_credential.data.elastic}@kibana.${var.env}.platform.pagopa.it/kibana"
