@@ -86,7 +86,7 @@ data "kubernetes_secret" "get_elastic_credential" {
 }
 
 resource "azurerm_key_vault_secret" "elastic_user_password" {
-  depends_on   = [data.kubernetes_secret.get_elastic_credential]
+  depends_on = [data.kubernetes_secret.get_elastic_credential]
 
   name         = "elastic-user-password"
   value        = data.kubernetes_secret.get_elastic_credential.data.elastic

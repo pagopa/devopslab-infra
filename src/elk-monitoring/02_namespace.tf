@@ -16,7 +16,7 @@ module "pod_identity" {
   namespace     = data.kubernetes_namespace.namespace.metadata[0].name
   key_vault_id  = module.key_vault.id
 
-  secret_permissions = ["Get"]
+  secret_permissions      = ["Get"]
   certificate_permissions = ["Get"]
 
 }
