@@ -103,6 +103,11 @@ variable "cidr_subnet_postgres" {
   description = "Database network address space."
 }
 
+variable "cidr_subnet_private_endpoints" {
+  type        = list(string)
+  description = "Subnet cidr postgres flex."
+}
+
 variable "cidr_subnet_vpn" {
   type        = list(string)
   description = "VPN network address space."
