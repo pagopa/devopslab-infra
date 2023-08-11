@@ -32,7 +32,7 @@ locals {
 
   cosmosdb_enable = 1
 
-  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name          = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
   dns_zone_private_name_postgres = "privatelink.postgres.database.azure.com"
 
   #
