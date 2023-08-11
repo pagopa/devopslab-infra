@@ -32,7 +32,8 @@ locals {
 
   cosmosdb_enable = 1
 
-  dns_zone_private_name = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name          = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name_postgres = "privatelink.postgres.database.azure.com"
 
   #
   # Container App
@@ -160,11 +161,6 @@ variable "cidr_subnet_app_docker" {
 }
 
 variable "cidr_subnet_flex_dbms" {
-  type        = list(string)
-  description = "Subnet cidr postgres flex."
-}
-
-variable "cidr_subnet_private_endpoints" {
   type        = list(string)
   description = "Subnet cidr postgres flex."
 }

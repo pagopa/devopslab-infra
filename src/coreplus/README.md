@@ -34,7 +34,6 @@
 | <a name="module_postgres_flexible_server_private"></a> [postgres\_flexible\_server\_private](#module\_postgres\_flexible\_server\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v6.3.1 |
 | <a name="module_postgres_flexible_server_public"></a> [postgres\_flexible\_server\_public](#module\_postgres\_flexible\_server\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgres_flexible_server | v6.3.1 |
 | <a name="module_postgres_flexible_snet"></a> [postgres\_flexible\_snet](#module\_postgres\_flexible\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.3.1 |
-| <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v6.3.1 |
 | <a name="module_vnet_aks"></a> [vnet\_aks](#module\_vnet\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v6.3.1 |
 | <a name="module_vnet_peering_core_2_aks"></a> [vnet\_peering\_core\_2\_aks](#module\_vnet\_peering\_core\_2\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering | v6.3.1 |
 
@@ -51,8 +50,6 @@
 | [azurerm_key_vault_access_policy.app_gateway_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_monitor_action_group.error_action_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_private_dns_a_record.api_internal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
-| [azurerm_private_dns_zone.privatelink_postgres_database_azure_com](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
-| [azurerm_private_dns_zone_virtual_network_link.privatelink_postgres_database_azure_com_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_private_dns_zone_virtual_network_link.vnet_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone_virtual_network_link) | resource |
 | [azurerm_public_ip.outbound_ip_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_resource_group.app_service_docker_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
@@ -60,15 +57,11 @@
 | [azurerm_resource_group.cosmos_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.eventhub_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.funcs_diego_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.github_runner_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.postgres_dbs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_api](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_vnet_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_subnet.github_runner_snet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_user_assigned_identity.appgateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_user_assigned_identity.appgateway_beta](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
-| [null_resource.container_app_create_env_github_runner](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [null_resource.update_az_cli](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/2.10.0/docs/data-sources/group) | data source |
@@ -91,12 +84,14 @@
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_action_group) | data source |
 | [azurerm_private_dns_zone.internal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
+| [azurerm_private_dns_zone.privatelink_postgres_database_azure_com](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
 | [azurerm_public_ip.appgateway_beta_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/public_ip) | data source |
 | [azurerm_public_ip.appgateway_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/public_ip) | data source |
 | [azurerm_resource_group.kv_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.rg_monitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_storage_account.security_monitoring_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/storage_account) | data source |
+| [azurerm_subnet.private_endpoints_snet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [azurerm_virtual_network.vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
@@ -138,7 +133,6 @@
 | <a name="input_cidr_subnet_funcs_diego_domain"></a> [cidr\_subnet\_funcs\_diego\_domain](#input\_cidr\_subnet\_funcs\_diego\_domain) | Subnet for funcs in diego domain | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_github_runner_self_hosted"></a> [cidr\_subnet\_github\_runner\_self\_hosted](#input\_cidr\_subnet\_github\_runner\_self\_hosted) | Subnet for funcs in diego domain | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_k8s"></a> [cidr\_subnet\_k8s](#input\_cidr\_subnet\_k8s) | Subnet cluster kubernetes. | `list(string)` | n/a | yes |
-| <a name="input_cidr_subnet_private_endpoints"></a> [cidr\_subnet\_private\_endpoints](#input\_cidr\_subnet\_private\_endpoints) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_vpn"></a> [cidr\_subnet\_vpn](#input\_cidr\_subnet\_vpn) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
 | <a name="input_cidr_vnet"></a> [cidr\_vnet](#input\_cidr\_vnet) | Virtual network address space. | `list(string)` | n/a | yes |
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |

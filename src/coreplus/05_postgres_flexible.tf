@@ -38,27 +38,7 @@ module "postgres_flexible_snet" {
   }
 }
 
-# DNS private single server
-resource "azurerm_private_dns_zone" "privatelink_postgres_database_azure_com" {
 
-  name                = "privatelink.postgres.database.azure.com"
-  resource_group_name = data.azurerm_resource_group.rg_vnet.name
-
-  tags = var.tags
-}
-
-resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_postgres_database_azure_com_vnet" {
-
-  name                  = "${local.program}-pg-flex-link"
-  private_dns_zone_name = azurerm_private_dns_zone.privatelink_postgres_database_azure_com.name
-
-  resource_group_name = data.azurerm_resource_group.rg_vnet.name
-  virtual_network_id  = data.azurerm_virtual_network.vnet.id
-
-  registration_enabled = false
-
-  tags = var.tags
-}
 
 # https://docs.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-compare-single-server-flexible-server
 module "postgres_flexible_server_private" {
@@ -73,7 +53,7 @@ module "postgres_flexible_server_private" {
 
   ### Network
   private_endpoint_enabled = false
-  private_dns_zone_id      = azurerm_private_dns_zone.privatelink_postgres_database_azure_com.id
+  private_dns_zone_id      = data.azurerm_private_dns_zone.privatelink_postgres_database_azure_com.id
   delegated_subnet_id      = module.postgres_flexible_snet.id
 
   ### Admin
@@ -111,9 +91,6 @@ module "postgres_flexible_server_private" {
   diagnostic_settings_enabled               = true
   log_analytics_workspace_id                = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
   diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
-
-  depends_on = [azurerm_private_dns_zone_virtual_network_link.privatelink_postgres_database_azure_com_vnet]
-
 }
 
 #
