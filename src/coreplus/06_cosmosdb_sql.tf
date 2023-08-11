@@ -46,13 +46,13 @@ module "cosmos_core" {
   ip_range = ""
 
   allowed_virtual_network_subnet_ids = [
-    module.private_endpoints_snet.id
+    data.azurerm_subnet.private_endpoints_snet.id
   ]
 
   # private endpoint
   private_endpoint_name    = "${local.project}-cosmos-core-sql-endpoint"
   private_endpoint_enabled = true
-  subnet_id                = module.private_endpoints_snet.id
+  subnet_id                = data.azurerm_subnet.private_endpoints_snet.id
   private_dns_zone_ids     = [data.azurerm_private_dns_zone.internal.id]
 
   tags = var.tags
