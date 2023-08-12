@@ -17,6 +17,8 @@ locals {
 
   dns_zone_public_name  = "devopslab.pagopa.it"
   dns_zone_private_name = "internal.devopslab.pagopa.it"
+  dns_zone_private_name_postgres = "privatelink.postgres.database.azure.com"
+
 
   container_registry_common_name    = "dvopladneuacr"
   rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
@@ -112,6 +114,10 @@ variable "dns_zone_prefix" {
   description = "The dns subdomain."
 }
 
+variable "cidr_subnet_pg_flex_zabbix" {
+  type = list
+}
+
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -127,4 +133,13 @@ variable "log_analytics_workspace_name" {
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
+}
+
+#
+# Feature flags
+#
+variable "is_resource" {
+  type = object({
+    zabbix_pgflexi_enabled = bool,
+  })
 }

@@ -25,8 +25,17 @@ terraform_remote_state_core = {
   key                  = "terraform.tfstate"
 }
 cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
+cidr_subnet_pg_flex_zabbix            = ["10.1.146.0/24"]
+
 
 ### External resources
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+
+#
+# Feature Flag
+#
+is_resource = {
+  zabbix_pgflexi_enabled = true
+}

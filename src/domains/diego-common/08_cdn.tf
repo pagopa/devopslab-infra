@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "devopslab_cdn_rg" {
 ### Frontend resources
 #tfsec:ignore:azure-storage-queue-services-logging-enabled:exp:2022-05-01 # already ignored, maybe a bug in tfsec
 module "devopslab_cdn" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v4.1.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.2.0"
 
   name                  = "diego"
   prefix                = local.product
@@ -17,7 +17,6 @@ module "devopslab_cdn" {
   location              = azurerm_resource_group.devopslab_cdn_rg.location
   hostname              = "cdn-diego-app.devopslab.pagopa.it"
   https_rewrite_enabled = true
-  lock_enabled          = false
 
   index_document     = "index.html"
   error_404_document = "404.html"
