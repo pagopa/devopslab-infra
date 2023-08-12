@@ -1,9 +1,3 @@
-resource "azurerm_resource_group" "container_app_diego" {
-  name     = local.container_app_diego_environment_resource_group
-  location = var.location
-  tags     = var.tags
-}
-
 resource "null_resource" "update_az_cli" {
   triggers = {
     env_name                                   = local.container_app_diego_environment_name

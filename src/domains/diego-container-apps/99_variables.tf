@@ -25,6 +25,7 @@ locals {
   container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
 
   container_app_diego_environment_name              = "dvopla-d-diego-cappenv"
+  
   container_app_dapr_environment_name               = "dvopla-d-dapr-cappenv"
   container_app_dapr_environment_component_cosmosdb = "/tmp/${local.container_app_dapr_environment_name}.yaml"
 
