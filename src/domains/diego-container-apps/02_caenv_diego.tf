@@ -1,3 +1,9 @@
+resource "azurerm_resource_group" "container_app_diego" {
+  name     = local.container_app_diego_environment_resource_group
+  location = var.location
+  tags     = var.tags
+}
+
 # Subnet to host the api config
 module "container_apps_snet" {
   count = var.is_resource_enabled.container_app_diego_env ? 1 : 0
