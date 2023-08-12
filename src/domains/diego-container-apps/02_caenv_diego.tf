@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "container_app_diego" {
 module "container_apps_snet" {
   count = var.is_resource_enabled.container_app_diego_env ? 1 : 0
 
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v5.3.0"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.2.0"
   name                 = "${local.project}-container-apps-snet"
   address_prefixes     = var.cidr_subnet_container_apps
   virtual_network_name = data.azurerm_virtual_network.vnet_core.name

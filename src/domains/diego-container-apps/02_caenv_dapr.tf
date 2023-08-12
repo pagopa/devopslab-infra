@@ -1,7 +1,7 @@
 # Subnet to host the api config
 module "container_apps_dapr_snet" {
   count                = var.is_resource_enabled.container_app_dapr ? 1 : 0
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v5.3.0"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.2.0"
   name                 = "${local.project}-container-apps-dapr-snet"
   address_prefixes     = var.cidr_subnet_container_apps_dapr
   virtual_network_name = data.azurerm_virtual_network.vnet_core.name
