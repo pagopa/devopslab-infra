@@ -41,11 +41,11 @@ dns_zone_internal_prefix = "internal.devopslab"
 #
 # VNET
 #
-cidr_subnet_container_apps      = ["10.1.146.0/23"]
+cidr_subnet_container_apps      = ["10.1.250.0/23"]
 cidr_subnet_container_apps_dapr = ["10.1.150.0/23"]
 
 is_resource_enabled = {
   mongodb_dapr            = false,
   container_app_dapr      = false,
-  container_app_diego_env = false,
+  container_app_diego_env = true,
 }
