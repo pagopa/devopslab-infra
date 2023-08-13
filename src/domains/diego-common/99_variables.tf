@@ -15,8 +15,8 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
-  dns_zone_public_name  = "devopslab.pagopa.it"
-  dns_zone_private_name = "internal.devopslab.pagopa.it"
+  dns_zone_public_name           = "devopslab.pagopa.it"
+  dns_zone_private_name          = "internal.devopslab.pagopa.it"
   dns_zone_private_name_postgres = "privatelink.postgres.database.azure.com"
 
 
@@ -115,7 +115,7 @@ variable "dns_zone_prefix" {
 }
 
 variable "cidr_subnet_pg_flex_zabbix" {
-  type = list
+  type = list(any)
 }
 
 ### External resources

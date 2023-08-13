@@ -78,10 +78,10 @@ module "zabbix_pgflex" {
   tags = var.tags
 
   # custom_metric_alerts = null
-  alerts_enabled       = false
+  alerts_enabled = false
 
-  diagnostic_settings_enabled               = false
-  log_analytics_workspace_id                = data.azurerm_log_analytics_workspace.log_analytics.id
+  diagnostic_settings_enabled = false
+  log_analytics_workspace_id  = data.azurerm_log_analytics_workspace.log_analytics.id
   # diagnostic_setting_destination_storage_id = data.azurerm_storage_account.security_monitoring_storage.id
 
   depends_on = [
