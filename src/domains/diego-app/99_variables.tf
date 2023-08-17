@@ -205,6 +205,11 @@ variable "cidr_subnet_container_apps" {
   description = "Subnet for container apps in diego domain"
 }
 
+variable "cidr_subnet_zabbix_server" {
+  type        = list(string)
+  description = "Subnet for zabbix vm"
+}
+
 #
 # Tls Checker
 #

@@ -21,8 +21,6 @@
 
 | Name | Type |
 |------|------|
-| [azurerm_container_app.zabbix_server](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app) | resource |
-| [azurerm_container_app.zabbix_web_nginx](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app) | resource |
 | [azurerm_container_app_environment.diego_caenv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment) | resource |
 | [azurerm_cosmosdb_account.mongodb_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_account) | resource |
 | [azurerm_cosmosdb_sql_container.collection_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_container) | resource |

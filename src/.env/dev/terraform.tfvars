@@ -37,6 +37,7 @@ cidr_subnet_eventhub           = ["10.1.142.0/24"]
 cidr_subnet_redis              = ["10.1.143.0/24"]
 cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
 cidr_subnet_pg_flex_zabbix     = ["10.1.146.0/24"]
+cidr_subnet_zabbix_server      = ["10.1.147.0/24"]
 # cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 # cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_container_app_diego_env = ["10.1.250.0/23"]
