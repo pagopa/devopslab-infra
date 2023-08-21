@@ -111,7 +111,7 @@ resource "azurerm_role_assignment" "aks_to_acr" {
   role_definition_name = "AcrPull"
   principal_id         = module.aks[0].kubelet_identity_id
 
-  depends_on = [ module.aks ]
+  depends_on = [module.aks]
 }
 
 #
