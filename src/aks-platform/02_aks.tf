@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_aks" {
 }
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v6.20.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.2.0"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -110,6 +110,8 @@ resource "azurerm_role_assignment" "aks_to_acr" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = module.aks[0].kubelet_identity_id
+
+  depends_on = [ module.aks ]
 }
 
 #

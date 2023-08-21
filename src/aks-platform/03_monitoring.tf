@@ -2,6 +2,7 @@ resource "kubernetes_namespace" "monitoring" {
   metadata {
     name = "monitoring"
   }
+  depends_on = [ module.aks ]
 }
 
 resource "helm_release" "prometheus" {
@@ -73,41 +74,12 @@ resource "helm_release" "prometheus" {
   }
 }
 
-# resource "helm_release" "grafana" {
-#   name       = "grafana"
-#   repository = "https://grafana.github.io/helm-charts"
-#   chart      = "grafana"
-#   version    = var.grafana_helm_version
-#   namespace  = kubernetes_namespace.monitoring.metadata[0].name
-
-#   set {
-#     name  = "adminUser"
-#     value = data.azurerm_key_vault_secret.grafana_admin_username.value
-#   }
-
-#   set {
-#     name  = "adminPassword"
-#     value = data.azurerm_key_vault_secret.grafana_admin_password.value
-#   }
-# }
-
-resource "helm_release" "monitoring_reloader" {
-  name       = "reloader"
-  repository = "https://stakater.github.io/stakater-charts"
-  chart      = "reloader"
-  version    = var.reloader_helm.chart_version
+resource "helm_release" "kube_state_metrics" {
+  name       = "kube-state-metrics"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-state-metrics"
+  version    = "5.10.1"
   namespace  = kubernetes_namespace.monitoring.metadata[0].name
 
-  set {
-    name  = "reloader.watchGlobally"
-    value = "false"
-  }
-  set {
-    name  = "reloader.deployment.image.name"
-    value = var.reloader_helm.image_name
-  }
-  set {
-    name  = "reloader.deployment.image.tag"
-    value = var.reloader_helm.image_tag
-  }
+  depends_on = [ module.aks ]
 }
