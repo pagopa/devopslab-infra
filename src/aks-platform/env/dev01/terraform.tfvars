@@ -65,7 +65,7 @@ aks_user_node_pool = {
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
-  node_count_max  = 5,
+  node_count_max  = 3,
   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
@@ -93,6 +93,7 @@ aks_user_node_pool = {
 #   node_taints     = [],
 #   node_tags       = { node_tag_2 : "2" },
 # }
+
 aks_addons = {
   azure_policy                     = true,
   azure_key_vault_secrets_provider = true,
