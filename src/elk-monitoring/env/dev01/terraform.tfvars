@@ -50,19 +50,19 @@ elastic_node_pool = {
 }
 
 elastic_hot_storage = {
-  storage_type           = "StandardSSD_LRS"
+  storage_type           = "StandardSSD_ZRS"
   allow_volume_expansion = true
-  initialStorageSize     = "20Gi"
+  initialStorageSize     = "16Gi"
 }
 elastic_warm_storage = {
-  storage_type           = "StandardSSD_LRS"
+  storage_type           = "StandardSSD_ZRS"
   allow_volume_expansion = true
-  initialStorageSize     = "20Gi"
+  initialStorageSize     = "16Gi"
 }
 elastic_cold_storage = {
   storage_type           = "Standard_LRS"
   allow_volume_expansion = true
-  initialStorageSize     = "20Gi"
+  initialStorageSize     = "16Gi"
 }
 
 enable_iac_pipeline = true

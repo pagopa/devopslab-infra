@@ -6,7 +6,7 @@
 #   alert_enabled                              = true
 #   helm_chart_present                         = true
 #   helm_chart_version                         = var.tls_cert_check_helm.chart_version
-#   namespace                                  = data.kubernetes_namespace.namespace.metadata[0].name
+#   namespace                                  = kubernetes_namespace.elastic_system.metadata[0].name
 #   helm_chart_image_name                      = var.tls_cert_check_helm.image_name
 #   helm_chart_image_tag                       = var.tls_cert_check_helm.image_tag
 #   location_string                            = var.location_string
@@ -32,4 +32,10 @@ module "cert_mounter" {
   certificate_name = replace(local.kibana_hostname, ".", "-")
   kv_name          = module.key_vault.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
+
+  depends_on = [
+    kubernetes_namespace.elastic_system,
+    module.pod_identity
+  ]
+
 }
