@@ -73,13 +73,3 @@ resource "helm_release" "prometheus" {
     value = var.prometheus_helm.pushgateway.image_tag
   }
 }
-
-resource "helm_release" "kube_state_metrics" {
-  name       = "kube-state-metrics"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-state-metrics"
-  version    = "5.10.1"
-  namespace  = kubernetes_namespace.monitoring.metadata[0].name
-
-  depends_on = [module.aks]
-}
