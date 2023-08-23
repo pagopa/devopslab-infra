@@ -47,7 +47,7 @@ public_ip_aksoutbound_name = "dvopla-d-dev01-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.26.3"
+aks_kubernetes_version      = "1.27.3"
 aks_system_node_pool = {
   name            = "dvldev01sys",
   vm_size         = "Standard_B4ms",
@@ -157,3 +157,7 @@ tls_cert_check_helm = {
 }
 
 tls_checker_https_endpoints_to_check = []
+
+law_prometheus_sku               = "PerGB2018"
+law_prometheus_retention_in_days = 30
+law_prometheus_daily_quota_gb    = 0.1
