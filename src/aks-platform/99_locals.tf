@@ -15,10 +15,11 @@ locals {
   docker_registry_name = "dvopladneuacr"
 
   # monitor
-  monitor_rg_name                      = "${local.product}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.product}-law"
-  monitor_appinsights_name             = "${local.product}-appinsights"
-  monitor_security_storage_name        = replace("${local.product}-sec-monitor-st", "-", "")
+  monitor_rg_name                                 = "${local.product}-monitor-rg"
+  monitor_log_analytics_workspace_name            = "${local.product}-law"
+  monitor_log_analytics_workspace_prometheus_name = "${local.product}-prometheus-law"
+  monitor_appinsights_name                        = "${local.product}-appinsights"
+  monitor_security_storage_name                   = replace("${local.product}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
