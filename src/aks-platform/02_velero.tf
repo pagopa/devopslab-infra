@@ -16,11 +16,12 @@ module "velero_storage_account" {
   blob_versioning_enabled         = true
   resource_group_name             = azurerm_resource_group.velero_rg.name
   location                        = var.location
-  allow_nested_items_to_be_public = false
+  allow_nested_items_to_be_public = true
   advanced_threat_protection      = true
   enable_low_availability_alert   = false
   public_network_access_enabled   = false
   tags                            = var.tags
+
 
 }
 
@@ -67,20 +68,9 @@ resource "local_file" "credentials" {
   filename = "${path.module}/credentials-velero.txt"
 }
 
-resource "null_resource" "install_velero_client" {
-  depends_on = [local_file.credentials]
-  provisioner "local-exec" {
-    command     = <<EOT
-    wget https://github.com/vmware-tanzu/velero/releases/download/v1.11.1/velero-v1.11.1-linux-amd64.tar.gz
-    tar -zxvf velero-v1.11.1-linux-amd64.tar.gz
-    sudo mv velero-v1.11.1-linux-amd64/velero /usr/local/bin/
-    EOT
-  }
-
-}
 
 resource "null_resource" "install_velero" {
-  depends_on = [null_resource.install_velero_client]
+  depends_on = [local_file.credentials]
 
   provisioner "local-exec" {
     command     = <<EOT
