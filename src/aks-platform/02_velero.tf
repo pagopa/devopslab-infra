@@ -19,7 +19,7 @@ module "velero_storage_account" {
   allow_nested_items_to_be_public = true
   advanced_threat_protection      = true
   enable_low_availability_alert   = false
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
   tags                            = var.tags
 
 
@@ -29,6 +29,7 @@ resource "azurerm_storage_container" "velero_backup_container" {
   name                  = "velero-backup"
   storage_account_name  = module.velero_storage_account.name
   container_access_type = "private"
+
 }
 
 
@@ -72,14 +73,33 @@ resource "local_file" "credentials" {
 resource "null_resource" "install_velero" {
   depends_on = [local_file.credentials]
 
+  triggers = {
+    bucket = azurerm_storage_container.velero_backup_container.name
+    storage_account = module.velero_storage_account.id
+    rg = azurerm_resource_group.velero_rg.name
+    subscription_id = data.azurerm_subscription.current.subscription_id
+    credentials = filemd5(local_file.credentials.filename)
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<EOT
+    velero uninstall --force
+    EOT
+  }
+
   provisioner "local-exec" {
     command     = <<EOT
     velero install --provider azure --plugins velero/velero-plugin-for-microsoft-azure:v1.5.0 \
     --bucket ${azurerm_storage_container.velero_backup_container.name} \
     --secret-file ${local_file.credentials.filename} \
     --backup-location-config resourceGroup=${azurerm_resource_group.velero_rg.name},storageAccount=${module.velero_storage_account.id},subscriptionId=${data.azurerm_subscription.current.subscription_id} \
+    # funziona?
     --use-restic
-
+    # to test
+    --set configuration.backupStorageLocation.config.subscriptionId=$AZURE_SUBSCRIPTION_ID
+    --set configuration.volumeSnapshotLocation.config.resourceGroup=$STORAGE_RESOURCE_GROUP
+    --set configuration.volumeSnapshotLocation.config.subscriptionId=$AZURE_SUBSCRIPTION_ID
     EOT
   }
 }
