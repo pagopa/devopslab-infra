@@ -93,7 +93,7 @@ resource "null_resource" "install_velero" {
     velero install --provider azure --plugins velero/velero-plugin-for-microsoft-azure:v1.5.0 \
     --bucket ${azurerm_storage_container.velero_backup_container.name} \
     --secret-file ${local_file.credentials.filename} \
-    --backup-location-config resourceGroup=${azurerm_resource_group.velero_rg.name},storageAccount=${module.velero_storage_account.id},subscriptionId=${data.azurerm_subscription.current.subscription_id} \
+    --backup-location-config resourceGroup=${azurerm_resource_group.velero_rg.name},storageAccount=${module.velero_storage_account.name},subscriptionId=${data.azurerm_subscription.current.subscription_id} \
     # funziona?
     --use-restic
     # to test
