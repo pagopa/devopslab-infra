@@ -54,5 +54,3 @@
 #     azurerm_monitor_data_collection_rule.prometheus_dcr
 #   ]
 # }
-
-
