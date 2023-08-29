@@ -6,7 +6,7 @@ data "azurerm_log_analytics_workspace" "log_analytics" {
 resource "azurerm_resource_group" "grafana_rg" {
   name     = "${local.project}-rg"
   location = var.location
-  tags = var.tags
+  tags     = var.tags
 }
 
 resource "azurerm_dashboard_grafana" "grafana_dashboard" {
