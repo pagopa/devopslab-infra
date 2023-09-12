@@ -39,3 +39,19 @@ resource "azurerm_private_dns_zone_virtual_network_link" "privatelink_postgres_d
 
   tags = var.tags
 }
+
+
+resource "azurerm_private_dns_zone" "storage_account" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet" {
+  name                  = "${local.project}-storage-account-vnet-private-dns-zone-link"
+  resource_group_name   = azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage_account.name
+  virtual_network_id    = module.vnet.id
+}
+
+
+

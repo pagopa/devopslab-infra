@@ -82,3 +82,12 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_aks" {
 
   tags = var.tags
 }
+
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage_account_vnet" {
+  for_each = { for n in var.aks_networks : n.domain_name => n }
+  name                  = module.vnet_aks[each.key].name
+  resource_group_name   = data.azurerm_resource_group.rg_vnet.name
+  private_dns_zone_name = data.azurerm_private_dns_zone.storage.name
+  virtual_network_id    = module.vnet_aks[each.key].id
+}

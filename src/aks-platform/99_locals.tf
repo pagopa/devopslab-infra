@@ -4,6 +4,7 @@ locals {
 
   # AKS
   aks_rg_name      = "${local.project}-aks-rg"
+  aks_backup_rg_name = "${local.project}-aks-backup-rg"
   aks_cluster_name = "${local.project}-aks"
   velero_rg_name   = "${local.project}-velero"
 
