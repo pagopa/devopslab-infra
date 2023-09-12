@@ -174,9 +174,9 @@ app_service_diego_app_is_enabled = false
 is_cosmosdb_mongo_enabled = false
 is_cosmosdb_core_enabled  = false
 
-law_daily_quota_gb = 0.1
+law_daily_quota_gb = 1
 
-azdoa_image_name = "azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name = "azdo-agent-ubuntu2204-image-velero-v1"
 
 #
 # Feature Flags
