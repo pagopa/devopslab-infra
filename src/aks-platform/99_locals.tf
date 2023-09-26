@@ -3,10 +3,10 @@ locals {
   project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
   # AKS
-  aks_rg_name      = "${local.project}-aks-rg"
+  aks_rg_name        = "${local.project}-aks-rg"
   aks_backup_rg_name = "${local.project}-aks-backup-rg"
-  aks_cluster_name = "${local.project}-aks"
-  velero_rg_name   = "${local.project}-velero"
+  aks_cluster_name   = "${local.project}-aks"
+  velero_rg_name     = "${local.project}-velero"
 
   # VNET
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
