@@ -32,3 +32,19 @@ resource "helm_release" "reloader" {
     value = "false"
   }
 }
+
+resource "kubernetes_persistent_volume_claim" "blueprint_hdd" {
+  metadata {
+    name      = "${var.domain}-hdd-pvc"
+    namespace = var.domain
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
+    storage_class_name = "standard-hdd"
+  }
+}
