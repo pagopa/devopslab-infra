@@ -58,18 +58,33 @@ aks_system_node_pool = {
   node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
   node_tags       = { node_tag_1 : "1" },
 }
+
 aks_user_node_pool = {
   enabled         = true,
   name            = "dvldev01usr",
-  vm_size         = "Standard_B4ms",
+  vm_size         = "Standard_B8ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
-  node_count_min  = 1,
-  node_count_max  = 3,
+  node_count_min  = 0,
+  node_count_max  = 0,
   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
+
+aks_spot_user_node_pool = {
+  enabled         = true,
+  name            = "dvldev01uspo",
+  vm_size         = "Standard_D8ds_v5",
+  os_disk_type    = "Ephemeral",
+  os_disk_size_gb = 300,
+  node_count_min  = 1,
+  node_count_max  = 1,
+  node_labels     = { node_name : "aks-spot-dev01-user", node_type : "user" },
+  node_taints     = [],
+  node_tags       = { node_tag_2 : "2" },
+}
+
 
 # aks_system_node_pool = {
 #   name            = "dvlarddev01sys",

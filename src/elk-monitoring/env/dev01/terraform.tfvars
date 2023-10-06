@@ -49,6 +49,35 @@ elastic_node_pool = {
   elastic_pool_max_pods = "250",
 }
 
+# elastic_node_pool = {
+#   enabled         = true
+#   name            = "dvldev01elk"
+#   vm_size         = "Standard_B8ms"
+#   os_disk_type    = "Managed"
+#   os_disk_size_gb = "300"
+#   node_count_min  = "0" #TODO change to 2 or 3 in prod
+#   node_count_max  = "0"
+#   node_labels = {
+#     elastic : "eck",
+#   },
+#   node_taints           = [],
+#   node_tags             = { elastic : "yes" },
+#   elastic_pool_max_pods = "250",
+# }
+
+elk_spot_user_node_pool = {
+  enabled         = true,
+  name            = "dvldv1elkspo",
+  vm_size         = "Standard_D8ds_v5",
+  os_disk_type    = "Ephemeral",
+  os_disk_size_gb = 300,
+  node_count_min  = 1,
+  node_count_max  = 1,
+  node_labels     = { elastic : "eck", node_type : "user" },
+  node_taints     = [],
+  node_tags       = { node_tag_2 : "2" },
+}
+
 elastic_hot_storage = {
   storage_type           = "StandardSSD_ZRS"
   allow_volume_expansion = true

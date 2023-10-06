@@ -48,3 +48,46 @@ resource "azurerm_kubernetes_cluster_node_pool" "elastic" {
 
   tags = merge(var.tags, var.elastic_node_pool.node_tags)
 }
+
+# resource "azurerm_kubernetes_cluster_node_pool" "elk_spot_node_pool" {
+#   count = var.elk_spot_user_node_pool.enabled ? 1 : 0
+
+#   kubernetes_cluster_id = data.azurerm_kubernetes_cluster.aks.id
+
+#   name = var.elk_spot_user_node_pool.name
+
+#   ### vm configuration
+#   vm_size = var.elk_spot_user_node_pool.vm_size
+#   # https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general
+#   os_disk_type           = var.elk_spot_user_node_pool.os_disk_type # Managed or Ephemeral
+#   os_disk_size_gb        = var.elk_spot_user_node_pool.os_disk_size_gb
+#   zones                  = ["1", "2", "3"]
+#   ultra_ssd_enabled      = false
+#   enable_host_encryption = false
+#   os_type                = "Linux"
+#   priority               = "Spot"
+#   eviction_policy        = "Delete"
+
+#   ### autoscaling
+#   enable_auto_scaling = true
+#   node_count          = var.elk_spot_user_node_pool.node_count_min
+#   min_count           = var.elk_spot_user_node_pool.node_count_min
+#   max_count           = var.elk_spot_user_node_pool.node_count_max
+
+#   ### K8s node configuration
+#   max_pods    = 250
+#   node_labels = var.elk_spot_user_node_pool.node_labels
+#   node_taints = var.elk_spot_user_node_pool.node_taints
+
+#   ### networking
+#   vnet_subnet_id        = data.azurerm_subnet.aks_snet.id
+#   enable_node_public_ip = false
+
+#   tags = merge(var.tags, var.elk_spot_user_node_pool.node_tags)
+
+#   lifecycle {
+#     ignore_changes = [
+#       node_count
+#     ]
+#   }
+# }
