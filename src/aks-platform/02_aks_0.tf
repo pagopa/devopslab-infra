@@ -97,8 +97,6 @@ module "aks" {
     }
   ]
 
-
-
   tags = var.tags
 
   depends_on = [
@@ -108,41 +106,49 @@ module "aks" {
   ]
 }
 
-module "velero" {
-  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.7.1"
-  count                               = var.aks_enabled ? 1 : 0
-  backup_storage_container_name       = "velero-backup"
-  subscription_id                     = data.azurerm_subscription.current.subscription_id
-  tenant_id                           = data.azurerm_subscription.current.tenant_id
-  resource_group_name                 = azurerm_resource_group.rg_aks_backup.name
-  prefix                              = "devopla"
-  aks_cluster_name                    = module.aks[count.index].name
-  aks_cluster_rg                      = azurerm_resource_group.rg_aks.name
-  location                            = var.location
-  use_storage_private_endpoint        = true
-  private_endpoint_subnet_id          = data.azurerm_subnet.private_endpoint_subnet.id
-  storage_account_private_dns_zone_id = data.azurerm_private_dns_zone.storage_account_private_dns_zone.id
+resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
+  count = var.aks_spot_user_node_pool.enabled ? 1 : 0
 
-  tags = var.tags
+  kubernetes_cluster_id = module.aks[0].id
+
+  name = var.aks_spot_user_node_pool.name
+
+  ### vm configuration
+  vm_size = var.aks_spot_user_node_pool.vm_size
+  # https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general
+  os_disk_type           = var.aks_spot_user_node_pool.os_disk_type # Managed or Ephemeral
+  os_disk_size_gb        = var.aks_spot_user_node_pool.os_disk_size_gb
+  zones                  = ["1", "2", "3"]
+  ultra_ssd_enabled      = false
+  enable_host_encryption = false
+  os_type                = "Linux"
+  priority = "Spot"
+  eviction_policy = "Delete"
+
+  ### autoscaling
+  enable_auto_scaling = true
+  node_count          = var.aks_spot_user_node_pool.node_count_min
+  min_count           = var.aks_spot_user_node_pool.node_count_min
+  max_count           = var.aks_spot_user_node_pool.node_count_max
+
+  ### K8s node configuration
+  max_pods    = 250
+  node_labels = var.aks_spot_user_node_pool.node_labels
+  node_taints = var.aks_spot_user_node_pool.node_taints
+
+  ### networking
+  vnet_subnet_id        = module.snet_aks.id
+  enable_node_public_ip = false
+
+  tags = merge(var.tags, var.aks_spot_user_node_pool.node_tags)
+
+  lifecycle {
+    ignore_changes = [
+      node_count
+    ]
+  }
 }
 
-module "aks_namespace_backup" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.7.0"
-  count  = var.aks_enabled ? 1 : 0
-  # required
-  backup_name      = "daily-backup"
-  namespaces       = ["ALL"]
-  aks_cluster_name = module.aks[count.index].name
-
-  # optional
-  ttl             = "72h0m0s"
-  schedule        = "0 3 * * *" #refers to UTC timezone
-  volume_snapshot = false
-
-  depends_on = [
-    module.velero
-  ]
-}
 
 resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
   scope                = azurerm_resource_group.rg_aks.id
@@ -205,5 +211,41 @@ resource "null_resource" "create_vnet_core_aks_link" {
 
   depends_on = [
     module.aks
+  ]
+}
+
+module "velero" {
+  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.7.1"
+  count                               = var.aks_enabled ? 1 : 0
+  backup_storage_container_name       = "velero-backup"
+  subscription_id                     = data.azurerm_subscription.current.subscription_id
+  tenant_id                           = data.azurerm_subscription.current.tenant_id
+  resource_group_name                 = azurerm_resource_group.rg_aks_backup.name
+  prefix                              = "devopla"
+  aks_cluster_name                    = module.aks[count.index].name
+  aks_cluster_rg                      = azurerm_resource_group.rg_aks.name
+  location                            = var.location
+  use_storage_private_endpoint        = true
+  private_endpoint_subnet_id          = data.azurerm_subnet.private_endpoint_subnet.id
+  storage_account_private_dns_zone_id = data.azurerm_private_dns_zone.storage_account_private_dns_zone.id
+
+  tags = var.tags
+}
+
+module "aks_namespace_backup" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.7.0"
+  count  = var.aks_enabled ? 1 : 0
+  # required
+  backup_name      = "daily-backup"
+  namespaces       = ["ALL"]
+  aks_cluster_name = module.aks[count.index].name
+
+  # optional
+  ttl             = "72h0m0s"
+  schedule        = "0 3 * * *" #refers to UTC timezone
+  volume_snapshot = false
+
+  depends_on = [
+    module.velero
   ]
 }
