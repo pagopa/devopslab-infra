@@ -122,8 +122,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   ultra_ssd_enabled      = false
   enable_host_encryption = false
   os_type                = "Linux"
-  priority = "Spot"
-  eviction_policy = "Delete"
+  priority               = "Spot"
+  eviction_policy        = "Delete"
 
   ### autoscaling
   enable_auto_scaling = true

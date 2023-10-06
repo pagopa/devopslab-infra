@@ -11,5 +11,5 @@ module "azdoa_custom_image" {
   image_version       = "v2"
   subscription_id     = data.azurerm_subscription.current.subscription_id
   prefix              = "devopla"
-  tags = var.tags
+  tags                = var.tags
 }
