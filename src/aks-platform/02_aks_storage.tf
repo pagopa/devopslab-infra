@@ -1,10 +1,5 @@
-resource "kubernetes_storage_class_v1" "standard_hdd" {
-  metadata {
-    name = "standard-hdd"
-  }
-  storage_provisioner = "kubernetes.io/azure-disk"
-  reclaim_policy      = "Delete"
-  parameters = {
-    storageAccountType = "Standard_LRS"
-  }
+module "aks_storage_class" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.10.0"
 }
+
+
