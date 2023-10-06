@@ -135,6 +135,22 @@ variable "elastic_node_pool" {
   description = "AKS node pool user configuration"
 }
 
+variable "elk_spot_user_node_pool" {
+  type = object({
+    enabled         = bool,
+    name            = string,
+    vm_size         = string,
+    os_disk_type    = string,
+    os_disk_size_gb = string,
+    node_count_min  = number,
+    node_count_max  = number,
+    node_labels     = map(any),
+    node_taints     = list(string),
+    node_tags       = map(any),
+  })
+  description = "AKS node pool user configuration"
+}
+
 variable "elastic_hot_storage" {
   type = object({
     storage_type           = string,

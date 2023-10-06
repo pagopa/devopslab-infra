@@ -88,6 +88,7 @@
 | <a name="input_elk_snapshot_advanced_threat_protection"></a> [elk\_snapshot\_advanced\_threat\_protection](#input\_elk\_snapshot\_advanced\_threat\_protection) | Enable contract threat advanced protection | `bool` | `false` | no |
 | <a name="input_elk_snapshot_delete_retention_days"></a> [elk\_snapshot\_delete\_retention\_days](#input\_elk\_snapshot\_delete\_retention\_days) | Number of days to retain deleted. | `number` | `30` | no |
 | <a name="input_elk_snapshot_versioning"></a> [elk\_snapshot\_versioning](#input\_elk\_snapshot\_versioning) | Enable sa versioning | `bool` | `false` | no |
+| <a name="input_elk_spot_user_node_pool"></a> [elk\_spot\_user\_node\_pool](#input\_elk\_spot\_user\_node\_pool) | AKS node pool user configuration | <pre>object({<br>    enabled         = bool,<br>    name            = string,<br>    vm_size         = string,<br>    os_disk_type    = string,<br>    os_disk_size_gb = string,<br>    node_count_min  = number,<br>    node_count_max  = number,<br>    node_labels     = map(any),<br>    node_taints     = list(string),<br>    node_tags       = map(any),<br>  })</pre> | n/a | yes |
 | <a name="input_enable_iac_pipeline"></a> [enable\_iac\_pipeline](#input\_enable\_iac\_pipeline) | If true create the key vault policy to allow used by azure devops iac pipelines. | `bool` | `false` | no |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
