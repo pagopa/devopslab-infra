@@ -2,7 +2,7 @@
 prefix         = "dvopla"
 env_short      = "d"
 env            = "dev"
-domain         = "dev01"
+domain         = "pcidev01"
 location       = "northeurope"
 location_short = "neu"
 
@@ -14,20 +14,13 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "dvopladstinfraterraform"
-  container_name       = "corestate"
-  key                  = "terraform.tfstate"
-}
-
 # 🔐 key vault
 key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_subnet_aks = ["10.11.0.0/17"]
+cidr_subnet_aks = ["10.11.128.0/17"]
 
 ### External resources
 
@@ -40,74 +33,50 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "dvopla-d-neu-dev01-aks-vnet-rg"
-vnet_aks_name              = "dvopla-d-neu-dev01-aks-vnet"
-public_ip_aksoutbound_name = "dvopla-d-dev01-aksoutbound-pip-1"
+rg_vnet_aks_name           = "dvopla-d-neu-pci-dev01-aks-vnet-rg"
+vnet_aks_name              = "dvopla-d-neu-pci-dev01-aks-vnet"
+public_ip_aksoutbound_name = "dvopla-d-pci-dev01-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.25.11"
+aks_kubernetes_version      = "1.26.6"
 aks_system_node_pool = {
-  name            = "dvldev01sys",
+  name            = "dvlpcisys",
   vm_size         = "Standard_B4ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
-  node_count_max  = 3,
-  node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
+  node_count_max  = 1,
+  node_labels     = { node_name : "aks-pci-dev01-sys", node_type : "system" },
   node_tags       = { node_tag_1 : "1" },
 }
 
 aks_user_node_pool = {
-  enabled         = true,
-  name            = "dvldev01usr",
+  enabled         = false,
+  name            = "dvlpci1usr",
   vm_size         = "Standard_B8ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 0,
   node_count_max  = 0,
-  node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
+  node_labels     = { node_name : "aks-pci-dev01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
 
 aks_spot_user_node_pool = {
   enabled         = true,
-  name            = "dvldev01uspo",
+  name            = "dvlpci1uspo",
   vm_size         = "Standard_D8ds_v5",
   os_disk_type    = "Ephemeral",
   os_disk_size_gb = 300,
   node_count_min  = 1,
   node_count_max  = 1,
-  node_labels     = { node_name : "aks-spot-dev01-user", node_type : "user" },
+  node_labels     = { node_name : "aks-spot-pci-dev01-user", node_type : "user" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
-
-
-# aks_system_node_pool = {
-#   name            = "dvlarddev01sys",
-#   vm_size         = "Standard_D2ds_v5",
-#   os_disk_type    = "Ephemeral",
-#   os_disk_size_gb = 75,
-#   node_count_min  = 1,
-#   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
-#   node_tags       = { node_tag_1 : "1" },
-# }
-# aks_user_node_pool = {
-#   enabled         = true,
-#   name            = "dvlarddev01usr",
-#   vm_size         = "Standard_D2ds_v5",
-#   os_disk_type    = "Ephemeral",
-#   os_disk_size_gb = 75,
-#   node_count_min  = 1,
-#   node_count_max  = 3,
-#   node_labels     = { node_name : "aks-dev01-user", node_type : "user" },
-#   node_taints     = [],
-#   node_tags       = { node_tag_2 : "2" },
-# }
 
 aks_addons = {
   azure_policy                     = true,
@@ -117,7 +86,7 @@ aks_addons = {
 
 ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-ingress_load_balancer_ip = "10.11.100.250"
+ingress_load_balancer_ip = "10.11.250.250"
 nginx_helm_version       = "4.7.1"
 keda_helm_version        = "2.11.1"
 
