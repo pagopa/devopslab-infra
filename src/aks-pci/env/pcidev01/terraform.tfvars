@@ -33,9 +33,9 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "dvopla-d-neu-pci-dev01-aks-vnet-rg"
-vnet_aks_name              = "dvopla-d-neu-pci-dev01-aks-vnet"
-public_ip_aksoutbound_name = "dvopla-d-pci-dev01-aksoutbound-pip-1"
+rg_vnet_aks_name           = "dvopla-d-neu-dev01-aks-vnet-rg"
+vnet_aks_name              = "dvopla-d-neu-dev01-aks-vnet"
+public_ip_aksoutbound_name = "dvopla-d-dev01-akspci-outbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
