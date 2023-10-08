@@ -46,6 +46,20 @@ resource "azurerm_public_ip" "outbound_ip_aks" {
   tags = var.tags
 }
 
+resource "azurerm_public_ip" "outbound_ip_aks_pci" {
+  for_each = { for n in var.aks_networks : n.domain_name => index(var.aks_networks.*.domain_name, n.domain_name) }
+
+  name                = "${local.program}-${each.key}-akspci-outbound-pip-${each.value + 1}"
+  location            = azurerm_resource_group.rg_vnet_aks[each.key].location
+  resource_group_name = azurerm_resource_group.rg_vnet_aks[each.key].name
+  sku                 = "Standard"
+  allocation_method   = "Static"
+
+  zones = [1, 2, 3]
+
+  tags = var.tags
+}
+
 # #
 # # -------------------------------------------------------------------------
 # #
