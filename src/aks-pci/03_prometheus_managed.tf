@@ -47,7 +47,7 @@
 
 # resource "azurerm_monitor_data_collection_rule_association" "dcra" {
 #   name                    = "${local.project}-prometheus-dcra"
-#   target_resource_id      = module.aks[0].id
+#   target_resource_id      = module.aks_pci[0].id
 #   data_collection_rule_id = azurerm_monitor_data_collection_rule.prometheus_dcr.id
 #   description             = "Association of data collection rule. Deleting this association will break the data collection for this AKS Cluster."
 #   depends_on = [

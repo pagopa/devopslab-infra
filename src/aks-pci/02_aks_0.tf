@@ -4,17 +4,14 @@ resource "azurerm_resource_group" "rg_aks" {
   tags     = var.tags
 }
 
-
 resource "azurerm_resource_group" "rg_aks_backup" {
   name     = local.aks_backup_rg_name
   location = var.location
   tags     = var.tags
 }
 
-
-
-module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.2.0"
+module "aks_pci" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_udr?ref=v7.10.1"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -66,12 +63,8 @@ module "aks" {
   outbound_ip_address_ids = [data.azurerm_public_ip.pip_aks_outboud.id]
   private_cluster_enabled = var.aks_private_cluster_enabled
   network_profile = {
-    docker_bridge_cidr = "172.17.0.1/16"
-    dns_service_ip     = "10.250.0.10"
-    network_plugin     = "azure"
-    network_policy     = "azure"
-    outbound_type      = "loadBalancer"
-    service_cidr       = "10.250.0.0/16"
+    network_plugin = "azure"
+    outbound_type  = "userDefinedRouting"
   }
   # end network
 
@@ -109,7 +102,7 @@ module "aks" {
 resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   count = var.aks_spot_user_node_pool.enabled ? 1 : 0
 
-  kubernetes_cluster_id = module.aks[0].id
+  kubernetes_cluster_id = module.aks_pci[0].id
 
   name = var.aks_spot_user_node_pool.name
 
@@ -149,11 +142,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   }
 }
 
-
 resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
   scope                = azurerm_resource_group.rg_aks.id
   role_definition_name = "Managed Identity Operator"
-  principal_id         = module.aks[0].identity_principal_id
+  principal_id         = module.aks_pci[0].identity_principal_id
 }
 
 #
@@ -163,9 +155,9 @@ resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_ide
 resource "azurerm_role_assignment" "aks_to_acr" {
   scope                = data.azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
-  principal_id         = module.aks[0].kubelet_identity_id
+  principal_id         = module.aks_pci[0].kubelet_identity_id
 
-  depends_on = [module.aks]
+  depends_on = [module.aks_pci]
 }
 
 #
@@ -174,11 +166,11 @@ resource "azurerm_role_assignment" "aks_to_acr" {
 
 # vnet needs a vnet link with aks private dns zone
 # aks terrform module doesn't export private dns zone
-resource "null_resource" "create_vnet_core_aks_link" {
+resource "null_resource" "create_vnet_core_aks_pci_link" {
 
   count = var.aks_enabled && var.aks_private_cluster_enabled ? 1 : 0
   triggers = {
-    cluster_name = module.aks[0].name
+    cluster_name = module.aks_pci[0].name
     vnet_id      = data.azurerm_virtual_network.vnet_core.id
     vnet_name    = data.azurerm_virtual_network.vnet_core.name
   }
@@ -210,7 +202,7 @@ resource "null_resource" "create_vnet_core_aks_link" {
   }
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
 
@@ -222,7 +214,7 @@ module "velero" {
   tenant_id                           = data.azurerm_subscription.current.tenant_id
   resource_group_name                 = azurerm_resource_group.rg_aks_backup.name
   prefix                              = "devopla"
-  aks_cluster_name                    = module.aks[count.index].name
+  aks_cluster_name                    = module.aks_pci[count.index].name
   aks_cluster_rg                      = azurerm_resource_group.rg_aks.name
   location                            = var.location
   use_storage_private_endpoint        = true
@@ -238,7 +230,7 @@ module "aks_namespace_backup" {
   # required
   backup_name      = "daily-backup"
   namespaces       = ["ALL"]
-  aks_cluster_name = module.aks[count.index].name
+  aks_cluster_name = module.aks_pci[count.index].name
 
   # optional
   ttl             = "72h0m0s"

@@ -4,7 +4,7 @@ resource "kubernetes_namespace" "ingress" {
   }
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
 
@@ -52,6 +52,6 @@ module "nginx_ingress" {
   ]
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }

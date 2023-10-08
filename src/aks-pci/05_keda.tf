@@ -4,7 +4,7 @@ resource "kubernetes_namespace" "keda" {
   }
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
 
@@ -21,11 +21,11 @@ module "keda_pod_identity" {
   identity_name = "${local.keda_namespace_name}-pod-identity"
   tenant_id     = data.azurerm_subscription.current.tenant_id
 
-  cluster_name = module.aks[0].name
+  cluster_name = module.aks_pci[0].name
   namespace    = kubernetes_namespace.keda.metadata[0].name
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
 
@@ -35,7 +35,7 @@ resource "azurerm_role_assignment" "keda_monitoring_reader" {
   principal_id         = module.keda_pod_identity.identity.principal_id
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
 
@@ -53,6 +53,6 @@ resource "helm_release" "keda" {
   }
 
   depends_on = [
-    module.aks
+    module.aks_pci
   ]
 }
