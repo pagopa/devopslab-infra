@@ -1,3 +1,29 @@
+locals {
+  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  product = "${var.prefix}-${var.env_short}"
+
+  #DR
+  project_dr = "${var.prefix}-${var.env_short}-${var.location_short_dr}-${var.domain}"
+
+  app_insights_ips_west_europe = [
+  ]
+
+  monitor_appinsights_name        = "${local.product}-appinsights"
+  monitor_action_group_slack_name = "SlackPagoPA"
+  monitor_action_group_email_name = "PagoPA"
+
+  vnet_resource_group_name = "${local.product}-vnet-rg"
+
+  # VNET
+  vnet_core_resource_group_name = "${local.product}-vnet-rg"
+  vnet_core_name                = "${local.product}-vnet"
+
+  # VNET
+  vnet_aks_dev01_resource_group_name = "dvopla-d-neu-dev01-aks-vnet-rg"
+  vnet_aks_dev01_name                = "dvopla-d-neu-dev01-aks-vnet"
+
+}
+
 # general
 
 variable "prefix" {
@@ -119,10 +145,6 @@ variable "cidr_subnet_dns_forwarder" {
   type        = list(string)
   description = "Address prefixes subnet vpn forwarder"
   default     = null
-}
-
-variable "cidr_subnet_vdi" {
-  type = list(string)
 }
 
 variable "enable_region_dr" {
