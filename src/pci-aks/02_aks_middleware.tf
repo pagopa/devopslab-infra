@@ -1,9 +1,9 @@
 # module "aks_storage_class" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.10.0"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class?ref=v7.10.1"
 # }
 
 # module "velero" {
-#   source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.7.1"
+#   source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.10.1"
 #   count                               = var.aks_enabled ? 1 : 0
 #   backup_storage_container_name       = "velero-backup"
 #   subscription_id                     = data.azurerm_subscription.current.subscription_id
@@ -21,7 +21,7 @@
 # }
 
 # module "aks_namespace_backup" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.7.0"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.10.1"
 #   count  = var.aks_enabled ? 1 : 0
 #   # required
 #   backup_name      = "daily-backup"
