@@ -41,23 +41,10 @@ firewall_network_rules = [
     action = "Allow"
     rules = [
       {
-        policyname            = "aks-to-evh"
-        source_addresses      = ["10.2.0.0/17"]
-        destination_ports     = ["9093"]
-        destination_addresses = ["10.3.3.0/27"]
-        protocols             = ["TCP"]
-      },
-    ]
-  },
-  {
-    name   = "frontend-rule"
-    action = "Allow"
-    rules = [
-      {
-        policyname            = "ft-to-aks"
-        source_addresses      = ["10.1.0.0/16"]
+        policyname            = "aks-to-core"
+        source_addresses      = ["10.11.0.0/16"]
         destination_ports     = ["443"]
-        destination_addresses = ["10.2.0.0/17"]
+        destination_addresses = ["10.1.0.0/16"]
         protocols             = ["TCP"]
       },
     ]
@@ -89,7 +76,7 @@ firewall_application_rules = [
       },
       {
         policyname       = "keda"
-        source_addresses = ["10.2.0.0/16"]
+        source_addresses = ["10.11.0.0/16"]
         target_fqdns     = ["ghcr.io"]
         protocol = {
           type = "Https"
@@ -98,7 +85,7 @@ firewall_application_rules = [
       },
       {
         policyname       = "nginx"
-        source_addresses = ["10.2.0.0/16"]
+        source_addresses = ["10.11.0.0/16"]
         target_fqdns     = ["k8s.gcr.io"]
         protocol = {
           type = "Https"
@@ -119,7 +106,7 @@ firewall_application_rules_tags = [
 
         source_addresses = [
           "10.1.0.0/16",
-          "10.2.0.0/16",
+          "10.11.0.0/16",
         ]
 
         fqdn_tags = [
@@ -129,3 +116,5 @@ firewall_application_rules_tags = [
     ]
   },
 ]
+
+pci_availability_zones = ["1"]
