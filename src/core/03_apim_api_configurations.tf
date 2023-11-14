@@ -3,7 +3,7 @@
 ##############
 
 module "apim_product_devopslab" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v7.23.0"
 
   product_id   = "devopslab"
   display_name = "DevOpsLab Program"
@@ -47,7 +47,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_alpha_api_v1" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v7.23.0"
 
   name                  = local.apim_devopslab_webapp_python_alpha_api.api_name
   api_management_name   = module.apim.name
@@ -94,7 +94,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_beta_api_v1" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v7.23.0"
 
   name                  = local.apim_devopslab_webapp_python_beta_api.api_name
   api_management_name   = module.apim.name
@@ -141,7 +141,7 @@ locals {
 # }
 
 module "apim_devopslab_webapp_python_proxy_api_v1" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v6.3.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v7.23.0"
 
   name                  = local.apim_devopslab_webapp_python_proxy_api.api_name
   api_management_name   = module.apim.name

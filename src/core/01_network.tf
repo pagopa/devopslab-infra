@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "rg_vnet" {
 
 # vnet
 module "vnet" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v4.1.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.23.0"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -60,7 +60,7 @@ resource "azurerm_public_ip" "aks_outbound" {
 
 # Subnet to host the api config
 module "private_endpoints_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v6.3.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
   name                 = "${local.project}-private-endpoints-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints
   virtual_network_name = module.vnet.name

@@ -14,6 +14,11 @@ locals {
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
 
+  #APIM
+  # api.internal.*.devopslab.pagopa.it
+  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+
+  #AKS
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
   aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
