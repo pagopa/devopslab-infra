@@ -14,9 +14,6 @@ locals {
   appgateway_public_ip_name      = "${local.program}-gw-pip"
   appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
 
-  # api.internal.*.devopslab.pagopa.it
-  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
-
   # ACR DOCKER
   docker_rg_name       = "${local.program}-dockerreg-rg"
   docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
