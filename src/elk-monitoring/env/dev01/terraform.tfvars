@@ -73,7 +73,7 @@ elk_spot_user_node_pool = {
   os_disk_size_gb = 300,
   node_count_min  = 1,
   node_count_max  = 1,
-  node_labels     = { elastic : "eck", node_type : "user" },
+  node_labels     = { elastic : "eck" },
   node_taints     = [],
   node_tags       = { node_tag_2 : "2" },
 }
