@@ -123,6 +123,12 @@ variable "cidr_subnet_redis" {
   description = "Redis."
 }
 
+variable "cidr_subnet_apim" {
+  type        = list(string)
+  description = "Address prefixes subnet api management."
+  default     = null
+}
+
 # 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -299,4 +305,25 @@ variable "is_resource_core_enabled" {
   type = object({
     postgresql_server = bool,
   })
+}
+
+#
+# 🗺 APIM
+#
+
+variable "apim_publisher_name" {
+  type        = string
+  default     = ""
+  description = "Apim publisher name"
+}
+
+variable "apim_sku" {
+  type        = string
+  default     = "Developer_1"
+  description = "APIM SKU type"
+}
+
+variable "apim_api_internal_certificate_name" {
+  type        = string
+  description = "KeyVault certificate name"
 }

@@ -145,12 +145,6 @@ variable "cidr_subnet_azdoa" {
   description = "Azure DevOps agent network address space."
 }
 
-variable "cidr_subnet_apim" {
-  type        = list(string)
-  description = "Address prefixes subnet api management."
-  default     = null
-}
-
 variable "cidr_subnet_k8s" {
   type        = list(string)
   description = "Subnet cluster kubernetes."
@@ -304,27 +298,6 @@ variable "app_gateway_beta_certificate_name" {
 #   description = "If true create the key vault policy to allow used by azure devops iac pipelines."
 #   default     = false
 # }
-
-#
-# 🗺 APIM
-#
-
-variable "apim_publisher_name" {
-  type        = string
-  default     = ""
-  description = "Apim publisher name"
-}
-
-variable "apim_sku" {
-  type        = string
-  default     = "Developer_1"
-  description = "APIM SKU type"
-}
-
-variable "apim_api_internal_certificate_name" {
-  type        = string
-  description = "KeyVault certificate name"
-}
 
 #
 # ⛴ AKS
