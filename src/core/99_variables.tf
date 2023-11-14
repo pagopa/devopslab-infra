@@ -324,7 +324,6 @@ variable "apim_publisher_name" {
 
 variable "apim_sku" {
   type        = string
-  default     = "Developer_1"
   description = "APIM SKU type"
 }
 
