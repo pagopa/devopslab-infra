@@ -24,15 +24,6 @@ module "apim_product_blueprint" {
 ##   APIs   ##
 ##############
 
-### status-alpha
-
-locals {
-  apim_blueprint_product = {
-    # params for all api versions
-    path                  = "blueprint"
-  }
-}
-
 # resource "azurerm_api_management_api_version_set" "apim_blueprint_product" {
 #   name                = local.apim_blueprint_product.api_name
 #   resource_group_name = module.apim.resource_group_name
@@ -44,18 +35,18 @@ locals {
 module "apim_blueprint_status_v1" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v7.23.0"
 
-  name                  = "${var.env}-blueprint-status-api"
+  name                  = "${var.domain}-blueprint-status-api"
   api_management_name   = module.apim.name
   product_ids           = [module.apim_product_blueprint.product_id]
   subscription_required = false
   # version_set_id        = azurerm_api_management_api_version_set.apim_blueprint_product.id
   # api_version           = "v1"
-  service_url         = "http://mock-aks/status"
+  service_url         = "https://dev01.blueprint.internal.devopslab.pagopa.it/blueprint/v5-java-helm-basic-test/status"
   resource_group_name = module.apim.resource_group_name
 
   description  = "blueprint - status"
   display_name = "blueprint - status"
-  path         = local.apim_blueprint_product.path
+  path         = "blueprint"
   protocols    = ["https"]
 
   content_format = "openapi"
