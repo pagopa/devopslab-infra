@@ -32,6 +32,45 @@ module "apim_snet" {
   service_endpoints                         = ["Microsoft.Web"]
 }
 
+module "apim_stv2_snet" {
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+  name                 = "${local.project}-apim-stv2-snet"
+  resource_group_name  = azurerm_resource_group.rg_vnet.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_subnet_apim_stv2
+
+  private_endpoint_network_policies_enabled = true
+}
+
+resource "azurerm_network_security_group" "apim_snet_nsg" {
+  name                = "apim-snet-nsg"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+}
+
+resource "azurerm_network_security_rule" "apim_snet_nsg_rules" {
+  count                       = length(var.apim_subnet_nsg_security_rules)
+
+  network_security_group_name = azurerm_network_security_group.apim_snet_nsg.name
+  name                        = var.apim_subnet_nsg_security_rules[count.index].name
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  priority                    = var.apim_subnet_nsg_security_rules[count.index].priority
+  direction                   = var.apim_subnet_nsg_security_rules[count.index].direction
+  access                      = var.apim_subnet_nsg_security_rules[count.index].access
+  protocol                    = var.apim_subnet_nsg_security_rules[count.index].protocol
+  source_port_range           = var.apim_subnet_nsg_security_rules[count.index].source_port_range
+  destination_port_range      = var.apim_subnet_nsg_security_rules[count.index].destination_port_range
+  source_address_prefix       = var.apim_subnet_nsg_security_rules[count.index].source_address_prefix
+  destination_address_prefix  = var.apim_subnet_nsg_security_rules[count.index].destination_address_prefix
+}
+
+resource "azurerm_subnet_network_security_group_association" "apim_stv2" {
+  subnet_id                 = module.apim_stv2_snet.id
+  network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
+}
+
+#--------------------------------------------------------------------------------------------------
+
 ###########################
 ## Api Management (apim) ##
 ###########################

@@ -22,7 +22,6 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 # ☁️ networking
 cidr_vnet                             = ["10.1.0.0/16"]
-cidr_subnet_k8s                       = ["10.1.0.0/17"]
 cidr_subnet_appgateway                = ["10.1.128.0/24"]
 cidr_subnet_postgres                  = ["10.1.129.0/24"]
 cidr_subnet_azdoa                     = ["10.1.130.0/24"]
@@ -40,6 +39,8 @@ cidr_subnet_app_diego_app             = ["10.1.145.0/24"]
 cidr_subnet_container_apps            = ["10.1.146.0/23"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
+cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
+
 
 # dns
 prod_dns_zone_prefix = "devopslab"
@@ -70,6 +71,86 @@ app_gw_beta_is_enabled            = false
 apim_publisher_name                = "PagoPA DevOpsLab LAB"
 apim_sku                           = "Premium_1"
 apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
+
+apim_subnet_nsg_security_rules = [
+  {
+    name                       = "inbound-api-management-80"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "Internet"
+    destination_port_range     = "80"
+    destination_address_prefix = "ApiManagement"
+  },
+  {
+    name                       = "inbound-api-management-443"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "Internet"
+    destination_address_prefix = "ApiManagement"
+  },
+  {
+    name                       = "inbound-management-3443"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "*"
+    destination_port_range     = "3443"
+    destination_address_prefix = "ApiManagement"
+  },
+  {
+    name                       = "inbound-load-balancer"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "AzureLoadBalancer"
+    destination_port_range     = "*"
+    destination_address_prefix = "*"
+  },
+  {
+    name                       = "inbound-traffic-manager"
+    priority                   = 130
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "AzureTrafficManager"
+    destination_port_range     = "443"
+    destination_address_prefix = "*"
+  },
+  {
+    name                       = "outbound-storage"
+    priority                   = 140
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "Storage"
+    destination_port_range     = "443"
+    destination_address_prefix = "*"
+  },
+  {
+    name                       = "outbound-sql"
+    priority                   = 150
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "SQL"
+    destination_port_range     = "1433"
+    destination_address_prefix = "*"
+  }
+]
 
 #
 # ⛴ AKS

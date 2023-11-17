@@ -17,6 +17,7 @@ locals {
   #APIM
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  apim_management_public_ip_name = "${local.project}-apim-management-pip"
 
   #AKS
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
@@ -141,6 +142,12 @@ variable "cidr_subnet_redis" {
 variable "cidr_subnet_apim" {
   type        = list(string)
   description = "Address prefixes subnet api management."
+  default     = null
+}
+
+variable "cidr_subnet_apim_stv2" {
+  type        = list(string)
+  description = "Address prefixes subnet api management stv2."
   default     = null
 }
 
@@ -340,4 +347,9 @@ variable "apim_sku" {
 variable "apim_api_internal_certificate_name" {
   type        = string
   description = "KeyVault certificate name"
+}
+
+variable "apim_subnet_nsg_security_rules" {
+  type = list(any)
+  description = "Network security rules for APIM subnet"
 }
