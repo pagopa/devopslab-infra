@@ -74,37 +74,26 @@ apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"
 
 apim_subnet_nsg_security_rules = [
   {
-    name                       = "inbound-api-management-80"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    source_address_prefix      = "Internet"
-    destination_port_range     = "80"
-    destination_address_prefix = "ApiManagement"
-  },
-  {
-    name                       = "inbound-api-management-443"
-    priority                   = 101
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "443"
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "ApiManagement"
-  },
-  {
     name                       = "inbound-management-3443"
     priority                   = 110
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = "*"
+    source_address_prefix      = "ApiManagement"
     destination_port_range     = "3443"
-    destination_address_prefix = "ApiManagement"
+    destination_address_prefix = "VirtualNetwork"
+  },
+  {
+    name                       = "inbound-management-6390"
+    priority                   = 111
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "AzureLoadBalancer"
+    destination_port_range     = "6390"
+    destination_address_prefix = "VirtualNetwork"
   },
   {
     name                       = "inbound-load-balancer"
@@ -115,40 +104,40 @@ apim_subnet_nsg_security_rules = [
     source_port_range          = "*"
     source_address_prefix      = "AzureLoadBalancer"
     destination_port_range     = "*"
-    destination_address_prefix = "*"
+    destination_address_prefix = "VirtualNetwork"
   },
   {
-    name                       = "inbound-traffic-manager"
-    priority                   = 130
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    source_address_prefix      = "AzureTrafficManager"
-    destination_port_range     = "443"
-    destination_address_prefix = "*"
-  },
-  {
-    name                       = "outbound-storage"
-    priority                   = 140
+    name                       = "outbound-storage-443"
+    priority                   = 200
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = "Storage"
+    source_address_prefix      = "VirtualNetwork"
     destination_port_range     = "443"
-    destination_address_prefix = "*"
+    destination_address_prefix = "Storage"
   },
   {
-    name                       = "outbound-sql"
-    priority                   = 150
+    name                       = "outbound-sql-1433"
+    priority                   = 210
     direction                  = "Outbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = "SQL"
+    source_address_prefix      = "VirtualNetwork"
     destination_port_range     = "1433"
-    destination_address_prefix = "*"
+    destination_address_prefix = "SQL"
+  },
+  {
+    name                       = "outbound-kv-433"
+    priority                   = 220
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "VirtualNetwork"
+    destination_port_range     = "433"
+    destination_address_prefix = "AzureKeyVault"
   }
 ]
 
