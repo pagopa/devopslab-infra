@@ -1,5 +1,3 @@
-# general
-
 #
 # Locals
 #
@@ -13,9 +11,6 @@ locals {
 
   appgateway_public_ip_name      = "${local.program}-gw-pip"
   appgateway_beta_public_ip_name = "${local.program}-gw-beta-pip"
-
-  # api.internal.*.devopslab.pagopa.it
-  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
 
   # ACR DOCKER
   docker_rg_name       = "${local.program}-dockerreg-rg"
@@ -143,12 +138,6 @@ variable "cidr_subnet_appgateway_beta" {
 variable "cidr_subnet_azdoa" {
   type        = list(string)
   description = "Azure DevOps agent network address space."
-}
-
-variable "cidr_subnet_apim" {
-  type        = list(string)
-  description = "Address prefixes subnet api management."
-  default     = null
 }
 
 variable "cidr_subnet_k8s" {
@@ -304,27 +293,6 @@ variable "app_gateway_beta_certificate_name" {
 #   description = "If true create the key vault policy to allow used by azure devops iac pipelines."
 #   default     = false
 # }
-
-#
-# 🗺 APIM
-#
-
-variable "apim_publisher_name" {
-  type        = string
-  default     = ""
-  description = "Apim publisher name"
-}
-
-variable "apim_sku" {
-  type        = string
-  default     = "Developer_1"
-  description = "APIM SKU type"
-}
-
-variable "apim_api_internal_certificate_name" {
-  type        = string
-  description = "KeyVault certificate name"
-}
 
 #
 # ⛴ AKS

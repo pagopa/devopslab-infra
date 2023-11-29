@@ -14,6 +14,12 @@ locals {
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
 
+  #APIM
+  # api.internal.*.devopslab.pagopa.it
+  api_internal_domain            = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  apim_management_public_ip_name = "${local.project}-apim-management-pip"
+
+  #AKS
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
   aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
@@ -69,6 +75,16 @@ variable "env_short" {
   }
 }
 
+variable "domain" {
+  type = string
+  validation {
+    condition = (
+      length(var.domain) <= 12
+    )
+    error_message = "Max length is 12 chars."
+  }
+}
+
 variable "location" {
   type    = string
   default = "westeurope"
@@ -121,6 +137,18 @@ variable "cidr_subnet_dnsforwarder" {
 variable "cidr_subnet_redis" {
   type        = list(string)
   description = "Redis."
+}
+
+variable "cidr_subnet_apim" {
+  type        = list(string)
+  description = "Address prefixes subnet api management."
+  default     = null
+}
+
+variable "cidr_subnet_apim_stv2" {
+  type        = list(string)
+  description = "Address prefixes subnet api management stv2."
+  default     = null
 }
 
 # 🧵 dns
@@ -299,4 +327,29 @@ variable "is_resource_core_enabled" {
   type = object({
     postgresql_server = bool,
   })
+}
+
+#
+# 🗺 APIM
+#
+
+variable "apim_publisher_name" {
+  type        = string
+  default     = ""
+  description = "Apim publisher name"
+}
+
+variable "apim_sku" {
+  type        = string
+  description = "APIM SKU type"
+}
+
+variable "apim_api_internal_certificate_name" {
+  type        = string
+  description = "KeyVault certificate name"
+}
+
+variable "apim_subnet_nsg_security_rules" {
+  type        = list(any)
+  description = "Network security rules for APIM subnet"
 }
