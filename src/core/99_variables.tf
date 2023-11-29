@@ -353,3 +353,7 @@ variable "apim_subnet_nsg_security_rules" {
   type        = list(any)
   description = "Network security rules for APIM subnet"
 }
+
+variable "apim_enabled" {
+  type = bool
+}
