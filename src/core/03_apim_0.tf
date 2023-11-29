@@ -49,11 +49,11 @@ resource "azurerm_network_security_group" "apim_snet_nsg" {
 }
 
 resource "azurerm_network_security_rule" "apim_snet_nsg_rules" {
-  count                       = length(var.apim_subnet_nsg_security_rules)
+  count = length(var.apim_subnet_nsg_security_rules)
 
   network_security_group_name = azurerm_network_security_group.apim_snet_nsg.name
   name                        = var.apim_subnet_nsg_security_rules[count.index].name
-  resource_group_name = azurerm_resource_group.rg_vnet.name
+  resource_group_name         = azurerm_resource_group.rg_vnet.name
   priority                    = var.apim_subnet_nsg_security_rules[count.index].priority
   direction                   = var.apim_subnet_nsg_security_rules[count.index].direction
   access                      = var.apim_subnet_nsg_security_rules[count.index].access
@@ -144,5 +144,5 @@ resource "azurerm_private_dns_a_record" "api_internal" {
 
   zone_name           = azurerm_private_dns_zone.internal_devopslab[0].name
   resource_group_name = azurerm_resource_group.rg_vnet.name
-  tags = var.tags
+  tags                = var.tags
 }

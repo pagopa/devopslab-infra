@@ -16,7 +16,7 @@ locals {
 
   #APIM
   # api.internal.*.devopslab.pagopa.it
-  api_internal_domain = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  api_internal_domain            = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
   apim_management_public_ip_name = "${local.project}-apim-management-pip"
 
   #AKS
@@ -350,6 +350,6 @@ variable "apim_api_internal_certificate_name" {
 }
 
 variable "apim_subnet_nsg_security_rules" {
-  type = list(any)
+  type        = list(any)
   description = "Network security rules for APIM subnet"
 }

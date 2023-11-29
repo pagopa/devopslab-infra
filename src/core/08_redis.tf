@@ -24,8 +24,8 @@ module "redis" {
   family                = "C"
   sku_name              = "Basic"
   enable_authentication = true
-  redis_version = 6
-  zones = null
+  redis_version         = 6
+  zones                 = null
 
   private_endpoint = {
     enabled              = true

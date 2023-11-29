@@ -80,7 +80,7 @@ module "security_monitoring_storage" {
   location                        = var.location
   advanced_threat_protection      = false
   allow_nested_items_to_be_public = false
-  public_network_access_enabled = true
+  public_network_access_enabled   = true
 
   blob_delete_retention_days = 1
 

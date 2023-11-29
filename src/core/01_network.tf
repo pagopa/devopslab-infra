@@ -51,7 +51,7 @@ resource "azurerm_public_ip" "apim_management_public_ip" {
   sku                 = "Standard"
   allocation_method   = "Static"
 
-  domain_name_label       = "dvopla-d-apim-management"
+  domain_name_label = "dvopla-d-apim-management"
 
   zones = [1, 2, 3]
 
