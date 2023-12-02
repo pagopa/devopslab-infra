@@ -18,6 +18,7 @@ locals {
   # api.internal.*.devopslab.pagopa.it
   api_internal_domain            = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
   apim_management_public_ip_name = "${local.project}-apim-management-pip"
+  apim_management_public_ip_name_2 = "${local.project}-apim-management-v2-pip"
 
   #AKS
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"

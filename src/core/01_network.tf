@@ -58,6 +58,20 @@ resource "azurerm_public_ip" "apim_management_public_ip" {
   tags = var.tags
 }
 
+resource "azurerm_public_ip" "apim_management_public_ip_2" {
+  name                = local.apim_management_public_ip_name_2
+  resource_group_name = azurerm_resource_group.rg_vnet.name
+  location            = azurerm_resource_group.rg_vnet.location
+  sku                 = "Standard"
+  allocation_method   = "Static"
+
+  domain_name_label = "dvopla-d-apim-management-2"
+
+  zones = [1, 2, 3]
+
+  tags = var.tags
+}
+
 #
 # ⛴ AKS public IP
 #

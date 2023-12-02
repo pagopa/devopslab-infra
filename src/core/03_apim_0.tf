@@ -23,17 +23,20 @@ resource "azurerm_resource_group" "rg_api" {
 # APIM subnet
 module "apim_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+      count = var.apim_enabled == true ? 1 : 0
+
   name                 = "${local.project}-apim-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
   address_prefixes     = var.cidr_subnet_apim
 
   private_endpoint_network_policies_enabled = true
-  # service_endpoints                         = ["Microsoft.Web"]
 }
 
 module "apim_stv2_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+      count = var.apim_enabled == true ? 1 : 0
+
   name                 = "${local.project}-apim-stv2-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -65,12 +68,16 @@ resource "azurerm_network_security_rule" "apim_snet_nsg_rules" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_stv2_snet" {
-  subnet_id                 = module.apim_stv2_snet.id
+      count = var.apim_enabled == true ? 1 : 0
+
+  subnet_id                 = module.apim_stv2_snet[0].id
   network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_snet" {
-  subnet_id                 = module.apim_snet.id
+      count = var.apim_enabled == true ? 1 : 0
+
+  subnet_id                 = module.apim_snet[0].id
   network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
 }
 
@@ -86,7 +93,7 @@ module "apim" {
 
   name = "${local.project}-apim"
 
-  subnet_id           = module.apim_snet.id
+  subnet_id           = module.apim_snet[0].id
   location            = azurerm_resource_group.rg_api.location
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -127,23 +134,23 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
   storage_permissions     = []
 }
 
-# #
-# # 🏷 custom domain
-# #
-# resource "azurerm_api_management_custom_domain" "api_custom_domain" {
-#     count = var.apim_enabled == true ? 1 : 0
+#
+# 🏷 custom domain
+#
+resource "azurerm_api_management_custom_domain" "api_custom_domain" {
+    count = var.apim_enabled == true ? 1 : 0
 
-#   api_management_id = module.apim[0].id
+  api_management_id = module.apim[0].id
 
-#   gateway {
-#     host_name = local.api_internal_domain
-#     key_vault_id = replace(
-#       data.azurerm_key_vault_certificate.apim_internal_certificate.secret_id,
-#       "/${data.azurerm_key_vault_certificate.apim_internal_certificate.version}",
-#       ""
-#     )
-#   }
-# }
+  gateway {
+    host_name = local.api_internal_domain
+    key_vault_id = replace(
+      data.azurerm_key_vault_certificate.apim_internal_certificate.secret_id,
+      "/${data.azurerm_key_vault_certificate.apim_internal_certificate.version}",
+      ""
+    )
+  }
+}
 
 # api.internal.*.userregistry.pagopa.it
 resource "azurerm_private_dns_a_record" "api_internal" {
