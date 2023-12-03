@@ -68,6 +68,7 @@ app_gw_beta_is_enabled            = false
 #
 # 🗺 APIM
 #
+apim_enabled                       = true
 apim_publisher_name                = "PagoPA DevOpsLab LAB"
 apim_sku                           = "Premium_1"
 apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"

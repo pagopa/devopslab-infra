@@ -23,17 +23,20 @@ resource "azurerm_resource_group" "rg_api" {
 # APIM subnet
 module "apim_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+      count = var.apim_enabled == true ? 1 : 0
+
   name                 = "${local.project}-apim-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
   address_prefixes     = var.cidr_subnet_apim
 
   private_endpoint_network_policies_enabled = true
-  service_endpoints                         = ["Microsoft.Web"]
 }
 
 module "apim_stv2_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+      count = var.apim_enabled == true ? 1 : 0
+
   name                 = "${local.project}-apim-stv2-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
   virtual_network_name = module.vnet.name
@@ -64,8 +67,17 @@ resource "azurerm_network_security_rule" "apim_snet_nsg_rules" {
   destination_address_prefix  = var.apim_subnet_nsg_security_rules[count.index].destination_address_prefix
 }
 
-resource "azurerm_subnet_network_security_group_association" "apim_stv2" {
-  subnet_id                 = module.apim_stv2_snet.id
+resource "azurerm_subnet_network_security_group_association" "apim_stv2_snet" {
+      count = var.apim_enabled == true ? 1 : 0
+
+  subnet_id                 = module.apim_stv2_snet[0].id
+  network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "apim_snet" {
+      count = var.apim_enabled == true ? 1 : 0
+
+  subnet_id                 = module.apim_snet[0].id
   network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
 }
 
@@ -77,10 +89,11 @@ resource "azurerm_subnet_network_security_group_association" "apim_stv2" {
 
 module "apim" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v7.23.0"
+  count  = var.apim_enabled == true ? 1 : 0
 
   name = "${local.project}-apim"
 
-  subnet_id           = module.apim_snet.id
+  subnet_id           = module.apim_snet[0].id
   location            = azurerm_resource_group.rg_api.location
   resource_group_name = azurerm_resource_group.rg_api.name
 
@@ -109,9 +122,11 @@ module "apim" {
 
 ## api management policy ##
 resource "azurerm_key_vault_access_policy" "api_management_policy" {
+  count = var.apim_enabled == true ? 1 : 0
+
   key_vault_id = data.azurerm_key_vault.kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = module.apim.principal_id
+  object_id    = module.apim[0].principal_id
 
   key_permissions         = []
   secret_permissions      = ["Get", "List"]
@@ -123,7 +138,9 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 # 🏷 custom domain
 #
 resource "azurerm_api_management_custom_domain" "api_custom_domain" {
-  api_management_id = module.apim.id
+    count = var.apim_enabled == true ? 1 : 0
+
+  api_management_id = module.apim[0].id
 
   gateway {
     host_name = local.api_internal_domain
@@ -137,9 +154,11 @@ resource "azurerm_api_management_custom_domain" "api_custom_domain" {
 
 # api.internal.*.userregistry.pagopa.it
 resource "azurerm_private_dns_a_record" "api_internal" {
+  count = var.apim_enabled == true ? 1 : 0
+
 
   name    = "api"
-  records = module.apim.*.private_ip_addresses[0]
+  records = module.apim[0].*.private_ip_addresses[0]
   ttl     = var.dns_default_ttl_sec
 
   zone_name           = azurerm_private_dns_zone.internal_devopslab[0].name
