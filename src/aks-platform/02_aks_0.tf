@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.2.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.32.1"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -66,12 +66,13 @@ module "aks" {
   outbound_ip_address_ids = [data.azurerm_public_ip.pip_aks_outboud.id]
   private_cluster_enabled = var.aks_private_cluster_enabled
   network_profile = {
-    docker_bridge_cidr = "172.17.0.1/16"
-    dns_service_ip     = "10.250.0.10"
-    network_plugin     = "azure"
-    network_policy     = "azure"
-    outbound_type      = "loadBalancer"
-    service_cidr       = "10.250.0.0/16"
+    docker_bridge_cidr  = "172.17.0.1/16"
+    dns_service_ip      = "10.250.0.10"
+    network_plugin      = "azure"
+    network_plugin_mode = ""
+    network_policy      = "azure"
+    outbound_type       = "loadBalancer"
+    service_cidr        = "10.250.0.0/16"
   }
   # end network
 
@@ -215,7 +216,7 @@ resource "null_resource" "create_vnet_core_aks_link" {
 }
 
 module "velero" {
-  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.7.1"
+  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.32.1"
   count                               = var.aks_enabled ? 1 : 0
   backup_storage_container_name       = "velero-backup"
   subscription_id                     = data.azurerm_subscription.current.subscription_id
@@ -233,7 +234,7 @@ module "velero" {
 }
 
 module "aks_namespace_backup" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.7.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.32.1"
   count  = var.aks_enabled ? 1 : 0
   # required
   backup_name      = "daily-backup"

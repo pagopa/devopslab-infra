@@ -18,11 +18,14 @@ jobs:
             src/core
             src/coreplus
             src/aks-platform
+            src/domains/blueprint-app
+            src/domains/blueprint-common
             src/domains/diego-app
             src/domains/diego-common
-            src/domains/marco-common
-            src/domains/legacy-common
             src/domains/diego-container-apps
+            src/domains/legacy-common
+            src/domains/marco-common
+            src/domains/umberto-common
             .identity
         run: |
           pids=()

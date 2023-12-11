@@ -19,12 +19,17 @@ array=(
     'src/aks-platform::dev01'
     'src/core::dev'
     'src/coreplus::dev'
+    'src/domains/blueprint-app::dev'
+    'src/domains/blueprint-common::dev'
     'src/domains/diego-app::dev'
     'src/domains/diego-common::dev'
     'src/domains/diego-container-apps::dev'
     'src/domains/legacy-common::dev'
-    # 'src/domains/marco-app::dev'
     'src/domains/marco-common::dev'
+    'src/domains/umberto-common::dev'
+    'src/elk-monitoring::dev01'
+    'src/grafana-monitoring::dev01'
+    'src/packer::dev'
 )
 
 function rm_terraform {

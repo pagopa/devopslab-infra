@@ -79,7 +79,7 @@ data "azuread_service_principal" "platform_iac_sp" {
 resource "azurerm_key_vault_access_policy" "azdevops_platform_iac_policy" {
   key_vault_id = module.key_vault_domain.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id           = data.azuread_service_principal.platform_iac_sp.object_id
+  object_id    = data.azuread_service_principal.platform_iac_sp.object_id
 
   secret_permissions = ["Get", "List", "Set", ]
 
