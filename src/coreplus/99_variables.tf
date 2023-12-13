@@ -277,6 +277,11 @@ variable "app_gateway_api_certificate_name" {
   description = "Application gateway api certificate name on Key Vault"
 }
 
+variable "apim_api_internal_certificate_name" {
+  type        = string
+  description = "KeyVault certificate name"
+}
+
 variable "app_gateway_beta_certificate_name" {
   type        = string
   description = "Application gateway beta certificate name on Key Vault"

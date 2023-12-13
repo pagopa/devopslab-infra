@@ -41,5 +41,6 @@ data "azurerm_subnet" "private_endpoint_subnet" {
 }
 
 data "azurerm_private_dns_zone" "storage_account_private_dns_zone" {
-  name = "privatelink.blob.core.windows.net"
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = data.azurerm_resource_group.vnet_core_rg.name
 }

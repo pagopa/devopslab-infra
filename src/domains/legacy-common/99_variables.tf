@@ -90,15 +90,6 @@ variable "tags" {
   }
 }
 
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
-}
-
 # DNS
 variable "external_domain" {
   type        = string

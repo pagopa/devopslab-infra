@@ -2,6 +2,8 @@ locals {
   product = "${var.prefix}-${var.env_short}"
   project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
+  aks_name = var.aks_name
+
   monitor_appinsights_name        = "${local.product}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
@@ -109,15 +111,6 @@ variable "tags" {
   }
 }
 
-variable "terraform_remote_state_core" {
-  type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
-  })
-}
-
 ### External resources
 
 variable "monitor_resource_group_name" {
@@ -133,6 +126,10 @@ variable "log_analytics_workspace_name" {
 variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
+}
+variable "aks_name" {
+  type        = string
+  description = "AKS cluster name"
 }
 
 variable "k8s_kube_config_path_prefix" {
