@@ -16,6 +16,7 @@ jobs:
         run: |
           FOLDERS=$(find . -type f -name '*.tf' -exec dirname {} \; | grep -v '\.terraform' | sort -u)
           echo "FOLDERS=${FOLDERS}"
+
           pids=()
 
           TAG=$(cat .terraform-version)
