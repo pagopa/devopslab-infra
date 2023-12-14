@@ -1,5 +1,7 @@
 # terraform-infrastructure-template
 
+[![Static Analysis](https://github.com/pagopa/devopslab-infra/actions/workflows/static_analysis_main.yml/badge.svg?branch=main&event=push)](https://github.com/pagopa/devopslab-infra/actions/workflows/static_analysis_main.yml)
+
 Terraform template repository for infrastructures projects
 
 ## Requirements
