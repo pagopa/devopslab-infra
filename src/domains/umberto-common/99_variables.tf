@@ -18,8 +18,6 @@ locals {
   dns_zone_public_name  = "devopslab.pagopa.it"
   dns_zone_private_name = "internal.devopslab.pagopa.it"
 
-  container_registry_common_name    = "dvopladneuacr"
-  rg_container_registry_common_name = "dvopla-d-dockerreg-rg"
 }
 
 variable "prefix" {
