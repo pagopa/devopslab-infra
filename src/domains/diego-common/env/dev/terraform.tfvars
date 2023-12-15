@@ -33,13 +33,10 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
 storage_management_policy_rules = [
   {
-    name: "rule1"
-    enabled: true
-    filters: {
-      
+    name : "rule1"
+    enabled : true
+    filters : {
+
     }
   }
 ]
-
-
-

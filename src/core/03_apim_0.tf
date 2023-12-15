@@ -22,8 +22,8 @@ resource "azurerm_resource_group" "rg_api" {
 
 # APIM subnet
 module "apim_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
-      count = var.apim_enabled == true ? 1 : 0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+  count  = var.apim_enabled == true ? 1 : 0
 
   name                 = "${local.project}-apim-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
@@ -34,8 +34,8 @@ module "apim_snet" {
 }
 
 module "apim_stv2_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
-      count = var.apim_enabled == true ? 1 : 0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.23.0"
+  count  = var.apim_enabled == true ? 1 : 0
 
   name                 = "${local.project}-apim-stv2-snet"
   resource_group_name  = azurerm_resource_group.rg_vnet.name
@@ -68,14 +68,14 @@ resource "azurerm_network_security_rule" "apim_snet_nsg_rules" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_stv2_snet" {
-      count = var.apim_enabled == true ? 1 : 0
+  count = var.apim_enabled == true ? 1 : 0
 
   subnet_id                 = module.apim_stv2_snet[0].id
   network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "apim_snet" {
-      count = var.apim_enabled == true ? 1 : 0
+  count = var.apim_enabled == true ? 1 : 0
 
   subnet_id                 = module.apim_snet[0].id
   network_security_group_id = azurerm_network_security_group.apim_snet_nsg.id
@@ -138,7 +138,7 @@ resource "azurerm_key_vault_access_policy" "api_management_policy" {
 # 🏷 custom domain
 #
 resource "azurerm_api_management_custom_domain" "api_custom_domain" {
-    count = var.apim_enabled == true ? 1 : 0
+  count = var.apim_enabled == true ? 1 : 0
 
   api_management_id = module.apim[0].id
 

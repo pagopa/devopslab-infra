@@ -19,6 +19,6 @@ data "azurerm_dns_zone" "public" {
 }
 
 data "azurerm_private_dns_zone" "storage_account_private_dns_zone" {
-  name = "privatelink.blob.core.windows.net"
+  name                = "privatelink.blob.core.windows.net"
   resource_group_name = local.vnet_core_resource_group_name
 }

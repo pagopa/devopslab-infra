@@ -192,7 +192,7 @@ eventhubs = [
     name              = "rtd-trx"
     partitions        = 1
     message_retention = 1
-    consumers         = [
+    consumers = [
       "bpd-payment-instrument",
       "rtd-trx-fa-comsumer-group",
       "idpay-consumer-group"
