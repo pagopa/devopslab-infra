@@ -30,3 +30,16 @@ cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+
+storage_management_policy_rules = [
+  {
+    name: "rule1"
+    enabled: true
+    filters: {
+      
+    }
+  }
+]
+
+
+
