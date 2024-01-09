@@ -14,3 +14,5 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
   Application = "marco.common"
 }
+
+dns_forwarder_image_version = "v1"

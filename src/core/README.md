@@ -44,7 +44,11 @@ az network dns zone show \
 | <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.23.0 |
 | <a name="module_container_registry_private"></a> [container\_registry\_private](#module\_container\_registry\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v7.23.0 |
 | <a name="module_dns_forwarder"></a> [dns\_forwarder](#module\_dns\_forwarder) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder | v7.23.0 |
+| <a name="module_dns_forwarder_lb"></a> [dns\_forwarder\_lb](#module\_dns\_forwarder\_lb) | Azure/loadbalancer/azurerm | 4.4.0 |
+| <a name="module_dns_forwarder_lb_snet"></a> [dns\_forwarder\_lb\_snet](#module\_dns\_forwarder\_lb\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.38.0 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
+| <a name="module_dns_forwarder_vms_snet"></a> [dns\_forwarder\_vms\_snet](#module\_dns\_forwarder\_vms\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.38.0 |
+| <a name="module_dns_forwarder_vmss"></a> [dns\_forwarder\_vmss](#module\_dns\_forwarder\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm | v7.38.0 |
 | <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v7.23.0 |
 | <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
 | <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
@@ -71,6 +75,8 @@ az network dns zone show \
 | [azurerm_dns_zone.public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_zone) | resource |
 | [azurerm_key_vault_access_policy.api_management_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.application_insights_key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
+| [azurerm_lb_backend_address_pool_address.dns_forwarder_address_container_instance](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_backend_address_pool_address) | resource |
+| [azurerm_lb_backend_address_pool_address.dns_forwarder_address_vmss](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_backend_address_pool_address) | resource |
 | [azurerm_log_analytics_workspace.log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.email](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.slack](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
@@ -124,6 +130,8 @@ az network dns zone show \
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
 | <a name="input_cidr_subnet_apim_stv2"></a> [cidr\_subnet\_apim\_stv2](#input\_cidr\_subnet\_apim\_stv2) | Address prefixes subnet api management stv2. | `list(string)` | `null` | no |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_dns_forwarder_lb"></a> [cidr\_subnet\_dns\_forwarder\_lb](#input\_cidr\_subnet\_dns\_forwarder\_lb) | Address prefixes subnet dns forwarder lb | `string` | `"10.1.140.8/29"` | no |
+| <a name="input_cidr_subnet_dns_forwarder_vms"></a> [cidr\_subnet\_dns\_forwarder\_vms](#input\_cidr\_subnet\_dns\_forwarder\_vms) | Address prefixes subnet dns forwarder scale set | `string` | `"10.1.140.16/29"` | no |
 | <a name="input_cidr_subnet_dnsforwarder"></a> [cidr\_subnet\_dnsforwarder](#input\_cidr\_subnet\_dnsforwarder) | DNS Forwarder network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_postgres"></a> [cidr\_subnet\_postgres](#input\_cidr\_subnet\_postgres) | Database network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_private_endpoints"></a> [cidr\_subnet\_private\_endpoints](#input\_cidr\_subnet\_private\_endpoints) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
@@ -132,6 +140,8 @@ az network dns zone show \
 | <a name="input_cidr_vnet"></a> [cidr\_vnet](#input\_cidr\_vnet) | Virtual network address space. | `list(string)` | n/a | yes |
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
 | <a name="input_dns_forwarder_enabled"></a> [dns\_forwarder\_enabled](#input\_dns\_forwarder\_enabled) | Enable dns forwarder setup | `bool` | `false` | no |
+| <a name="input_dns_forwarder_is_enabled"></a> [dns\_forwarder\_is\_enabled](#input\_dns\_forwarder\_is\_enabled) | Allow to enable or disable dns forwarder backup | `bool` | `true` | no |
+| <a name="input_dns_forwarder_vm_image_name"></a> [dns\_forwarder\_vm\_image\_name](#input\_dns\_forwarder\_vm\_image\_name) | Image name for dns forwarder | `string` | `null` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_enable_azdoa"></a> [enable\_azdoa](#input\_enable\_azdoa) | Enable Azure DevOps agent. | `bool` | n/a | yes |
 | <a name="input_enable_iac_pipeline"></a> [enable\_iac\_pipeline](#input\_enable\_iac\_pipeline) | If true create the key vault policy to allow used by azure devops iac pipelines. | `bool` | `false` | no |
