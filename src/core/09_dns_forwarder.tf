@@ -2,12 +2,12 @@
 # Subnet Vmss
 #
 
-module "dns_forwarder_vms_snet" {
+module "dns_forwarder_vm_snet" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.38.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project}-dns-forwarder-vm-snet"
-  address_prefixes     = [var.cidr_subnet_dns_forwarder_vms]
+  address_prefixes     = var.cidr_subnet_dns_forwarder_vms
   resource_group_name  = local.vnet_resource_group_name
   virtual_network_name = local.vnet_name
 }
@@ -22,7 +22,7 @@ module "dns_forwarder_vmss" {
 
   name                = "${local.project}-dns-forwarder-vmss"
   resource_group_name = local.vnet_resource_group_name
-  subnet_id           = module.dns_forwarder_vms_snet[0].id
+  subnet_id           = module.dns_forwarder_vm_snet[0].id
   subscription_name   = data.azurerm_subscription.current.display_name
   subscription_id     = data.azurerm_subscription.current.subscription_id
   location            = var.location
@@ -40,7 +40,7 @@ module "dns_forwarder_lb_snet" {
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project}-dns-forwarder-lb-snet"
-  address_prefixes     = [var.cidr_subnet_dns_forwarder_lb]
+  address_prefixes     = var.cidr_subnet_dns_forwarder_lb
   resource_group_name  = local.vnet_resource_group_name
   virtual_network_name = local.vnet_name
 }
@@ -50,44 +50,54 @@ module "dns_forwarder_lb_snet" {
 #
 
 module "dns_forwarder_lb" {
-  source  = "Azure/loadbalancer/azurerm"
-  version = "4.4.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer?ref=v7.38.0"
+  count  = var.dns_forwarder_is_enabled ? 1 : 0
 
+  name                = "${local.project}-dns-forwarder-internal"
   resource_group_name = local.vnet_resource_group_name
-  prefix              = "${local.project}-dns-forwarder-lb"
-  type                = "private"
+  location            = var.location
   lb_sku              = "Standard"
+  type                = "private"
 
-  frontend_subnet_id                     = module.dns_forwarder_lb_snet[0].id
-  frontend_private_ip_address_allocation = "Static"
-  frontend_private_ip_address            = local.dns_forwarder_lb_private_ip
+  frontend_name               = "${local.project}-ip-private"
+  frontend_private_ip_address = local.dns_forwarder_lb_private_ip
+  frontend_subnet_id          = module.dns_forwarder_lb_snet[0].id
+
+  lb_backend_pools = [
+    {
+      name = "${var.prefix}-default-backend"
+      ips = [
+        for i in concat(var.dns_forwarder_lb_backend_pool_vmss_ips, var.dns_forwarder_lb_backend_pool_container_instance_ips) : {
+          ip      = i
+          vnet_id = data.azurerm_virtual_network.vnet.id
+        }
+      ]
+    }
+  ]
 
   lb_port = {
-    dns_tcp = ["53", "Tcp", "53"]
-    dns_udp = ["53", "Udp", "53"]
+    "${var.prefix}-dns-tcp" = {
+      frontend_port     = "53"
+      protocol          = "Tcp"
+      backend_port      = "53"
+      backend_pool_name = "${var.prefix}-default-backend"
+      probe_name        = "${var.prefix}-dns"
+    }
+    "${var.prefix}-dns-udp" = {
+      frontend_port     = "53"
+      protocol          = "Udp"
+      backend_port      = "53"
+      backend_pool_name = "${var.prefix}-default-backend"
+      probe_name        = "${var.prefix}-dns"
+    }
   }
 
   lb_probe = {
-    dns = ["Tcp", "53", ""]
+    "${var.prefix}-dns" = {
+      protocol     = "Tcp"
+      port         = "53"
+      request_path = ""
+    }
   }
-
   tags = var.tags
-}
-
-resource "azurerm_lb_backend_address_pool_address" "dns_forwarder_address_vmss" {
-  count = length(local.dns_forwarder_vm_avaiable_ips)
-
-  name                    = "${local.project}-dns-forwarder-address-vmss-${count.index}"
-  backend_address_pool_id = module.dns_forwarder_lb.azurerm_lb_backend_address_pool_id
-  virtual_network_id      = module.vnet.id
-  ip_address              = local.dns_forwarder_vm_avaiable_ips[count.index]
-}
-
-resource "azurerm_lb_backend_address_pool_address" "dns_forwarder_address_container_instance" {
-  count = length(local.dns_forwarder_container_instance)
-
-  name                    = "${local.project}-dns-forwarder-address-ci-${count.index}"
-  backend_address_pool_id = module.dns_forwarder_lb.azurerm_lb_backend_address_pool_id
-  virtual_network_id      = module.vnet.id
-  ip_address              = local.dns_forwarder_container_instance[count.index]
 }

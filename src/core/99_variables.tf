@@ -45,10 +45,13 @@ locals {
   azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 
   # Dns Forwarder
-  dns_forwarder_vm_image_name      = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
-  dns_forwarder_lb_private_ip      = cidrhost(var.cidr_subnet_dns_forwarder_lb, 4)
-  dns_forwarder_vm_avaiable_ips    = [for i in range(4, pow(2, 32 - split("/", var.cidr_subnet_dns_forwarder_vms)[1]) - 1) : cidrhost(var.cidr_subnet_dns_forwarder_vms, i)]
-  dns_forwarder_container_instance = [for i in range(4, pow(2, 32 - split("/", join("", var.cidr_subnet_dnsforwarder))[1]) - 1) : cidrhost(join("", var.cidr_subnet_dnsforwarder), i)]
+  dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
+  dns_forwarder_lb_private_ip = cidrhost(join(",", var.cidr_subnet_dns_forwarder_lb), 4)
+}
+
+data "azurerm_virtual_network" "vnet" {
+  name                = "${local.project}-vnet"
+  resource_group_name = local.vnet_resource_group_name
 }
 
 variable "prefix" {
@@ -381,13 +384,25 @@ variable "dns_forwarder_vm_image_name" {
 }
 
 variable "cidr_subnet_dns_forwarder_vms" {
-  type        = string
+  type        = list(string)
   description = "Address prefixes subnet dns forwarder scale set"
-  default     = "10.1.140.16/29"
+  default     = []
 }
 
 variable "cidr_subnet_dns_forwarder_lb" {
-  type        = string
+  type        = list(string)
   description = "Address prefixes subnet dns forwarder lb"
-  default     = "10.1.140.8/29"
+  default     = []
+}
+
+variable "dns_forwarder_lb_backend_pool_vmss_ips" {
+  type        = list(string)
+  description = "Backend pool address vmss for dns forwarder load balancer"
+  default     = []
+}
+
+variable "dns_forwarder_lb_backend_pool_container_instance_ips" {
+  type        = list(string)
+  description = "Backend pool address container instance for dns forwarder load balancer"
+  default     = []
 }

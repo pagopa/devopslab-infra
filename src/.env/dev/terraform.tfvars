@@ -31,6 +31,8 @@ cidr_subnet_apim                      = ["10.1.136.0/24"]
 cidr_subnet_appgateway_beta           = ["10.1.138.0/24"]
 cidr_subnet_vpn                       = ["10.1.139.0/24"]
 cidr_subnet_dnsforwarder              = ["10.1.140.0/29"]
+cidr_subnet_dns_forwarder_vms         = ["10.1.140.16/29"]
+cidr_subnet_dns_forwarder_lb          = ["10.1.140.8/29"]
 cidr_subnet_private_endpoints         = ["10.1.141.0/24"]
 cidr_subnet_eventhub                  = ["10.1.142.0/24"]
 cidr_subnet_redis                     = ["10.1.143.0/24"]
@@ -54,6 +56,9 @@ enable_iac_pipeline = true
 # VPN
 vpn_enabled           = true
 dns_forwarder_enabled = true
+
+dns_forwarder_lb_backend_pool_vmss_ips               = ["10.1.140.20", "10.1.140.21", "10.1.140.22"]
+dns_forwarder_lb_backend_pool_container_instance_ips = ["10.1.140.4", "10.1.140.5", "10.1.140.6"]
 
 # app_gateway
 app_gateway_is_enabled            = false
