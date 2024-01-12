@@ -395,14 +395,8 @@ variable "cidr_subnet_dns_forwarder_lb" {
   default     = []
 }
 
-variable "dns_forwarder_lb_backend_pool_vmss_ips" {
-  type        = list(string)
-  description = "Backend pool address vmss for dns forwarder load balancer"
-  default     = []
-}
-
-variable "dns_forwarder_lb_backend_pool_container_instance_ips" {
-  type        = list(string)
-  description = "Backend pool address container instance for dns forwarder load balancer"
-  default     = []
+variable "dns_forwarder_lb_backend_pool_ips" {
+  type        = map(list(string))
+  description = "Backend pool address for dns forwarder load balancer"
+  default     = {}
 }

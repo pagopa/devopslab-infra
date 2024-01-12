@@ -57,8 +57,10 @@ enable_iac_pipeline = true
 vpn_enabled           = true
 dns_forwarder_enabled = true
 
-dns_forwarder_lb_backend_pool_vmss_ips               = ["10.1.140.20", "10.1.140.21", "10.1.140.22"]
-dns_forwarder_lb_backend_pool_container_instance_ips = ["10.1.140.4", "10.1.140.5", "10.1.140.6"]
+dns_forwarder_lb_backend_pool_ips = {
+  vmss = ["10.1.140.20", "10.1.140.21", "10.1.140.22"]
+  ci   = ["10.1.140.4", "10.1.140.5", "10.1.140.6"]
+}
 
 # app_gateway
 app_gateway_is_enabled            = false

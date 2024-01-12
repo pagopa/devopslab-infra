@@ -3,7 +3,7 @@
 #
 
 module "dns_forwarder_vm_snet" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.38.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.41.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project}-dns-forwarder-vm-snet"
@@ -17,7 +17,7 @@ module "dns_forwarder_vm_snet" {
 #
 
 module "dns_forwarder_vmss" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm?ref=v7.38.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm?ref=v7.41.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                = "${local.project}-dns-forwarder-vmss"
@@ -36,7 +36,7 @@ module "dns_forwarder_vmss" {
 #
 
 module "dns_forwarder_lb_snet" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.38.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.41.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project}-dns-forwarder-lb-snet"
@@ -50,7 +50,7 @@ module "dns_forwarder_lb_snet" {
 #
 
 module "dns_forwarder_lb" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer?ref=v7.38.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer?ref=v7.41.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                = "${local.project}-dns-forwarder-internal"
@@ -59,19 +59,23 @@ module "dns_forwarder_lb" {
   lb_sku              = "Standard"
   type                = "private"
 
-  frontend_name               = "${local.project}-ip-private"
-  frontend_private_ip_address = local.dns_forwarder_lb_private_ip
-  frontend_subnet_id          = module.dns_forwarder_lb_snet[0].id
+  frontend_name                          = "${local.project}-dns-forwarder-ip-private"
+  frontend_private_ip_address_allocation = "Static"
+  frontend_private_ip_address            = local.dns_forwarder_lb_private_ip
+  frontend_subnet_id                     = module.dns_forwarder_lb_snet[0].id
 
   lb_backend_pools = [
     {
-      name = "${var.prefix}-default-backend"
-      ips = [
-        for i in concat(var.dns_forwarder_lb_backend_pool_vmss_ips, var.dns_forwarder_lb_backend_pool_container_instance_ips) : {
-          ip      = i
-          vnet_id = data.azurerm_virtual_network.vnet.id
-        }
-      ]
+      name  = "${var.prefix}-default-backend"
+      ips   = flatten([
+        for type, ips in var.dns_forwarder_lb_backend_pool_ips : [
+          for ip in ips : {
+            type = type
+            ip   = ip
+            vnet_id = data.azurerm_virtual_network.vnet.id
+          }
+        ]
+      ])
     }
   ]
 
@@ -101,3 +105,6 @@ module "dns_forwarder_lb" {
   }
   tags = var.tags
 }
+
+
+// Modificare nome del backendpool con un prefisso optional (vmss per le vm e ci per le container instance)
