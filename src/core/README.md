@@ -44,11 +44,11 @@ az network dns zone show \
 | <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.23.0 |
 | <a name="module_container_registry_private"></a> [container\_registry\_private](#module\_container\_registry\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v7.23.0 |
 | <a name="module_dns_forwarder"></a> [dns\_forwarder](#module\_dns\_forwarder) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder | v7.23.0 |
-| <a name="module_dns_forwarder_lb"></a> [dns\_forwarder\_lb](#module\_dns\_forwarder\_lb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer | v7.38.0 |
-| <a name="module_dns_forwarder_lb_snet"></a> [dns\_forwarder\_lb\_snet](#module\_dns\_forwarder\_lb\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.38.0 |
+| <a name="module_dns_forwarder_lb"></a> [dns\_forwarder\_lb](#module\_dns\_forwarder\_lb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer | v7.41.0 |
+| <a name="module_dns_forwarder_lb_snet"></a> [dns\_forwarder\_lb\_snet](#module\_dns\_forwarder\_lb\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.41.0 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
-| <a name="module_dns_forwarder_vm_snet"></a> [dns\_forwarder\_vm\_snet](#module\_dns\_forwarder\_vm\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.38.0 |
-| <a name="module_dns_forwarder_vmss"></a> [dns\_forwarder\_vmss](#module\_dns\_forwarder\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm | v7.38.0 |
+| <a name="module_dns_forwarder_vm_snet"></a> [dns\_forwarder\_vm\_snet](#module\_dns\_forwarder\_vm\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.41.0 |
+| <a name="module_dns_forwarder_vmss"></a> [dns\_forwarder\_vmss](#module\_dns\_forwarder\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm | v7.41.0 |
 | <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v7.23.0 |
 | <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
 | <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
@@ -140,8 +140,7 @@ az network dns zone show \
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
 | <a name="input_dns_forwarder_enabled"></a> [dns\_forwarder\_enabled](#input\_dns\_forwarder\_enabled) | Enable dns forwarder setup | `bool` | `false` | no |
 | <a name="input_dns_forwarder_is_enabled"></a> [dns\_forwarder\_is\_enabled](#input\_dns\_forwarder\_is\_enabled) | Allow to enable or disable dns forwarder backup | `bool` | `true` | no |
-| <a name="input_dns_forwarder_lb_backend_pool_container_instance_ips"></a> [dns\_forwarder\_lb\_backend\_pool\_container\_instance\_ips](#input\_dns\_forwarder\_lb\_backend\_pool\_container\_instance\_ips) | Backend pool address container instance for dns forwarder load balancer | `list(string)` | `[]` | no |
-| <a name="input_dns_forwarder_lb_backend_pool_vmss_ips"></a> [dns\_forwarder\_lb\_backend\_pool\_vmss\_ips](#input\_dns\_forwarder\_lb\_backend\_pool\_vmss\_ips) | Backend pool address vmss for dns forwarder load balancer | `list(string)` | `[]` | no |
+| <a name="input_dns_forwarder_lb_backend_pool_ips"></a> [dns\_forwarder\_lb\_backend\_pool\_ips](#input\_dns\_forwarder\_lb\_backend\_pool\_ips) | Backend pool address for dns forwarder load balancer | `map(list(string))` | `{}` | no |
 | <a name="input_dns_forwarder_vm_image_name"></a> [dns\_forwarder\_vm\_image\_name](#input\_dns\_forwarder\_vm\_image\_name) | Image name for dns forwarder | `string` | `null` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_enable_azdoa"></a> [enable\_azdoa](#input\_enable\_azdoa) | Enable Azure DevOps agent. | `bool` | n/a | yes |

@@ -66,12 +66,12 @@ module "dns_forwarder_lb" {
 
   lb_backend_pools = [
     {
-      name  = "${var.prefix}-default-backend"
-      ips   = flatten([
+      name = "${var.prefix}-default-backend"
+      ips = flatten([
         for type, ips in var.dns_forwarder_lb_backend_pool_ips : [
           for ip in ips : {
-            type = type
-            ip   = ip
+            type    = type
+            ip      = ip
             vnet_id = data.azurerm_virtual_network.vnet.id
           }
         ]
