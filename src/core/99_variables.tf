@@ -49,11 +49,6 @@ locals {
   dns_forwarder_lb_private_ip = cidrhost(join(",", var.cidr_subnet_dns_forwarder_lb), 4)
 }
 
-data "azurerm_virtual_network" "vnet" {
-  name                = "${local.project}-vnet"
-  resource_group_name = local.vnet_resource_group_name
-}
-
 variable "prefix" {
   type    = string
   default = "dvopla"
