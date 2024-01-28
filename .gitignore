@@ -1,5 +1,8 @@
 # Project
 deleteme
+state.json
+*.deleteme
+*.ignoreme
 
 # Local .terraform directories
 **/.terraform/*
@@ -10,6 +13,9 @@ deleteme
 
 # Crash log files
 crash.log
+
+# velero credentials generated file
+src/aks-platform/credentials-velero.txt
 
 # Ignore any .tfvars files that are generated automatically for each Terraform run. Most
 # .tfvars files are managed as part of configuration and so should be included in
@@ -38,3 +44,6 @@ settings.json
 __TMP
 .metals/
 __azurite_*
+
+# intellij metadata
+.idea

@@ -24,46 +24,27 @@ if [ -z "$ENV" ]; then
   exit 0
 fi
 
-#
-# 🏁 Source & init shell
-#
-
 # shellcheck source=/dev/null
 source "../.env/$ENV/backend.ini"
 
-# Subscription set
 az account set -s "${subscription}"
 
-# if using cygwin, we have to transcode the WORKDIR
-if [[ $WORKDIR == /cygdrive/* ]]; then
-  WORKDIR=$(cygpath -w $WORKDIR)
-fi
-
-# Helm
-export HELM_DEBUG=1
-
-#
-# 🌎 Terraform
-#
 if echo "init plan apply refresh import output state taint destroy" | grep -w "$ACTION" > /dev/null; then
   if [ "$ACTION" = "init" ]; then
     echo "[INFO] init tf on ENV: ${ENV}"
-    terraform "$ACTION" -backend-config="${BACKEND_CONFIG_PATH}" "$other"
+    terraform "$ACTION" -backend-config="${BACKEND_CONFIG_PATH}" $other
   elif [ "$ACTION" = "output" ] || [ "$ACTION" = "state" ] || [ "$ACTION" = "taint" ]; then
     # init terraform backend
     terraform init -reconfigure -backend-config="${BACKEND_CONFIG_PATH}"
-    terraform "$ACTION" "$other"
+    terraform "$ACTION" $other
   else
     # init terraform backend
     echo "[INFO] init tf on ENV: ${ENV}"
-    terraform init \
-    -reconfigure \
-    -backend-config="${BACKEND_CONFIG_PATH}"
+    terraform init -reconfigure -backend-config="${BACKEND_CONFIG_PATH}"
 
     echo "[INFO] run tf with: ${ACTION} on ENV: ${ENV} and other: >${other}<"
     terraform "${ACTION}" \
     -var-file="../.env/${ENV}/terraform.tfvars" \
-    -var-file="../.env/${ENV}/kubernetes.tfvars" \
     -compact-warnings \
     $other
   fi
