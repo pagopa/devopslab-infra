@@ -46,7 +46,6 @@ locals {
 
   # Dns Forwarder
   dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
-  dns_forwarder_lb_private_ip = cidrhost(join(",", var.cidr_subnet_dns_forwarder_lb), 4)
 }
 
 variable "prefix" {
@@ -370,28 +369,4 @@ variable "dns_forwarder_is_enabled" {
   type        = bool
   default     = true
   description = "Allow to enable or disable dns forwarder backup"
-}
-
-variable "dns_forwarder_vm_image_name" {
-  type        = string
-  description = "Image name for dns forwarder"
-  default     = null
-}
-
-variable "cidr_subnet_dns_forwarder_vms" {
-  type        = list(string)
-  description = "Address prefixes subnet dns forwarder scale set"
-  default     = []
-}
-
-variable "cidr_subnet_dns_forwarder_lb" {
-  type        = list(string)
-  description = "Address prefixes subnet dns forwarder lb"
-  default     = []
-}
-
-variable "dns_forwarder_lb_backend_pool_ips" {
-  type        = map(list(string))
-  description = "Backend pool address for dns forwarder load balancer"
-  default     = {}
 }
