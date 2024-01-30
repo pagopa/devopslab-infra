@@ -44,11 +44,8 @@ az network dns zone show \
 | <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v7.23.0 |
 | <a name="module_container_registry_private"></a> [container\_registry\_private](#module\_container\_registry\_private) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v7.23.0 |
 | <a name="module_dns_forwarder"></a> [dns\_forwarder](#module\_dns\_forwarder) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder | v7.23.0 |
-| <a name="module_dns_forwarder_lb"></a> [dns\_forwarder\_lb](#module\_dns\_forwarder\_lb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//load_balancer | v7.41.0 |
-| <a name="module_dns_forwarder_lb_snet"></a> [dns\_forwarder\_lb\_snet](#module\_dns\_forwarder\_lb\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.41.0 |
+| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss | v7.50.0 |
 | <a name="module_dns_forwarder_snet"></a> [dns\_forwarder\_snet](#module\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
-| <a name="module_dns_forwarder_vm_snet"></a> [dns\_forwarder\_vm\_snet](#module\_dns\_forwarder\_vm\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.41.0 |
-| <a name="module_dns_forwarder_vmss"></a> [dns\_forwarder\_vmss](#module\_dns\_forwarder\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_scale_set_vm | v7.41.0 |
 | <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v7.23.0 |
 | <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
 | <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v7.23.0 |
