@@ -20,7 +20,7 @@ resource "kubernetes_namespace" "namespace_games" {
 
 resource "helm_release" "argocd" {
   name       = "argo"
-  chart      = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-4.6.3/argo-cd-4.6.3.tgz"
+  chart      = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-5.53.0/argo-cd-5.53.0.tgz"
   namespace  = kubernetes_namespace.namespace_argocd.metadata[0].name
   wait       = false
 

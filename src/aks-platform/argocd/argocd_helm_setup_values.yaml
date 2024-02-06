@@ -2,6 +2,7 @@ argo-cd:
   dex:
     enabled: false
   server:
+    replicas: 2
     extraArgs:
       - --insecure
     config:
@@ -9,3 +10,12 @@ argo-cd:
         - type: helm
           name: argo-cd
           url: https://argoproj.github.io/argo-helm
+
+  redis-ha:
+    enabled: true
+
+  repoServer:
+    replicas: 2
+
+  applicationSet:
+    replicas: 2

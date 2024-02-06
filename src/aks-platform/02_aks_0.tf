@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.32.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=enable-workload-identity"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -69,14 +69,13 @@ module "aks" {
     docker_bridge_cidr  = "172.17.0.1/16"
     dns_service_ip      = "10.250.0.10"
     network_plugin      = "azure"
-    network_plugin_mode = ""
     network_policy      = "azure"
     outbound_type       = "loadBalancer"
     service_cidr        = "10.250.0.0/16"
   }
   # end network
+  oidc_issuer_enabled = true
 
-  rbac_enabled        = true
   aad_admin_group_ids = var.env_short == "d" ? [data.azuread_group.adgroup_admin.object_id, data.azuread_group.adgroup_developers.object_id, data.azuread_group.adgroup_externals.object_id] : [data.azuread_group.adgroup_admin.object_id]
 
   addon_azure_policy_enabled                     = var.aks_addons.azure_policy
