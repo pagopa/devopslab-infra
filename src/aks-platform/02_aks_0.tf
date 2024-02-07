@@ -19,9 +19,9 @@ module "aks" {
   count = var.aks_enabled ? 1 : 0
 
   name                       = local.aks_cluster_name
+  resource_group_name        = azurerm_resource_group.rg_aks.name
   location                   = azurerm_resource_group.rg_aks.location
   dns_prefix                 = "${local.project}-aks"
-  resource_group_name        = azurerm_resource_group.rg_aks.name
   kubernetes_version         = var.aks_kubernetes_version
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log_analytics_workspace.id
   sku_tier                   = var.aks_sku_tier
@@ -150,11 +150,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
 }
 
 
-resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
-  scope                = azurerm_resource_group.rg_aks.id
-  role_definition_name = "Managed Identity Operator"
-  principal_id         = module.aks[0].identity_principal_id
-}
+# resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
+#   scope                = azurerm_resource_group.rg_aks.id
+#   role_definition_name = "Managed Identity Operator"
+#   principal_id         = module.aks[0].identity_principal_id
+# }
 
 #
 # ACR connection
@@ -215,7 +215,7 @@ resource "null_resource" "create_vnet_core_aks_link" {
 }
 
 module "velero" {
-  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.32.1"
+  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.52.0"
   count                               = var.aks_enabled ? 1 : 0
   backup_storage_container_name       = "velero-backup"
   subscription_id                     = data.azurerm_subscription.current.subscription_id
@@ -233,7 +233,7 @@ module "velero" {
 }
 
 module "aks_namespace_backup" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.32.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.52.0"
   count  = var.aks_enabled ? 1 : 0
   # required
   backup_name      = "daily-backup"
