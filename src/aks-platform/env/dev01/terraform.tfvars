@@ -73,7 +73,7 @@ aks_user_node_pool = {
 }
 
 aks_spot_user_node_pool = {
-  enabled         = true,
+  enabled         = false,
   name            = "dvldev01uspo",
   vm_size         = "Standard_D8ds_v5",
   os_disk_type    = "Ephemeral",
