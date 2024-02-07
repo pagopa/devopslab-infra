@@ -55,3 +55,44 @@ resource "kubectl_manifest" "argocd_app_games" {
             namespace: "games"
         })
 }
+
+#
+# tools
+#
+
+module "domain_pod_identity" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v7.7.0"
+
+  cluster_name        = local.aks_cluster_name
+  resource_group_name = azurerm_resource_group.rg_aks.name
+  location            = var.location
+  tenant_id           = data.azurerm_subscription.current.tenant_id
+
+  identity_name = "argocd-pod-identity"
+  namespace     = kubernetes_namespace.namespace_argocd.metadata[0].name
+  key_vault_id  = data.azurerm_key_vault.kv_core.id
+
+  secret_permissions      = ["Get"]
+  certificate_permissions = ["Get"]
+}
+
+resource "helm_release" "reloader" {
+  name       = "reloader"
+  repository = "https://stakater.github.io/stakater-charts"
+  chart      = "reloader"
+  version    = "v1.0.30"
+  namespace  = kubernetes_namespace.namespace_argocd.metadata[0].name
+
+  set {
+    name  = "reloader.watchGlobally"
+    value = "false"
+  }
+}
+
+module "cert_mounter" {
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.52.0"
+  namespace        = "argocd"
+  certificate_name = replace(local.argocd_internal_url, ".", "-")
+  kv_name          = data.azurerm_key_vault.kv_core.name
+  tenant_id        = data.azurerm_subscription.current.tenant_id
+}
