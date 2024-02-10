@@ -593,3 +593,16 @@ variable "law_prometheus_daily_quota_gb" {
   type        = number
   description = "The workspace daily quota for ingestion in GB."
 }
+
+# DNS
+variable "external_domain" {
+  type        = string
+  default     = "pagopa.it"
+  description = "Domain for delegation"
+}
+
+variable "dns_zone_internal_prefix" {
+  type        = string
+  default     = null
+  description = "The dns subdomain."
+}
