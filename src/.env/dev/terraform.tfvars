@@ -16,6 +16,13 @@ tags = {
 
 lock_enable = false
 
+#
+# Dns
+#
+external_domain          = "pagopa.it"
+dns_zone_prefix          = "devopslab"
+dns_zone_internal_prefix = "internal.devopslab"
+
 # 🔐 key vault
 key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
