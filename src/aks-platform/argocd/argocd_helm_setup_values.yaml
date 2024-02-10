@@ -1,5 +1,5 @@
 dex:
-  enabled: false
+  enabled: true
 server:
   replicas: 1
   extraArgs:
@@ -26,7 +26,7 @@ server:
         - argocd.internal.devopslab.pagopa.it
     https: true
 redis-ha:
-  enabled: true
+  enabled: false
 repoServer:
   replicas: 1
 applicationSet:
