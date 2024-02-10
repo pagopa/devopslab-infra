@@ -20,7 +20,7 @@ resource "kubernetes_namespace" "namespace_games" {
 
 resource "helm_release" "argocd" {
   name       = "argo"
-  chart      = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-5.53.0/argo-cd-5.53.0.tgz"
+  chart      = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-6.0.5/argo-cd-6.0.5.tgz"
   namespace  = kubernetes_namespace.namespace_argocd.metadata[0].name
   wait       = false
 
@@ -95,4 +95,12 @@ module "cert_mounter" {
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
+}
+
+resource "azurerm_private_dns_a_record" "argocd_ingress" {
+  name                = local.ingress_hostname_prefix
+  zone_name           = data.azurerm_private_dns_zone.internal.name
+  resource_group_name = local.internal_dns_zone_resource_group_name
+  ttl                 = 3600
+  records             = [var.ingress_load_balancer_ip]
 }
