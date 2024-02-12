@@ -66,12 +66,12 @@ module "aks" {
   outbound_ip_address_ids = [data.azurerm_public_ip.pip_aks_outboud.id]
   private_cluster_enabled = var.aks_private_cluster_enabled
   network_profile = {
-    docker_bridge_cidr  = "172.17.0.1/16"
-    dns_service_ip      = "10.250.0.10"
-    network_plugin      = "azure"
-    network_policy      = "azure"
-    outbound_type       = "loadBalancer"
-    service_cidr        = "10.250.0.0/16"
+    docker_bridge_cidr = "172.17.0.1/16"
+    dns_service_ip     = "10.250.0.10"
+    network_plugin     = "azure"
+    network_policy     = "azure"
+    outbound_type      = "loadBalancer"
+    service_cidr       = "10.250.0.0/16"
   }
   # end network
   oidc_issuer_enabled = true

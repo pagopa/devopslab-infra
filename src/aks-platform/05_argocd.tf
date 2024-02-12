@@ -8,24 +8,14 @@ resource "kubernetes_namespace" "namespace_argocd" {
   ]
 }
 
-resource "kubernetes_namespace" "namespace_games" {
-  metadata {
-    name = "games"
-  }
-
-  depends_on = [
-    module.aks
-  ]
-}
-
 resource "helm_release" "argocd" {
-  name       = "argo"
-  chart      = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-6.0.5/argo-cd-6.0.5.tgz"
-  namespace  = kubernetes_namespace.namespace_argocd.metadata[0].name
-  wait       = false
+  name      = "argo"
+  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-6.0.5/argo-cd-6.0.5.tgz"
+  namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
+  wait      = false
 
   values = [
-    "${file("argocd/argocd_helm_setup_values.yaml")}"
+    file("argocd/argocd_helm_setup_values.yaml")
   ]
 
   depends_on = [
@@ -33,28 +23,54 @@ resource "helm_release" "argocd" {
   ]
 }
 
-#
-# Project
-#
-resource "kubectl_manifest" "argocd_project_games" {
-    yaml_body = templatefile("argocd/argocd_project_games.yaml.tpl", {
-            project_name: "games",
-            deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-            namespace: "games"
-        })
+resource "random_password" "argocd_admin_password" {
+  length           = 12
+  special          = true
+  override_special = "_%@"
+
+  depends_on = [helm_release.argocd]
 }
 
-#
-# Applications ArgoCD
-#
-resource "kubectl_manifest" "argocd_app_games" {
-    yaml_body = templatefile("argocd/argocd_application_games.yaml.tpl", {
-            project_name: "games",
-            deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-            target_revision: "release-dev"
-            namespace: "games"
-        })
+resource "null_resource" "change_admin_password" {
+
+  triggers = {
+    helm_revision   = helm_release.argocd.metadata[0].revision,
+    argocd_password = random_password.argocd_admin_password.result
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl -n argocd patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(random_password.argocd_admin_password.result)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
+  }
 }
+
+resource "azurerm_key_vault_secret" "argocd_admin_password" {
+  key_vault_id = data.azurerm_key_vault.kv_core.id
+  name         = "argocd-admin-password"
+  value        = random_password.argocd_admin_password.result
+}
+
+# #
+# # Project
+# #
+# resource "kubectl_manifest" "argocd_project_games" {
+#     yaml_body = templatefile("argocd/argocd_project_games.yaml.tpl", {
+#             project_name: "games",
+#             deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
+#             namespace: "games"
+#         })
+# }
+
+# #
+# # Applications ArgoCD
+# #
+# resource "kubectl_manifest" "argocd_app_games" {
+#     yaml_body = templatefile("argocd/argocd_application_games.yaml.tpl", {
+#             project_name: "games",
+#             deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
+#             target_revision: "release-dev"
+#             namespace: "games"
+#         })
+# }
 
 #
 # tools

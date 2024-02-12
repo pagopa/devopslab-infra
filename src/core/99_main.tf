@@ -12,19 +12,19 @@ terraform {
       version = "<= 3.2.1"
     }
     azapi = {
-      source = "azure/azapi"
+      source  = "azure/azapi"
       version = "<= 1.12.0"
     }
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "<= 2.3.0"
     }
     random = {
-      source = "hashicorp/random"
+      source  = "hashicorp/random"
       version = "<= 3.6.0"
     }
     tls = {
-      source = "hashicorp/tls"
+      source  = "hashicorp/tls"
       version = "<= 4.0.5"
     }
 

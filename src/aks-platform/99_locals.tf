@@ -12,8 +12,8 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   vnet_core_name                = "${local.product}-vnet"
 
-  ingress_hostname_prefix               = "argocd"
-  internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
+  ingress_hostname_prefix = "argocd"
+  internal_dns_zone_name  = "${var.dns_zone_internal_prefix}.${var.external_domain}"
 
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
