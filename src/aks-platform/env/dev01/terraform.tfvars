@@ -14,12 +14,12 @@ tags = {
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "dvopladstinfraterraform"
-  container_name       = "corestate"
-  key                  = "terraform.tfstate"
-}
+#
+# Dns
+#
+external_domain          = "pagopa.it"
+dns_zone_prefix          = "devopslab"
+dns_zone_internal_prefix = "internal.devopslab"
 
 # 🔐 key vault
 key_vault_name    = "dvopla-d-neu-kv"
@@ -73,7 +73,7 @@ aks_user_node_pool = {
 }
 
 aks_spot_user_node_pool = {
-  enabled         = true,
+  enabled         = false,
   name            = "dvldev01uspo",
   vm_size         = "Standard_D8ds_v5",
   os_disk_type    = "Ephemeral",

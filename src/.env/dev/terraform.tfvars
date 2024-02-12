@@ -16,6 +16,13 @@ tags = {
 
 lock_enable = false
 
+#
+# Dns
+#
+external_domain          = "pagopa.it"
+dns_zone_prefix          = "devopslab"
+dns_zone_internal_prefix = "internal.devopslab"
+
 # 🔐 key vault
 key_vault_name    = "dvopla-d-neu-kv"
 key_vault_rg_name = "dvopla-d-sec-rg"
@@ -40,12 +47,6 @@ cidr_subnet_container_apps            = ["10.1.146.0/23"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
-
-
-# dns
-prod_dns_zone_prefix = "devopslab"
-lab_dns_zone_prefix  = "lab.devopslab"
-external_domain      = "pagopa.it"
 
 # azure devops
 enable_azdoa        = true

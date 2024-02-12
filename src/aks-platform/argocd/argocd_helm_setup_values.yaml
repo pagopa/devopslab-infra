@@ -1,0 +1,32 @@
+dex:
+  enabled: true
+server:
+  replicas: 1
+  extraArgs:
+    - --insecure
+  config:
+    repositories: |
+      - type: helm
+        name: argo-cd
+        url: https://argoproj.github.io/argo-helm
+  ingress:
+    enabled: true
+    labels: {}
+    ingressClassName: "nginx"
+    hostname: argocd.internal.devopslab.pagopa.it
+
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    extraTls:
+      - hosts:
+        - argocd.internal.devopslab.pagopa.it
+        # Based on the ingress controller used secret might be optional
+        secretName: argocd-internal-devopslab-pagopa-it
+    https: true
+redis-ha:
+  enabled: false
+repoServer:
+  replicas: 1
+applicationSet:
+  replicas: 1

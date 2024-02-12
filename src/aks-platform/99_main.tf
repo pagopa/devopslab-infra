@@ -13,6 +13,18 @@ terraform {
       source  = "hashicorp/local"
       version = ">= 2.4.0"
     }
+    kubectl = {
+      source  = "alekc/kubectl"
+      version = "~> 2.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "<= 2.25.2"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "<= 2.12.1"
+    }
   }
 
   backend "azurerm" {}

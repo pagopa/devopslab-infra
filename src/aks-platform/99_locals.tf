@@ -12,6 +12,11 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
   vnet_core_name                = "${local.product}-vnet"
 
+  ingress_hostname_prefix = "argocd"
+  internal_dns_zone_name  = "${var.dns_zone_internal_prefix}.${var.external_domain}"
+
+  internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
+
   # ACR DOCKER
   docker_rg_name       = "dvopla-d-dockerreg-rg"
   docker_registry_name = "dvopladneuacr"
@@ -25,4 +30,7 @@ locals {
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
+
+  argocd_internal_url = "argocd.internal.devopslab.pagopa.it"
+
 }
