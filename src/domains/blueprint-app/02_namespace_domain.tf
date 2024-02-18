@@ -20,48 +20,15 @@ module "domain_pod_identity" {
   certificate_permissions = ["Get"]
 }
 
-resource "helm_release" "reloader" {
-  name       = "reloader"
-  repository = "https://stakater.github.io/stakater-charts"
-  chart      = "reloader"
-  version    = "v1.0.30"
-  namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
+# resource "helm_release" "reloader" {
+#   name       = "reloader"
+#   repository = "https://stakater.github.io/stakater-charts"
+#   chart      = "reloader"
+#   version    = "v1.0.30"
+#   namespace  = kubernetes_namespace.domain_namespace.metadata[0].name
 
-  set {
-    name  = "reloader.watchGlobally"
-    value = "false"
-  }
-}
-
-resource "kubernetes_persistent_volume_claim_v1" "blueprint_hdd" {
-  metadata {
-    name      = "${var.domain}-hdd-pvc"
-    namespace = var.domain
-  }
-  spec {
-    access_modes = ["ReadWriteOnce"]
-    resources {
-      requests = {
-        storage = "4Gi"
-      }
-    }
-    storage_class_name = "standard-hdd"
-  }
-}
-
-resource "kubernetes_persistent_volume_claim_v1" "blueprint_ssd_az" {
-  metadata {
-    name      = "${var.domain}-ssd-az-pvc"
-    namespace = var.domain
-  }
-  spec {
-    access_modes = ["ReadWriteOnce"]
-    resources {
-      requests = {
-        storage = "8Gi"
-      }
-    }
-    storage_class_name = "managed-csi-premium-zrs"
-  }
-  wait_until_bound = false
-}
+#   set {
+#     name  = "reloader.watchGlobally"
+#     value = "false"
+#   }
+# }

@@ -19,10 +19,10 @@ module "tls_checker" {
 }
 
 
-module "cert_mounter" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.7.0"
-  namespace        = var.domain
-  certificate_name = replace(local.domain_aks_hostname, ".", "-")
-  kv_name          = data.azurerm_key_vault.kv_domain.name
-  tenant_id        = data.azurerm_subscription.current.tenant_id
-}
+# module "cert_mounter" {
+#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.7.0"
+#   namespace        = var.domain
+#   certificate_name = replace(local.domain_aks_hostname, ".", "-")
+#   kv_name          = data.azurerm_key_vault.kv_domain.name
+#   tenant_id        = data.azurerm_subscription.current.tenant_id
+# }

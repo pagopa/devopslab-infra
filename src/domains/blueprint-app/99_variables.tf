@@ -20,7 +20,7 @@ locals {
 
   # DOMAINS
   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
-  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
+  # system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
 
