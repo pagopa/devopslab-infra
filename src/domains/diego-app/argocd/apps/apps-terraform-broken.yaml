@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: terraform-broken-apps
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    # The default behaviour is foreground cascading deletion
+    - resources-finalizer.argocd.argoproj.io
+    # Alternatively, you can use background cascading deletion
+    # - resources-finalizer.argocd.argoproj.io/background
+  # Add labels to your application object.
+  labels:
+    name: terraform-broken-apps
+spec:
+  project: terraform-argocd-project
+  source:
+#    chart: microservice-chart
+    targetRevision: argocd-apps
+    repoURL: 'https://github.com/diegolagospagopa/argocd-showcase'
+    path: argocd/broken-apps
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: diego
+  syncPolicy:
+    automated: {}
+  revisionHistoryLimit: 10
