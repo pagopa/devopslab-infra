@@ -16,3 +16,7 @@ resource "kubernetes_manifest" "argocd_apps_ok" {
   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-ok.yaml", {}))
 }
 
+resource "kubernetes_manifest" "argocd_broken_apps" {
+  manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-broken.yaml", {}))
+}
+
