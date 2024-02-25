@@ -35,7 +35,7 @@ spec:
     kind: ResourceQuota
   - group: ''
     kind: LimitRange
-  - group: ''
+  - group: 'networking.k8s.io/v1'
     kind: NetworkPolicy
 
 #  # Deny all namespaced-scoped resources from being created, except for Deployment and StatefulSet
