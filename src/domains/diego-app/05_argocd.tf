@@ -3,6 +3,13 @@
 #
 resource "kubernetes_manifest" "argocd_project_terraform" {
   manifest = yamldecode(templatefile("${path.module}/argocd/projects/project-terraform-argocd.yaml", {}))
+  field_manager {
+    # set the name of the field manager
+    name = "argocd"
+
+    # force field manager conflicts to be overridden
+    force_conflicts = true
+  }
 }
 
 #
