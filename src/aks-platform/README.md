@@ -42,6 +42,7 @@ Re-enable all the resource, commented before to complete the procedure
 |------|--------|---------|
 | <a name="module_aks"></a> [aks](#module\_aks) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster | enable-workload-identity |
 | <a name="module_aks_namespace_backup"></a> [aks\_namespace\_backup](#module\_aks\_namespace\_backup) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup | v7.52.0 |
+| <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_prometheus_install | v7.52.0 |
 | <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class | v7.52.0 |
 | <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v7.52.0 |
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v7.7.0 |
