@@ -548,10 +548,6 @@ variable "prometheus_helm" {
       image_name = string,
       image_tag  = string,
     }),
-    configmap_reload_prometheus = object({
-      image_name = string,
-      image_tag  = string,
-    }),
     configmap_reload_alertmanager = object({
       image_name = string,
       image_tag  = string,
