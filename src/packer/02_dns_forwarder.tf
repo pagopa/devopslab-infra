@@ -3,7 +3,7 @@ data "azurerm_resource_group" "vnet_rg" {
 }
 
 module "dns_forwarder_image" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_vm_image?ref=v7.35.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_vm_image?ref=v7.69.1"
   resource_group_name = data.azurerm_resource_group.vnet_rg.name
   location            = var.location
   image_name          = "${local.project}-dns-forwarder-ubuntu2204-image"
