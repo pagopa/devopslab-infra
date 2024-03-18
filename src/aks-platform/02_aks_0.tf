@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=aks_storage_drivers"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.70.0"
 
   count = var.aks_enabled ? 1 : 0
 
