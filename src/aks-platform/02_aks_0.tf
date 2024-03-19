@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=enable-workload-identity"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v7.70.0"
 
   count = var.aks_enabled ? 1 : 0
 
@@ -84,6 +84,9 @@ module "aks" {
 
   default_metric_alerts = var.aks_metric_alerts_default
   custom_metric_alerts  = var.aks_metric_alerts_custom
+
+  ### Storage profile
+  storage_profile_blob_driver_enabled = true
 
   alerts_enabled = var.aks_alerts_enabled
   action = [
@@ -215,7 +218,7 @@ resource "null_resource" "create_vnet_core_aks_link" {
 }
 
 module "velero" {
-  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.52.0"
+  source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.69.1"
   count                               = var.aks_enabled ? 1 : 0
   backup_storage_container_name       = "velero-backup"
   subscription_id                     = data.azurerm_subscription.current.subscription_id
@@ -233,12 +236,16 @@ module "velero" {
 }
 
 module "aks_namespace_backup" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.52.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_velero_backup?ref=v7.69.1"
   count  = var.aks_enabled ? 1 : 0
   # required
   backup_name      = "daily-backup"
   namespaces       = ["ALL"]
   aks_cluster_name = module.aks[count.index].name
+  cluster_id       = module.aks[count.index].id
+  prefix           = "devopslab"
+  rg_name          = azurerm_resource_group.rg_aks.name
+  location         = var.location
 
   # optional
   ttl             = "72h0m0s"
@@ -248,4 +255,6 @@ module "aks_namespace_backup" {
   depends_on = [
     module.velero
   ]
+
+  tags = var.tags
 }

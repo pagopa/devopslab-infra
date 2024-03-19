@@ -77,7 +77,7 @@ resource "azurerm_key_vault_secret" "argocd_admin_password" {
 #
 
 module "domain_pod_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v7.7.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v7.69.1"
 
   cluster_name        = local.aks_cluster_name
   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -106,7 +106,7 @@ resource "helm_release" "reloader" {
 }
 
 module "cert_mounter" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.52.0"
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.69.1"
   namespace        = "argocd"
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core.name
