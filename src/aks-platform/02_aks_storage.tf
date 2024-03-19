@@ -20,7 +20,7 @@ module "aks_storage_class" {
 
 resource "kubernetes_persistent_volume_claim_v1" "blueprint_file_share_zrs" {
   metadata {
-    name = "blueprint-file-share-zrs"
+    name      = "blueprint-file-share-zrs"
     namespace = "blueprint"
   }
   spec {

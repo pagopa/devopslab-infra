@@ -86,7 +86,7 @@ module "aks" {
   custom_metric_alerts  = var.aks_metric_alerts_custom
 
   ### Storage profile
-  storage_profile_blob_driver_enabled         = true
+  storage_profile_blob_driver_enabled = true
 
   alerts_enabled = var.aks_alerts_enabled
   action = [
@@ -242,10 +242,10 @@ module "aks_namespace_backup" {
   backup_name      = "daily-backup"
   namespaces       = ["ALL"]
   aks_cluster_name = module.aks[count.index].name
-  cluster_id = module.aks[count.index].id
-  prefix = "devopslab"
-  rg_name = azurerm_resource_group.rg_aks.name
-  location = var.location
+  cluster_id       = module.aks[count.index].id
+  prefix           = "devopslab"
+  rg_name          = azurerm_resource_group.rg_aks.name
+  location         = var.location
 
   # optional
   ttl             = "72h0m0s"
