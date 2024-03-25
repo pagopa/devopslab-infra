@@ -58,23 +58,3 @@ resource "azurerm_dns_a_record" "helm_template_ingress_devopslab_pagopa_it" {
 
   tags = var.tags
 }
-
-#
-# LAB DNS ZONE
-#
-resource "azurerm_dns_zone" "lab" {
-  name                = local.lab_dns_zone_public_name
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-
-  tags = var.tags
-}
-
-resource "azurerm_dns_cname_record" "lab_healthy" {
-  name                = "healthy"
-  zone_name           = azurerm_dns_zone.lab.name
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  ttl                 = 300
-  record              = "google.com"
-
-  tags = var.tags
-}
