@@ -48,6 +48,9 @@ cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
 
+### Italy
+cidr_vnet_italy = ["10.3.0.0/16"]
+
 # azure devops
 enable_azdoa        = true
 enable_iac_pipeline = true
@@ -69,7 +72,7 @@ app_gw_beta_is_enabled            = false
 #
 # 🗺 APIM
 #
-apim_enabled                       = true
+apim_enabled                       = false
 apim_publisher_name                = "PagoPA DevOpsLab LAB"
 apim_sku                           = "Premium_1"
 apim_api_internal_certificate_name = "api-internal-devopslab-pagopa-it"

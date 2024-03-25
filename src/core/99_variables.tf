@@ -2,6 +2,7 @@
 
 locals {
   project = "${var.prefix}-${var.env_short}"
+  project_ita         = "${var.prefix}-${var.env_short}-${var.location_short_ita}"
 
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
@@ -16,7 +17,7 @@ locals {
 
   #APIM
   # api.internal.*.devopslab.pagopa.it
-  api_internal_domain              = "api.internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
+  api_internal_domain              = "api.${var.dns_zone_internal_prefix}.${var.external_domain}"
   apim_management_public_ip_name   = "${local.project}-apim-management-pip"
   apim_management_public_ip_name_2 = "${local.project}-apim-management-v2-pip"
 
@@ -24,10 +25,8 @@ locals {
   aks_public_ip_name           = "${local.project}-aksoutbound-pip"
   aks_ephemeral_public_ip_name = "${local.project}-aks-ephemeral-outbound-pip"
 
-  prod_dns_zone_public_name = "${var.prod_dns_zone_prefix}.${var.external_domain}"
-  lab_dns_zone_public_name  = "${var.lab_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_private_name     = "internal.${var.prod_dns_zone_prefix}.${var.external_domain}"
-  dns_zone_lab_private_name = "internal.${var.lab_dns_zone_prefix}.${var.external_domain}"
+  prod_dns_zone_public_name = "${var.dns_zone_prefix}.${var.external_domain}"
+  dns_zone_private_name     = "${var.dns_zone_internal_prefix}.${var.external_domain}"
 
   # ACR DOCKER
   docker_rg_name       = "${local.project}-dockerreg-rg"
@@ -155,6 +154,45 @@ variable "cidr_subnet_apim_stv2" {
   default     = null
 }
 
+variable "dns_zone_prefix" {
+  type = string
+
+}
+
+## Ita
+
+variable "cidr_vnet_italy" {
+  type        = list(string)
+  description = "Address prefixes for vnet in italy."
+}
+
+### Italy location
+variable "location_ita" {
+  type        = string
+  description = "Main location"
+  default     = "italynorth"
+}
+
+variable "location_short_ita" {
+  type = string
+  validation {
+    condition = (
+      length(var.location_short_ita) == 3
+    )
+    error_message = "Length must be 3 chars."
+  }
+  description = "Location short for italy: itn"
+  default     = "itn"
+}
+
+variable "vnet_ita_ddos_protection_plan" {
+  type = object({
+    id     = string
+    enable = bool
+  })
+  default = null
+}
+
 # 🧵 dns
 variable "dns_default_ttl_sec" {
   type        = number
@@ -168,13 +206,7 @@ variable "external_domain" {
   description = "Domain for delegation"
 }
 
-variable "prod_dns_zone_prefix" {
-  type        = string
-  default     = null
-  description = "The dns subdomain."
-}
-
-variable "lab_dns_zone_prefix" {
+variable "dns_zone_internal_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
