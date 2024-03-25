@@ -1,8 +1,8 @@
 # general
 
 locals {
-  project = "${var.prefix}-${var.env_short}"
-  project_ita         = "${var.prefix}-${var.env_short}-${var.location_short_ita}"
+  project     = "${var.prefix}-${var.env_short}"
+  project_ita = "${var.prefix}-${var.env_short}-${var.location_short_ita}"
 
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
