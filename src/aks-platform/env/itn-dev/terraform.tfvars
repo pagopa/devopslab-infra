@@ -1,10 +1,11 @@
 # general
-prefix         = "dvopla"
-env_short      = "d"
-env            = "dev"
-domain         = "dev01"
-location       = "northeurope"
-location_short = "neu"
+prefix              = "dvopla"
+env_short           = "d"
+env                 = "dev"
+domain              = "dev01"
+location            = "italynorth"
+location_short      = "itn"
+location_westeurope = "westeurope"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -27,7 +28,7 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_subnet_aks = ["10.11.0.0/17"]
+cidr_subnet_aks = ["10.3.0.0/23"]
 
 ### External resources
 
@@ -40,14 +41,14 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_aks_name           = "dvopla-d-neu-dev01-aks-vnet-rg"
-vnet_aks_name              = "dvopla-d-neu-dev01-aks-vnet"
-public_ip_aksoutbound_name = "dvopla-d-dev01-aksoutbound-pip-1"
+rg_vnet_italy_name         = "dvopla-d-itn-vnet-rg"
+vnet_italy_name            = "dvopla-d-itn-vnet"
+public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 
 aks_enabled                 = true
 aks_private_cluster_enabled = false
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.25.11"
+aks_kubernetes_version      = "1.27.9"
 aks_system_node_pool = {
   name            = "dvldev01sys",
   vm_size         = "Standard_B4ms",
@@ -117,9 +118,9 @@ aks_addons = {
 
 ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-ingress_load_balancer_ip = "10.11.100.250"
-nginx_helm_version       = "4.7.1"
-keda_helm_version        = "2.12.0"
+ingress_load_balancer_ip = "10.3.1.250"
+nginx_helm_version       = "4.10.0"
+keda_helm_version        = "2.12.1"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
@@ -129,39 +130,6 @@ reloader_helm = {
   image_tag     = "v1.0.30"
 }
 
-# chart releases: https://github.com/prometheus-community/helm-charts/releases?q=tag%3Aprometheus-15&expanded=true
-# quay.io/prometheus/alertmanager image tags: https://quay.io/repository/prometheus/alertmanager?tab=tags
-# jimmidyson/configmap-reload image tags: https://hub.docker.com/r/jimmidyson/configmap-reload/tags
-# quay.io/prometheus/node-exporter image tags: https://quay.io/repository/prometheus/node-exporter?tab=tags
-# quay.io/prometheus/prometheus image tags: https://quay.io/repository/prometheus/prometheus?tab=tags
-# prom/pushgateway image tags:https://hub.docker.com/r/prom/pushgateway/tags
-prometheus_helm = {
-  chart_version = "15.18.0"
-  alertmanager = {
-    image_name = "quay.io/prometheus/alertmanager"
-    image_tag  = "v0.25.0"
-  }
-  configmap_reload_prometheus = {
-    image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.9.0"
-  }
-  configmap_reload_alertmanager = {
-    image_name = "jimmidyson/configmap-reload"
-    image_tag  = "v0.9.0"
-  }
-  node_exporter = {
-    image_name = "quay.io/prometheus/node-exporter"
-    image_tag  = "v1.6.1"
-  }
-  server = {
-    image_name = "quay.io/prometheus/prometheus"
-    image_tag  = "v2.45.0"
-  }
-  pushgateway = {
-    image_name = "prom/pushgateway"
-    image_tag  = "v1.6.0"
-  }
-}
 
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
 # image tags: https://github.com/pagopa/infra-ssl-check/releases

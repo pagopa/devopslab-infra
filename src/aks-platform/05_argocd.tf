@@ -31,7 +31,7 @@ resource "random_password" "argocd_admin_password" {
   depends_on = [helm_release.argocd]
 }
 
-resource "null_resource" "change_admin_password" {
+resource "null_resource" "argocd_change_admin_password" {
 
   triggers = {
     helm_revision   = helm_release.argocd.metadata[0].revision,
@@ -76,12 +76,12 @@ resource "azurerm_key_vault_secret" "argocd_admin_password" {
 # tools
 #
 
-module "domain_pod_identity" {
+module "argocd_pod_identity" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v7.69.1"
 
-  cluster_name        = local.aks_cluster_name
+  cluster_name        = module.aks[0].name
   resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = var.location
+  location            = var.location_westeurope
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
   identity_name = "argocd-pod-identity"
@@ -92,7 +92,7 @@ module "domain_pod_identity" {
   certificate_permissions = ["Get"]
 }
 
-resource "helm_release" "reloader" {
+resource "helm_release" "reloader_argocd" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
@@ -105,12 +105,16 @@ resource "helm_release" "reloader" {
   }
 }
 
-module "cert_mounter" {
+module "cert_mounter_argocd_internal" {
   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.69.1"
   namespace        = "argocd"
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
+
+  depends_on = [
+    module.argocd_pod_identity
+  ]
 }
 
 resource "azurerm_private_dns_a_record" "argocd_ingress" {

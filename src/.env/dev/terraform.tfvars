@@ -51,6 +51,8 @@ cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
 
+cidr_subnet_private_endpoints_italy = ["10.3.251.0/24"]
+
 # azure devops
 enable_azdoa        = true
 enable_iac_pipeline = true

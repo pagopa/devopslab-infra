@@ -129,7 +129,9 @@ resource "azurerm_public_ip" "aks_outbound" {
   tags = var.tags
 }
 
-# Subnet to host the api config
+#
+# Private endpoints
+#
 module "private_endpoints_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.70.1"
   name                 = "${local.project}-private-endpoints-snet"
@@ -137,6 +139,22 @@ module "private_endpoints_snet" {
   virtual_network_name = module.vnet.name
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
+
+  private_endpoint_network_policies_enabled = false
+  service_endpoints = [
+    "Microsoft.Web",
+    "Microsoft.AzureCosmosDB",
+    "Microsoft.Storage",
+  ]
+}
+
+module "private_endpoints_italy_snet" {
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.70.1"
+  name                 = "${local.project}-private-endpoints-italy-snet"
+  address_prefixes     = var.cidr_subnet_private_endpoints_italy
+  virtual_network_name = module.vnet_italy.name
+
+  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
 
   private_endpoint_network_policies_enabled = false
   service_endpoints = [
