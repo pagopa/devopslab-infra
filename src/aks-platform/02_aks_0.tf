@@ -216,5 +216,3 @@ resource "null_resource" "create_vnet_core_aks_link" {
     module.aks
   ]
 }
-
-

@@ -1,10 +1,10 @@
 # general
-prefix         = "dvopla"
-env_short      = "d"
-env            = "dev"
-domain         = "dev01"
-location       = "italynorth"
-location_short = "itn"
+prefix              = "dvopla"
+env_short           = "d"
+env                 = "dev"
+domain              = "dev01"
+location            = "italynorth"
+location_short      = "itn"
 location_westeurope = "westeurope"
 
 tags = {
@@ -41,8 +41,8 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 #
 # ⛴ AKS
 #
-rg_vnet_italy_name           = "dvopla-d-itn-vnet-rg"
-vnet_italy_name              = "dvopla-d-itn-vnet"
+rg_vnet_italy_name         = "dvopla-d-itn-vnet-rg"
+vnet_italy_name            = "dvopla-d-itn-vnet"
 public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 
 aks_enabled                 = true

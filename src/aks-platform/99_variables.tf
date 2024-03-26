@@ -30,11 +30,11 @@ variable "env_short" {
 }
 
 variable "location" {
-  type    = string
+  type = string
 }
 
 variable "location_westeurope" {
-  type    = string
+  type = string
 }
 
 variable "location_short" {
