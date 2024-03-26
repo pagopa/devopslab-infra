@@ -153,11 +153,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
 }
 
 
-# resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
-#   scope                = azurerm_resource_group.rg_aks.id
-#   role_definition_name = "Managed Identity Operator"
-#   principal_id         = module.aks[0].identity_principal_id
-# }
+resource "azurerm_role_assignment" "managed_identity_operator_vs_aks_managed_identity" {
+  scope                = azurerm_resource_group.rg_aks.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks[0].identity_principal_id
+}
 
 #
 # ACR connection

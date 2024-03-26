@@ -5,6 +5,7 @@ env            = "dev"
 domain         = "dev01"
 location       = "italynorth"
 location_short = "itn"
+location_westeurope = "westeurope"
 
 tags = {
   CreatedBy   = "Terraform"

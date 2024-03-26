@@ -31,7 +31,10 @@ variable "env_short" {
 
 variable "location" {
   type    = string
-  default = "westeurope"
+}
+
+variable "location_westeurope" {
+  type    = string
 }
 
 variable "location_short" {
@@ -65,12 +68,12 @@ variable "tags" {
 #
 # Network
 #
-variable "rg_vnet_aks_name" {
+variable "rg_vnet_italy_name" {
   type        = string
   description = "Resource group dedicated to VNet AKS"
 }
 
-variable "vnet_aks_name" {
+variable "vnet_italy_name" {
   type        = string
   description = "VNet dedicated to AKS"
 }
@@ -539,37 +542,6 @@ variable "reloader_helm" {
     image_tag     = string
   })
   description = "reloader helm chart configuration"
-}
-
-variable "prometheus_helm" {
-  type = object({
-    chart_version = string,
-    alertmanager = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-    configmap_reload_alertmanager = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-    configmap_reload_prometheus = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-    node_exporter = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-    server = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-    pushgateway = object({
-      image_name = string,
-      image_tag  = string,
-    }),
-  })
-  description = "prometheus helm chart configuration"
 }
 
 #
