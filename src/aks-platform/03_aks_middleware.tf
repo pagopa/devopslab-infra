@@ -1,5 +1,5 @@
 # module "velero" {
-#   source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=velero-fix-variables"
+#   source                              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v7.71.2"
 #   count                               = var.aks_enabled ? 1 : 0
 #   backup_storage_container_name       = "velero-backup"
 #   subscription_id                     = data.azurerm_subscription.current.subscription_id
