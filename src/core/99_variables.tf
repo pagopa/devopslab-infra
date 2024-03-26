@@ -166,6 +166,11 @@ variable "cidr_vnet_italy" {
   description = "Address prefixes for vnet in italy."
 }
 
+variable "cidr_subnet_private_endpoints_italy" {
+  type        = list(string)
+  description = "Subnet cidr."
+}
+
 ### Italy location
 variable "location_ita" {
   type        = string
