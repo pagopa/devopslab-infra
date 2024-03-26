@@ -14,13 +14,13 @@ data "azurerm_virtual_network" "vnet_core" {
 #
 # Vnet AKS
 #
-data "azurerm_resource_group" "vnet_aks_rg" {
-  name = var.rg_vnet_aks_name
+data "azurerm_resource_group" "vnet_italy_rg" {
+  name = var.rg_vnet_italy_name
 }
 
-data "azurerm_virtual_network" "vnet_aks" {
-  name                = var.vnet_aks_name
-  resource_group_name = data.azurerm_resource_group.vnet_aks_rg.name
+data "azurerm_virtual_network" "vnet_italy" {
+  name                = var.vnet_italy_name
+  resource_group_name = data.azurerm_resource_group.vnet_italy_rg.name
 }
 
 #
@@ -28,7 +28,7 @@ data "azurerm_virtual_network" "vnet_aks" {
 #
 data "azurerm_public_ip" "pip_aks_outboud" {
   name                = var.public_ip_aksoutbound_name
-  resource_group_name = data.azurerm_resource_group.vnet_aks_rg.name
+  resource_group_name = data.azurerm_resource_group.vnet_italy_rg.name
 }
 
 data "azurerm_subnet" "private_endpoint_subnet" {
