@@ -46,7 +46,7 @@ vnet_italy_name            = "dvopla-d-itn-vnet"
 public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 
 aks_enabled                 = true
-aks_private_cluster_enabled = false
+aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
 aks_kubernetes_version      = "1.27.9"
 aks_system_node_pool = {
