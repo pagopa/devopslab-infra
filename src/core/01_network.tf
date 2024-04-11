@@ -45,7 +45,7 @@ module "vnet_ita_peering" {
   source_resource_group_name       = azurerm_resource_group.rg_ita_vnet.name
   source_virtual_network_name      = module.vnet_italy.name
   source_remote_virtual_network_id = module.vnet_italy.id
-  source_use_remote_gateways       = false
+  source_use_remote_gateways       = true
   source_allow_forwarded_traffic   = true
 
   target_resource_group_name       = azurerm_resource_group.rg_vnet.name
