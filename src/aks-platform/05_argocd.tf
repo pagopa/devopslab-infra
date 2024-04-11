@@ -81,7 +81,7 @@ module "argocd_pod_identity" {
 
   cluster_name        = module.aks[0].name
   resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = var.location_westeurope
+  location            = var.location
   tenant_id           = data.azurerm_subscription.current.tenant_id
 
   identity_name = "argocd-pod-identity"
