@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "namespace_argocd" {
 
 resource "helm_release" "argocd" {
   name      = "argo"
-  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-6.0.5/argo-cd-6.0.5.tgz"
+  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-6.7.11/argo-cd-6.7.11.tgz"
   namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
   wait      = false
 
@@ -48,29 +48,6 @@ resource "azurerm_key_vault_secret" "argocd_admin_password" {
   name         = "argocd-admin-password"
   value        = random_password.argocd_admin_password.result
 }
-
-# #
-# # Project
-# #
-# resource "kubectl_manifest" "argocd_project_games" {
-#     yaml_body = templatefile("argocd/argocd_project_games.yaml.tpl", {
-#             project_name: "games",
-#             deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-#             namespace: "games"
-#         })
-# }
-
-# #
-# # Applications ArgoCD
-# #
-# resource "kubectl_manifest" "argocd_app_games" {
-#     yaml_body = templatefile("argocd/argocd_application_games.yaml.tpl", {
-#             project_name: "games",
-#             deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-#             target_revision: "release-dev"
-#             namespace: "games"
-#         })
-# }
 
 #
 # tools
