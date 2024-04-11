@@ -29,7 +29,7 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 aks_name                = "dvopla-d-neu-dev01-aks"
 aks_resource_group_name = "dvopla-d-neu-dev01-aks-rg"
 
-ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_ip       = "10.3.1.250"
 ingress_load_balancer_hostname = "dev01.blueprint.internal.devopslab.pagopa.it"
 
 #
