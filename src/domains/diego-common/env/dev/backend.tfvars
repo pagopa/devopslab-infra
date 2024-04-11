@@ -1,4 +1,4 @@
-resource_group_name  = "io-infra-rg"
-storage_account_name = "dvopladstinfraterraform"
-container_name       = "corestate"
+resource_group_name  = "terraform-state-rg"
+storage_account_name = "tfinfdevopslab"
+container_name       = "terraform-state"
 key                  = "diego-common-domain-terraform.tfstate"
