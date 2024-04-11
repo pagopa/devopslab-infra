@@ -6,15 +6,11 @@ locals {
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  ingress_hostname_prefix               = "${var.instance}.${var.domain}"
+  ingress_hostname_prefix               = "${var.domain}.${var.location_short}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
   domain_aks_hostname = "${var.instance}.${var.domain}.internal.devopslab.pagopa.it"
-
-  # ACR DOCKER
-  docker_rg_name       = "${local.product}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
 
   aks_name                = var.aks_name
   aks_resource_group_name = var.aks_resource_group_name
@@ -23,7 +19,7 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
   # DOMAINS
-  domain_namespace = kubernetes_namespace.domain_namespace.metadata[0].name
+  # domain_namespace = kubernetes_namespace.domain_namespace.metadata[0].name
   #  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
 
   aks_api_url = var.env_short == "d" ? data.azurerm_kubernetes_cluster.aks.fqdn : data.azurerm_kubernetes_cluster.aks.private_fqdn
@@ -31,26 +27,13 @@ locals {
   #
   # KeyVault
   #
-  key_vault_domain_name           = "dvopla-d-diego-kv"
-  key_vault_domain_resource_group = "dvopla-d-diego-sec-rg"
+  key_vault_domain_name           = "dvopla-d-itn-diego-kv"
+  key_vault_domain_resource_group = "dvopla-d-itn-diego-sec-rg"
 
   # Service account
   azure_devops_app_service_account_name        = "azure-devops"
   azure_devops_app_service_account_secret_name = "${local.azure_devops_app_service_account_name}-token"
 
-  #
-  # Container App
-  #
-  container_app_diego_environment_name           = "dvopla-d-diego-cappenv"
-  container_app_diego_environment_resource_group = "dvopla-d-diego-container-app-rg"
-
-  container_app_devops_java_springboot_color_name           = "devops-color-java-capp"
-  container_app_devops_java_springboot_color_revision_id    = "v1"
-  container_app_devops_java_springboot_color_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_java_springboot_color_name}.yaml"
-
-  container_app_devops_ambassador_name           = "ambassador-capp"
-  container_app_devops_ambassador_revision_id    = "v3"
-  container_app_devops_ambassador_yaml_file_name = "/tmp/${local.container_app_devops_java_springboot_color_revision_id}-${local.container_app_devops_ambassador_name}.yaml"
 }
 
 variable "prefix" {

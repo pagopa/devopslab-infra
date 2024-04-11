@@ -2,8 +2,8 @@
 prefix         = "dvopla"
 env_short      = "d"
 env            = "dev"
-location       = "northeurope"
-location_short = "neu"
+location       = "italynorth"
+location_short = "itn"
 domain         = "diego"
 instance       = "dev01"
 
@@ -18,13 +18,6 @@ tags = {
 
 lock_enable = true
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "dvopladstinfraterraform"
-  container_name       = "corestate"
-  key                  = "terraform.tfstate"
-}
-
 ### External resources
 
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
@@ -33,10 +26,10 @@ log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
 
 ### Aks
 
-aks_name                = "dvopla-d-neu-dev01-aks"
-aks_resource_group_name = "dvopla-d-neu-dev01-aks-rg"
+aks_name                = "dvopla-d-itn-dev-aks"
+aks_resource_group_name = "dvopla-d-itn-dev-aks-rg"
 
-ingress_load_balancer_ip       = "10.11.100.250"
+ingress_load_balancer_ip       = "10.3.1.250"
 ingress_load_balancer_hostname = "dev01.diego.internal.devopslab.pagopa.it"
 
 #
