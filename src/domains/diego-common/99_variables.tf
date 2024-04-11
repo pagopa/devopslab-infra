@@ -90,13 +90,11 @@ variable "tags" {
   }
 }
 
-variable "terraform_remote_state_core" {
+variable "is_feature_enabled" {
   type = object({
-    resource_group_name  = string,
-    storage_account_name = string,
-    container_name       = string,
-    key                  = string
+    cdn                  = optional(bool, false)
   })
+  description = "Features enabled in this domain"
 }
 
 # DNS
