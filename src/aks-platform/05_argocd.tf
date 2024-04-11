@@ -50,29 +50,6 @@ resource "azurerm_key_vault_secret" "argocd_admin_password" {
 }
 
 #
-# Project
-#
-resource "kubectl_manifest" "argocd_project_games" {
-    yaml_body = templatefile("argocd/argocd_project_games.yaml.tpl", {
-            project_name: "games",
-            deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-            namespace: "games"
-        })
-}
-
-#
-# Applications ArgoCD
-#
-resource "kubectl_manifest" "argocd_app_games" {
-    yaml_body = templatefile("argocd/argocd_application_games.yaml.tpl", {
-            project_name: "games",
-            deployment_repo_url: "https://github.com/pagopa/devopslab-argocd",
-            target_revision: "release-dev"
-            namespace: "games"
-        })
-}
-
-#
 # tools
 #
 
