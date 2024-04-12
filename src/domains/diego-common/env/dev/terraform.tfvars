@@ -2,8 +2,8 @@
 prefix         = "dvopla"
 env_short      = "d"
 env            = "dev"
-location       = "northeurope"
-location_short = "neu"
+location       = "italynorth"
+location_short = "itn"
 domain         = "diego"
 instance       = "dev"
 
@@ -18,13 +18,11 @@ tags = {
 
 lock_enable = true
 
-terraform_remote_state_core = {
-  resource_group_name  = "io-infra-rg"
-  storage_account_name = "dvopladstinfraterraform"
-  container_name       = "corestate"
-  key                  = "terraform.tfstate"
-}
 cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
+
+is_feature_enabled = {
+  cdn = false
+}
 
 ### External resources
 monitor_resource_group_name                 = "dvopla-d-monitor-rg"
