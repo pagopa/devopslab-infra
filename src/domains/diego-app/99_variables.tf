@@ -10,7 +10,7 @@ locals {
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
   internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
 
-  domain_aks_hostname = "${var.instance}.${var.domain}.internal.devopslab.pagopa.it"
+  domain_aks_hostname = "${var.domain}.${var.location_short}.internal.devopslab.pagopa.it"
 
   aks_name                = var.aks_name
   aks_resource_group_name = var.aks_resource_group_name
