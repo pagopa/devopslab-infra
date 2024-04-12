@@ -92,7 +92,7 @@ variable "tags" {
 
 variable "is_feature_enabled" {
   type = object({
-    cdn                  = optional(bool, false)
+    cdn = optional(bool, false)
   })
   description = "Features enabled in this domain"
 }

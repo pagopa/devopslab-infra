@@ -19,8 +19,8 @@ locals {
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
   # DOMAINS
-  domain_namespace = kubernetes_namespace.domain_namespace.metadata[0].name
-   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
+  domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+  system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
 
   aks_api_url = data.azurerm_kubernetes_cluster.aks.private_fqdn
 
