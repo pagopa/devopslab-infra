@@ -43,10 +43,10 @@ cidr_subnet_eventhub                  = ["10.1.142.0/24"]
 cidr_subnet_redis                     = ["10.1.143.0/24"]
 cidr_subnet_funcs_diego_domain        = ["10.1.144.0/24"]
 cidr_subnet_app_diego_app             = ["10.1.145.0/24"]
-cidr_subnet_container_apps            = ["10.1.146.0/23"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
+cidr_subnet_tools_cae                 = ["10.1.248.0/23"]
 
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
@@ -148,25 +148,6 @@ apim_subnet_nsg_security_rules = [
   }
 ]
 
-#
-# ⛴ AKS
-#
-aks_networks = [
-  {
-    domain_name = "dev01"
-    vnet_cidr   = ["10.11.0.0/16"]
-  },
-  {
-    domain_name = "dev02"
-    vnet_cidr   = ["10.12.0.0/16"]
-  }
-]
-
-#
-# Web app docker
-#
-is_web_app_service_docker_enabled = false
-
 # postgres
 postgres_private_endpoint_enabled      = false
 postgres_public_network_access_enabled = false
@@ -179,92 +160,23 @@ postgres_network_rules = {
 }
 
 #
-# Postgres Flexible
-#
-pgflex_private_config = {
-  enabled = false
-}
-
-pgflex_public_config = {
-  enabled = false
-}
-
-#
-# Event hub
-#
-ehns_sku_name = "Standard"
-eventhubs = [
-  {
-    name              = "rtd-trx"
-    partitions        = 1
-    message_retention = 1
-    consumers = [
-      "bpd-payment-instrument",
-      "rtd-trx-fa-comsumer-group",
-      "idpay-consumer-group"
-    ]
-    keys = [
-      {
-        name   = "rtd-csv-connector"
-        listen = false
-        send   = true
-        manage = false
-      },
-      {
-        name   = "bpd-payment-instrument"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-trx-consumer"
-        listen = true
-        send   = false
-        manage = false
-      },
-      {
-        name   = "rtd-trx-producer"
-        listen = false
-        send   = true
-        manage = false
-      }
-    ]
-  }
-]
-
-#
 # Redis
 #
 redis_enabled = false
 
-
-# Function
-
-function_python_diego_enabled = false
-
-#
-# App service
-#
-app_service_plan_enabled         = false
-app_service_diego_app_is_enabled = false
-
-#
-# CosmosDB
-#
-is_cosmosdb_mongo_enabled = false
-is_cosmosdb_core_enabled  = false
 
 law_daily_quota_gb = 1
 
 azdoa_image_name = "azdo-agent-ubuntu2204-image-velero-v1"
 
 #
+# Container app ENV
+#
+container_app_tools_cae_env_rg = "dvopla-d-neu-tools-cae"
+
+#
 # Feature Flags
 #
 is_resource_core_enabled = {
   postgresql_server = false
-}
-
-is_resource_coreplus_enabled = {
-  eventhub = false
 }

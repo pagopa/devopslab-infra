@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "rg_ita_vnet" {
 # vnet
 #
 module "vnet" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.70.1"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.77.0"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -26,7 +26,7 @@ module "vnet" {
 }
 
 module "vnet_italy" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.70.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.77.0"
 
   name                = "${local.project_ita}-vnet"
   location            = var.location_ita
@@ -40,7 +40,7 @@ module "vnet_italy" {
 
 ## Peering between the vnet(main) and italy vnet
 module "vnet_ita_peering" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v7.70.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v7.77.0"
 
   source_resource_group_name       = azurerm_resource_group.rg_ita_vnet.name
   source_virtual_network_name      = module.vnet_italy.name
@@ -133,7 +133,7 @@ resource "azurerm_public_ip" "aks_outbound" {
 # Private endpoints
 #
 module "private_endpoints_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.70.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
   name                 = "${local.project}-private-endpoints-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints
   virtual_network_name = module.vnet.name
@@ -149,7 +149,7 @@ module "private_endpoints_snet" {
 }
 
 module "private_endpoints_italy_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.70.1"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
   name                 = "${local.project}-private-endpoints-italy-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints_italy
   virtual_network_name = module.vnet_italy.name
