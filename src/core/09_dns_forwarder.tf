@@ -2,7 +2,7 @@
 # Dns Forwarder module
 
 module "dns_forwarder_lb_vmss" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=v7.50.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=v7.77.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = local.project

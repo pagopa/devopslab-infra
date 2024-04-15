@@ -2,6 +2,7 @@
 
 locals {
   project     = "${var.prefix}-${var.env_short}"
+  project_neu = "${var.prefix}-${var.env_short}-${var.location_short}"
   project_ita = "${var.prefix}-${var.env_short}-${var.location_short_ita}"
 
   # VNET
@@ -154,9 +155,12 @@ variable "cidr_subnet_apim_stv2" {
   default     = null
 }
 
+variable "cidr_subnet_tools_cae" {
+  type = list(string)
+}
+
 variable "dns_zone_prefix" {
   type = string
-
 }
 
 ## Ita
@@ -406,4 +410,11 @@ variable "dns_forwarder_is_enabled" {
   type        = bool
   default     = true
   description = "Allow to enable or disable dns forwarder backup"
+}
+
+#
+# Container app env
+#
+variable "container_app_tools_cae_env_rg" {
+  type = string
 }
