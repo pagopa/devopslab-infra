@@ -46,7 +46,7 @@ cidr_subnet_app_diego_app             = ["10.1.145.0/24"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
-cidr_subnet_tools_cae            = ["10.1.248.0/23"]
+cidr_subnet_tools_cae                 = ["10.1.248.0/23"]
 
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
@@ -180,4 +180,3 @@ container_app_tools_cae_env_rg = "dvopla-d-neu-tools-cae"
 is_resource_core_enabled = {
   postgresql_server = false
 }
-

@@ -13,7 +13,7 @@ resource "azurerm_subnet" "tools_cae_snet" {
 }
 
 module "container_app_environment" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2?ref=v7.77.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2?ref=v7.77.0"
 
   resource_group_name        = azurerm_resource_group.tools_cae_rg.name
   location                   = azurerm_resource_group.tools_cae_rg.location
@@ -23,4 +23,3 @@ module "container_app_environment" {
 
   tags = var.tags
 }
-
