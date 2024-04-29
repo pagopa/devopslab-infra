@@ -1,6 +1,6 @@
 # general
 env_short      = "d"
-env            = "lab"
+env            = "dev"
 prefix         = "dvopla"
 domain         = "core"
 location       = "northeurope"
@@ -8,7 +8,7 @@ location_short = "neu"
 
 tags = {
   CreatedBy   = "Terraform"
-  Environment = "Lab"
+  Environment = "DEV"
   Owner       = "DevOps"
   Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
@@ -172,7 +172,7 @@ azdoa_image_name = "azdo-agent-ubuntu2204-image-velero-v1"
 #
 # Container app ENV
 #
-container_app_tools_cae_env_rg = "dvopla-d-neu-tools-cae"
+container_app_tools_cae_env_rg = "dvopla-d-neu-tools-cae-rg"
 
 #
 # Feature Flags
