@@ -2,17 +2,17 @@
 prefix         = "dvopla"
 env_short      = "d"
 env            = "dev"
-location       = "northeurope"
-location_short = "neu"
-domain         = "packer"
+location       = "italynorth"
+location_short = "itn"
 
 tags = {
   CreatedBy   = "Terraform"
   Environment = "Dev"
   Owner       = "devops"
-  Source      = "https://github.com/pagopa/dvopla-infrastructure"
+  Source      = "https://github.com/pagopa/devopslab-infrastructure"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-  Application = "marco.common"
+  Application = "packer"
 }
 
 dns_forwarder_image_version = "v1"
+azdo_image_version = "v1"
