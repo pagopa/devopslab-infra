@@ -40,6 +40,7 @@ az network dns zone show \
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.5.0 |
+| <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v8.5.0 |
 | <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2 | v8.5.0 |
 | <a name="module_container_registry_public"></a> [container\_registry\_public](#module\_container\_registry\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v8.5.0 |
 | <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss | dns-forwarder-lb-fix |
