@@ -1,11 +1,11 @@
 # general
-env_short      = "d"
-env            = "dev"
-prefix         = "dvopla"
-domain         = "core"
-location       = "northeurope"
-location_short = "neu"
-location_ita = "italynorth"
+env_short          = "d"
+env                = "dev"
+prefix             = "dvopla"
+domain             = "core"
+location           = "northeurope"
+location_short     = "neu"
+location_ita       = "italynorth"
 location_short_ita = "itn"
 
 tags = {
@@ -46,20 +46,20 @@ cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
 
-cidr_subnet_aks = ["10.3.0.0/23"] #place holder
-cidr_subnet_vpn                       = ["10.3.2.0/24"]
-cidr_subnet_apim                      = ["10.3.3.0/24"]
-cidr_subnet_postgres                  = ["10.3.4.0/24"]
-cidr_subnet_redis                     = ["10.3.5.0/24"]
-cidr_subnet_azdoa                     = ["10.3.6.0/29"]
+cidr_subnet_aks      = ["10.3.0.0/23"] #place holder
+cidr_subnet_vpn      = ["10.3.2.0/24"]
+cidr_subnet_apim     = ["10.3.3.0/24"]
+cidr_subnet_postgres = ["10.3.4.0/24"]
+cidr_subnet_redis    = ["10.3.5.0/24"]
+cidr_subnet_azdoa    = ["10.3.6.0/29"]
 
-cidr_subnet_dnsforwarder_lb              = ["10.3.200.0/29"]
-cidr_subnet_dnsforwarder_vmss              = ["10.3.200.8/29"]
+cidr_subnet_dnsforwarder_lb   = ["10.3.200.0/29"]
+cidr_subnet_dnsforwarder_vmss = ["10.3.200.8/29"]
 
-cidr_subnet_packer_azdo = ["10.3.254.0/28"]
+cidr_subnet_packer_azdo          = ["10.3.254.0/28"]
 cidr_subnet_packer_dns_forwarder = ["10.3.254.16/28"]
 
-cidr_subnet_tools_cae                 = ["10.3.252.0/23"]
+cidr_subnet_tools_cae = ["10.3.252.0/23"]
 
 # azure devops
 enable_azdoa        = true
@@ -68,8 +68,8 @@ enable_iac_pipeline = true
 # VPN
 vpn_enabled           = true
 dns_forwarder_enabled = true
-vpn_sku = "VpnGw1"
-vpn_pip_sku = "Standard"
+vpn_sku               = "VpnGw1"
+vpn_pip_sku           = "Standard"
 
 # app_gateway
 app_gateway_is_enabled            = false
@@ -177,7 +177,7 @@ redis_enabled = false
 
 law_daily_quota_gb = 1
 
-azdoa_image_name = "azdo-agent-ubuntu2204-image-v1"
+azdoa_image_name              = "azdo-agent-ubuntu2204-image-v1"
 dns_forwarder_vmss_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-v1"
 
 #

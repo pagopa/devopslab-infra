@@ -362,7 +362,7 @@ variable "vpn_pip_sku" {
 }
 
 variable "dns_forwarder_vmss_image_name" {
-  type = string
+  type        = string
   description = "vpn dns forwarder image name"
 }
 

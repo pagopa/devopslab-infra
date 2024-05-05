@@ -15,7 +15,7 @@ module "container_registry_public" {
   anonymous_pull_enabled        = false
   zone_redundancy_enabled       = false
   public_network_access_enabled = true
-  private_endpoint_enabled = false
+  private_endpoint_enabled      = false
 
 
   # georeplications = [{

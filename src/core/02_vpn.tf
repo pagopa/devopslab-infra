@@ -17,13 +17,13 @@ module "vpn" {
   count  = var.vpn_enabled ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v8.5.0"
 
-  name                = "${local.project_ita}-vpn"
-  location            = var.location_ita
-  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
-  sku                 = var.vpn_sku
-  pip_sku             = var.vpn_pip_sku
+  name                  = "${local.project_ita}-vpn"
+  location              = var.location_ita
+  resource_group_name   = azurerm_resource_group.rg_ita_vnet.name
+  sku                   = var.vpn_sku
+  pip_sku               = var.vpn_pip_sku
   pip_allocation_method = "Static"
-  subnet_id           = module.vpn_snet.id
+  subnet_id             = module.vpn_snet.id
 
   vpn_client_configuration = [
     {
@@ -46,7 +46,7 @@ module "vpn" {
 
 module "subnet_dns_forwarder_lb" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
-    count  = var.dns_forwarder_is_enabled ? 1 : 0
+  count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project_ita}-dns-forwarder-lb"
   address_prefixes     = var.cidr_subnet_dnsforwarder_lb
@@ -56,7 +56,7 @@ module "subnet_dns_forwarder_lb" {
 
 module "subnet_dns_forwarder_vmss" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
-    count  = var.dns_forwarder_is_enabled ? 1 : 0
+  count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project_ita}-dns-forwarder-vmss"
   address_prefixes     = var.cidr_subnet_dnsforwarder_vmss
@@ -72,13 +72,13 @@ module "dns_forwarder_lb_vmss" {
   virtual_network_name = local.vnet_ita_name
   resource_group_name  = local.vnet_ita_resource_group_name
 
-  subnet_lb_id = module.subnet_dns_forwarder_lb[0].id
+  subnet_lb_id      = module.subnet_dns_forwarder_lb[0].id
   static_address_lb = cidrhost(var.cidr_subnet_dnsforwarder_lb[0], 4)
-  subnet_vmss_id = module.subnet_dns_forwarder_vmss[0].id
+  subnet_vmss_id    = module.subnet_dns_forwarder_vmss[0].id
 
-  location             = var.location_ita
-  subscription_id      = data.azurerm_subscription.current.subscription_id
-  source_image_name    = var.dns_forwarder_vmss_image_name
-  key_vault_id         = data.azurerm_key_vault.kv.id
-  tags                 = var.tags
+  location          = var.location_ita
+  subscription_id   = data.azurerm_subscription.current.subscription_id
+  source_image_name = var.dns_forwarder_vmss_image_name
+  key_vault_id      = data.azurerm_key_vault.kv.id
+  tags              = var.tags
 }
