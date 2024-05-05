@@ -1,8 +1,8 @@
 # general
 locals {
-  product = "${var.prefix}-${var.env_short}"
+  product     = "${var.prefix}-${var.env_short}"
   product_ita = "${var.prefix}-${var.env_short}-${var.location_short}"
-  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  project     = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
   # monitor
   monitor_rg_name                      = "${local.product_ita}-monitor-rg"
