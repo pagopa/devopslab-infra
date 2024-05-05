@@ -1,10 +1,10 @@
 ## VPN subnet
 module "vpn_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
   name                                      = "GatewaySubnet"
   address_prefixes                          = var.cidr_subnet_vpn
-  virtual_network_name                      = module.vnet.name
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  virtual_network_name                      = module.vnet_italy.name
+  resource_group_name                       = azurerm_resource_group.rg_ita_vnet.name
   service_endpoints                         = []
   private_endpoint_network_policies_enabled = true
 }
@@ -15,13 +15,14 @@ data "azuread_application" "vpn_app" {
 
 module "vpn" {
   count  = var.vpn_enabled ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v7.77.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v8.5.0"
 
-  name                = "${local.project}-vpn"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg_vnet.name
+  name                = "${local.project_ita}-vpn"
+  location            = var.location_ita
+  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
   sku                 = var.vpn_sku
   pip_sku             = var.vpn_pip_sku
+  pip_allocation_method = "Static"
   subnet_id           = module.vpn_snet.id
 
   vpn_client_configuration = [
@@ -41,44 +42,43 @@ module "vpn" {
   tags = var.tags
 }
 
-#
-# DNS Forwarder
-#
-resource "azurerm_resource_group" "dns_forwarder" {
+# Dns Forwarder module
 
-  name     = "${local.project}-dns-forwarder-rg"
-  location = var.location
+module "subnet_dns_forwarder_lb" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+    count  = var.dns_forwarder_is_enabled ? 1 : 0
 
-  tags = var.tags
+  name                 = "${local.project_ita}-dns-forwarder-lb"
+  address_prefixes     = var.cidr_subnet_dnsforwarder_lb
+  virtual_network_name = local.vnet_ita_name
+  resource_group_name  = local.vnet_ita_resource_group_name
 }
 
-module "dns_forwarder_snet" {
+module "subnet_dns_forwarder_vmss" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+    count  = var.dns_forwarder_is_enabled ? 1 : 0
 
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
-  name                                      = "${local.project}-dnsforwarder-snet"
-  address_prefixes                          = var.cidr_subnet_dnsforwarder
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
-
-  delegation = {
-    name = "delegation"
-    service_delegation = {
-      name    = "Microsoft.ContainerInstance/containerGroups"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
+  name                 = "${local.project_ita}-dns-forwarder-vmss"
+  address_prefixes     = var.cidr_subnet_dnsforwarder_vmss
+  virtual_network_name = local.vnet_ita_name
+  resource_group_name  = local.vnet_ita_resource_group_name
 }
 
-module "dns_forwarder" {
-  count = var.dns_forwarder_enabled ? 1 : 0
+module "dns_forwarder_lb_vmss" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=dns-forwarder-lb-fix"
+  count  = var.dns_forwarder_is_enabled ? 1 : 0
 
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder?ref=v7.77.0"
+  name                 = local.project
+  virtual_network_name = local.vnet_ita_name
+  resource_group_name  = local.vnet_ita_resource_group_name
 
-  name                = "${local.project}-dns-forwarder"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg_vnet.name
-  subnet_id           = module.dns_forwarder_snet.id
+  subnet_lb_id = module.subnet_dns_forwarder_lb[0].id
+  static_address_lb = cidrhost(var.cidr_subnet_dnsforwarder_lb[0], 4)
+  subnet_vmss_id = module.subnet_dns_forwarder_vmss[0].id
 
-  tags = var.tags
+  location             = var.location_ita
+  subscription_id      = data.azurerm_subscription.current.subscription_id
+  source_image_name    = var.dns_forwarder_vmss_image_name
+  key_vault_id         = data.azurerm_key_vault.kv.id
+  tags                 = var.tags
 }

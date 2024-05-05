@@ -5,6 +5,8 @@ prefix         = "dvopla"
 domain         = "core"
 location       = "northeurope"
 location_short = "neu"
+location_ita = "italynorth"
+location_short_ita = "itn"
 
 tags = {
   CreatedBy   = "Terraform"
@@ -30,28 +32,34 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 # ☁️ networking
 cidr_vnet                             = ["10.1.0.0/16"]
 cidr_subnet_appgateway                = ["10.1.128.0/24"]
-cidr_subnet_postgres                  = ["10.1.129.0/24"]
-cidr_subnet_azdoa                     = ["10.1.130.0/24"]
 cidr_subnet_app_docker                = ["10.1.132.0/24"]
 cidr_subnet_flex_dbms                 = ["10.1.133.0/24"]
-cidr_subnet_apim                      = ["10.1.136.0/24"]
 cidr_subnet_appgateway_beta           = ["10.1.138.0/24"]
-cidr_subnet_vpn                       = ["10.1.139.0/24"]
-cidr_subnet_dnsforwarder              = ["10.1.140.0/29"]
 cidr_subnet_private_endpoints         = ["10.1.141.0/24"]
 cidr_subnet_eventhub                  = ["10.1.142.0/24"]
-cidr_subnet_redis                     = ["10.1.143.0/24"]
 cidr_subnet_funcs_diego_domain        = ["10.1.144.0/24"]
 cidr_subnet_app_diego_app             = ["10.1.145.0/24"]
 cidr_subnet_github_runner_self_hosted = ["10.1.148.0/23"]
 cidr_subnet_container_apps_dapr       = ["10.1.150.0/23"] #placeholder
 cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
-cidr_subnet_tools_cae                 = ["10.1.248.0/23"]
 
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
 
-cidr_subnet_private_endpoints_italy = ["10.3.251.0/24"]
+cidr_subnet_aks = ["10.3.0.0/23"] #place holder
+cidr_subnet_vpn                       = ["10.3.2.0/24"]
+cidr_subnet_apim                      = ["10.3.3.0/24"]
+cidr_subnet_postgres                  = ["10.3.4.0/24"]
+cidr_subnet_redis                     = ["10.3.5.0/24"]
+cidr_subnet_azdoa                     = ["10.3.6.0/29"]
+
+cidr_subnet_dnsforwarder_lb              = ["10.3.200.0/29"]
+cidr_subnet_dnsforwarder_vmss              = ["10.3.200.8/29"]
+
+cidr_subnet_packer_azdo = ["10.3.254.0/28"]
+cidr_subnet_packer_dns_forwarder = ["10.3.254.16/28"]
+
+cidr_subnet_tools_cae                 = ["10.3.252.0/23"]
 
 # azure devops
 enable_azdoa        = true
@@ -60,6 +68,8 @@ enable_iac_pipeline = true
 # VPN
 vpn_enabled           = true
 dns_forwarder_enabled = true
+vpn_sku = "VpnGw1"
+vpn_pip_sku = "Standard"
 
 # app_gateway
 app_gateway_is_enabled            = false
@@ -167,7 +177,8 @@ redis_enabled = false
 
 law_daily_quota_gb = 1
 
-azdoa_image_name = "azdo-agent-ubuntu2204-image-velero-v1"
+azdoa_image_name = "azdo-agent-ubuntu2204-image-v1"
+dns_forwarder_vmss_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-v1"
 
 #
 # Container app ENV
