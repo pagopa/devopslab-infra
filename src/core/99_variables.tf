@@ -9,9 +9,8 @@ locals {
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
 
-  # VNET Ephemeral
-  vnet_ephemeral_resource_group_name = "${local.project}-ephemeral-vnet-rg"
-  vnet_ephemeral_name                = "${local.project}-ephemeral-vnet"
+  vnet_ita_resource_group_name = "${local.project_ita}-vnet-rg"
+  vnet_ita_name                = "${local.project_ita}-vnet"
 
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
@@ -30,8 +29,8 @@ locals {
   dns_zone_private_name     = "${var.dns_zone_internal_prefix}.${var.external_domain}"
 
   # ACR DOCKER
-  docker_rg_name       = "${local.project}-dockerreg-rg"
-  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short}-acr", "-", "")
+  docker_rg_name       = "${local.project}-docker-registry-rg"
+  docker_registry_name = replace("${var.prefix}-${var.env_short}-${var.location_short_ita}-acr", "-", "")
 
   # monitor
   monitor_rg_name                      = "${local.project}-monitor-rg"
@@ -39,13 +38,17 @@ locals {
   monitor_appinsights_name             = "${local.project}-appinsights"
   monitor_security_storage_name        = replace("${local.project}-sec-monitor-st", "-", "")
 
-  # Azure DevOps
-  azuredevops_rg_name       = "${local.project}-azdoa-rg"
-  azuredevops_agent_vm_name = "${local.project}-vmss-ubuntu-azdoa"
-  azuredevops_subnet_name   = "${local.project}-azdoa-snet"
 
-  # Dns Forwarder
-  dns_forwarder_vm_image_name = "${local.project}-dns-forwarder-ubuntu2204-image-v1"
+  # monitor
+  monitor_ita_rg_name                      = "${local.project_ita}-monitor-rg"
+  monitor_ita_log_analytics_workspace_name = "${local.project_ita}-law"
+  monitor_ita_appinsights_name             = "${local.project_ita}-appinsights"
+  monitor_ita_security_storage_name        = replace("${local.project_ita}-sec-monitor-st", "-", "")
+
+  # Azure DevOps
+  azuredevops_rg_name       = "${local.project_ita}-azdoa-rg"
+  azuredevops_agent_vm_name = "${local.project_ita}-vmss-ubuntu-azdoa"
+  azuredevops_subnet_name   = "${local.project_ita}-azdoa-snet"
 }
 
 variable "prefix" {
@@ -99,6 +102,23 @@ variable "location_short" {
   description = "Location short like eg: neu, weu.."
 }
 
+variable "location_ita" {
+  type        = string
+  description = "Main location"
+}
+
+variable "location_short_ita" {
+  type = string
+  validation {
+    condition = (
+      length(var.location_short_ita) == 3
+    )
+    error_message = "Length must be 3 chars."
+  }
+  description = "Location short for italy: itn"
+}
+
+
 variable "lock_enable" {
   type        = bool
   default     = false
@@ -133,9 +153,24 @@ variable "cidr_subnet_vpn" {
   description = "VPN network address space."
 }
 
-variable "cidr_subnet_dnsforwarder" {
+variable "cidr_subnet_packer_azdo" {
   type        = list(string)
-  description = "DNS Forwarder network address space."
+  description = "VPN network address space."
+}
+
+variable "cidr_subnet_packer_dns_forwarder" {
+  type        = list(string)
+  description = "VPN network address space."
+}
+
+variable "cidr_subnet_dnsforwarder_lb" {
+  type        = list(string)
+  description = "DNS Forwarder network address space for LB."
+}
+
+variable "cidr_subnet_dnsforwarder_vmss" {
+  type        = list(string)
+  description = "DNS Forwarder network address space for VMSS."
 }
 
 variable "cidr_subnet_redis" {
@@ -170,30 +205,7 @@ variable "cidr_vnet_italy" {
   description = "Address prefixes for vnet in italy."
 }
 
-variable "cidr_subnet_private_endpoints_italy" {
-  type        = list(string)
-  description = "Subnet cidr."
-}
-
 ### Italy location
-variable "location_ita" {
-  type        = string
-  description = "Main location"
-  default     = "italynorth"
-}
-
-variable "location_short_ita" {
-  type = string
-  validation {
-    condition = (
-      length(var.location_short_ita) == 3
-    )
-    error_message = "Length must be 3 chars."
-  }
-  description = "Location short for italy: itn"
-  default     = "itn"
-}
-
 variable "vnet_ita_ddos_protection_plan" {
   type = object({
     id     = string
@@ -341,14 +353,17 @@ variable "dns_forwarder_enabled" {
 ## VPN ##
 variable "vpn_sku" {
   type        = string
-  default     = "VpnGw1"
   description = "VPN Gateway SKU"
 }
 
 variable "vpn_pip_sku" {
   type        = string
-  default     = "Basic"
   description = "VPN GW PIP SKU"
+}
+
+variable "dns_forwarder_vmss_image_name" {
+  type        = string
+  description = "vpn dns forwarder image name"
 }
 
 #

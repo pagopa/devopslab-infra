@@ -5,18 +5,11 @@ resource "azurerm_resource_group" "rg_vnet" {
   tags = var.tags
 }
 
-resource "azurerm_resource_group" "rg_ita_vnet" {
-  name     = "${local.project_ita}-vnet-rg"
-  location = var.location_ita
-
-  tags = var.tags
-}
-
 #
 # vnet
 #
 module "vnet" {
-  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.77.0"
+  source              = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.5.0"
   name                = local.vnet_name
   location            = azurerm_resource_group.rg_vnet.location
   resource_group_name = azurerm_resource_group.rg_vnet.name
@@ -25,35 +18,6 @@ module "vnet" {
   tags = var.tags
 }
 
-module "vnet_italy" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v7.77.0"
-
-  name                = "${local.project_ita}-vnet"
-  location            = var.location_ita
-  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
-
-  address_space        = var.cidr_vnet_italy
-  ddos_protection_plan = var.vnet_ita_ddos_protection_plan
-
-  tags = var.tags
-}
-
-## Peering between the vnet(main) and italy vnet
-module "vnet_ita_peering" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v7.77.0"
-
-  source_resource_group_name       = azurerm_resource_group.rg_ita_vnet.name
-  source_virtual_network_name      = module.vnet_italy.name
-  source_remote_virtual_network_id = module.vnet_italy.id
-  source_use_remote_gateways       = true
-  source_allow_forwarded_traffic   = true
-
-  target_resource_group_name       = azurerm_resource_group.rg_vnet.name
-  target_virtual_network_name      = module.vnet.name
-  target_remote_virtual_network_id = module.vnet.id
-  target_allow_gateway_transit     = true
-
-}
 
 #
 # Public IP
@@ -133,28 +97,12 @@ resource "azurerm_public_ip" "aks_outbound" {
 # Private endpoints
 #
 module "private_endpoints_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
   name                 = "${local.project}-private-endpoints-snet"
   address_prefixes     = var.cidr_subnet_private_endpoints
   virtual_network_name = module.vnet.name
 
   resource_group_name = azurerm_resource_group.rg_vnet.name
-
-  private_endpoint_network_policies_enabled = false
-  service_endpoints = [
-    "Microsoft.Web",
-    "Microsoft.AzureCosmosDB",
-    "Microsoft.Storage",
-  ]
-}
-
-module "private_endpoints_italy_snet" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
-  name                 = "${local.project}-private-endpoints-italy-snet"
-  address_prefixes     = var.cidr_subnet_private_endpoints_italy
-  virtual_network_name = module.vnet_italy.name
-
-  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
 
   private_endpoint_network_policies_enabled = false
   service_endpoints = [

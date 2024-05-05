@@ -71,46 +71,68 @@ locals {
   }
 }
 
-data "azurerm_key_vault_secret" "postgres_administrator_login" {
-  name         = "postgres-administrator-login"
-  key_vault_id = data.azurerm_key_vault.kv.id
+#
+# KeyVault
+#
+resource "random_password" "pg_admin_password" {
+  length           = 8
+  special          = true
+  upper            = false
+  min_numeric      = 1
+  min_special      = 1
+  min_upper        = 1
+  min_lower        = 1
+  override_special = "-"
 }
 
-data "azurerm_key_vault_secret" "postgres_administrator_login_password" {
-  name         = "postgres-administrator-login-password"
-  key_vault_id = data.azurerm_key_vault.kv.id
+resource "azurerm_key_vault_secret" "pg_admin_password" {
+
+  name         = "pg-admin-password"
+  value        = random_password.pg_admin_password.result
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_core_ita.id
+}
+
+resource "azurerm_key_vault_secret" "pg_admin_user" {
+
+  name         = "pg-admin-user"
+  value        = "postgres"
+  content_type = "text/plain"
+
+  key_vault_id = module.key_vault_core_ita.id
 }
 
 #--------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "data_rg" {
   name     = "${local.project}-data-rg"
-  location = var.location
+  location = var.location_ita
 
   tags = var.tags
 }
 
 ## Database subnet
 module "postgres_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v7.77.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
   name                                      = "${local.project}-postgres-snet"
   address_prefixes                          = var.cidr_subnet_postgres
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
-  virtual_network_name                      = module.vnet.name
+  resource_group_name                       = azurerm_resource_group.rg_ita_vnet.name
+  virtual_network_name                      = module.vnet_italy.name
   service_endpoints                         = ["Microsoft.Sql"]
   private_endpoint_network_policies_enabled = true
 }
 
 module "postgres" {
   count  = var.is_resource_core_enabled.postgresql_server ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v7.77.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server?ref=v8.5.0"
 
   name                = "${local.project}-postgres"
   location            = azurerm_resource_group.data_rg.location
   resource_group_name = azurerm_resource_group.data_rg.name
 
-  administrator_login          = data.azurerm_key_vault_secret.postgres_administrator_login.value
-  administrator_login_password = data.azurerm_key_vault_secret.postgres_administrator_login_password.value
+  administrator_login          = azurerm_key_vault_secret.pg_admin_user.value
+  administrator_login_password = azurerm_key_vault_secret.pg_admin_password.value
   sku_name                     = "B_Gen5_1"
   db_version                   = 11
   geo_redundant_backup_enabled = false
@@ -119,7 +141,7 @@ module "postgres" {
   network_rules                 = var.postgres_network_rules
   private_endpoint = {
     enabled              = false
-    virtual_network_id   = azurerm_resource_group.rg_vnet.id
+    virtual_network_id   = azurerm_resource_group.rg_ita_vnet.id
     subnet_id            = module.postgres_snet.id
     private_dns_zone_ids = []
   }
@@ -141,44 +163,3 @@ module "postgres" {
 
   tags = var.tags
 }
-
-#  #
-#  # 🔐 KV section
-#  #
-#  data "azuread_application" "postgres" {
-#    display_name = module.postgres.name
-#  }
-
-#  resource "azurerm_key_vault_access_policy" "postgres" {
-#    count = var.postgres_byok_enabled ? 1 : 0
-#    key_vault_id            = data.azurerm_key_vault.kv.id
-#    tenant_id               = data.azurerm_client_config.current.tenant_id
-#    object_id               = data.azuread_application.postgres.object_id
-#    key_permissions         = ["Get", "WrapKey", "UnwrapKey", ]
-#    secret_permissions      = []
-#    certificate_permissions = []
-#    storage_permissions     = []
-#  }
-
-#  resource "azurerm_key_vault_key" "postgres" {
-#    count = var.postgres_byok_enabled ? 1 : 0
-#    name         = "postgres-key"
-#    key_vault_id = data.azurerm_key_vault.kv.id
-#    key_type     = "RSA-HSM"
-#    key_size     = 2048
-#    key_opts = [
-#      "decrypt",
-#      "encrypt",
-#      "sign",
-#      "unwrapKey",
-#      "verify",
-#      "wrapKey",
-#    ]
-#  }
-
-#  resource "azurerm_postgresql_server_key" "postgres" {
-#    count      = var.postgres_byok_enabled ? 1 : 0
-#    depends_on = [azurerm_key_vault_access_policy.postgres]
-#    server_id        = module.postgres.id
-#    key_vault_key_id = azurerm_key_vault_key.postgres[0].id
-#  }
