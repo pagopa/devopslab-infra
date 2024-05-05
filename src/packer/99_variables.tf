@@ -1,7 +1,7 @@
 # general
 
 locals {
-  project = "${var.prefix}-${var.env_short}"
+  project = "${var.prefix}-${var.env_short}-${var.location_short}"
 
   vnet_ita_core_name = "dvopla-d-itn-vnet"
   vnet_ita_core_rg_name = "dvopla-d-itn-vnet-rg"
