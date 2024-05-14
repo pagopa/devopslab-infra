@@ -14,7 +14,7 @@ repos:
       - id: terraform_validate
         args:
           - --init-args=-lockfile=readonly
-          - --init-args=-plugin-dir=/tmp
+          - --init-args=-plugin-dir=/tmp/.terraform.d/plugin-cache
           - --args=-json
           - --args=-no-color
           - --args=-compact-warnings
