@@ -1,5 +1,5 @@
 # module "tls_checker" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker?ref=v7.76.0"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker?ref=v8.13.0"
 #
 #   https_endpoint                                            = local.domain_aks_hostname
 #   alert_name                                                = local.domain_aks_hostname
@@ -20,7 +20,7 @@
 #
 #
 # module "cert_mounter" {
-#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.76.0"
+#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.13.0"
 #   namespace        = var.domain
 #   certificate_name = replace(local.domain_aks_hostname, ".", "-")
 #   kv_name          = data.azurerm_key_vault.kv_domain.name
