@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "rg_ita_vnet" {
 }
 
 module "vnet_italy" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.5.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network?ref=v8.13.0"
 
   name                = local.vnet_ita_name
   location            = var.location_ita
@@ -20,7 +20,7 @@ module "vnet_italy" {
 
 ## Peering between the vnet(main) and italy vnet
 module "vnet_ita_peering" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.5.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering?ref=v8.13.0"
 
   source_resource_group_name       = azurerm_resource_group.rg_ita_vnet.name
   source_virtual_network_name      = module.vnet_italy.name
@@ -35,7 +35,7 @@ module "vnet_ita_peering" {
 }
 
 module "packer_azdo_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   name                                      = "packer-azdo-subnet"
   address_prefixes                          = var.cidr_subnet_packer_azdo
   virtual_network_name                      = module.vnet_italy.name
@@ -45,7 +45,7 @@ module "packer_azdo_snet" {
 }
 
 module "packer_dns_forwarder_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   name                                      = "packer-dns-forwarder-subnet"
   address_prefixes                          = var.cidr_subnet_packer_dns_forwarder
   virtual_network_name                      = module.vnet_italy.name
