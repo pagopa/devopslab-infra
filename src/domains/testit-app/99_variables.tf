@@ -9,7 +9,7 @@ locals {
 
   ingress_hostname_prefix               = "${var.domain}.${var.location_short}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
-  internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
+  internal_dns_zone_resource_group_name = "${local.product_ita}-vnet-rg"
 
   domain_aks_hostname = "${var.domain}.${var.location_short}.internal.devopslab.pagopa.it"
 
