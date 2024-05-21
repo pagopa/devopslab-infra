@@ -80,6 +80,6 @@ module "dns_forwarder_lb_vmss" {
   subscription_id   = data.azurerm_subscription.current.subscription_id
   source_image_name = var.dns_forwarder_vmss_image_name
   key_vault_id      = data.azurerm_key_vault.kv.id
-  tenant_id = data.azurerm_client_config.current.id
+  tenant_id         = data.azurerm_client_config.current.id
   tags              = var.tags
 }
