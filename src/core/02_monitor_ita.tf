@@ -36,30 +36,30 @@ resource "azurerm_key_vault_secret" "application_insights_ita_key" {
   key_vault_id = module.key_vault_core_ita.id
 }
 
-# resource "azurerm_monitor_ita_action_group" "email_ita" {
-#   name                = "PagoPA"
-#   resource_group_name = azurerm_resource_group.monitor_ita_rg.name
-#   short_name          = "PagoPA"
-#
-#   email_receiver {
-#     name                    = "sendtooperations"
-#     email_address           = data.azurerm_key_vault_secret.monitor_ita_notification_email.value
-#     use_common_alert_schema = true
-#   }
-#
-#   tags = var.tags
-# }
-#
-# resource "azurerm_monitor_ita_action_group" "slack_ita" {
-#   name                = "SlackPagoPA"
-#   resource_group_name = azurerm_resource_group.monitor_ita_rg.name
-#   short_name          = "SlackPagoPA"
-#
-#   email_receiver {
-#     name                    = "sendtoslack"
-#     email_address           = data.azurerm_key_vault_secret.monitor_ita_notification_slack_email.value
-#     use_common_alert_schema = true
-#   }
-#
-#   tags = var.tags
-# }
+resource "azurerm_monitor_action_group" "email_ita" {
+  name                = "PagoPA"
+  resource_group_name = azurerm_resource_group.monitor_ita_rg.name
+  short_name          = "PagoPA"
+
+  email_receiver {
+    name                    = "sendtooperations"
+    email_address           = data.azurerm_key_vault_secret.monitor_notification_email.value
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}
+
+resource "azurerm_monitor_action_group" "slack_ita" {
+  name                = "SlackPagoPA"
+  resource_group_name = azurerm_resource_group.monitor_ita_rg.name
+  short_name          = "SlackPagoPA"
+
+  email_receiver {
+    name                    = "sendtoslack"
+    email_address           = data.azurerm_key_vault_secret.monitor_notification_slack_email.value
+    use_common_alert_schema = true
+  }
+
+  tags = var.tags
+}

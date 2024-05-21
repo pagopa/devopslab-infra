@@ -1,6 +1,6 @@
 ## VPN subnet
 module "vpn_snet" {
-  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+  source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   name                                      = "GatewaySubnet"
   address_prefixes                          = var.cidr_subnet_vpn
   virtual_network_name                      = module.vnet_italy.name
@@ -15,7 +15,7 @@ data "azuread_application" "vpn_app" {
 
 module "vpn" {
   count  = var.vpn_enabled ? 1 : 0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v8.5.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway?ref=v8.13.0"
 
   name                  = "${local.project_ita}-vpn"
   location              = var.location_ita
@@ -45,7 +45,7 @@ module "vpn" {
 # Dns Forwarder module
 
 module "subnet_dns_forwarder_lb" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project_ita}-dns-forwarder-lb"
@@ -55,7 +55,7 @@ module "subnet_dns_forwarder_lb" {
 }
 
 module "subnet_dns_forwarder_vmss" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.5.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = "${local.project_ita}-dns-forwarder-vmss"
@@ -65,7 +65,7 @@ module "subnet_dns_forwarder_vmss" {
 }
 
 module "dns_forwarder_lb_vmss" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=dns-forwarder-lb-fix"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss?ref=v8.13.0"
   count  = var.dns_forwarder_is_enabled ? 1 : 0
 
   name                 = local.project
@@ -80,5 +80,6 @@ module "dns_forwarder_lb_vmss" {
   subscription_id   = data.azurerm_subscription.current.subscription_id
   source_image_name = var.dns_forwarder_vmss_image_name
   key_vault_id      = data.azurerm_key_vault.kv.id
+  tenant_id         = data.azurerm_client_config.current.id
   tags              = var.tags
 }
