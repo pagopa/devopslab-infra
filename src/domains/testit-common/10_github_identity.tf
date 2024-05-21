@@ -15,8 +15,6 @@ data "azurerm_key_vault" "key_vault" {
 # repos must be lower than 20 items
 locals {
   repos_01 = [
-    "pagopa-print-payment-notice-service",
-    "pagopa-print-payment-notice-generator",
   ]
 
   federations_01 = [
@@ -44,7 +42,7 @@ locals {
 
 # create a module for each 20 repos
 module "identity_cd_01" {
-  source = "github.com/pagopa/terraform-azurerm-v3//github_federated_identity?ref=v7.45.0"
+  source = "github.com/pagopa/terraform-azurerm-v3//github_federated_identity?ref=v8.13.0"
   # pagopa-<ENV><DOMAIN>-<COUNTER>-github-<PERMS>-identity
   prefix    = var.prefix
   env_short = var.env_short
