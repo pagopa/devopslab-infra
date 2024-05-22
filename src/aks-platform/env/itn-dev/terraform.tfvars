@@ -28,13 +28,14 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 
 ### Network
 
-cidr_subnet_aks = ["10.3.0.0/23"]
+cidr_subnet_system_aks = ["10.3.9.0/24"]
+cidr_subnet_user_aks   = ["10.3.10.0/24"]
 
 ### External resources
 
-monitor_resource_group_name                 = "dvopla-d-monitor-rg"
-log_analytics_workspace_name                = "dvopla-d-law"
-log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
+log_analytics_workspace_name                = "dvopla-d-itn-law"
+log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
 
 ### Aks
 
@@ -118,7 +119,7 @@ aks_addons = {
 
 ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
-ingress_load_balancer_ip = "10.3.1.250"
+ingress_load_balancer_ip = "10.3.10.250"
 nginx_helm_version       = "4.10.0"
 keda_helm_version        = "2.12.1"
 
