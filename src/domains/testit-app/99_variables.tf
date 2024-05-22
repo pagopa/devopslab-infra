@@ -1,7 +1,7 @@
 locals {
-  product = "${var.prefix}-${var.env_short}"
+  product     = "${var.prefix}-${var.env_short}"
   product_ita = "${var.prefix}-${var.env_short}-${var.location_short}"
-  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  project     = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
   monitor_appinsights_name        = "${local.product_ita}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
@@ -19,17 +19,17 @@ locals {
   vnet_core_name                = "${local.product}-vnet"
   vnet_core_resource_group_name = "${local.product}-vnet-rg"
 
-#   # DOMAINS
-#   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
-#   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
+  #   # DOMAINS
+  #   domain_namespace        = kubernetes_namespace.domain_namespace.metadata[0].name
+  #   system_domain_namespace = kubernetes_namespace.system_domain_namespace.metadata[0].name
 
   aks_api_url = data.azurerm_kubernetes_cluster.aks.private_fqdn
 
   #
   # KeyVault
   #
-  key_vault_domain_name           = "dvopla-d-itn-diego-kv"
-  key_vault_domain_resource_group = "dvopla-d-itn-diego-sec-rg"
+  key_vault_domain_name           = "dvopla-d-itn-testit-kv"
+  key_vault_domain_resource_group = "dvopla-d-itn-testit-sec-rg"
 
   # Service account
   azure_devops_app_service_account_name        = "azure-devops"
@@ -170,14 +170,6 @@ variable "dns_zone_internal_prefix" {
   type        = string
   default     = null
   description = "The dns subdomain."
-}
-
-#
-# VNET
-#
-variable "cidr_subnet_container_apps" {
-  type        = list(string)
-  description = "Subnet for container apps in diego domain"
 }
 
 #

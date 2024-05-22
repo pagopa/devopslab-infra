@@ -21,7 +21,7 @@ terraform {
       version = "<= 2.12.1"
     }
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
       version = "<= 2.5.1"
     }
   }
