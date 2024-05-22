@@ -27,8 +27,8 @@ log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
 aks_name                = "dvopla-d-itn-dev-aks"
 aks_resource_group_name = "dvopla-d-itn-dev-aks-rg"
 
-ingress_load_balancer_ip       = "10.3.1.250"
-ingress_load_balancer_hostname = "dev01.diego.internal.devopslab.pagopa.it"
+ingress_load_balancer_ip       = "10.3.10.250"
+ingress_load_balancer_hostname = "testit.itn.internal.devopslab.pagopa.it"
 
 #
 # Dns
