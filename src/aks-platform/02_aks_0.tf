@@ -35,8 +35,8 @@ module "aks" {
   system_node_pool_node_count_min  = var.aks_system_node_pool.node_count_min
   system_node_pool_node_count_max  = var.aks_system_node_pool.node_count_max
   ### K8s node configuration
-  system_node_pool_node_labels                  = var.aks_system_node_pool.node_labels
-  system_node_pool_tags                         = var.aks_system_node_pool.node_tags
+  system_node_pool_node_labels = var.aks_system_node_pool.node_labels
+  system_node_pool_tags        = var.aks_system_node_pool.node_tags
 
   #
   # ☁️ Network

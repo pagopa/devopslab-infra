@@ -29,7 +29,7 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 ### Network
 
 cidr_subnet_system_aks = ["10.3.9.0/24"]
-cidr_subnet_user_aks = ["10.3.10.0/24"]
+cidr_subnet_user_aks   = ["10.3.10.0/24"]
 
 ### External resources
 
