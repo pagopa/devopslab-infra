@@ -1,13 +1,13 @@
 module "tls_checker" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker?ref=v8.18.0"
 
-  https_endpoint                                            = local.domain_aks_hostname
-  alert_name                                                = local.domain_aks_hostname
-  alert_enabled                                             = true
-  helm_chart_present                                        = true
-#   helm_chart_version                                        = var.tls_cert_check_helm.chart_version
-#   helm_chart_image_name                                     = var.tls_cert_check_helm.image_name
-#   helm_chart_image_tag                                      = var.tls_cert_check_helm.image_tag
+  https_endpoint     = local.domain_aks_hostname
+  alert_name         = local.domain_aks_hostname
+  alert_enabled      = true
+  helm_chart_present = true
+  #   helm_chart_version                                        = var.tls_cert_check_helm.chart_version
+  #   helm_chart_image_name                                     = var.tls_cert_check_helm.image_name
+  #   helm_chart_image_tag                                      = var.tls_cert_check_helm.image_tag
   namespace                                                 = kubernetes_namespace.domain_namespace.metadata[0].name
   location_string                                           = var.location
   kv_secret_name_for_application_insights_connection_string = "dvopla-d-itn-appinsights-connection-string"
