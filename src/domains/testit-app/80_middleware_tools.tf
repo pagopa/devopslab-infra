@@ -1,14 +1,14 @@
 module "tls_checker" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker?ref=v8.13.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker?ref=v8.18.0"
 
-  https_endpoint                                            = local.domain_aks_hostname
-  alert_name                                                = local.domain_aks_hostname
-  alert_enabled                                             = true
-  helm_chart_present                                        = true
-  helm_chart_version                                        = var.tls_cert_check_helm.chart_version
+  https_endpoint     = local.domain_aks_hostname
+  alert_name         = local.domain_aks_hostname
+  alert_enabled      = true
+  helm_chart_present = true
+  #   helm_chart_version                                        = var.tls_cert_check_helm.chart_version
+  #   helm_chart_image_name                                     = var.tls_cert_check_helm.image_name
+  #   helm_chart_image_tag                                      = var.tls_cert_check_helm.image_tag
   namespace                                                 = kubernetes_namespace.domain_namespace.metadata[0].name
-  helm_chart_image_name                                     = var.tls_cert_check_helm.image_name
-  helm_chart_image_tag                                      = var.tls_cert_check_helm.image_tag
   location_string                                           = var.location
   kv_secret_name_for_application_insights_connection_string = "dvopla-d-itn-appinsights-connection-string"
   keyvault_name                                             = data.azurerm_key_vault.kv_domain.name
@@ -18,10 +18,10 @@ module "tls_checker" {
   application_insights_action_group_ids                     = [data.azurerm_monitor_action_group.slack.id, data.azurerm_monitor_action_group.email.id]
 }
 
-# module "cert_mounter" {
-#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.13.0"
-#   namespace        = var.domain
-#   certificate_name = replace(local.domain_aks_hostname, ".", "-")
-#   kv_name          = data.azurerm_key_vault.kv_domain.name
-#   tenant_id        = data.azurerm_subscription.current.tenant_id
-# }
+module "cert_mounter" {
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.17.1"
+  namespace        = var.domain
+  certificate_name = replace(local.domain_aks_hostname, ".", "-")
+  kv_name          = data.azurerm_key_vault.kv_domain.name
+  tenant_id        = data.azurerm_subscription.current.tenant_id
+}
