@@ -16,6 +16,10 @@ tags = {
   Application = "testit.app"
 }
 
+is_feature_enabled = {
+  nodepool_dedicated      = true
+}
+
 ### External resources
 monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-itn-law"

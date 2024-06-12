@@ -37,6 +37,15 @@ locals {
 
 }
 
+variable "is_feature_enabled" {
+  type = object({
+    nodepool_dedicated      = bool
+  })
+  default = {
+    nodepool_dedicated      = false
+  }
+}
+
 variable "prefix" {
   type = string
   validation {
