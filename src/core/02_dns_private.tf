@@ -18,6 +18,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_core" {
   tags = var.tags
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "vnet_italy" {
+  name                  = module.vnet_italy.name
+  resource_group_name   = azurerm_resource_group.rg_ita_vnet.name
+  private_dns_zone_name = azurerm_private_dns_zone.internal_devopslab[0].name
+  virtual_network_id    = module.vnet_italy.id
+
+  tags = var.tags
+}
+
 # DNS private single server
 resource "azurerm_private_dns_zone" "privatelink_postgres_database_azure_com" {
 
