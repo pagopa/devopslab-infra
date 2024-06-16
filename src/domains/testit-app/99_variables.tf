@@ -210,7 +210,6 @@ variable "tls_cert_check_helm" {
 #
 variable "aks_user_node_pool_testit" {
   type = object({
-    enabled                    = optional(bool, true),
     name                       = string,
     vm_size                    = string,
     os_disk_type               = string,

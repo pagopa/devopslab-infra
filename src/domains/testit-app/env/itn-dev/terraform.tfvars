@@ -17,7 +17,7 @@ tags = {
 }
 
 is_feature_enabled = {
-  nodepool_dedicated      = true
+  nodepool_dedicated      = false
 }
 
 #
@@ -60,7 +60,6 @@ tls_cert_check_helm = {
 }
 
 aks_user_node_pool_testit = {
-  enabled         = false,
   name            = "dvldtestit",
   vm_size         = "Standard_B8ms",
   os_disk_type    = "Managed",
