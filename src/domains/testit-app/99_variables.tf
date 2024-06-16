@@ -39,10 +39,10 @@ locals {
 
 variable "is_feature_enabled" {
   type = object({
-    nodepool_dedicated      = bool
+    nodepool_dedicated = bool
   })
   default = {
-    nodepool_dedicated      = false
+    nodepool_dedicated = false
   }
 }
 

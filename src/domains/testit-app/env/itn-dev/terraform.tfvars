@@ -17,14 +17,14 @@ tags = {
 }
 
 is_feature_enabled = {
-  nodepool_dedicated      = false
+  nodepool_dedicated = false
 }
 
 #
 # Network
 #
-rg_vnet_italy_name         = "dvopla-d-itn-vnet-rg"
-vnet_italy_name            = "dvopla-d-itn-vnet"
+rg_vnet_italy_name          = "dvopla-d-itn-vnet-rg"
+vnet_italy_name             = "dvopla-d-itn-vnet"
 cidr_subnet_user_aks_testit = ["10.3.123.0/24"]
 
 ### External resources
