@@ -20,6 +20,13 @@ is_feature_enabled = {
   nodepool_dedicated      = true
 }
 
+#
+# Network
+#
+rg_vnet_italy_name         = "dvopla-d-itn-vnet-rg"
+vnet_italy_name            = "dvopla-d-itn-vnet"
+cidr_subnet_user_aks_testit = ["10.3.123.0/24"]
+
 ### External resources
 monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-itn-law"
@@ -42,11 +49,6 @@ dns_zone_prefix          = "devopslab"
 dns_zone_internal_prefix = "internal.devopslab"
 
 #
-# VNET
-#
-cidr_subnet_container_apps = ["10.1.146.0/23"]
-
-#
 # TLS Checker
 #
 # chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
@@ -55,4 +57,17 @@ tls_cert_check_helm = {
   chart_version = "1.21.0"
   image_name    = "ghcr.io/pagopa/infra-ssl-check"
   image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
+}
+
+aks_user_node_pool_testit = {
+  enabled         = false,
+  name            = "dvldtestit",
+  vm_size         = "Standard_B8ms",
+  os_disk_type    = "Managed",
+  os_disk_size_gb = 75,
+  node_count_min  = 1,
+  node_count_max  = 1,
+  node_labels     = { node_name : "devopslab-dev-testit-user", node_type : "user", domain : "testit" },
+  node_taints     = ["paymentWalletOnly=true:NoSchedule"],
+  node_tags       = { payWallet : "user" },
 }
