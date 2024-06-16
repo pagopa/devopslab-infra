@@ -37,6 +37,15 @@ locals {
 
 }
 
+variable "is_feature_enabled" {
+  type = object({
+    nodepool_dedicated = bool
+  })
+  default = {
+    nodepool_dedicated = false
+  }
+}
+
 variable "prefix" {
   type = string
   validation {
@@ -105,9 +114,17 @@ variable "tags" {
   }
 }
 
-variable "event_hub_port" {
-  type    = number
-  default = 9093
+#
+# Network
+#
+variable "rg_vnet_italy_name" {
+  type        = string
+  description = "Resource group dedicated to VNet AKS"
+}
+
+variable "vnet_italy_name" {
+  type        = string
+  description = "VNet dedicated to AKS"
 }
 
 ### External resources
@@ -128,6 +145,10 @@ variable "log_analytics_workspace_resource_group_name" {
 }
 
 ### Aks
+variable "cidr_subnet_user_aks_testit" {
+  type        = list(string)
+  description = "Subnet cluster kubernetes."
+}
 
 variable "aks_name" {
   type        = string
@@ -182,4 +203,33 @@ variable "tls_cert_check_helm" {
     image_tag     = string
   })
   description = "tls cert helm chart configuration"
+}
+
+#
+# NodePool
+#
+variable "aks_user_node_pool_testit" {
+  type = object({
+    name                       = string,
+    vm_size                    = string,
+    os_disk_type               = string,
+    os_disk_size_gb            = string,
+    node_count_min             = number,
+    node_count_max             = number,
+    node_labels                = map(any),
+    node_taints                = list(string),
+    node_tags                  = map(any),
+    ultra_ssd_enabled          = optional(bool, false),
+    enable_host_encryption     = optional(bool, true),
+    max_pods                   = optional(number, 250),
+    upgrade_settings_max_surge = optional(string, "30%"),
+    zones                      = optional(list(any), [1, 2, 3]),
+  })
+  description = "AKS node pool user configuration"
+}
+
+
+variable "event_hub_port" {
+  type    = number
+  default = 9093
 }
