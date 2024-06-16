@@ -54,7 +54,7 @@
 # #
 #
 # module "argocd_pod_identity" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v7.69.1"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v8.21.0"
 #
 #   cluster_name        = module.aks.name
 #   resource_group_name = azurerm_resource_group.rg_aks.name
@@ -83,7 +83,7 @@
 # }
 #
 # module "cert_mounter_argocd_internal" {
-#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v7.69.1"
+#   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.21.0"
 #   namespace        = "argocd"
 #   certificate_name = replace(local.argocd_internal_url, ".", "-")
 #   kv_name          = data.azurerm_key_vault.kv_core_ita.name
