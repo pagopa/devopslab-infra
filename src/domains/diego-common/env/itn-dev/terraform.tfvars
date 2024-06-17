@@ -18,16 +18,15 @@ tags = {
 
 lock_enable = true
 
-cidr_subnet_funcs_diego_domain = ["10.1.144.0/24"]
 
 is_feature_enabled = {
   cdn = false
 }
 
 ### External resources
-monitor_resource_group_name                 = "dvopla-d-monitor-rg"
-log_analytics_workspace_name                = "dvopla-d-law"
-log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
+log_analytics_workspace_name                = "dvopla-d-itn-law"
+log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
 
 storage_management_policy_rules = [
   {

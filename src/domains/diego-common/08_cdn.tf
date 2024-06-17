@@ -11,7 +11,7 @@
 # #tfsec:ignore:azure-storage-queue-services-logging-enabled:exp:2022-05-01 # already ignored, maybe a bug in tfsec
 # module "devopslab_cdn" {
 #   count = var.is_feature_enabled.cdn ? 1: 0
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v7.76.0"
+#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cdn?ref=v8.21.0"
 
 #   name                  = "diego"
 #   prefix                = local.project
