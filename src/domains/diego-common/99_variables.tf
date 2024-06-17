@@ -1,19 +1,20 @@
 # general
 locals {
-  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
-  product = "${var.prefix}-${var.env_short}"
+  project       = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  product       = "${var.prefix}-${var.env_short}"
+  product_italy = "${var.prefix}-${var.env_short}-${var.location_short}"
 
   # monitor
-  monitor_rg_name                      = "${local.product}-monitor-rg"
-  monitor_log_analytics_workspace_name = "${local.product}-law"
-  monitor_appinsights_name             = "${local.product}-appinsights"
-  monitor_security_storage_name        = replace("${local.product}-sec-monitor-st", "-", "")
+  monitor_rg_name                      = "${local.product_italy}-monitor-rg"
+  monitor_log_analytics_workspace_name = "${local.product_italy}-law"
+  monitor_appinsights_name             = "${local.product_italy}-appinsights"
+  monitor_security_storage_name        = replace("${local.product_italy}-sec-monitor-st", "-", "")
 
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  vnet_core_name                = "${local.product}-vnet"
-  vnet_core_resource_group_name = "${local.product}-vnet-rg"
+  vnet_core_name                = "${local.product_italy}-vnet"
+  vnet_core_resource_group_name = "${local.product_italy}-vnet-rg"
 
   dns_zone_public_name  = "devopslab.pagopa.it"
   dns_zone_private_name = "internal.devopslab.pagopa.it"
