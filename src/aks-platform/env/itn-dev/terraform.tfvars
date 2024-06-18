@@ -49,7 +49,7 @@ public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.27.9"
+aks_kubernetes_version      = "1.29.4"
 aks_system_node_pool = {
   name            = "dvldev01sys",
   vm_size         = "Standard_B4ms",
@@ -120,8 +120,8 @@ aks_addons = {
 ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 ingress_load_balancer_ip = "10.3.10.250"
-nginx_helm_version       = "4.10.0"
-keda_helm_version        = "2.12.1"
+nginx_helm_version       = "4.10.1"
+keda_helm_version        = "2.14.0"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
