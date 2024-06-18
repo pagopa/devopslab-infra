@@ -1,14 +1,15 @@
 locals {
-  product = "${var.prefix}-${var.env_short}"
-  project = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
+  product       = "${var.prefix}-${var.env_short}"
+  product_italy = "${var.prefix}-${var.env_short}-${var.location_short}"
+  project       = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
 
-  monitor_appinsights_name        = "${local.product}-appinsights"
+  monitor_appinsights_name        = "${local.product_italy}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
   ingress_hostname_prefix               = "${var.domain}.${var.location_short}"
   internal_dns_zone_name                = "${var.dns_zone_internal_prefix}.${var.external_domain}"
-  internal_dns_zone_resource_group_name = "${local.product}-vnet-rg"
+  internal_dns_zone_resource_group_name = "${local.product_italy}-vnet-rg"
 
   domain_aks_hostname = "${var.domain}.${var.location_short}.internal.devopslab.pagopa.it"
 
