@@ -20,9 +20,9 @@ lock_enable = true
 
 ### External resources
 
-monitor_resource_group_name                 = "dvopla-d-monitor-rg"
-log_analytics_workspace_name                = "dvopla-d-law"
-log_analytics_workspace_resource_group_name = "dvopla-d-monitor-rg"
+monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
+log_analytics_workspace_name                = "dvopla-d-itn-law"
+log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
 
 ### Aks
 

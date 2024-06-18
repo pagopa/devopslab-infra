@@ -1,5 +1,5 @@
 module "webservice_monitor_01" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_standard_web_test?ref=v7.77.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_standard_web_test?ref=v8.21.0"
 
   https_endpoint                        = "https://api.dev.platform.pagopa.it"
   https_endpoint_path                   = "/contextpath/rest"
