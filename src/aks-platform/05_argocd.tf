@@ -99,4 +99,3 @@ module "cert_mounter_argocd_internal" {
     module.argocd_pod_identity
   ]
 }
-
