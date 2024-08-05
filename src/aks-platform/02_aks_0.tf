@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.21.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.35.0"
 
   name                       = local.aks_cluster_name
   resource_group_name        = azurerm_resource_group.rg_aks.name
@@ -51,7 +51,8 @@ module "aks" {
     dns_service_ip      = "10.0.0.10"
     network_plugin      = "azure"
     network_plugin_mode = "overlay"
-    network_policy      = "azure"
+    network_policy      = "cilium"
+    network_data_plane  = "cilium"
     outbound_type       = "loadBalancer"
     service_cidr        = "10.0.0.0/16"
   }
@@ -118,7 +119,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
   enable_node_public_ip = false
 
   upgrade_settings {
-    max_surge = var.aks_user_node_pool.upgrade_settings_max_surge
+    max_surge                = var.aks_user_node_pool.upgrade_settings_max_surge
+    drain_timeout_in_minutes = 30
   }
 
   tags = merge(var.tags, var.aks_user_node_pool.node_tags)
