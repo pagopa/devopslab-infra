@@ -19,7 +19,7 @@
 | <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v8.17.1 |
 | <a name="module_system_service_account"></a> [system\_service\_account](#module\_system\_service\_account) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_service_account | v8.17.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker | v8.38.0 |
-| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity | workload-identity-setup |
+| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity | v8.39.0 |
 
 ## Resources
 
