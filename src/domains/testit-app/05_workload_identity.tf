@@ -1,33 +1,14 @@
-resource "azurerm_user_assigned_identity" "this" {
-  name = "${var.domain}-workload-identity"
+module "workload_identity" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=workload-identity-setup"
 
-  resource_group_name = local.aks_resource_group_name
-  location            = var.location
-}
-
-resource "azurerm_key_vault_access_policy" "this" {
+  workload_name_prefix = var.domain
+  workload_identity_resource_group_name = data.azurerm_kubernetes_cluster.aks.resource_group_name
+  aks_name = data.azurerm_kubernetes_cluster.aks.name
+  aks_resource_group_name = data.azurerm_kubernetes_cluster.aks.resource_group_name
+  namespace = var.domain
 
   key_vault_id = data.azurerm_key_vault.kv_domain.id
-  tenant_id    = data.azurerm_subscription.current.tenant_id
-
-  # The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault.
-  object_id = azurerm_user_assigned_identity.this.principal_id
-
-  certificate_permissions = ["Get"]
-  key_permissions         = ["Get"]
-  secret_permissions      = ["Get"]
-
-  depends_on = [
-    azurerm_user_assigned_identity.this
-  ]
-}
-
-resource "kubernetes_service_account_v1" "workload_identity_sa" {
-  metadata {
-    name      = "${var.domain}-workload-identity"
-    namespace = var.domain
-    annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.this.client_id
-    }
-  }
+  key_vault_certificate_permissions = ["Get"]
+  key_vault_key_permissions = ["Get"]
+  key_vault_secret_permissions = ["Get"]
 }
