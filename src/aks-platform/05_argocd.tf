@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "namespace_argocd" {
 
 resource "helm_release" "argocd" {
   name      = "argo"
-  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-7.1.3/argo-cd-7.1.3.tgz"
+  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-${var.argocd_helm_release_version}/argo-cd-${var.argocd_helm_release_version}.tgz"
   namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
   wait      = false
 
