@@ -145,3 +145,5 @@ tls_checker_https_endpoints_to_check = []
 law_prometheus_sku               = "PerGB2018"
 law_prometheus_retention_in_days = 30
 law_prometheus_daily_quota_gb    = 0.1
+
+argocd_helm_release_version = "7.4.5" #2.12.2

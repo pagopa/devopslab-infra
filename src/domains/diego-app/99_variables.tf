@@ -26,6 +26,11 @@ locals {
   aks_api_url = data.azurerm_kubernetes_cluster.aks.private_fqdn
 
   #
+  # ARGOCD
+  #
+  argocd_url = "argocd.internal.devopslab.pagopa.it"
+
+  #
   # KeyVault
   #
   key_vault_domain_name           = "dvopla-d-itn-diego-kv"
@@ -181,7 +186,7 @@ variable "cidr_subnet_container_apps" {
 }
 
 #
-# Tls Checker
+# TLS Checker
 #
 variable "tls_cert_check_helm" {
   type = object({
@@ -190,4 +195,13 @@ variable "tls_cert_check_helm" {
     image_tag     = string
   })
   description = "tls cert helm chart configuration"
+}
+
+#
+# ArgoCD
+#
+variable "argocd_showcase_enabled" {
+  type        = bool
+  description = "Enable or not app for showcase"
+  default     = false
 }
