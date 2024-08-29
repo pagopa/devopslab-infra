@@ -12,28 +12,28 @@ resource "kubernetes_manifest" "argocd_project_terraform" {
   }
 }
 
-data "kubernetes_secret_v1" "example" {
-  metadata {
-    name      = "example-secret"
-    namespace = "argocd"
-  }
-  binary_data = {
-    "keystore.p12" = ""
-    another_field  = ""
-  }
-}
-
-$2a$10$spTFkPoQd.spcen9xT1tq.aMJ4O9fgH6q.r9c2sLLmwYIMWvgRyw.
-
-$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)
-
-
-resource "null_resource" "argocd_create_app" {
-  provisioner "local-exec" {
-    command = "argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
-"
-  }
-}
+# data "kubernetes_secret_v1" "example" {
+#   metadata {
+#     name      = "example-secret"
+#     namespace = "argocd"
+#   }
+#   binary_data = {
+#     "keystore.p12" = ""
+#     another_field  = ""
+#   }
+# }
+#
+# $2a$10$spTFkPoQd.spcen9xT1tq.aMJ4O9fgH6q.r9c2sLLmwYIMWvgRyw.
+#
+# $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)
+#
+#
+# resource "null_resource" "argocd_create_app" {
+#   provisioner "local-exec" {
+#     command = "argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
+# "
+#   }
+# }
 
 
 #
