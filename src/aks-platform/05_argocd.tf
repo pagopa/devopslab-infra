@@ -59,22 +59,6 @@ resource "azurerm_key_vault_secret" "argocd_admin_username" {
 # tools
 #
 
-module "argocd_pod_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v8.34.0"
-
-  cluster_name        = module.aks.name
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = var.location
-  tenant_id           = data.azurerm_subscription.current.tenant_id
-
-  identity_name = "argocd-pod-identity"
-  namespace     = kubernetes_namespace.namespace_argocd.metadata[0].name
-  key_vault_id  = data.azurerm_key_vault.kv_core_ita.id
-
-  secret_permissions      = ["Get"]
-  certificate_permissions = ["Get"]
-}
-
 module "argocd_workload_identity" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.39.0"
 
@@ -82,7 +66,7 @@ module "argocd_workload_identity" {
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
   aks_name                              = module.aks.name
   aks_resource_group_name               = azurerm_resource_group.rg_aks.name
-  namespace                             = var.domain
+  namespace                             = kubernetes_namespace.namespace_argocd.metadata[0].name
 
   key_vault_id                      = data.azurerm_key_vault.kv_core_ita.id
   key_vault_certificate_permissions = ["Get"]
@@ -102,7 +86,7 @@ module "cert_mounter_argocd_internal" {
   workload_identity_client_id = module.argocd_workload_identity.workload_identity_client_id
 
   depends_on = [
-    module.argocd_pod_identity
+    module.argocd_workload_identity
   ]
 }
 
