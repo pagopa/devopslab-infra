@@ -75,6 +75,37 @@ module "argocd_pod_identity" {
   certificate_permissions = ["Get"]
 }
 
+module "argocd_workload_identity" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.39.0"
+
+  workload_name_prefix                  = "argocd"
+  workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
+  aks_name                              = module.aks.name
+  aks_resource_group_name               = azurerm_resource_group.rg_aks.name
+  namespace                             = var.domain
+
+  key_vault_id                      = data.azurerm_key_vault.kv_core_ita.id
+  key_vault_certificate_permissions = ["Get"]
+  key_vault_key_permissions         = ["Get"]
+  key_vault_secret_permissions      = ["Get"]
+}
+
+module "cert_mounter_argocd_internal" {
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.39.0"
+  namespace        = "argocd"
+  certificate_name = replace(local.argocd_internal_url, ".", "-")
+  kv_name          = data.azurerm_key_vault.kv_core_ita.name
+  tenant_id        = data.azurerm_subscription.current.tenant_id
+
+  workload_identity_enabled = true
+  workload_identity_service_account_name = module.argocd_workload_identity.workload_identity_service_account_name
+  workload_identity_client_id = module.argocd_workload_identity.workload_identity_client_id
+
+  depends_on = [
+    module.argocd_pod_identity
+  ]
+}
+
 resource "helm_release" "reloader_argocd" {
   name       = "reloader"
   repository = "https://stakater.github.io/stakater-charts"
@@ -86,16 +117,4 @@ resource "helm_release" "reloader_argocd" {
     name  = "reloader.watchGlobally"
     value = "false"
   }
-}
-
-module "cert_mounter_argocd_internal" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.34.0"
-  namespace        = "argocd"
-  certificate_name = replace(local.argocd_internal_url, ".", "-")
-  kv_name          = data.azurerm_key_vault.kv_core_ita.name
-  tenant_id        = data.azurerm_subscription.current.tenant_id
-
-  depends_on = [
-    module.argocd_pod_identity
-  ]
 }
