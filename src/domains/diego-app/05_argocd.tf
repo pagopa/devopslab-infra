@@ -41,14 +41,14 @@ resource "kubernetes_manifest" "argocd_project_terraform" {
 #
 resource "kubernetes_manifest" "argocd_app_diego" {
   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-diego.yaml", {
-    NAME: "domain-diego-deploy"
-    ARGOCD_PROJECT_NAME: "terraform-argocd-project"
-    WORKLOAD_IDENTITY_CLIENT_ID: module.workload_identity.workload_identity_client_id
-    GIT_REPO_URL: "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-    GIT_TARGET_REVISION: "init-charts"
-    HELM_PATH: "helm/dev"
-    NAMESPACE: var.domain
-    DOMAIN: var.domain
+    NAME : "domain-diego-deploy"
+    ARGOCD_PROJECT_NAME : "terraform-argocd-project"
+    WORKLOAD_IDENTITY_CLIENT_ID : module.workload_identity.workload_identity_client_id
+    GIT_REPO_URL : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+    GIT_TARGET_REVISION : "init-charts"
+    HELM_PATH : "helm/dev"
+    NAMESPACE : var.domain
+    DOMAIN : var.domain
   }))
 }
 
@@ -57,16 +57,16 @@ resource "kubernetes_manifest" "argocd_app_diego" {
 # APPS Showcase
 #
 resource "kubernetes_manifest" "argocd_app_status_standalone" {
-  count = var.argocd_showcase_enabled ? 1 : 0
+  count    = var.argocd_showcase_enabled ? 1 : 0
   manifest = yamldecode(templatefile("${path.module}/argocd/apps/app-status-standalone.yaml", {}))
 }
 
 resource "kubernetes_manifest" "argocd_apps_ok" {
-  count = var.argocd_showcase_enabled ? 1 : 0
+  count    = var.argocd_showcase_enabled ? 1 : 0
   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-ok.yaml", {}))
 }
 
 resource "kubernetes_manifest" "argocd_broken_apps" {
-  count = var.argocd_showcase_enabled ? 1 : 0
+  count    = var.argocd_showcase_enabled ? 1 : 0
   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-broken.yaml", {}))
 }

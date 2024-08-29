@@ -588,6 +588,6 @@ variable "dns_zone_internal_prefix" {
 }
 
 variable "argocd_helm_release_version" {
-  type = string
+  type        = string
   description = "ArgoCD helm chart release version"
 }

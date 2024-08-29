@@ -201,7 +201,7 @@ variable "tls_cert_check_helm" {
 # ArgoCD
 #
 variable "argocd_showcase_enabled" {
-  type = bool
+  type        = bool
   description = "Enable or not app for showcase"
-  default = false
+  default     = false
 }
