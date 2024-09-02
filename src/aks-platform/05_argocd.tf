@@ -69,7 +69,7 @@ module "argocd_workload_identity_init" {
 module "argocd_workload_identity_configuration" {
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.1"
 
-  workload_identity_name                = module.argocd_workload_identity_init.user_assigned_identity_name
+  workload_identity_name_prefix         = "argocd"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
   aks_name                              = module.aks.name
   aks_resource_group_name               = azurerm_resource_group.rg_aks.name
