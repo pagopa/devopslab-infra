@@ -58,11 +58,18 @@ resource "azurerm_key_vault_secret" "argocd_admin_username" {
 #
 # tools
 #
-
-module "argocd_workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.42.0"
+module "argocd_workload_identity_init" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.42.0"
 
   workload_name_prefix                  = "argocd"
+  workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
+  workload_identity_location            = var.location
+}
+
+module "argocd_workload_identity_configuration" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.0"
+
+  workload_identity_name                 = module.argocd_workload_identity_init.user_assigned_identity_name
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
   aks_name                              = module.aks.name
   aks_resource_group_name               = azurerm_resource_group.rg_aks.name
@@ -72,6 +79,8 @@ module "argocd_workload_identity" {
   key_vault_certificate_permissions = ["Get"]
   key_vault_key_permissions         = ["Get"]
   key_vault_secret_permissions      = ["Get"]
+
+  depends_on = [module.argocd_workload_identity_init]
 }
 
 module "cert_mounter_argocd_internal" {
@@ -82,11 +91,11 @@ module "cert_mounter_argocd_internal" {
   tenant_id        = data.azurerm_subscription.current.tenant_id
 
   workload_identity_enabled              = true
-  workload_identity_service_account_name = module.argocd_workload_identity.workload_identity_service_account_name
-  workload_identity_client_id            = module.argocd_workload_identity.workload_identity_client_id
+  workload_identity_service_account_name = module.argocd_workload_identity_configuration.workload_identity_service_account_name
+  workload_identity_client_id            = module.argocd_workload_identity_configuration.workload_identity_client_id
 
   depends_on = [
-    module.argocd_workload_identity
+    module.argocd_workload_identity_configuration
   ]
 }
 

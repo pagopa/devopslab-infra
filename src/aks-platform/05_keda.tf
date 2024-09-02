@@ -12,10 +12,18 @@ locals {
   keda_namespace_name = kubernetes_namespace.keda.metadata[0].name
 }
 
-module "keda_workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.42.0"
+module "keda_workload_identity_init" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.42.0"
 
   workload_name_prefix                  = "keda"
+  workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
+  workload_identity_location            = var.location
+}
+
+module "keda_workload_identity_configuration" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.0"
+
+  workload_identity_name                 = module.keda_workload_identity_init.user_assigned_identity_name
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
   aks_name                              = module.aks.name
   aks_resource_group_name               = azurerm_resource_group.rg_aks.name
@@ -25,12 +33,14 @@ module "keda_workload_identity" {
   key_vault_certificate_permissions = ["Get"]
   key_vault_key_permissions         = ["Get"]
   key_vault_secret_permissions      = ["Get"]
+
+  depends_on = [module.keda_workload_identity_init]
 }
 
 resource "azurerm_role_assignment" "keda_monitoring_reader" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Monitoring Reader"
-  principal_id         = module.keda_workload_identity.workload_identity_principal_id
+  principal_id         = module.keda_workload_identity_configuration.workload_identity_principal_id
 
   depends_on = [
     module.aks
@@ -52,7 +62,7 @@ resource "helm_release" "keda" {
 
   set {
     name  = "podIdentity.identityId"
-    value = module.keda_workload_identity.workload_identity_client_id
+    value = module.keda_workload_identity_configuration.workload_identity_client_id
   }
 
   set {
