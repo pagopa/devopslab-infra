@@ -14,7 +14,7 @@
 |------|--------|---------|
 | <a name="module_key_vault_domain"></a> [key\_vault\_domain](#module\_key\_vault\_domain) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.21.0 |
 | <a name="module_letsencrypt_diego"></a> [letsencrypt\_diego](#module\_letsencrypt\_diego) | git::https://github.com/pagopa/terraform-azurerm-v3.git//letsencrypt_credential | v8.21.0 |
-| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.42.0 |
+| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.42.1 |
 
 ## Resources
 
