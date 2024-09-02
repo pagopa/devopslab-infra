@@ -127,3 +127,16 @@ variable "log_analytics_workspace_resource_group_name" {
   type        = string
   description = "The name of the resource group in which the Log Analytics workspace is located in."
 }
+
+#
+# AKS
+#
+variable "aks_resource_group_name" {
+  type        = string
+  description = "(Required) Resource group of the Kubernetes cluster."
+}
+
+variable "aks_name" {
+  type        = string
+  description = "(Required) Name of the Kubernetes cluster."
+}

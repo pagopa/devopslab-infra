@@ -28,6 +28,9 @@ monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
 log_analytics_workspace_name                = "dvopla-d-itn-law"
 log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
 
+aks_name = "dvopla-d-itn-dev-aks"
+aks_resource_group_name = "dvopla-d-itn-dev-aks-rg"
+
 storage_management_policy_rules = [
   {
     name : "rule1"
