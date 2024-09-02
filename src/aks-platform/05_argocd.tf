@@ -81,9 +81,9 @@ module "cert_mounter_argocd_internal" {
   kv_name          = data.azurerm_key_vault.kv_core_ita.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
 
-  workload_identity_enabled = true
+  workload_identity_enabled              = true
   workload_identity_service_account_name = module.argocd_workload_identity.workload_identity_service_account_name
-  workload_identity_client_id = module.argocd_workload_identity.workload_identity_client_id
+  workload_identity_client_id            = module.argocd_workload_identity.workload_identity_client_id
 
   depends_on = [
     module.argocd_workload_identity

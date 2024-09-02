@@ -13,7 +13,7 @@ locals {
 }
 
 module "keda_workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=aks-allow-remove-pod-identity"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.42.0"
 
   workload_name_prefix                  = "keda"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
