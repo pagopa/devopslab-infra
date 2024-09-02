@@ -1,7 +1,7 @@
 module "workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.39.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.0"
 
-  workload_name_prefix                  = var.domain
+  workload_identity_name                = "${var.domain}-workload-identity"
   workload_identity_resource_group_name = data.azurerm_kubernetes_cluster.aks.resource_group_name
   aks_name                              = data.azurerm_kubernetes_cluster.aks.name
   aks_resource_group_name               = data.azurerm_kubernetes_cluster.aks.resource_group_name
@@ -12,3 +12,4 @@ module "workload_identity" {
   key_vault_key_permissions         = ["Get"]
   key_vault_secret_permissions      = ["Get"]
 }
+
