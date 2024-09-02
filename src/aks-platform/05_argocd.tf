@@ -60,7 +60,7 @@ resource "azurerm_key_vault_secret" "argocd_admin_username" {
 #
 
 module "argocd_workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.39.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.42.0"
 
   workload_name_prefix                  = "argocd"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
@@ -75,7 +75,7 @@ module "argocd_workload_identity" {
 }
 
 module "cert_mounter_argocd_internal" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.39.0"
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.42.0"
   namespace        = "argocd"
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core_ita.name

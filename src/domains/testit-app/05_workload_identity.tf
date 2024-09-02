@@ -1,5 +1,5 @@
 module "workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.39.0"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity?ref=v8.42.0"
 
   workload_name_prefix                  = var.domain
   workload_identity_resource_group_name = data.azurerm_kubernetes_cluster.aks.resource_group_name
