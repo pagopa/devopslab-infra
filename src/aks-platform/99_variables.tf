@@ -586,3 +586,8 @@ variable "dns_zone_internal_prefix" {
   default     = null
   description = "The dns subdomain."
 }
+
+variable "argocd_helm_release_version" {
+  type        = string
+  description = "ArgoCD helm chart release version"
+}

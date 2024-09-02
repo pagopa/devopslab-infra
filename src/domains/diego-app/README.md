@@ -5,18 +5,19 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.105.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) |  ~> 3.110 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.26.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.30.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v8.21.0 |
-| <a name="module_domain_pod_identity"></a> [domain\_pod\_identity](#module\_domain\_pod\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity | v8.21.0 |
+| <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v8.42.1 |
+| <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker | v8.42.1 |
 | <a name="module_webservice_monitor_01"></a> [webservice\_monitor\_01](#module\_webservice\_monitor\_01) | git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_standard_web_test | v8.21.0 |
+| <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration | v8.42.1 |
 
 ## Resources
 
@@ -28,6 +29,7 @@
 | [azurerm_key_vault_secret.azure_devops_sa_token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_private_dns_a_record.itn_diego_ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [helm_release.reloader](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [kubernetes_manifest.argocd_app_diego](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_manifest.argocd_app_status_standalone](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_manifest.argocd_apps_ok](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_manifest.argocd_broken_apps](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
@@ -62,6 +64,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
+| <a name="input_argocd_showcase_enabled"></a> [argocd\_showcase\_enabled](#input\_argocd\_showcase\_enabled) | Enable or not app for showcase | `bool` | `false` | no |
 | <a name="input_cidr_subnet_container_apps"></a> [cidr\_subnet\_container\_apps](#input\_cidr\_subnet\_container\_apps) | Subnet for container apps in diego domain | `list(string)` | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | n/a | yes |
