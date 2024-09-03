@@ -21,7 +21,7 @@ module "keda_workload_identity_init" {
 }
 
 module "keda_workload_identity_configuration" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=workload-identity-fix-config"
 
   workload_identity_name_prefix         = "keda"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
@@ -29,10 +29,7 @@ module "keda_workload_identity_configuration" {
   aks_resource_group_name               = azurerm_resource_group.rg_aks.name
   namespace                             = kubernetes_namespace.keda.metadata[0].name
 
-  key_vault_id                      = data.azurerm_key_vault.kv_core_ita.id
-  key_vault_certificate_permissions = ["Get"]
-  key_vault_key_permissions         = ["Get"]
-  key_vault_secret_permissions      = ["Get"]
+  key_vault_configuration_enabled = false
 
   depends_on = [module.keda_workload_identity_init]
 }
