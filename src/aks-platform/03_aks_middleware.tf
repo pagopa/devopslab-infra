@@ -39,10 +39,8 @@ module "velero_aks_workload_identity" {
   private_endpoint_subnet_id          = azurerm_subnet.user_aks_subnet.id
   storage_account_private_dns_zone_id = data.azurerm_private_dns_zone.storage_account_private_dns_zone.id
   tags                                = {}
-}
 
-resource "azurerm_role_assignment" "velero_workload_identity_role" {
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = module.velero_workload_identity_init.workload_identity_principal_id
+  depends_on = [
+    kubernetes_namespace.velero_namespace
+  ]
 }
