@@ -12,27 +12,32 @@ locals {
   keda_namespace_name = kubernetes_namespace.keda.metadata[0].name
 }
 
-module "keda_pod_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_pod_identity?ref=v8.34.0"
+module "keda_workload_identity_init" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.42.1"
 
-  resource_group_name = azurerm_resource_group.rg_aks.name
-  location            = var.location
+  workload_identity_name_prefix         = "keda"
+  workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
+  workload_identity_location            = var.location
+}
 
-  identity_name = "${local.keda_namespace_name}-pod-identity"
-  tenant_id     = data.azurerm_subscription.current.tenant_id
+module "keda_workload_identity_configuration" {
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=workload-identity-fix-config"
 
-  cluster_name = module.aks.name
-  namespace    = kubernetes_namespace.keda.metadata[0].name
+  workload_identity_name_prefix         = "keda"
+  workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
+  aks_name                              = module.aks.name
+  aks_resource_group_name               = azurerm_resource_group.rg_aks.name
+  namespace                             = kubernetes_namespace.keda.metadata[0].name
 
-  depends_on = [
-    module.aks
-  ]
+  key_vault_configuration_enabled = false
+
+  depends_on = [module.keda_workload_identity_init]
 }
 
 resource "azurerm_role_assignment" "keda_monitoring_reader" {
   scope                = data.azurerm_subscription.current.id
   role_definition_name = "Monitoring Reader"
-  principal_id         = module.keda_pod_identity.identity.principal_id
+  principal_id         = module.keda_workload_identity_configuration.workload_identity_principal_id
 
   depends_on = [
     module.aks
@@ -48,8 +53,18 @@ resource "helm_release" "keda" {
   wait       = false
 
   set {
-    name  = "podIdentity.activeDirectory.identity"
-    value = "${local.keda_namespace_name}-pod-identity"
+    name  = "podIdentity.provider"
+    value = "azure-workload"
+  }
+
+  set {
+    name  = "podIdentity.identityId"
+    value = module.keda_workload_identity_configuration.workload_identity_client_id
+  }
+
+  set {
+    name  = "podIdentity.identityTenantId"
+    value = data.azurerm_client_config.current.tenant_id
   }
 
   depends_on = [
