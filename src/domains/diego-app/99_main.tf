@@ -23,6 +23,10 @@ terraform {
     local = {
       source = "hashicorp/local"
     }
+    argocd = {
+      source = "oboukili/argocd"
+      version = "<= 6.1.1"
+    }
   }
 
   backend "azurerm" {}
@@ -43,5 +47,14 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_name}"
+  }
+}
+
+provider "argocd" {
+  server_addr = var.argocd_server_addr
+  username    = data.azurerm_key_vault_secret.argocd_admin_username.value
+  password    = data.azurerm_key_vault_secret.argocd_admin_password.value
+  kubernetes {
+    config_context = "config-${local.aks_name}"
   }
 }
