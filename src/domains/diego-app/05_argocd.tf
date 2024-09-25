@@ -1,72 +1,111 @@
 #
 # Terraform argocd project
 #
-resource "kubernetes_manifest" "argocd_project_terraform" {
-  manifest = yamldecode(templatefile("${path.module}/argocd/projects/project-terraform-argocd.yaml", {}))
-  field_manager {
-    # set the name of the field manager
-    name = "argocd"
+resource "argocd_project" "project" {
+  metadata {
+    name      = "${var.domain}-project"
+    namespace = "argocd"
+    labels = {
+      acceptance = "true"
+    }
+  }
 
-    # force field manager conflicts to be overridden
-    force_conflicts = true
+  spec {
+    description = "${var.domain}-project"
+
+    source_namespaces = ["argocd"]
+    source_repos      = ["*"]
+
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = var.domain
+    }
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "argocd"
+    }
+
+    #     cluster_resource_blacklist {
+    #       group = "*"
+    #       kind  = "*"
+    #     }
+
+    cluster_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
+
+    namespace_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
+
+    orphaned_resources {
+      warn = true
+    }
+
+    #     role {
+    #       name = "anotherrole"
+    #       policies = [
+    #         "p, proj:myproject:testrole, applications, get, myproject/*, allow",
+    #         "p, proj:myproject:testrole, applications, sync, myproject/*, deny",
+    #       ]
+    #     }
   }
 }
 
-# data "kubernetes_secret_v1" "example" {
-#   metadata {
-#     name      = "example-secret"
-#     namespace = "argocd"
-#   }
-#   binary_data = {
-#     "keystore.p12" = ""
-#     another_field  = ""
-#   }
-# }
-#
-# $2a$10$spTFkPoQd.spcen9xT1tq.aMJ4O9fgH6q.r9c2sLLmwYIMWvgRyw.
-#
-# $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)
-#
-#
-# resource "null_resource" "argocd_create_app" {
-#   provisioner "local-exec" {
-#     command = "argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
-# "
-#   }
-# }
+# Helm application
+resource "argocd_application" "root_diego_app" {
+  metadata {
+    name      = "root-${var.domain}-app"
+    namespace = "argocd"
+    labels = {
+      name : "root-${var.domain}-app"
+      domain : var.domain
+    }
+  }
 
+  cascade = true
+  wait    = true
 
-#
-# APPS Diego deploy
-#
-resource "kubernetes_manifest" "argocd_app_diego" {
-  manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-diego.yaml", {
-    NAME : "domain-diego-deploy"
-    ARGOCD_PROJECT_NAME : "terraform-argocd-project"
-    WORKLOAD_IDENTITY_CLIENT_ID : module.workload_identity.workload_identity_client_id
-    GIT_REPO_URL : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-    GIT_TARGET_REVISION : "init-charts"
-    HELM_PATH : "helm/dev"
-    NAMESPACE : var.domain
-    DOMAIN : var.domain
-  }))
-}
+  spec {
+    project = argocd_project.project.metadata[0].name
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = var.domain
+    }
 
+    source {
+      repo_url        = "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+      target_revision = "main"
+      path            = "helm/dev"
+      helm {
+        values = yamlencode({
+          _argocdProjectName : argocd_project.project.metadata[0].name
+          _argocdProjectName1 : argocd_project.project.metadata[0].name
+          _azureWorkloadIdentityClientId : module.workload_identity.workload_identity_client_id
+          _gitRepoUrl : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+          _gitTargetRevision : "main"
+          _helmPath : "helm/dev"
+        })
+      }
+    }
 
-#
-# APPS Showcase
-#
-resource "kubernetes_manifest" "argocd_app_status_standalone" {
-  count    = var.argocd_showcase_enabled ? 1 : 0
-  manifest = yamldecode(templatefile("${path.module}/argocd/apps/app-status-standalone.yaml", {}))
-}
+    sync_policy {
+      automated {
+        prune       = true
+        self_heal   = false
+        allow_empty = false
+      }
 
-resource "kubernetes_manifest" "argocd_apps_ok" {
-  count    = var.argocd_showcase_enabled ? 1 : 0
-  manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-ok.yaml", {}))
-}
-
-resource "kubernetes_manifest" "argocd_broken_apps" {
-  count    = var.argocd_showcase_enabled ? 1 : 0
-  manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-broken.yaml", {}))
+      retry {
+        backoff {
+          duration     = "5s"
+          factor       = "2"
+          max_duration = "3m0s"
+        }
+        limit = "5"
+      }
+    }
+  }
 }

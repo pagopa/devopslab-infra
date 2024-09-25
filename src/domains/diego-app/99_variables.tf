@@ -28,7 +28,7 @@ locals {
   #
   # ARGOCD
   #
-  argocd_url = "argocd.internal.devopslab.pagopa.it"
+  argocd_server_addr = "argocd.internal.devopslab.pagopa.it"
 
   #
   # KeyVault
@@ -204,4 +204,9 @@ variable "argocd_showcase_enabled" {
   type        = bool
   description = "Enable or not app for showcase"
   default     = false
+}
+
+variable "argocd_server_addr" {
+  type        = string
+  description = "ArgoCD hostname"
 }
