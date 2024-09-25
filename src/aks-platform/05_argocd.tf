@@ -23,30 +23,20 @@ resource "helm_release" "argocd" {
   ]
 }
 
-resource "random_password" "argocd_admin_password" {
-  length           = 12
-  special          = true
-  override_special = "_%@"
-
-  depends_on = [helm_release.argocd]
+data "azurerm_key_vault_secret" "argocd_admin_password" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-admin-password"
 }
 
 resource "null_resource" "argocd_change_admin_password" {
 
   triggers = {
-    helm_revision   = helm_release.argocd.metadata[0].revision,
-    argocd_password = random_password.argocd_admin_password.result
+    argocd_password = data.azurerm_key_vault_secret.argocd_admin_password.value
   }
 
   provisioner "local-exec" {
-    command = "kubectl -n argocd patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(random_password.argocd_admin_password.result)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
+    command = "kubectl -n argocd patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(data.azurerm_key_vault_secret.argocd_admin_password.value)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
   }
-}
-
-resource "azurerm_key_vault_secret" "argocd_admin_password" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-admin-password"
-  value        = random_password.argocd_admin_password.result
 }
 
 resource "azurerm_key_vault_secret" "argocd_admin_username" {

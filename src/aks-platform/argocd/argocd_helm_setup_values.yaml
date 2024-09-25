@@ -30,3 +30,6 @@ repoServer:
   replicas: 1
 applicationSet:
   replicas: 1
+configs:
+  cm:
+    timeout.reconciliation: 30s
