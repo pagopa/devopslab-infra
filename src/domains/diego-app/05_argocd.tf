@@ -1,7 +1,7 @@
 #
 # Terraform argocd project
 #
-resource "argocd_project" "myproject" {
+resource "argocd_project" "project" {
   metadata {
     name      = "${var.domain}-project"
     namespace = "argocd"
@@ -54,40 +54,39 @@ resource "argocd_project" "myproject" {
   }
 }
 
+# Helm application
+resource "argocd_application" "root_diego_app" {
+  metadata {
+    name      = "root-${var.domain}-app"
+    namespace = "argocd"
+    labels = {
+      name: "root-${var.domain}-app"
+      domain: var.domain
+    }
+  }
 
+  spec {
+    project = argocd_project.project.metadata[0].name
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = var.domain
+    }
 
-#
-# #
-# # APPS Diego deploy
-# #
-# resource "kubernetes_manifest" "argocd_app_diego" {
-#   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-diego.yaml", {
-#     NAME : "domain-diego-deploy"
-#     ARGOCD_PROJECT_NAME : "terraform-argocd-project"
-#     WORKLOAD_IDENTITY_CLIENT_ID : module.workload_identity.workload_identity_client_id
-#     GIT_REPO_URL : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-#     GIT_TARGET_REVISION : "init-charts"
-#     HELM_PATH : "helm/dev"
-#     NAMESPACE : var.domain
-#     DOMAIN : var.domain
-#   }))
-# }
-#
-#
-# #
-# # APPS Showcase
-# #
-# resource "kubernetes_manifest" "argocd_app_status_standalone" {
-#   count    = var.argocd_showcase_enabled ? 1 : 0
-#   manifest = yamldecode(templatefile("${path.module}/argocd/apps/app-status-standalone.yaml", {}))
-# }
-#
-# resource "kubernetes_manifest" "argocd_apps_ok" {
-#   count    = var.argocd_showcase_enabled ? 1 : 0
-#   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-ok.yaml", {}))
-# }
-#
-# resource "kubernetes_manifest" "argocd_broken_apps" {
-#   count    = var.argocd_showcase_enabled ? 1 : 0
-#   manifest = yamldecode(templatefile("${path.module}/argocd/apps/apps-terraform-broken.yaml", {}))
-# }
+    source {
+      repo_url        = "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+#       chart           = "mychart"
+      target_revision = "init-charts"
+      path = "helm/dev"
+      helm {
+        values = yamlencode({
+          _argocdProjectName: argocd_project.project.metadata[0].name
+          _argocdProjectName1: argocd_project.project.metadata[0].name
+          _azureWorkloadIdentityClientId: module.workload_identity.workload_identity_client_id
+          _gitRepoUrl: "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+          _gitTargetRevision: "init-charts"
+          _helmPath: "helm/dev"
+        })
+      }
+    }
+  }
+}

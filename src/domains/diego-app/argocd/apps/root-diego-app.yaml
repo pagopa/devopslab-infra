@@ -22,10 +22,12 @@ spec:
     path: ${HELM_PATH}
     helm:
       valuesObject:
-        azureWorkloadIdentityClientId: ${WORKLOAD_IDENTITY_CLIENT_ID}
-        gitRepoUrl: ${GIT_REPO_URL}
-        gitTargetRevision: ${GIT_TARGET_REVISION}
-        helmPath: ${HELM_PATH}
+        _argocdProjectName: ${ARGOCD_PROJECT_NAME}
+        _argocdProjectName1: ${ARGOCD_PROJECT_NAME}
+        _azureWorkloadIdentityClientId: ${WORKLOAD_IDENTITY_CLIENT_ID}
+        _gitRepoUrl: ${GIT_REPO_URL}
+        _gitTargetRevision: ${GIT_TARGET_REVISION}
+        _helmPath: ${HELM_PATH}
         ciao: pippo
   destination:
     server: 'https://kubernetes.default.svc'
