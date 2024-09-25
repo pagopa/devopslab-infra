@@ -25,10 +25,10 @@ resource "argocd_project" "project" {
       namespace = "argocd"
     }
 
-#     cluster_resource_blacklist {
-#       group = "*"
-#       kind  = "*"
-#     }
+    #     cluster_resource_blacklist {
+    #       group = "*"
+    #       kind  = "*"
+    #     }
 
     cluster_resource_whitelist {
       group = "*"
@@ -44,13 +44,13 @@ resource "argocd_project" "project" {
       warn = true
     }
 
-#     role {
-#       name = "anotherrole"
-#       policies = [
-#         "p, proj:myproject:testrole, applications, get, myproject/*, allow",
-#         "p, proj:myproject:testrole, applications, sync, myproject/*, deny",
-#       ]
-#     }
+    #     role {
+    #       name = "anotherrole"
+    #       policies = [
+    #         "p, proj:myproject:testrole, applications, get, myproject/*, allow",
+    #         "p, proj:myproject:testrole, applications, sync, myproject/*, deny",
+    #       ]
+    #     }
   }
 }
 
@@ -60,13 +60,13 @@ resource "argocd_application" "root_diego_app" {
     name      = "root-${var.domain}-app"
     namespace = "argocd"
     labels = {
-      name: "root-${var.domain}-app"
-      domain: var.domain
+      name : "root-${var.domain}-app"
+      domain : var.domain
     }
   }
 
   cascade = true
-  wait = true
+  wait    = true
 
   spec {
     project = argocd_project.project.metadata[0].name
@@ -78,29 +78,29 @@ resource "argocd_application" "root_diego_app" {
     source {
       repo_url        = "https://github.com/diegolagospagopa/devopslab-diego-deploy"
       target_revision = "main"
-      path = "helm/dev"
+      path            = "helm/dev"
       helm {
         values = yamlencode({
-          _argocdProjectName: argocd_project.project.metadata[0].name
-          _argocdProjectName1: argocd_project.project.metadata[0].name
-          _azureWorkloadIdentityClientId: module.workload_identity.workload_identity_client_id
-          _gitRepoUrl: "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-          _gitTargetRevision: "main"
-          _helmPath: "helm/dev"
+          _argocdProjectName : argocd_project.project.metadata[0].name
+          _argocdProjectName1 : argocd_project.project.metadata[0].name
+          _azureWorkloadIdentityClientId : module.workload_identity.workload_identity_client_id
+          _gitRepoUrl : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+          _gitTargetRevision : "main"
+          _helmPath : "helm/dev"
         })
       }
     }
 
     sync_policy {
       automated {
-        prune = true
-        self_heal = false
+        prune       = true
+        self_heal   = false
         allow_empty = false
       }
 
       retry {
         backoff {
-          duration = "5s"
+          duration     = "5s"
           factor       = "2"
           max_duration = "3m0s"
         }

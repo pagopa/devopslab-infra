@@ -207,6 +207,6 @@ variable "argocd_showcase_enabled" {
 }
 
 variable "argocd_server_addr" {
-  type = string
+  type        = string
   description = "ArgoCD hostname"
 }
