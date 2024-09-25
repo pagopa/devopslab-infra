@@ -65,6 +65,9 @@ resource "argocd_application" "root_diego_app" {
     }
   }
 
+  cascade = true
+  wait = true
+
   spec {
     project = argocd_project.project.metadata[0].name
     destination {
@@ -74,8 +77,7 @@ resource "argocd_application" "root_diego_app" {
 
     source {
       repo_url        = "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-#       chart           = "mychart"
-      target_revision = "init-charts"
+      target_revision = "main"
       path = "helm/dev"
       helm {
         values = yamlencode({
@@ -83,9 +85,26 @@ resource "argocd_application" "root_diego_app" {
           _argocdProjectName1: argocd_project.project.metadata[0].name
           _azureWorkloadIdentityClientId: module.workload_identity.workload_identity_client_id
           _gitRepoUrl: "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-          _gitTargetRevision: "init-charts"
+          _gitTargetRevision: "main"
           _helmPath: "helm/dev"
         })
+      }
+    }
+
+    sync_policy {
+      automated {
+        prune = true
+        self_heal = false
+        allow_empty = false
+      }
+
+      retry {
+        backoff {
+          duration = "5s"
+          factor       = "2"
+          max_duration = "3m0s"
+        }
+        limit = "5"
       }
     }
   }

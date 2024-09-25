@@ -8,6 +8,9 @@ resource "kubernetes_namespace" "namespace_argocd" {
   ]
 }
 
+#
+# Setup ArgoCD
+#
 resource "helm_release" "argocd" {
   name      = "argo"
   chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-${var.argocd_helm_release_version}/argo-cd-${var.argocd_helm_release_version}.tgz"
