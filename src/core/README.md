@@ -28,8 +28,8 @@ az network dns zone show \
 | Name | Version |
 |------|---------|
 | <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | <= 1.12.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.101.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.50.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.116.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | <= 2.3.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | <= 3.6.0 |
@@ -39,8 +39,9 @@ az network dns zone show \
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_azdoa_vmss_li"></a> [azdoa\_vmss\_li](#module\_azdoa\_vmss\_li) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent | v8.13.0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | ab2cf6a43414f2cc80a9e51332182c26ad970f72 |
+| <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_azdoa_vmss_linux"></a> [azdoa\_vmss\_linux](#module\_azdoa\_vmss\_linux) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
 | <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2 | v8.13.0 |
 | <a name="module_container_registry_public"></a> [container\_registry\_public](#module\_container\_registry\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v8.13.0 |
 | <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss | v8.13.0 |
