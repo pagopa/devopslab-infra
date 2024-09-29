@@ -54,7 +54,9 @@ resource "argocd_project" "project" {
   }
 }
 
+#
 # Helm application
+#
 resource "argocd_application" "root_diego_app" {
   metadata {
     name      = "root-${var.domain}-app"
@@ -76,7 +78,7 @@ resource "argocd_application" "root_diego_app" {
     }
 
     source {
-      repo_url        = "https://github.com/diegolagospagopa/devopslab-diego-deploy"
+      repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
       target_revision = "main"
       path            = "helm/dev"
       helm {
@@ -91,21 +93,21 @@ resource "argocd_application" "root_diego_app" {
       }
     }
 
-    sync_policy {
-      automated {
-        prune       = true
-        self_heal   = false
-        allow_empty = false
-      }
-
-      retry {
-        backoff {
-          duration     = "5s"
-          factor       = "2"
-          max_duration = "3m0s"
-        }
-        limit = "5"
-      }
-    }
+#     sync_policy {
+#       automated {
+#         prune       = true
+#         self_heal   = false
+#         allow_empty = false
+#       }
+#
+#       retry {
+#         backoff {
+#           duration     = "5s"
+#           factor       = "2"
+#           max_duration = "3m0s"
+#         }
+#         limit = "5"
+#       }
+#     }
   }
 }
