@@ -14,5 +14,5 @@ tags = {
   Application = "packer"
 }
 
-dns_forwarder_image_version = "v1"
-azdo_image_version          = "v1"
+dns_forwarder_image_version = "v20240927"
+azdo_image_version          = "v20240928"

@@ -1,6 +1,6 @@
 # packer
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -13,8 +13,9 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azdoa_custom_image"></a> [azdoa\_custom\_image](#module\_azdoa\_custom\_image) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image | v8.34.0 |
-| <a name="module_dns_forwarder_image"></a> [dns\_forwarder\_image](#module\_dns\_forwarder\_image) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_vm_image | v8.34.0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | ab2cf6a43414f2cc80a9e51332182c26ad970f72 |
+| <a name="module_azdoa_custom_image"></a> [azdoa\_custom\_image](#module\_azdoa\_custom\_image) | ./.terraform/modules/__v3__/azure_devops_agent_custom_image | n/a |
+| <a name="module_dns_forwarder_image"></a> [dns\_forwarder\_image](#module\_dns\_forwarder\_image) | ./.terraform/modules/__v3__/dns_forwarder_vm_image | n/a |
 
 ## Resources
 
@@ -44,4 +45,4 @@
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
