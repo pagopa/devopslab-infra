@@ -1,7 +1,7 @@
 # .identity
 
 <!-- markdownlint-disable -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -55,4 +55,4 @@
 | <a name="output_ci_service_principal_github_action_name"></a> [ci\_service\_principal\_github\_action\_name](#output\_ci\_service\_principal\_github\_action\_name) | n/a |
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | n/a |
 | <a name="output_tenant_id"></a> [tenant\_id](#output\_tenant\_id) | n/a |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
