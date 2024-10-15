@@ -22,10 +22,10 @@ module "container_app_job" {
   environment_name = module.container_app_environment_runner.name
   environment_rg   = module.container_app_environment_runner.resource_group_name
 
-
+  polling_interval_in_seconds = 10
   job = {
     name             = "infra"
-    repo             = "pagopa-infra"
+    repo             = "devops-app-status"
     polling_interval = 20
   }
 
