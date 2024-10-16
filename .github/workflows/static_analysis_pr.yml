@@ -10,7 +10,16 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Static Analysis
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@59c12b7a846423d62c27c9905686a7a1fd71c003 # v1.7.0
+      - name: 🔨 Get Modified Paths
+        id: get-paths
+        uses: pagopa/eng-github-actions-iac-template/global/get-modifed-folders@v1.19.0
         with:
-          precommit_version: 'v1.96.1@sha256:9aea677ac51d67eb96b3bbb4cf93b16afdde5476f984e75e87888850d18146c9'
+          start_folder: "src"
+          default_end_folder_depth: 3
+          include_patterns: "src,domains"
+          
+      - name: Static Analysis
+        if: env.dir_changes_detected == 'true'
+        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@v1.14.1
+        with:
+          precommit_version: 'v1.89.1@sha256:1ea921bc4fe87651d41677218e537afdcdb8202e757e554b9866668eaba144c5'
