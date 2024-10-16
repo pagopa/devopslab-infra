@@ -11,7 +11,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | PAYMCLOUD-109-POC-Github-Runner-on-DevOpsLab |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | v8.50.0 |
 | <a name="module_container_app_environment_runner"></a> [container\_app\_environment\_runner](#module\_container\_app\_environment\_runner) | ./.terraform/modules/__v3__/container_app_environment_v2 | n/a |
 | <a name="module_container_app_job"></a> [container\_app\_job](#module\_container\_app\_job) | ./.terraform/modules/__v3__/container_app_job_gh_runner_v2 | n/a |
 | <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | ./.terraform/modules/__v3__/github_federated_identity | n/a |
