@@ -1,6 +1,6 @@
 # github-runner
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -39,13 +39,13 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
-| <a name="input_key_vault_common"></a> [key\_vault\_common](#input\_key\_vault\_common) | n/a | <pre>object({<br/>    name            = string<br/>    pat_secret_name = string<br/>  })</pre> | n/a | yes |
+| <a name="input_key_vault_common"></a> [key\_vault\_common](#input\_key\_vault\_common) | n/a | <pre>object({<br>    name            = string<br>    pat_secret_name = string<br>  })</pre> | n/a | yes |
 | <a name="input_law_name"></a> [law\_name](#input\_law\_name) | n/a | `string` | `"Log Analytics Workspace name"` | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"northeurope"` | no |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | n/a | `string` | `"neu"` | no |
-| <a name="input_networking"></a> [networking](#input\_networking) | n/a | <pre>object({<br/>    vnet_common_name  = string<br/>    subnet_cidr_block = string<br/>  })</pre> | n/a | yes |
+| <a name="input_networking"></a> [networking](#input\_networking) | n/a | <pre>object({<br>    vnet_common_name  = string<br>    subnet_cidr_block = string<br>  })</pre> | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
 
 ## Outputs
 
@@ -60,4 +60,4 @@
 | <a name="output_github_manage_identity_principal_id"></a> [github\_manage\_identity\_principal\_id](#output\_github\_manage\_identity\_principal\_id) | Managed identity principal ID |
 | <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | Subnet id |
 | <a name="output_subnet_name"></a> [subnet\_name](#output\_subnet\_name) | Subnet name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
