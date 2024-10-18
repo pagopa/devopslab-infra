@@ -93,21 +93,21 @@ resource "argocd_application" "root_diego_app" {
       }
     }
 
-#     sync_policy {
-#       automated {
-#         prune       = true
-#         self_heal   = false
-#         allow_empty = false
-#       }
-#
-#       retry {
-#         backoff {
-#           duration     = "5s"
-#           factor       = "2"
-#           max_duration = "3m0s"
-#         }
-#         limit = "5"
-#       }
-#     }
+    #     sync_policy {
+    #       automated {
+    #         prune       = true
+    #         self_heal   = false
+    #         allow_empty = false
+    #       }
+    #
+    #       retry {
+    #         backoff {
+    #           duration     = "5s"
+    #           factor       = "2"
+    #           max_duration = "3m0s"
+    #         }
+    #         limit = "5"
+    #       }
+    #     }
   }
 }
