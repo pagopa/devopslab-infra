@@ -1,6 +1,6 @@
 # github-runner
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -60,4 +60,4 @@
 | <a name="output_github_manage_identity_principal_id"></a> [github\_manage\_identity\_principal\_id](#output\_github\_manage\_identity\_principal\_id) | Managed identity principal ID |
 | <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | Subnet id |
 | <a name="output_subnet_name"></a> [subnet\_name](#output\_subnet\_name) | Subnet name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

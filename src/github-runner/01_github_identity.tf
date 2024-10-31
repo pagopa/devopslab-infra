@@ -21,17 +21,18 @@ locals {
   # to avoid subscription Contributor -> https://github.com/microsoft/azure-container-apps/issues/35
   environment_cd_roles = {
     subscription = [
-      "Contributor"
+      "Reader"
     ]
     resource_groups = {
       "${azurerm_resource_group.rg_github_runner.name}" = [
         "Key Vault Reader"
       ],
       "${data.azurerm_kubernetes_cluster.aks.resource_group_name}" = [
-        "Contributor"
+        "Reader",
+        "Azure Kubernetes Service Cluster User Role"
       ],
       "${azurerm_resource_group.rg_github_runner.name}" = [
-        "Contributor"
+        "Reader"
       ]
     }
   }
