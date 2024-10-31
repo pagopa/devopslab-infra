@@ -17,9 +17,9 @@ jobs:
           start_folder: "src"
           default_end_folder_depth: 3
           include_patterns: "src,domains"
-          
+
       - name: Static Analysis
         if: env.dir_changes_detected == 'true'
         uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@v1.14.1
         with:
-          precommit_version: 'v1.89.1@sha256:1ea921bc4fe87651d41677218e537afdcdb8202e757e554b9866668eaba144c5'
+          precommit_version: 'v1.96.1@sha256:80876df72a6009ab73ba28793928325a38fa2a68a16f1c81416ff4951ac76d68'
