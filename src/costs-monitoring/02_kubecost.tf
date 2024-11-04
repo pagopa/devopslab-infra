@@ -13,4 +13,14 @@ resource "helm_release" "kubecost" {
     name  = "ingress.enabled"
     value = "true"
   }
+
+  set_list {
+    name  = "ingress.hosts"
+    value = ["costs-monitoring.itn.internal.devopslab.pagopa.it"]
+  }
+
+  set {
+    name  = "ingress.className"
+    value = "nginx"
+  }
 }

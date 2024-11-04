@@ -17,9 +17,11 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_private_dns_a_record.cost_monitoring_internal_record](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [helm_release.kubecost](https://registry.terraform.io/providers/hashicorp/helm/2.16.1/docs/resources/release) | resource |
 | [kubernetes_namespace.costs_monitoring](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [azurerm_kubernetes_cluster.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/kubernetes_cluster) | data source |
+| [azurerm_private_dns_zone.internal_dbs_zone](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/private_dns_zone) | data source |
 
 ## Inputs
 
