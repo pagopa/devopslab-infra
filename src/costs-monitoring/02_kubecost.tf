@@ -6,7 +6,7 @@ resource "helm_release" "kubecost" {
 
   set {
     name  = "kubecostToken"
-    value = "ZmFiaW8uZmVsaWNpQHBhZ29wYS5pdA==xm343yadf98"
+    value = data.azurerm_key_vault_secret.kubecost-token.value
   }
 
   set {
