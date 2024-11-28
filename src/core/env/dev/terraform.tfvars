@@ -178,7 +178,7 @@ redis_enabled = false
 law_daily_quota_gb = 1
 
 azdoa_image_name              = "azdo-agent-ubuntu2204-image-v20240928"
-dns_forwarder_vmss_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-v20240927"
+dns_forwarder_vmss_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-v20241129"
 
 #
 # Container app ENV

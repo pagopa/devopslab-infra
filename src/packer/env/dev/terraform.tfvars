@@ -15,4 +15,4 @@ tags = {
 }
 
 dns_forwarder_image_version = "v20240927"
-azdo_image_version          = "v20240928"
+azdo_image_version          = "v20241129"
