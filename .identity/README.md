@@ -39,11 +39,11 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_env"></a> [env](#input\_env) | Environment | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
-| <a name="input_environment_cd_roles"></a> [environment\_cd\_roles](#input\_environment\_cd\_roles) | GitHub Continous Delivery roles | <pre>object({<br>    subscription = list(string)<br>  })</pre> | n/a | yes |
-| <a name="input_environment_ci_roles"></a> [environment\_ci\_roles](#input\_environment\_ci\_roles) | GitHub Continous Integration roles | <pre>object({<br>    subscription = list(string)<br>  })</pre> | n/a | yes |
-| <a name="input_github"></a> [github](#input\_github) | GitHub Organization and repository name | <pre>object({<br>    org        = string<br>    repository = string<br>  })</pre> | n/a | yes |
-| <a name="input_github_repository_environment_cd"></a> [github\_repository\_environment\_cd](#input\_github\_repository\_environment\_cd) | GitHub Continous Integration roles | <pre>object({<br>    protected_branches     = bool<br>    custom_branch_policies = bool<br>    reviewers_teams        = list(string)<br>  })</pre> | n/a | yes |
-| <a name="input_github_repository_environment_ci"></a> [github\_repository\_environment\_ci](#input\_github\_repository\_environment\_ci) | GitHub Continous Integration roles | <pre>object({<br>    protected_branches     = bool<br>    custom_branch_policies = bool<br>  })</pre> | n/a | yes |
+| <a name="input_environment_cd_roles"></a> [environment\_cd\_roles](#input\_environment\_cd\_roles) | GitHub Continous Delivery roles | <pre>object({<br/>    subscription = list(string)<br/>  })</pre> | n/a | yes |
+| <a name="input_environment_ci_roles"></a> [environment\_ci\_roles](#input\_environment\_ci\_roles) | GitHub Continous Integration roles | <pre>object({<br/>    subscription = list(string)<br/>  })</pre> | n/a | yes |
+| <a name="input_github"></a> [github](#input\_github) | GitHub Organization and repository name | <pre>object({<br/>    org        = string<br/>    repository = string<br/>  })</pre> | n/a | yes |
+| <a name="input_github_repository_environment_cd"></a> [github\_repository\_environment\_cd](#input\_github\_repository\_environment\_cd) | GitHub Continous Integration roles | <pre>object({<br/>    protected_branches     = bool<br/>    custom_branch_policies = bool<br/>    reviewers_teams        = list(string)<br/>  })</pre> | n/a | yes |
+| <a name="input_github_repository_environment_ci"></a> [github\_repository\_environment\_ci](#input\_github\_repository\_environment\_ci) | GitHub Continous Integration roles | <pre>object({<br/>    protected_branches     = bool<br/>    custom_branch_policies = bool<br/>  })</pre> | n/a | yes |
 | <a name="input_github_token"></a> [github\_token](#input\_github\_token) | GitHub Organization and repository name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 

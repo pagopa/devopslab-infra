@@ -39,7 +39,7 @@ az network dns zone show \
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | ab2cf6a43414f2cc80a9e51332182c26ad970f72 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | a88c6d99ec3871db7de57db4280422b02db3e4f0 |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
 | <a name="module_azdoa_vmss_linux"></a> [azdoa\_vmss\_linux](#module\_azdoa\_vmss\_linux) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
 | <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2 | v8.13.0 |
@@ -162,7 +162,7 @@ az network dns zone show \
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_external_domain"></a> [external\_domain](#input\_external\_domain) | Domain for delegation | `string` | `null` | no |
-| <a name="input_is_resource_core_enabled"></a> [is\_resource\_core\_enabled](#input\_is\_resource\_core\_enabled) | Feature flags | <pre>object({<br>    postgresql_server = bool,<br>  })</pre> | n/a | yes |
+| <a name="input_is_resource_core_enabled"></a> [is\_resource\_core\_enabled](#input\_is\_resource\_core\_enabled) | Feature flags | <pre>object({<br/>    postgresql_server = bool,<br/>  })</pre> | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |
 | <a name="input_law_daily_quota_gb"></a> [law\_daily\_quota\_gb](#input\_law\_daily\_quota\_gb) | The workspace daily quota for ingestion in GB. | `number` | `-1` | no |
@@ -175,13 +175,13 @@ az network dns zone show \
 | <a name="input_lock_enable"></a> [lock\_enable](#input\_lock\_enable) | Apply locks to block accedentaly deletions. | `bool` | `false` | no |
 | <a name="input_postgres_alerts_enabled"></a> [postgres\_alerts\_enabled](#input\_postgres\_alerts\_enabled) | Database alerts enabled? | `bool` | `false` | no |
 | <a name="input_postgres_byok_enabled"></a> [postgres\_byok\_enabled](#input\_postgres\_byok\_enabled) | Enable postgresql encryption with Customer Managed Key (BYOK) | `bool` | `false` | no |
-| <a name="input_postgres_network_rules"></a> [postgres\_network\_rules](#input\_postgres\_network\_rules) | Database network rules | <pre>object({<br>    ip_rules                       = list(string)<br>    allow_access_to_azure_services = bool<br>  })</pre> | <pre>{<br>  "allow_access_to_azure_services": false,<br>  "ip_rules": []<br>}</pre> | no |
+| <a name="input_postgres_network_rules"></a> [postgres\_network\_rules](#input\_postgres\_network\_rules) | Database network rules | <pre>object({<br/>    ip_rules                       = list(string)<br/>    allow_access_to_azure_services = bool<br/>  })</pre> | <pre>{<br/>  "allow_access_to_azure_services": false,<br/>  "ip_rules": []<br/>}</pre> | no |
 | <a name="input_postgres_private_endpoint_enabled"></a> [postgres\_private\_endpoint\_enabled](#input\_postgres\_private\_endpoint\_enabled) | Enable vnet private endpoint for postgres | `bool` | n/a | yes |
 | <a name="input_postgres_public_network_access_enabled"></a> [postgres\_public\_network\_access\_enabled](#input\_postgres\_public\_network\_access\_enabled) | Enable/Disable public network access | `bool` | `false` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | `"dvopla"` | no |
 | <a name="input_redis_enabled"></a> [redis\_enabled](#input\_redis\_enabled) | Redis | `bool` | `false` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
-| <a name="input_vnet_ita_ddos_protection_plan"></a> [vnet\_ita\_ddos\_protection\_plan](#input\_vnet\_ita\_ddos\_protection\_plan) | ## Italy location | <pre>object({<br>    id     = string<br>    enable = bool<br>  })</pre> | `null` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
+| <a name="input_vnet_ita_ddos_protection_plan"></a> [vnet\_ita\_ddos\_protection\_plan](#input\_vnet\_ita\_ddos\_protection\_plan) | ## Italy location | <pre>object({<br/>    id     = string<br/>    enable = bool<br/>  })</pre> | `null` | no |
 | <a name="input_vpn_enabled"></a> [vpn\_enabled](#input\_vpn\_enabled) | Enable VPN setup | `bool` | `false` | no |
 | <a name="input_vpn_pip_sku"></a> [vpn\_pip\_sku](#input\_vpn\_pip\_sku) | VPN GW PIP SKU | `string` | n/a | yes |
 | <a name="input_vpn_sku"></a> [vpn\_sku](#input\_vpn\_sku) | VPN Gateway SKU | `string` | n/a | yes |

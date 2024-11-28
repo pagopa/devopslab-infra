@@ -64,7 +64,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_aks_resource_group_name"></a> [aks\_resource\_group\_name](#input\_aks\_resource\_group\_name) | AKS cluster resource name | `string` | n/a | yes |
-| <a name="input_aks_user_node_pool_testit"></a> [aks\_user\_node\_pool\_testit](#input\_aks\_user\_node\_pool\_testit) | AKS node pool user configuration | <pre>object({<br>    name                       = string,<br>    vm_size                    = string,<br>    os_disk_type               = string,<br>    os_disk_size_gb            = string,<br>    node_count_min             = number,<br>    node_count_max             = number,<br>    node_labels                = map(any),<br>    node_taints                = list(string),<br>    node_tags                  = map(any),<br>    ultra_ssd_enabled          = optional(bool, false),<br>    enable_host_encryption     = optional(bool, true),<br>    max_pods                   = optional(number, 250),<br>    upgrade_settings_max_surge = optional(string, "30%"),<br>    zones                      = optional(list(any), [1, 2, 3]),<br>  })</pre> | n/a | yes |
+| <a name="input_aks_user_node_pool_testit"></a> [aks\_user\_node\_pool\_testit](#input\_aks\_user\_node\_pool\_testit) | AKS node pool user configuration | <pre>object({<br/>    name                       = string,<br/>    vm_size                    = string,<br/>    os_disk_type               = string,<br/>    os_disk_size_gb            = string,<br/>    node_count_min             = number,<br/>    node_count_max             = number,<br/>    node_labels                = map(any),<br/>    node_taints                = list(string),<br/>    node_tags                  = map(any),<br/>    ultra_ssd_enabled          = optional(bool, false),<br/>    enable_host_encryption     = optional(bool, true),<br/>    max_pods                   = optional(number, 250),<br/>    upgrade_settings_max_surge = optional(string, "30%"),<br/>    zones                      = optional(list(any), [1, 2, 3]),<br/>  })</pre> | n/a | yes |
 | <a name="input_cidr_subnet_user_aks_testit"></a> [cidr\_subnet\_user\_aks\_testit](#input\_cidr\_subnet\_user\_aks\_testit) | Subnet cluster kubernetes. | `list(string)` | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | The dns subdomain. | `string` | n/a | yes |
@@ -76,7 +76,7 @@
 | <a name="input_ingress_load_balancer_hostname"></a> [ingress\_load\_balancer\_hostname](#input\_ingress\_load\_balancer\_hostname) | n/a | `string` | `""` | no |
 | <a name="input_ingress_load_balancer_ip"></a> [ingress\_load\_balancer\_ip](#input\_ingress\_load\_balancer\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_instance"></a> [instance](#input\_instance) | One of beta, prod01, prod02 | `string` | n/a | yes |
-| <a name="input_is_feature_enabled"></a> [is\_feature\_enabled](#input\_is\_feature\_enabled) | n/a | <pre>object({<br>    nodepool_dedicated = bool<br>  })</pre> | <pre>{<br>  "nodepool_dedicated": false<br>}</pre> | no |
+| <a name="input_is_feature_enabled"></a> [is\_feature\_enabled](#input\_is\_feature\_enabled) | n/a | <pre>object({<br/>    nodepool_dedicated = bool<br/>  })</pre> | <pre>{<br/>  "nodepool_dedicated": false<br/>}</pre> | no |
 | <a name="input_k8s_kube_config_path_prefix"></a> [k8s\_kube\_config\_path\_prefix](#input\_k8s\_kube\_config\_path\_prefix) | n/a | `string` | `"~/.kube"` | no |
 | <a name="input_location"></a> [location](#input\_location) | One of westeurope, northeurope | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | One of wue, neu | `string` | n/a | yes |
@@ -86,8 +86,8 @@
 | <a name="input_monitor_resource_group_name"></a> [monitor\_resource\_group\_name](#input\_monitor\_resource\_group\_name) | Monitor resource group name | `string` | n/a | yes |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_rg_vnet_italy_name"></a> [rg\_vnet\_italy\_name](#input\_rg\_vnet\_italy\_name) | Resource group dedicated to VNet AKS | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br>  "CreatedBy": "Terraform"<br>}</pre> | no |
-| <a name="input_tls_cert_check_helm"></a> [tls\_cert\_check\_helm](#input\_tls\_cert\_check\_helm) | tls cert helm chart configuration | <pre>object({<br>    chart_version = string,<br>    image_name    = string,<br>    image_tag     = string<br>  })</pre> | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
+| <a name="input_tls_cert_check_helm"></a> [tls\_cert\_check\_helm](#input\_tls\_cert\_check\_helm) | tls cert helm chart configuration | <pre>object({<br/>    chart_version = string,<br/>    image_name    = string,<br/>    image_tag     = string<br/>  })</pre> | n/a | yes |
 | <a name="input_vnet_italy_name"></a> [vnet\_italy\_name](#input\_vnet\_italy\_name) | VNet dedicated to AKS | `string` | n/a | yes |
 
 ## Outputs
