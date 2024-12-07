@@ -57,12 +57,12 @@ resource "argocd_project" "project" {
 locals {
   argocd_applications = {
     "one-color" = {
-      name           = "one-color"
-      target_branch  = "main"
+      name          = "one-color"
+      target_branch = "main"
     },
     "two-color" = {
-      name           = "two-color"
-      target_branch  = "main"
+      name          = "two-color"
+      target_branch = "main"
     }
     # Puoi aggiungere altre app seguendo lo stesso pattern
   }
@@ -78,7 +78,7 @@ resource "argocd_application" "diego_apps" {
     labels = {
       name   = "${local.area}-${each.value.name}"
       domain = var.domain
-      area = local.area
+      area   = local.area
     }
   }
 
@@ -93,13 +93,13 @@ resource "argocd_application" "diego_apps" {
     source {
       repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
       target_revision = each.value.target_branch
-      path           = "helm/${var.env}/${each.value.name}"
+      path            = "helm/${var.env}/${each.value.name}"
 
       helm {
         values = yamlencode({
-          microservice-chart: {
-            azure: {
-              workloadIdentityClientId: module.workload_identity.workload_identity_client_id
+          microservice-chart : {
+            azure : {
+              workloadIdentityClientId : module.workload_identity.workload_identity_client_id
             }
           }
         })

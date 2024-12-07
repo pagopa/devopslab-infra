@@ -2,7 +2,7 @@ locals {
   product       = "${var.prefix}-${var.env_short}"
   product_italy = "${var.prefix}-${var.env_short}-${var.location_short}"
   project       = "${var.prefix}-${var.env_short}-${var.location_short}-${var.domain}"
-  area = "devopslab-diego"
+  area          = "devopslab-diego"
 
   monitor_appinsights_name        = "${local.product_italy}-appinsights"
   monitor_action_group_slack_name = "SlackPagoPA"
