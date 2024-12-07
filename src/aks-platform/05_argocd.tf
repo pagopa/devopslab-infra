@@ -18,7 +18,7 @@ resource "helm_release" "argocd" {
   wait      = false
 
   values = [
-    file("argocd/argocd_helm_setup_values.yaml")
+    file("${path.module}/argocd/argocd_helm_setup_values.yaml")
   ]
 
   depends_on = [

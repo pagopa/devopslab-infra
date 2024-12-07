@@ -4,9 +4,9 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_argocd"></a> [argocd](#requirement\_argocd) | <= 6.1.1 |
+| <a name="requirement_argocd"></a> [argocd](#requirement\_argocd) | ~> 7.1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) |  ~> 3.110 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.110 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.30.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
@@ -24,8 +24,8 @@
 
 | Name | Type |
 |------|------|
-| [argocd_application.root_diego_app](https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/application) | resource |
-| [argocd_project.project](https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project) | resource |
+| [argocd_application.diego_apps](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/application) | resource |
+| [argocd_project.project](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.app_insights_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = " ~> 3.110"
+      version = "~> 3.110"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -24,8 +24,8 @@ terraform {
       source = "hashicorp/local"
     }
     argocd = {
-      source  = "oboukili/argocd"
-      version = "<= 6.1.1"
+      source  = "argoproj-labs/argocd"
+      version = "~> 7.1.0"
     }
   }
 
