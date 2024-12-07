@@ -54,24 +54,37 @@ resource "argocd_project" "project" {
   }
 }
 
-#
-# Helm application
-#
-resource "argocd_application" "root_diego_app" {
+locals {
+  argocd_applications = {
+    "one-color" = {
+      name           = "one-color"
+      target_branch  = "main"
+    },
+    "two-color" = {
+      name           = "two-color"
+      target_branch  = "main"
+    }
+    # Puoi aggiungere altre app seguendo lo stesso pattern
+  }
+}
+
+# Creiamo le singole Applications
+resource "argocd_application" "diego_apps" {
+  for_each = local.argocd_applications
+
   metadata {
-    name      = "root-${var.domain}-app"
+    name      = "${local.area}-${each.value.name}"
     namespace = "argocd"
     labels = {
-      name : "root-${var.domain}-app"
-      domain : var.domain
+      name   = "${local.area}-${each.value.name}"
+      domain = var.domain
+      area = local.area
     }
   }
 
-  cascade = true
-  wait    = true
-
   spec {
     project = argocd_project.project.metadata[0].name
+
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = var.domain
@@ -79,35 +92,43 @@ resource "argocd_application" "root_diego_app" {
 
     source {
       repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
-      target_revision = "main"
-      path            = "helm/dev"
+      target_revision = each.value.target_branch
+      path           = "helm/${var.env}/${each.value.name}"
+
       helm {
         values = yamlencode({
-          _argocdProjectName : argocd_project.project.metadata[0].name
-          _argocdProjectName1 : argocd_project.project.metadata[0].name
-          _azureWorkloadIdentityClientId : module.workload_identity.workload_identity_client_id
-          _gitRepoUrl : "https://github.com/diegolagospagopa/devopslab-diego-deploy"
-          _gitTargetRevision : "main"
-          _helmPath : "helm/dev"
+          microservice-chart: {
+            azure: {
+              workloadIdentityClientId: module.workload_identity.workload_identity_client_id
+            }
+          }
         })
+        ignore_missing_value_files = false
+        pass_credentials           = false
+        skip_crds                  = false
+        value_files                = []
       }
     }
 
-    #     sync_policy {
-    #       automated {
-    #         prune       = true
-    #         self_heal   = false
-    #         allow_empty = false
-    #       }
-    #
-    #       retry {
-    #         backoff {
-    #           duration     = "5s"
-    #           factor       = "2"
-    #           max_duration = "3m0s"
-    #         }
-    #         limit = "5"
-    #       }
+    # Decommentare e modificare se necessario
+    # sync_policy {
+    #   automated {
+    #     prune       = true
+    #     self_heal   = false
+    #     allow_empty = false
+    #   }
+    #   retry {
+    #     backoff {
+    #       duration     = "5s"
+    #       factor       = "2"
+    #       max_duration = "3m0s"
     #     }
+    #     limit = "5"
+    #   }
+    # }
   }
+
+  depends_on = [
+    argocd_project.project
+  ]
 }
