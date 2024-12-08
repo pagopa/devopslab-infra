@@ -24,7 +24,7 @@
 
 | Name | Type |
 |------|------|
-| [argocd_application.diego_apps](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/application) | resource |
+| [argocd_application_set.diego_appset](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/application_set) | resource |
 | [argocd_project.project](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.app_insights_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |

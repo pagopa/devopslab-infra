@@ -84,8 +84,8 @@ resource "argocd_application_set" "diego_appset" {
       list {
         elements = [
           for app_key, app in local.argocd_applications : {
-            name           = app.name
-            targetBranch   = app.target_branch
+            name         = app.name
+            targetBranch = app.target_branch
           }
         ]
       }
@@ -112,7 +112,7 @@ resource "argocd_application_set" "diego_appset" {
         source {
           repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
           target_revision = "{{targetBranch}}"
-          path           = "helm/${var.env}/{{name}}"
+          path            = "helm/${var.env}/{{name}}"
 
           helm {
             values = yamlencode({
@@ -120,8 +120,8 @@ resource "argocd_application_set" "diego_appset" {
                 azure : {
                   workloadIdentityClientId : module.workload_identity.workload_identity_client_id
                 }
-                serviceAccount: {
-                  name: module.workload_identity.workload_identity_service_account_name
+                serviceAccount : {
+                  name : module.workload_identity.workload_identity_service_account_name
                 }
               }
             })
