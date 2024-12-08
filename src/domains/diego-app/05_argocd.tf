@@ -64,71 +64,91 @@ locals {
       name          = "two-color"
       target_branch = "main"
     }
+    "three-color" = {
+      name          = "three-color"
+      target_branch = "main"
+    }
     # Puoi aggiungere altre app seguendo lo stesso pattern
   }
 }
 
-# Creiamo le singole Applications
-resource "argocd_application" "diego_apps" {
-  for_each = local.argocd_applications
-
+# Creiamo l'ApplicationSet
+resource "argocd_application_set" "diego_appset" {
   metadata {
-    name      = "${local.area}-${each.value.name}"
+    name      = "applicationset-${local.area}"
     namespace = "argocd"
-    labels = {
-      name   = "${local.area}-${each.value.name}"
-      domain = var.domain
-      area   = local.area
-    }
   }
 
   spec {
-    project = argocd_project.project.metadata[0].name
-
-    destination {
-      server    = "https://kubernetes.default.svc"
-      namespace = var.domain
-    }
-
-    source {
-      repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
-      target_revision = each.value.target_branch
-      path            = "helm/${var.env}/${each.value.name}"
-
-      helm {
-        values = yamlencode({
-          microservice-chart : {
-            azure : {
-              workloadIdentityClientId : module.workload_identity.workload_identity_client_id
-            }
+    generator {
+      list {
+        elements = [
+          for app_key, app in local.argocd_applications : {
+            name           = app.name
+            targetBranch   = app.target_branch
           }
-        })
-        ignore_missing_value_files = false
-        pass_credentials           = false
-        skip_crds                  = false
-        value_files                = []
+        ]
       }
     }
 
-    # Decommentare e modificare se necessario
-    # sync_policy {
-    #   automated {
-    #     prune       = true
-    #     self_heal   = false
-    #     allow_empty = false
-    #   }
-    #   retry {
-    #     backoff {
-    #       duration     = "5s"
-    #       factor       = "2"
-    #       max_duration = "3m0s"
-    #     }
-    #     limit = "5"
-    #   }
-    # }
-  }
+    template {
+      metadata {
+        name      = "${local.area}-{{name}}"
+        namespace = "argocd"
+        labels = {
+          name   = "${local.area}-{{name}}"
+          domain = var.domain
+        }
+      }
 
-  depends_on = [
-    argocd_project.project
-  ]
+      spec {
+        project = argocd_project.project.metadata[0].name
+
+        destination {
+          server    = "https://kubernetes.default.svc"
+          namespace = var.domain
+        }
+
+        source {
+          repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
+          target_revision = "{{targetBranch}}"
+          path           = "helm/${var.env}/{{name}}"
+
+          helm {
+            values = yamlencode({
+              microservice-chart : {
+                azure : {
+                  workloadIdentityClientId : module.workload_identity.workload_identity_client_id
+                }
+                serviceAccount: {
+                  name: module.workload_identity.workload_identity_service_account_name
+                }
+              }
+            })
+            ignore_missing_value_files = false
+            pass_credentials           = false
+            skip_crds                  = false
+            value_files                = []
+          }
+        }
+
+        # Decommentare e modificare se necessario
+        # sync_policy {
+        #   automated {
+        #     prune       = true
+        #     self_heal   = false
+        #     allow_empty = false
+        #   }
+        #   retry {
+        #     backoff {
+        #       duration     = "5s"
+        #       factor       = "2"
+        #       max_duration = "3m0s"
+        #     }
+        #     limit = "5"
+        #   }
+        # }
+      }
+    }
+  }
 }
