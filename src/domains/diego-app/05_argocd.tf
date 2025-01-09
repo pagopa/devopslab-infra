@@ -56,99 +56,106 @@ resource "argocd_project" "project" {
 
 locals {
   argocd_applications = {
-    "one-color" = {
-      name          = "one-color"
-      target_branch = "main"
-    },
-    "two-color" = {
-      name          = "two-color"
-      target_branch = "main"
+    "top" = {
+      "one-color" = {
+        name          = "one-color"
+        target_branch = "main"
+      },
     }
-    "three-color" = {
-      name          = "three-color"
-      target_branch = "main"
+    "mid" = {
+      "two-color" = {
+        name          = "two-color"
+        target_branch = "main"
+      }
+    }
+    ext = {
+      "status-01" = {
+        name          = "status-01"
+        target_branch = "main"
+      }
     }
     # Puoi aggiungere altre app seguendo lo stesso pattern
   }
+  flattened_applications = merge([
+    for class, apps in local.argocd_applications : {
+      for app_name, app in apps : app_name => merge(app, {
+        class = class
+      })
+    }
+  ]...)
 }
 
-# Creiamo l'ApplicationSet
-resource "argocd_application_set" "diego_appset" {
+resource "argocd_application" "diego_applications" {
+  for_each = local.flattened_applications
+
   metadata {
-    name      = "applicationset-${local.area}"
+    name      = each.value.name
     namespace = "argocd"
+    labels = {
+      name   = each.value.name
+      domain = var.domain
+      class  = each.value.class
+      area   = var.domain
+    }
   }
 
   spec {
-    generator {
-      list {
-        elements = [
-          for app_key, app in local.argocd_applications : {
-            name         = app.name
-            targetBranch = app.target_branch
+    project = argocd_project.project.metadata[0].name
+
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = var.domain
+    }
+
+    source {
+      repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
+      target_revision = each.value.target_branch
+      path            = "helm/${var.env}/${each.value.class}/${each.value.name}"
+
+      helm {
+        values = yamlencode({
+          microservice-chart : {
+            azure : {
+              workloadIdentityClientId : module.workload_identity.workload_identity_client_id
+            }
+            serviceAccount : {
+              name : module.workload_identity.workload_identity_service_account_name
+            }
           }
-        ]
+        })
+        ignore_missing_value_files = false
+        pass_credentials           = false
+        skip_crds                  = false
+        value_files                = []
       }
     }
 
-    template {
-      metadata {
-        name      = "${local.area}-{{name}}"
-        namespace = "argocd"
-        labels = {
-          name   = "${local.area}-{{name}}"
-          domain = var.domain
-        }
+    # Sync policy configuration
+    sync_policy {
+
+      # sync_options = []
+      #
+      automated {
+        allow_empty = false
+        prune       = false
+        self_heal   = false
       }
+      #
+      # retry {
+      #   limit = "5"
+      #
+      #   backoff {
+      #     duration     = "5s"
+      #     factor       = "2"
+      #     max_duration = "3m0s"
+      #   }
+      # }
+    }
 
-      spec {
-        project = argocd_project.project.metadata[0].name
-
-        destination {
-          server    = "https://kubernetes.default.svc"
-          namespace = var.domain
-        }
-
-        source {
-          repo_url        = "https://github.com/pagopa/devopslab-diego-deploy"
-          target_revision = "{{targetBranch}}"
-          path            = "helm/${var.env}/{{name}}"
-
-          helm {
-            values = yamlencode({
-              microservice-chart : {
-                azure : {
-                  workloadIdentityClientId : module.workload_identity.workload_identity_client_id
-                }
-                serviceAccount : {
-                  name : module.workload_identity.workload_identity_service_account_name
-                }
-              }
-            })
-            ignore_missing_value_files = false
-            pass_credentials           = false
-            skip_crds                  = false
-            value_files                = []
-          }
-        }
-
-        # Decommentare e modificare se necessario
-        # sync_policy {
-        #   automated {
-        #     prune       = true
-        #     self_heal   = false
-        #     allow_empty = false
-        #   }
-        #   retry {
-        #     backoff {
-        #       duration     = "5s"
-        #       factor       = "2"
-        #       max_duration = "3m0s"
-        #     }
-        #     limit = "5"
-        #   }
-        # }
-      }
+    ignore_difference {
+      group         = "apps"
+      kind          = "Deployment"
+      json_pointers = ["/spec/replicas"]
     }
   }
 }
