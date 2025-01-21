@@ -33,4 +33,6 @@ locals {
 
   argocd_internal_url = "argocd.internal.devopslab.pagopa.it"
 
+  sleeping_namespace = ["testit"]
+
 }
