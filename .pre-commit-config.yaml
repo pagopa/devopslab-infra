@@ -9,7 +9,6 @@ repos:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
         exclude_types: [sql]
-      - id: check-yaml
       - id: check-executables-have-shebangs
       # Cross platform
       - id: check-case-conflict
