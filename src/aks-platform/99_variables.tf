@@ -587,7 +587,16 @@ variable "dns_zone_internal_prefix" {
   description = "The dns subdomain."
 }
 
+#
+# Argocd
+#
 variable "argocd_helm_release_version" {
   type        = string
   description = "ArgoCD helm chart release version"
 }
+
+variable "argocd_application_namespaces" {
+  type = list(string)
+  description = "In which namespaces argocd can create applications"
+}
+

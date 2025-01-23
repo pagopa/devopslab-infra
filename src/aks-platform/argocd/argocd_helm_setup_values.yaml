@@ -1,35 +1,47 @@
 dex:
-  enabled: true
+ enabled: true
 server:
-  replicas: 1
-  extraArgs:
-    - --insecure
-  config:
-    repositories: |
-      - type: helm
-        name: argo-cd
-        url: https://argoproj.github.io/argo-helm
-  ingress:
-    enabled: true
-    labels: {}
-    ingressClassName: "nginx"
-    hostname: argocd.internal.devopslab.pagopa.it
-
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    extraTls:
-      - hosts:
-        - argocd.internal.devopslab.pagopa.it
-        # Based on the ingress controller used secret might be optional
-        secretName: argocd-internal-devopslab-pagopa-it
-    https: true
+ replicas: 1
+ extraArgs:
+   - --insecure
+ config:
+   repositories: |
+     - type: helm
+       name: argo-cd
+       url: https://argoproj.github.io/argo-helm
+   application.namespaces: "[${join(", ", argocd_application_namespaces)}]"
+ ingress:
+   enabled: true
+   labels: {}
+   ingressClassName: "nginx"
+   hostname: argocd.internal.devopslab.pagopa.it
+   annotations:
+     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+   extraTls:
+     - hosts:
+       - argocd.internal.devopslab.pagopa.it
+       secretName: argocd-internal-devopslab-pagopa-it
+   https: true
 redis-ha:
-  enabled: false
+ enabled: false
 repoServer:
-  replicas: 1
+ replicas: 1
 applicationSet:
-  replicas: 1
+ replicas: 1
 configs:
-  cm:
-    timeout.reconciliation: 30s
+ cm:
+   timeout.reconciliation: 30s
+ rbac:
+   policy.csv: |
+     p, role:readonly, applications, get, */*, allow
+     p, role:readonly, projects, get, *, allow
+     p, role:admin, applications, create, */*, allow
+     p, role:admin, applications, update, */*, allow
+     p, role:admin, applications, delete, */*, allow
+     p, role:admin, applications, sync, */*, allow
+     p, role:admin, applications, override, */*, allow
+     p, role:admin, applications, action/*, */*, allow
+     p, role:admin, projects, create, *, allow
+     p, role:admin, projects, update, *, allow
+     p, role:admin, projects, delete, *, allow

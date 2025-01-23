@@ -18,7 +18,9 @@ resource "helm_release" "argocd" {
   wait      = false
 
   values = [
-    file("${path.module}/argocd/argocd_helm_setup_values.yaml")
+    templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
+      argocd_application_namespaces = var.argocd_application_namespaces
+    })
   ]
 
   depends_on = [
