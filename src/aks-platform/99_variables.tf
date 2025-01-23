@@ -596,7 +596,6 @@ variable "argocd_helm_release_version" {
 }
 
 variable "argocd_application_namespaces" {
-  type = list(string)
+  type        = list(string)
   description = "In which namespaces argocd can create applications"
 }
-
