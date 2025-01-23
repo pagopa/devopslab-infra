@@ -54,7 +54,7 @@ resource "azurerm_key_vault_secret" "argocd_admin_username" {
 # tools
 #
 module "argocd_workload_identity_init" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.42.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.77.0"
 
   workload_identity_name_prefix         = "argocd"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
@@ -62,7 +62,7 @@ module "argocd_workload_identity_init" {
 }
 
 module "argocd_workload_identity_configuration" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.42.1"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration?ref=v8.77.0"
 
   workload_identity_name_prefix         = "argocd"
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
@@ -79,7 +79,7 @@ module "argocd_workload_identity_configuration" {
 }
 
 module "cert_mounter_argocd_internal" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.42.1"
+  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.77.0"
   namespace        = "argocd"
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core_ita.name
