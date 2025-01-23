@@ -44,12 +44,11 @@ resource "argocd_project" "project" {
       warn = true
     }
 
-    role {
-      name = "project-admin"
-      policies = [
-        "p, proj:${var.domain}-project:project-admin, applications, *, ${var.domain}-project/*, allow"
-      ]
-    }
+    # role {
+    #   name = "project-admin"
+    #   policies = [
+    #   ]
+    # }
   }
 }
 
