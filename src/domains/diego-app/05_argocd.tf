@@ -13,7 +13,7 @@ resource "argocd_project" "project" {
   spec {
     description = "${var.domain}-project"
 
-    source_namespaces = ["argocd"]
+    source_namespaces = ["argocd", var.domain]
     source_repos      = ["*"]
 
     destination {
@@ -44,13 +44,12 @@ resource "argocd_project" "project" {
       warn = true
     }
 
-    #     role {
-    #       name = "anotherrole"
-    #       policies = [
-    #         "p, proj:myproject:testrole, applications, get, myproject/*, allow",
-    #         "p, proj:myproject:testrole, applications, sync, myproject/*, deny",
-    #       ]
-    #     }
+    role {
+      name = "project-admin"
+      policies = [
+        "p, proj:${var.domain}-project:project-admin, applications, *, ${var.domain}-project/*, allow"
+      ]
+    }
   }
 }
 
@@ -90,7 +89,7 @@ resource "argocd_application" "diego_applications" {
 
   metadata {
     name      = each.value.name
-    namespace = "argocd"
+    namespace = var.domain
     labels = {
       name   = each.value.name
       domain = var.domain
