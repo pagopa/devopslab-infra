@@ -8,25 +8,6 @@ resource "kubernetes_namespace" "namespace_argocd" {
   ]
 }
 
-resource "kubernetes_persistent_volume_claim_v1" "argocd_server_audit" {
- metadata {
-   name      = "argocd-server-audit"
-   namespace = "argocd"
- }
-
- spec {
-   access_modes = ["ReadWriteOnce"]
-
-   resources {
-     requests = {
-       storage = "10Gi"
-     }
-   }
-
-   storage_class_name = "default"
- }
-}
-
 #
 # Setup ArgoCD
 #
