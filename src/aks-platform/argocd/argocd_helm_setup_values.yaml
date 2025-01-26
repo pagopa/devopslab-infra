@@ -38,6 +38,59 @@ configs:
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
 
+server:
+  replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 180
+      scaleUp:
+        stabilizationWindowSeconds: 60
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 60
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hostname: argocd.internal.devopslab.pagopa.it
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/grpc-backend: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
+    tls: false
+    extraTls:
+      - hosts:
+          - argocd.internal.devopslab.pagopa.it
+        secretName: argocd-internal-devopslab-pagopa-it
+
 #redis-ha:
 # enabled: true
 # haproxy:
@@ -90,57 +143,6 @@ redis:
     timeoutSeconds: 15
     successThreshold: 1
     failureThreshold: 5
-
-server:
-  replicas: 1
-  autoscaling:
-    enabled: true
-    minReplicas: 1
-    maxReplicas: 3
-    targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 80
-    behavior:
-      scaleDown:
-        stabilizationWindowSeconds: 300
-        policies:
-          - type: Pods
-            value: 1
-            periodSeconds: 180
-      scaleUp:
-        stabilizationWindowSeconds: 60
-        policies:
-          - type: Pods
-            value: 1
-            periodSeconds: 60
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  pdb:
-    enabled: true
-    minAvailable: 1
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 500m
-      memory: 512Mi
-  ingress:
-    enabled: true
-    ingressClassName: "nginx"
-    hostname: argocd.internal.devopslab.pagopa.it
-    annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
-    tls: false
-    extraTls:
-      - hosts:
-          - argocd.internal.devopslab.pagopa.it
-        secretName: argocd-internal-devopslab-pagopa-it
-
 
 controller:
   replicas: 1
