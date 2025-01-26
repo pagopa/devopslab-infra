@@ -1,10 +1,131 @@
-dex:
+global:
+  addPrometheusAnnotations: true
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
+    runAsNonRoot: true
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
+
+configs:
+  params:
+    application.namespaces: "${join(",", argocd_application_namespaces)}"
+    server.insecure: true
+
+  cm:
+    url: https://argocd.internal.devopslab.pagopa.it
+    timeout.reconciliation: 30s
+    application.resourceTrackingMethod: annotation
+    exec.enabled: "false"
+    admin.enabled: "true"
+    statusbadge.enabled: "true"
+
+  rbac:
+    policy.csv: |
+      p, role:readonly, applications, get, */*, allow
+      p, role:readonly, projects, get, *, allow
+      p, role:developer, applications, get, */*, allow
+      p, role:developer, applications, sync, */*, allow
+      p, role:developer, projects, get, *, allow
+      p, role:admin, applications, *, */*, allow
+      p, role:admin, projects, *, *, allow
+
+#redis-ha:
+# enabled: true
+# haproxy:
+#   enabled: true
+#   metrics:
+#     enabled: true
+#   resources:
+#     limits:
+#       cpu: 200m
+#       memory: 256Mi
+#     requests:
+#       cpu: 100m
+#       memory: 128Mi
+
+redis:
   enabled: true
+
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+  service:
+    port: 6379
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  containerPorts:
+    metrics: 9121
+    redis: 6379
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 15
+    successThreshold: 1
+    failureThreshold: 5
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 15
+    successThreshold: 1
+    failureThreshold: 5
 
 server:
   replicas: 1
-  extraArgs:
-    - --insecure
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 180
+      scaleUp:
+        stabilizationWindowSeconds: 60
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 60
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
   ingress:
     enabled: true
     ingressClassName: "nginx"
@@ -12,51 +133,119 @@ server:
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    tls: false # Cambiato a false per evitare il TLS host doppio
+      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
+    tls: false
     extraTls:
       - hosts:
           - argocd.internal.devopslab.pagopa.it
         secretName: argocd-internal-devopslab-pagopa-it
 
-redis-ha:
-  enabled: false
+
+controller:
+  replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 180
+      scaleUp:
+        stabilizationWindowSeconds: 60
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 60
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
 
 repoServer:
   replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 180
+      scaleUp:
+        stabilizationWindowSeconds: 60
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 60
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
 
 applicationSet:
   replicas: 1
-
-configs:
-  params:
-    application.namespaces: "${join(",", argocd_application_namespaces)}"
-
-  cm:
-    timeout.reconciliation: 31s
-    application.resourceTrackingMethod: annotation
-
-  rbac:
-    policy.csv: |
-      p, role:readonly, applications, get, */*, allow
-      p, role:readonly, projects, get, *, allow
-      p, role:admin, applications, create, */*, allow
-      p, role:admin, applications, update, */*, allow
-      p, role:admin, applications, delete, */*, allow
-      p, role:admin, applications, sync, */*, allow
-      p, role:admin, applications, override, */*, allow
-      p, role:admin, applications, action/*, */*, allow
-      p, role:admin, projects, create, *, allow
-      p, role:admin, projects, update, *, allow
-      p, role:admin, projects, delete, *, allow
-
-controller:
-  args:
-    - --application-namespaces=${join(",", argocd_application_namespaces)}
-
-  clusterRoleRules:
+  autoscaling:
     enabled: true
-    rules:
-     - apiGroups: ["*"]
-       resources: ["*"]
-       verbs: ["*"]
-       namespaces: "[${join(", ", argocd_application_namespaces)}]"
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+    behavior:
+      scaleDown:
+        stabilizationWindowSeconds: 300
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 180
+      scaleUp:
+        stabilizationWindowSeconds: 60
+        policies:
+          - type: Pods
+            value: 1
+            periodSeconds: 60
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  pdb:
+    enabled: true
+    minAvailable: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi

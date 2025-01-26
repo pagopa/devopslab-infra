@@ -1,0 +1,232 @@
+dex:
+ enabled: false
+ resources:
+   limits:
+     cpu: 200m
+     memory: 128Mi
+   requests:
+     cpu: 100m
+     memory: 64Mi
+
+server:
+ replicas: 1
+ resources:
+   limits:
+     cpu: 400m
+     memory: 512Mi
+   requests:
+     cpu: 200m
+     memory: 256Mi
+
+ extraArgs:
+   - --insecure
+   - --enable-gzip
+   - --request-timeout=3m
+   - --audit-log-path=/var/log/argocd/audit.log
+   - --audit-log-format=json
+   - --audit-log-maxsize=100
+   - --audit-log-maxbackup=5
+
+ readinessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+ livenessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+ volumes:
+   - name: audit-logs
+     persistentVolumeClaim:
+       claimName: argocd-server-audit
+
+ volumeMounts:
+   - mountPath: /var/log/argocd
+     name: audit-logs
+
+ ingress:
+   enabled: true
+   ingressClassName: "nginx"
+   hostname: argocd.internal.devopslab.pagopa.it
+   annotations:
+     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+     nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
+   tls: false
+   extraTls:
+     - hosts:
+         - argocd.internal.devopslab.pagopa.it
+       secretName: argocd-internal-devopslab-pagopa-it
+
+redis:
+ enabled: true
+ resources:
+   limits:
+     cpu: 200m
+     memory: 128Mi
+   requests:
+     cpu: 100m
+     memory: 64Mi
+
+ metrics:
+   enabled: true
+   serviceMonitor:
+     enabled: true
+
+ readinessProbe:
+   enabled: true
+   initialDelaySeconds: 30
+   periodSeconds: 15
+   timeoutSeconds: 15
+   successThreshold: 1
+   failureThreshold: 5
+
+ livenessProbe:
+   enabled: true
+   initialDelaySeconds: 30
+   periodSeconds: 15
+   timeoutSeconds: 15
+   successThreshold: 1
+   failureThreshold: 5
+
+repoServer:
+ replicas: 1
+ resources:
+   limits:
+     cpu: 400m
+     memory: 512Mi
+   requests:
+     cpu: 200m
+     memory: 256Mi
+
+ readinessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+ livenessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+applicationSet:
+ replicas: 1
+ resources:
+   limits:
+     cpu: 200m
+     memory: 256Mi
+   requests:
+     cpu: 100m
+     memory: 128Mi
+ metrics:
+   enabled: true
+   serviceMonitor:
+     enabled: true
+
+ readinessProbe:
+   enabled: true
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   timeoutSeconds: 1
+   successThreshold: 1
+   failureThreshold: 3
+
+ livenessProbe:
+   enabled: true
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   timeoutSeconds: 1
+   successThreshold: 1
+   failureThreshold: 3
+
+configs:
+ params:
+   application.namespaces: "${join(",", argocd_application_namespaces)}"
+   server.insecure: true
+
+ cm:
+   url: https://argocd.internal.devopslab.pagopa.it
+   timeout.reconciliation: 180s
+   application.resourceTrackingMethod: annotation
+   exec.enabled: "false"
+   admin.enabled: "true"
+   statusbadge.enabled: "true"
+
+ rbac:
+   policy.csv: |
+     p, role:readonly, applications, get, */*, allow
+     p, role:readonly, projects, get, *, allow
+     p, role:developer, applications, get, */*, allow
+     p, role:developer, applications, sync, */*, allow
+     p, role:developer, projects, get, *, allow
+     p, role:admin, applications, *, */*, allow
+     p, role:admin, projects, *, *, allow
+
+controller:
+ replicas: 1
+ resources:
+   limits:
+     cpu: 400m
+     memory: 512Mi
+   requests:
+     cpu: 200m
+     memory: 256Mi
+ args:
+   - --application-namespaces=${join(",", argocd_application_namespaces)}
+   - --redis-cache-expiration=24h
+
+ readinessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+ livenessProbe:
+   failureThreshold: 3
+   initialDelaySeconds: 10
+   periodSeconds: 10
+   successThreshold: 1
+   timeoutSeconds: 1
+
+ metrics:
+   enabled: true
+   serviceMonitor:
+     enabled: true
+
+ clusterRoleRules:
+   enabled: true
+   rules:
+     - apiGroups: [""]
+       resources: ["pods", "services", "secrets", "configmaps", "events", "persistentvolumeclaims"]
+       verbs: ["*"]
+     - apiGroups: ["apps"]
+       resources: ["deployments", "statefulsets", "daemonsets", "replicasets"]
+       verbs: ["*"]
+     - apiGroups: ["networking.k8s.io"]
+       resources: ["ingresses", "networkpolicies"]
+       verbs: ["*"]
+     - apiGroups: ["rbac.authorization.k8s.io"]
+       resources: ["roles", "rolebindings"]
+       verbs: ["*"]
+     - apiGroups: ["argoproj.io"]
+       resources: ["applications", "applicationsets", "appprojects"]
+       verbs: ["*"]
+
+global:
+ securityContext:
+   runAsUser: 999
+   runAsGroup: 999
+   fsGroup: 999
+   runAsNonRoot: true
