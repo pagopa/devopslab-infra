@@ -56,16 +56,23 @@ resource "azuread_application" "argocd" {
 }
 
 # Secret generation
+resource "time_rotating" "example" {
+  rotation_days = 365
+}
+
 resource "azuread_application_password" "argocd" {
   display_name = "ArgoCD Secret"
   application_id = azuread_application.argocd.id
 
-  # Utilizziamo end_date invece di end_date_relative
-  end_date = timeadd(timestamp(), "8760h")
-
   rotate_when_changed = {
-    rotation = timestamp()
+    rotation = time_rotating.example.id
   }
+}
+
+resource "azurerm_key_vault_secret" "argocd_admin_username" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-client-secret"
+  value        = azuread_application_password.argocd.value
 }
 
 # Service Principal
@@ -77,6 +84,4 @@ resource "azuread_service_principal" "argocd" {
     enterprise = true
     gallery    = true
   }
-
-
 }
