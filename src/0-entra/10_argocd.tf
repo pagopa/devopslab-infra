@@ -69,7 +69,13 @@ resource "azuread_application_password" "argocd" {
   }
 }
 
-resource "azurerm_key_vault_secret" "argocd_admin_username" {
+resource "azurerm_key_vault_secret" "argocd_entra_client_id" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-client-id"
+  value        = azuread_application.argocd.client_id
+}
+
+resource "azurerm_key_vault_secret" "argocd_entra_client_secret" {
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
   name         = "argocd-entra-client-secret"
   value        = azuread_application_password.argocd.value
