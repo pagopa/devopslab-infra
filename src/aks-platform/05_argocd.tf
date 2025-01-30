@@ -9,6 +9,50 @@ resource "kubernetes_namespace" "namespace_argocd" {
 }
 
 #
+# OICD
+#
+data "azurerm_key_vault_secret" "argocd_entra_client_id" {
+  name         = "argocd-entra-client-id"
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+}
+
+data "azurerm_key_vault_secret" "argocd_entra_client_secret" {
+  name         = "argocd-entra-client-secret"
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+}
+
+resource "null_resource" "patch_argocd_entra_client_secret" {
+  triggers = {
+    secret_value = base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl patch secret argocd-secret \
+        -n argocd \
+        -p='{"data": {"oidc.azure.clientSecret": "${base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)}"}}' \
+        --type=merge
+    EOT
+  }
+
+  # Aggiungiamo anche un provisioner per la rimozione del secret quando la risorsa viene distrutta
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+      kubectl patch secret argocd-secret \
+        -n argocd \
+        -p='{"data": {"oidc.azure.clientSecret": null}}' \
+        --type=merge
+    EOT
+  }
+
+  depends_on = [
+    data.azurerm_key_vault_secret.argocd_entra_client_secret
+  ]
+}
+
+
+#
 # Setup ArgoCD
 #
 resource "helm_release" "argocd" {
@@ -20,6 +64,8 @@ resource "helm_release" "argocd" {
   values = [
     templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
       argocd_application_namespaces = var.argocd_application_namespaces
+      tenant_id                    = data.azurerm_subscription.current.tenant_id
+      client_id                    = data.azurerm_key_vault_secret.argocd_entra_client_id.value
     })
   ]
 
@@ -28,6 +74,9 @@ resource "helm_release" "argocd" {
   ]
 }
 
+#
+# Admin Password
+#
 data "azurerm_key_vault_secret" "argocd_admin_password" {
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
   name         = "argocd-admin-password"

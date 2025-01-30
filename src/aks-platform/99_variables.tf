@@ -599,3 +599,9 @@ variable "argocd_application_namespaces" {
   type        = list(string)
   description = "In which namespaces argocd can create applications"
 }
+
+variable "argocd_entra_enabled" {
+  type        = bool
+  description = "Enable or not entra integration"
+  default     = false
+}
