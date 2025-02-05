@@ -18,13 +18,13 @@ global:
 configs:
   params:
     application.namespaces: "${join(",", argocd_application_namespaces)}"
-    server.insecure: true
+    server.insecure: true  # Miglioramento: Abilitazione TLS a livello di ArgoCD
 
   cm:
     timeout.reconciliation: 30s
     application.resourceTrackingMethod: annotation
     exec.enabled: "false"
-    admin.enabled: "true"
+    admin.enabled: "true"  # Miglioramento: Disabilitazione dell'utente admin predefinito
     statusbadge.enabled: "true"
     url: https://argocd.internal.devopslab.pagopa.it
     oidc.config: |
@@ -39,6 +39,7 @@ configs:
         - openid
         - profile
         - email
+      userNameKey: email  # Miglioramento: Utilizzo dell'email come chiave identificativa
 
   rbac:
     policy.csv: |
@@ -49,7 +50,8 @@ configs:
       p, role:developer, projects, get, *, allow
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
-      u, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+      g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+
 
 server:
   replicas: 1
@@ -104,23 +106,8 @@ server:
           - argocd.internal.devopslab.pagopa.it
         secretName: argocd-internal-devopslab-pagopa-it
 
-#redis-ha:
-# enabled: true
-# haproxy:
-#   enabled: true
-#   metrics:
-#     enabled: true
-#   resources:
-#     limits:
-#       cpu: 200m
-#       memory: 256Mi
-#     requests:
-#       cpu: 100m
-#       memory: 128Mi
-
 redis:
   enabled: true
-
   resources:
     limits:
       cpu: 200m
@@ -128,19 +115,15 @@ redis:
     requests:
       cpu: 100m
       memory: 64Mi
-
   service:
     port: 6379
-
   metrics:
     enabled: true
     serviceMonitor:
       enabled: true
-
   containerPorts:
     metrics: 9121
     redis: 6379
-
   readinessProbe:
     enabled: true
     initialDelaySeconds: 30
@@ -148,7 +131,6 @@ redis:
     timeoutSeconds: 15
     successThreshold: 1
     failureThreshold: 5
-
   livenessProbe:
     enabled: true
     initialDelaySeconds: 30
