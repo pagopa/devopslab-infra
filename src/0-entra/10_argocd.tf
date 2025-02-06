@@ -9,7 +9,7 @@ resource "azuread_application" "argocd" {
     logout_url    = "https://argocd.internal.devopslab.pagopa.it/logout"
   }
 
-  group_membership_claims   = [
+  group_membership_claims = [
     "ApplicationGroup"
   ]
 
