@@ -33,13 +33,12 @@ configs:
       clientID: ${client_id}
       clientSecret: $oidc.azure.clientSecret
       requestedIDTokenClaims:
-        groups:
-          essential: true
+         groups:
+            essential: true
       requestedScopes:
-        - openid
-        - profile
-        - email
-      userNameKey: email  # Miglioramento: Utilizzo dell'email come chiave identificativa
+         - openid
+         - profile
+         - email
 
   rbac:
     policy.csv: |
@@ -51,6 +50,8 @@ configs:
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
       g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+    scopes: "[groups, email]"
+
 
 
 server:
@@ -246,3 +247,6 @@ applicationSet:
     requests:
       cpu: 250m
       memory: 256Mi
+
+dex:
+  enabled: false
