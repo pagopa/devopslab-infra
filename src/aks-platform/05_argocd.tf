@@ -33,8 +33,8 @@ resource "helm_release" "argocd" {
   values = [
     templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
       argocd_application_namespaces = var.argocd_application_namespaces
-      tenant_id                    = data.azurerm_subscription.current.tenant_id
-      client_id                    = data.azurerm_key_vault_secret.argocd_entra_client_id.value
+      tenant_id                     = data.azurerm_subscription.current.tenant_id
+      client_id                     = data.azurerm_key_vault_secret.argocd_entra_client_id.value
     })
   ]
 
@@ -45,7 +45,7 @@ resource "helm_release" "argocd" {
 
 resource "null_resource" "patch_argocd_entra_client_secret" {
   triggers = {
-    secret_value = base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)
+    secret_value    = base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)
     force_reinstall = var.argocd_force_reinstall_version
   }
 

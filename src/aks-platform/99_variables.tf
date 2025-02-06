@@ -611,5 +611,3 @@ variable "argocd_entra_enabled" {
   description = "Enable or not entra integration"
   default     = false
 }
-
-

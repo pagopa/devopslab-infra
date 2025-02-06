@@ -32,6 +32,6 @@ locals {
   monitor_action_group_email_name = "PagoPA"
 
   # ArgoCD
-  argocd_internal_url = "argocd.internal.devopslab.pagopa.it"
+  argocd_internal_url     = "argocd.internal.devopslab.pagopa.it"
   argocd_application_name = "${var.prefix}-${var.env}-argocd"
 }

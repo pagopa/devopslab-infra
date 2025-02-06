@@ -14,4 +14,3 @@ tags = {
   Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
-
