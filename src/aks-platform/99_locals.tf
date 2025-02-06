@@ -31,6 +31,7 @@ locals {
   monitor_action_group_slack_name = "SlackPagoPA"
   monitor_action_group_email_name = "PagoPA"
 
-  argocd_internal_url = "argocd.internal.devopslab.pagopa.it"
-
+  # ArgoCD
+  argocd_internal_url     = "argocd.internal.devopslab.pagopa.it"
+  argocd_application_name = "${var.prefix}-${var.env}-argocd"
 }

@@ -599,3 +599,15 @@ variable "argocd_application_namespaces" {
   type        = list(string)
   description = "In which namespaces argocd can create applications"
 }
+
+variable "argocd_force_reinstall_version" {
+  type        = string
+  description = "Change this value to force the reinstallation of argocd"
+  default     = ""
+}
+
+variable "argocd_entra_enabled" {
+  type        = bool
+  description = "Enable or not entra integration"
+  default     = false
+}

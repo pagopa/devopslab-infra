@@ -18,15 +18,27 @@ global:
 configs:
   params:
     application.namespaces: "${join(",", argocd_application_namespaces)}"
-    server.insecure: true
+    server.insecure: true  # Miglioramento: Abilitazione TLS a livello di ArgoCD
 
   cm:
-    url: https://argocd.internal.devopslab.pagopa.it
     timeout.reconciliation: 30s
     application.resourceTrackingMethod: annotation
     exec.enabled: "false"
-    admin.enabled: "true"
+    admin.enabled: "true"  # Miglioramento: Disabilitazione dell'utente admin predefinito
     statusbadge.enabled: "true"
+    url: https://argocd.internal.devopslab.pagopa.it
+    oidc.config: |
+      name: Azure
+      issuer: https://login.microsoftonline.com/${tenant_id}/v2.0
+      clientID: ${client_id}
+      clientSecret: $oidc.azure.clientSecret
+      requestedIDTokenClaims:
+         groups:
+            essential: true
+      requestedScopes:
+         - openid
+         - profile
+         - email
 
   rbac:
     policy.csv: |
@@ -37,59 +49,10 @@ configs:
       p, role:developer, projects, get, *, allow
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
+      g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+    scopes: "[groups, email]"
 
-#redis-ha:
-# enabled: true
-# haproxy:
-#   enabled: true
-#   metrics:
-#     enabled: true
-#   resources:
-#     limits:
-#       cpu: 200m
-#       memory: 256Mi
-#     requests:
-#       cpu: 100m
-#       memory: 128Mi
 
-redis:
-  enabled: true
-
-  resources:
-    limits:
-      cpu: 200m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 64Mi
-
-  service:
-    port: 6379
-
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-
-  containerPorts:
-    metrics: 9121
-    redis: 6379
-
-  readinessProbe:
-    enabled: true
-    initialDelaySeconds: 30
-    periodSeconds: 15
-    timeoutSeconds: 15
-    successThreshold: 1
-    failureThreshold: 5
-
-  livenessProbe:
-    enabled: true
-    initialDelaySeconds: 30
-    periodSeconds: 15
-    timeoutSeconds: 15
-    successThreshold: 1
-    failureThreshold: 5
 
 server:
   replicas: 1
@@ -131,8 +94,11 @@ server:
     ingressClassName: "nginx"
     hostname: argocd.internal.devopslab.pagopa.it
     annotations:
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/grpc-backend: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
     tls: false
@@ -141,6 +107,38 @@ server:
           - argocd.internal.devopslab.pagopa.it
         secretName: argocd-internal-devopslab-pagopa-it
 
+redis:
+  enabled: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  service:
+    port: 6379
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  containerPorts:
+    metrics: 9121
+    redis: 6379
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 15
+    successThreshold: 1
+    failureThreshold: 5
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    timeoutSeconds: 15
+    successThreshold: 1
+    failureThreshold: 5
 
 controller:
   replicas: 1
@@ -249,3 +247,6 @@ applicationSet:
     requests:
       cpu: 250m
       memory: 256Mi
+
+dex:
+  enabled: false
