@@ -21,9 +21,32 @@ data "azurerm_key_vault_secret" "argocd_entra_client_secret" {
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
 }
 
+#
+# Setup ArgoCD
+#
+resource "helm_release" "argocd" {
+  name      = "argo"
+  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-${var.argocd_helm_release_version}/argo-cd-${var.argocd_helm_release_version}.tgz"
+  namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
+  wait      = false
+
+  values = [
+    templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
+      argocd_application_namespaces = var.argocd_application_namespaces
+      tenant_id                    = data.azurerm_subscription.current.tenant_id
+      client_id                    = data.azurerm_key_vault_secret.argocd_entra_client_id.value
+    })
+  ]
+
+  depends_on = [
+    module.aks,
+  ]
+}
+
 resource "null_resource" "patch_argocd_entra_client_secret" {
   triggers = {
     secret_value = base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)
+    force_reinstall = var.argocd_force_reinstall_version
   }
 
   provisioner "local-exec" {
@@ -47,32 +70,11 @@ resource "null_resource" "patch_argocd_entra_client_secret" {
   }
 
   depends_on = [
-    data.azurerm_key_vault_secret.argocd_entra_client_secret
+    data.azurerm_key_vault_secret.argocd_entra_client_secret,
+    helm_release.argocd
   ]
 }
 
-
-#
-# Setup ArgoCD
-#
-resource "helm_release" "argocd" {
-  name      = "argo"
-  chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-${var.argocd_helm_release_version}/argo-cd-${var.argocd_helm_release_version}.tgz"
-  namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
-  wait      = false
-
-  values = [
-    templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
-      argocd_application_namespaces = var.argocd_application_namespaces
-      tenant_id                    = data.azurerm_subscription.current.tenant_id
-      client_id                    = data.azurerm_key_vault_secret.argocd_entra_client_id.value
-    })
-  ]
-
-  depends_on = [
-    module.aks
-  ]
-}
 
 #
 # Admin Password
@@ -86,12 +88,37 @@ resource "null_resource" "argocd_change_admin_password" {
 
   triggers = {
     argocd_password = data.azurerm_key_vault_secret.argocd_admin_password.value
+    force_reinstall = var.argocd_force_reinstall_version
   }
 
   provisioner "local-exec" {
     command = "kubectl -n argocd patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(data.azurerm_key_vault_secret.argocd_admin_password.value)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
   }
+
+  depends_on = [
+    data.azurerm_key_vault_secret.argocd_admin_password,
+    helm_release.argocd
+  ]
 }
+
+resource "null_resource" "restart_argocd_server" {
+  // Il blocco triggers assicura che il comando venga eseguito solo quando la variabile cambia
+  triggers = {
+    force_reinstall = var.argocd_force_reinstall_version
+  }
+
+  provisioner "local-exec" {
+    // Esegui il comando kubectl per effettuare il restart del deployment
+    command = "kubectl -n argocd rollout restart deployment/argo-argocd-server"
+  }
+
+  depends_on = [
+    helm_release.argocd,
+    null_resource.patch_argocd_entra_client_secret,
+    null_resource.argocd_change_admin_password
+  ]
+}
+
 
 resource "azurerm_key_vault_secret" "argocd_admin_username" {
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
