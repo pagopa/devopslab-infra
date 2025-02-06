@@ -4,9 +4,14 @@ resource "azuread_application" "argocd" {
   owners       = data.azuread_users.argocd_application_owners.object_ids
 
   # Nuova sintassi per web app
-  single_page_application {
+  web {
     redirect_uris = ["https://argocd.internal.devopslab.pagopa.it/auth/callback"]
+    logout_url    = "https://argocd.internal.devopslab.pagopa.it/logout"
   }
+
+  group_membership_claims   = [
+    "ApplicationGroup"
+  ]
 
   # API permissions per Microsoft Graph
   api {
