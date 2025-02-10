@@ -134,7 +134,7 @@ az network dns zone show \
 | <a name="input_apim_publisher_name"></a> [apim\_publisher\_name](#input\_apim\_publisher\_name) | Apim publisher name | `string` | `""` | no |
 | <a name="input_apim_sku"></a> [apim\_sku](#input\_apim\_sku) | APIM SKU type | `string` | n/a | yes |
 | <a name="input_apim_subnet_nsg_security_rules"></a> [apim\_subnet\_nsg\_security\_rules](#input\_apim\_subnet\_nsg\_security\_rules) | Network security rules for APIM subnet | `list(any)` | n/a | yes |
-| <a name="input_azdoa_image_name"></a> [azdoa\_image\_name](#input\_azdoa\_image\_name) | Azure DevOps Agent image name | `string` | n/a | yes |
+| <a name="input_azdoa_image_version"></a> [azdoa\_image\_version](#input\_azdoa\_image\_version) | Azure DevOps Agent image version | `string` | n/a | yes |
 | <a name="input_cidr_subnet_apim"></a> [cidr\_subnet\_apim](#input\_cidr\_subnet\_apim) | Address prefixes subnet api management. | `list(string)` | `null` | no |
 | <a name="input_cidr_subnet_apim_stv2"></a> [cidr\_subnet\_apim\_stv2](#input\_cidr\_subnet\_apim\_stv2) | Address prefixes subnet api management stv2. | `list(string)` | `null` | no |
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |

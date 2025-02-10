@@ -25,7 +25,7 @@ module "azdoa_vmss_linux" {
   subnet_id           = module.azdoa_snet[0].id
   subscription_id     = data.azurerm_subscription.current.subscription_id
   location            = var.location_ita
-  source_image_name   = var.azdoa_image_name
+  source_image_name   = "azdo-agent-ubuntu2204-image-${var.azdoa_image_version}"
 
   tags = var.tags
 }

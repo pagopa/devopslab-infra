@@ -375,9 +375,9 @@ variable "redis_enabled" {
 }
 
 
-variable "azdoa_image_name" {
+variable "azdoa_image_version" {
   type        = string
-  description = "Azure DevOps Agent image name"
+  description = "Azure DevOps Agent image version"
 }
 
 #
