@@ -79,8 +79,8 @@ module "dns_forwarder_lb_vmss" {
 
   location          = var.location_ita
   subscription_id   = data.azurerm_subscription.current.subscription_id
-  source_image_name = var.dns_forwarder_vmss_image_name
   key_vault_id      = data.azurerm_key_vault.kv.id
   tenant_id         = data.azurerm_client_config.current.id
   tags              = var.tags
+  source_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-${var.dns_forwarder_vmss_image_version}"
 }

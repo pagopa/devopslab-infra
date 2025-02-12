@@ -361,9 +361,9 @@ variable "vpn_pip_sku" {
   description = "VPN GW PIP SKU"
 }
 
-variable "dns_forwarder_vmss_image_name" {
+variable "dns_forwarder_vmss_image_version" {
   type        = string
-  description = "vpn dns forwarder image name"
+  description = "vpn dns forwarder image version"
 }
 
 #
