@@ -4,7 +4,7 @@ data "azurerm_resource_group" "resource_group" {
 
 module "azdoa_custom_image" {
   # source = "./.terraform/modules/__v3__/azure_devops_agent_custom_image"
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image?ref=PAYMCLOUD-246-azdo-aggiornare-limmagine-di-azdo-in-modo-che-abbiamo-kubectl-alla-versione-1-31"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image?ref=PAYMCLOUD-247-dns-forwarder-aggiornare-limmagine-allultima-versione-disponibile"
 
   resource_group_name = data.azurerm_resource_group.resource_group.name
   location            = var.location
