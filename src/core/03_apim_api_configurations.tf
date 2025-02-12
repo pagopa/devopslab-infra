@@ -5,7 +5,7 @@
 # module "apim_product_blueprint" {
 #   count = var.apim_enabled == true ? 1 : 0
 #
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_product?ref=v8.13.0"
+#   source = "./.terraform/modules/__v3__/api_management_product"
 #
 #   product_id   = "blueprint"
 #   display_name = "blueprint product"
@@ -35,7 +35,7 @@
 # # }
 #
 # module "apim_blueprint_status_v1" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management_api?ref=v8.13.0"
+#   source = "./.terraform/modules/__v3__/api_management_api"
 #   count  = var.apim_enabled == true ? 1 : 0
 #
 #

@@ -5,17 +5,17 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.101.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.47.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.116 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | a88c6d99ec3871db7de57db4280422b02db3e4f0 |
-| <a name="module_azdoa_custom_image"></a> [azdoa\_custom\_image](#module\_azdoa\_custom\_image) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image | PAYMCLOUD-246-azdo-aggiornare-limmagine-di-azdo-in-modo-che-abbiamo-kubectl-alla-versione-1-31 |
-| <a name="module_dns_forwarder_image"></a> [dns\_forwarder\_image](#module\_dns\_forwarder\_image) | ./.terraform/modules/__v3__/dns_forwarder_vm_image | n/a |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 1f6720c4d10f60f32e6caac95dd8669c7661909f |
+| <a name="module_azdoa_custom_image"></a> [azdoa\_custom\_image](#module\_azdoa\_custom\_image) | git::https://github.com/pagopa/terraform-azurerm-v3.git//azure_devops_agent_custom_image | PAYMCLOUD-247-dns-forwarder-aggiornare-limmagine-allultima-versione-disponibile |
+| <a name="module_dns_forwarder_image"></a> [dns\_forwarder\_image](#module\_dns\_forwarder\_image) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_vm_image | PAYMCLOUD-247-dns-forwarder-aggiornare-limmagine-allultima-versione-disponibile |
 
 ## Resources
 

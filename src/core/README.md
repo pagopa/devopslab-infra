@@ -39,28 +39,28 @@ az network dns zone show \
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | a88c6d99ec3871db7de57db4280422b02db3e4f0 |
+| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 1f6720c4d10f60f32e6caac95dd8669c7661909f |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
 | <a name="module_azdoa_vmss_linux"></a> [azdoa\_vmss\_linux](#module\_azdoa\_vmss\_linux) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
-| <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_app_environment_v2 | v8.13.0 |
-| <a name="module_container_registry_public"></a> [container\_registry\_public](#module\_container\_registry\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | v8.13.0 |
-| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//dns_forwarder_lb_vmss | v8.13.0 |
-| <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | github.com/pagopa/terraform-azurerm-v3//github_federated_identity | v8.13.0 |
-| <a name="module_key_vault_core_ita"></a> [key\_vault\_core\_ita](#module\_key\_vault\_core\_ita) | github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.13.0 |
-| <a name="module_packer_azdo_snet"></a> [packer\_azdo\_snet](#module\_packer\_azdo\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_packer_dns_forwarder_snet"></a> [packer\_dns\_forwarder\_snet](#module\_packer\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_postgres"></a> [postgres](#module\_postgres) | git::https://github.com/pagopa/terraform-azurerm-v3.git//postgresql_server | v8.13.0 |
-| <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | v8.13.0 |
-| <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_subnet_dns_forwarder_lb"></a> [subnet\_dns\_forwarder\_lb](#module\_subnet\_dns\_forwarder\_lb) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_subnet_dns_forwarder_vmss"></a> [subnet\_dns\_forwarder\_vmss](#module\_subnet\_dns\_forwarder\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
-| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v8.13.0 |
-| <a name="module_vnet_ita_peering"></a> [vnet\_ita\_peering](#module\_vnet\_ita\_peering) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network_peering | v8.13.0 |
-| <a name="module_vnet_italy"></a> [vnet\_italy](#module\_vnet\_italy) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | v8.13.0 |
-| <a name="module_vpn"></a> [vpn](#module\_vpn) | git::https://github.com/pagopa/terraform-azurerm-v3.git//vpn_gateway | v8.13.0 |
-| <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v8.13.0 |
+| <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | ./.terraform/modules/__v3__/container_app_environment_v2 | n/a |
+| <a name="module_container_registry_public"></a> [container\_registry\_public](#module\_container\_registry\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | n/a |
+| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | ./.terraform/modules/__v3__/dns_forwarder_lb_vmss | n/a |
+| <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | github.com/pagopa/terraform-azurerm-v3//github_federated_identity | n/a |
+| <a name="module_key_vault_core_ita"></a> [key\_vault\_core\_ita](#module\_key\_vault\_core\_ita) | github.com/pagopa/terraform-azurerm-v3.git//key_vault | n/a |
+| <a name="module_packer_azdo_snet"></a> [packer\_azdo\_snet](#module\_packer\_azdo\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
+| <a name="module_packer_dns_forwarder_snet"></a> [packer\_dns\_forwarder\_snet](#module\_packer\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
+| <a name="module_postgres"></a> [postgres](#module\_postgres) | ./.terraform/modules/__v3__/postgresql_server | n/a |
+| <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
+| <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
+| <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | n/a |
+| <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
+| <a name="module_subnet_dns_forwarder_lb"></a> [subnet\_dns\_forwarder\_lb](#module\_subnet\_dns\_forwarder\_lb) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_subnet_dns_forwarder_vmss"></a> [subnet\_dns\_forwarder\_vmss](#module\_subnet\_dns\_forwarder\_vmss) | ./.terraform/modules/__v3__/subnet | n/a |
+| <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | n/a |
+| <a name="module_vnet_ita_peering"></a> [vnet\_ita\_peering](#module\_vnet\_ita\_peering) | ./.terraform/modules/__v3__/virtual_network_peering | n/a |
+| <a name="module_vnet_italy"></a> [vnet\_italy](#module\_vnet\_italy) | ./.terraform/modules/__v3__/virtual_network | n/a |
+| <a name="module_vpn"></a> [vpn](#module\_vpn) | ./.terraform/modules/__v3__/vpn_gateway | n/a |
+| <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
 
 ## Resources
 
@@ -153,7 +153,7 @@ az network dns zone show \
 | <a name="input_dns_default_ttl_sec"></a> [dns\_default\_ttl\_sec](#input\_dns\_default\_ttl\_sec) | value | `number` | `3600` | no |
 | <a name="input_dns_forwarder_enabled"></a> [dns\_forwarder\_enabled](#input\_dns\_forwarder\_enabled) | Enable dns forwarder setup | `bool` | `false` | no |
 | <a name="input_dns_forwarder_is_enabled"></a> [dns\_forwarder\_is\_enabled](#input\_dns\_forwarder\_is\_enabled) | Allow to enable or disable dns forwarder backup | `bool` | `true` | no |
-| <a name="input_dns_forwarder_vmss_image_name"></a> [dns\_forwarder\_vmss\_image\_name](#input\_dns\_forwarder\_vmss\_image\_name) | vpn dns forwarder image name | `string` | n/a | yes |
+| <a name="input_dns_forwarder_vmss_image_version"></a> [dns\_forwarder\_vmss\_image\_version](#input\_dns\_forwarder\_vmss\_image\_version) | vpn dns forwarder image version | `string` | n/a | yes |
 | <a name="input_dns_zone_internal_prefix"></a> [dns\_zone\_internal\_prefix](#input\_dns\_zone\_internal\_prefix) | The dns subdomain. | `string` | `null` | no |
 | <a name="input_dns_zone_prefix"></a> [dns\_zone\_prefix](#input\_dns\_zone\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |

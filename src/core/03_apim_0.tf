@@ -22,7 +22,7 @@
 #
 # # APIM subnet
 # module "apim_snet" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
+#   source = "./.terraform/modules/__v3__/subnet"
 #   count  = var.apim_enabled == true ? 1 : 0
 #
 #   name                 = "${local.project_ita}-apim-snet"
@@ -34,7 +34,7 @@
 # }
 #
 # module "apim_stv2_snet" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v8.13.0"
+#   source = "./.terraform/modules/__v3__/subnet"
 #   count  = var.apim_enabled == true ? 1 : 0
 #
 #   name                 = "${local.project_ita}-apim-stv2-snet"
@@ -88,7 +88,7 @@
 # ###########################
 #
 # module "apim" {
-#   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//api_management?ref=v8.13.0"
+#   source = "./.terraform/modules/__v3__/api_management"
 #   count  = var.apim_enabled == true ? 1 : 0
 #
 #   name = "${local.project_ita}-apim"
