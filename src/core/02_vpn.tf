@@ -1,6 +1,6 @@
 ## VPN subnet
 module "vpn_snet" {
-    source = "./.terraform/modules/__v3__/subnet"
+  source = "./.terraform/modules/__v3__/subnet"
 
   name                                      = "GatewaySubnet"
   address_prefixes                          = var.cidr_subnet_vpn

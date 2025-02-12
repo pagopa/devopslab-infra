@@ -177,7 +177,7 @@ redis_enabled = false
 
 law_daily_quota_gb = 1
 
-azdoa_image_version           = "v20250211"
+azdoa_image_version              = "v20250211"
 dns_forwarder_vmss_image_version = "v20250214"
 
 #
