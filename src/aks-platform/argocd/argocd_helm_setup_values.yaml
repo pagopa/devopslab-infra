@@ -47,6 +47,7 @@ configs:
          - email
 
   rbac:
+    policy.default: role:guest
     policy.csv: |
       # Admin role: full access to all resources
       p, role:admin, applications, *, */*, allow
@@ -74,8 +75,16 @@ configs:
       # Explicitly deny access to secrets for the reader role
       p, role:reader, applications, get, */secrets, deny
 
-      # Assign users to roles (example with a user ID)
-      g, diego.lagosmorales@pagopa.it, role:admin
+      # Guest role: no permissions (default for unassigned users)
+      p, role:guest, applications, get, */*, deny
+      p, role:guest, projects, get, *, deny
+      p, role:guest, repositories, get, *, deny
+      p, role:guest, clusters, get, *, deny
+      p, role:guest, accounts, get, *, deny
+
+      # Assign users to roles
+      #g, diego.lagosmorales@pagopa.it, role:admin
+      g, c9251014-18fe-4388-8afe-97baeb5de126, role:admin
 
     scopes: "[preferred_username, email, groups]"
 
