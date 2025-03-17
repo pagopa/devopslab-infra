@@ -42,14 +42,35 @@ configs:
 
   rbac:
     policy.csv: |
-      p, role:readonly, applications, get, */*, allow
-      p, role:readonly, projects, get, *, allow
-      p, role:developer, applications, get, */*, allow
-      p, role:developer, applications, sync, */*, allow
-      p, role:developer, projects, get, *, allow
+      # Admin role: full access to all resources
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
+      p, role:admin, repositories, *, *, allow
+      p, role:admin, clusters, *, *, allow
+      p, role:admin, accounts, *, *, allow
+
+      # Developer role: can manage applications but cannot delete them or modify infrastructure-level settings
+      p, role:developer, applications, get, */*, allow
+      p, role:developer, applications, create, */*, allow
+      p, role:developer, applications, update, */*, allow
+      p, role:developer, applications, sync, */*, allow
+      p, role:developer, applications, override, */*, allow
+      p, role:developer, projects, get, *, allow
+      p, role:developer, clusters, get, *, allow
+      p, role:developer, repositories, get, *, allow
+      p, role:developer, accounts, get, *, allow
+
+      # Reader role: can only view applications and logs, but cannot access secrets
+      p, role:reader, applications, get, */*, allow
+      p, role:reader, applications, logs, */*, allow
+      p, role:reader, projects, get, *, allow
+
+      # Explicitly deny access to secrets for the reader role
+      p, role:reader, applications, get, */secrets, deny
+
+      # Assign users to roles (example with a user ID)
       g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+
     scopes: "[groups, email]"
 
 
