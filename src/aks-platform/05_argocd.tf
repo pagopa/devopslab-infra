@@ -28,13 +28,14 @@ resource "helm_release" "argocd" {
   name      = "argo"
   chart     = "https://github.com/argoproj/argo-helm/releases/download/argo-cd-${var.argocd_helm_release_version}/argo-cd-${var.argocd_helm_release_version}.tgz"
   namespace = kubernetes_namespace.namespace_argocd.metadata[0].name
-  wait      = false
+  wait      = true
 
   values = [
     templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
       argocd_application_namespaces = var.argocd_application_namespaces
       tenant_id                     = data.azurerm_subscription.current.tenant_id
       client_id                     = data.azurerm_key_vault_secret.argocd_entra_client_id.value
+      force_reinstall               = var.argocd_force_reinstall_version
     })
   ]
 
@@ -102,13 +103,13 @@ resource "null_resource" "argocd_change_admin_password" {
 }
 
 resource "null_resource" "restart_argocd_server" {
-  // Il blocco triggers assicura che il comando venga eseguito solo quando la variabile cambia
   triggers = {
     force_reinstall = var.argocd_force_reinstall_version
+    helm_version   = helm_release.argocd.version
+    helm_values    = helm_release.argocd.values[0]
   }
 
   provisioner "local-exec" {
-    // Esegui il comando kubectl per effettuare il restart del deployment
     command = "kubectl -n argocd rollout restart deployment/argo-argocd-server"
   }
 
