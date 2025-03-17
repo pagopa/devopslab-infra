@@ -1,3 +1,5 @@
+terraform:
+  force: ${force_reinstall}
 global:
   addPrometheusAnnotations: true
   securityContext:
@@ -33,25 +35,58 @@ configs:
       clientID: ${client_id}
       clientSecret: $oidc.azure.clientSecret
       requestedIDTokenClaims:
-         groups:
-            essential: true
+        groups:
+          essential: true
+        preferred_username:
+          essential: true
+        email:
+          essential: true
       requestedScopes:
          - openid
          - profile
          - email
 
   rbac:
+    policy.default: role:guest
     policy.csv: |
-      p, role:readonly, applications, get, */*, allow
-      p, role:readonly, projects, get, *, allow
-      p, role:developer, applications, get, */*, allow
-      p, role:developer, applications, sync, */*, allow
-      p, role:developer, projects, get, *, allow
+      # Admin role: full access to all resources
       p, role:admin, applications, *, */*, allow
       p, role:admin, projects, *, *, allow
-      g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
-    scopes: "[groups, email]"
+      p, role:admin, repositories, *, *, allow
+      p, role:admin, clusters, *, *, allow
+      p, role:admin, accounts, *, *, allow
 
+      # Developer role: can manage applications but cannot delete them or modify infrastructure-level settings
+      p, role:developer, applications, get, */*, allow
+      p, role:developer, applications, create, */*, allow
+      p, role:developer, applications, update, */*, allow
+      p, role:developer, applications, sync, */*, allow
+      p, role:developer, applications, override, */*, allow
+      p, role:developer, projects, get, *, allow
+      p, role:developer, clusters, get, *, allow
+      p, role:developer, repositories, get, *, allow
+      p, role:developer, accounts, get, *, allow
+
+      # Reader role: can only view applications and logs, but cannot access secrets
+      p, role:reader, applications, get, */*, allow
+      p, role:reader, applications, logs, */*, allow
+      p, role:reader, projects, get, *, allow
+
+      # Explicitly deny access to secrets for the reader role
+      p, role:reader, applications, get, */secrets, deny
+
+      # Guest role: no permissions (default for unassigned users)
+      p, role:guest, applications, get, */*, deny
+      p, role:guest, projects, get, *, deny
+      p, role:guest, repositories, get, *, deny
+      p, role:guest, clusters, get, *, deny
+      p, role:guest, accounts, get, *, deny
+
+      # Assign users to roles
+      #g, diego.lagosmorales@pagopa.it, role:admin
+      g, c9251014-18fe-4388-8afe-97baeb5de126, role:admin
+
+    scopes: "[preferred_username, email, groups]"
 
 
 server:
