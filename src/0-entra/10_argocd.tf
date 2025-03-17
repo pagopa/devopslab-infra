@@ -1,4 +1,6 @@
+#
 # Application registration
+#
 resource "azuread_application" "argocd" {
   display_name = "${var.prefix}-${var.env}-argocd"
   owners       = data.azuread_users.argocd_application_owners.object_ids
@@ -86,13 +88,31 @@ resource "azurerm_key_vault_secret" "argocd_entra_client_secret" {
   value        = azuread_application_password.argocd.value
 }
 
-# Service Principal
+#
+# Service Principal/Enterprise Application
+#
 resource "azuread_service_principal" "argocd" {
   client_id    = azuread_application.argocd.client_id
   use_existing = true
+
+  owners = data.azuread_users.argocd_application_owners.object_ids
 
   feature_tags {
     enterprise = true
     gallery    = true
   }
+}
+
+# Recupera dinamicamente i gruppi esistenti su Entra ID
+data "azuread_group" "argocd_groups" {
+  for_each      = toset(var.argocd_entra_groups_allowed)
+  display_name  = each.value
+}
+
+resource "azuread_app_role_assignment" "argocd_group_assignments" {
+  for_each           = data.azuread_group.argocd_groups
+
+  app_role_id        = "00000000-0000-0000-0000-000000000000"
+  principal_object_id = each.value.object_id
+  resource_object_id  = azuread_service_principal.argocd.object_id 
 }
