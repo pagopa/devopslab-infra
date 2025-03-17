@@ -1,3 +1,5 @@
+terraform:
+  force: ${force_reinstall}
 global:
   addPrometheusAnnotations: true
   securityContext:
@@ -33,8 +35,12 @@ configs:
       clientID: ${client_id}
       clientSecret: $oidc.azure.clientSecret
       requestedIDTokenClaims:
-         groups:
-            essential: true
+        groups:
+          essential: true
+        preferred_username:
+          essential: true
+        email:
+          essential: true
       requestedScopes:
          - openid
          - profile
@@ -69,9 +75,9 @@ configs:
       p, role:reader, applications, get, */secrets, deny
 
       # Assign users to roles (example with a user ID)
-      g, "021431d8-cb86-45ac-b9d2-ef9ad9e24e97", role:admin
+      g, diego.lagosmorales@pagopa.it, role:admin
 
-    scopes: "[groups, email]"
+    scopes: "[preferred_username, email, groups]"
 
 
 
