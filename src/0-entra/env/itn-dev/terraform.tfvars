@@ -14,3 +14,6 @@ tags = {
   Source      = "https://github.com/pagopa/devopslab-infra"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
+
+
+argocd_entra_groups_allowed = ["dvopla-d-adgroup-admin", "dvopla-d-adgroup-developers", "dvopla-d-adgroup-externals"]
