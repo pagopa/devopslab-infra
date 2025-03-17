@@ -120,7 +120,6 @@ resource "null_resource" "restart_argocd_server" {
   ]
 }
 
-
 resource "azurerm_key_vault_secret" "argocd_admin_username" {
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
   name         = "argocd-admin-username"
