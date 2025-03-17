@@ -80,7 +80,6 @@ configs:
     scopes: "[preferred_username, email, groups]"
 
 
-
 server:
   replicas: 1
   autoscaling:
