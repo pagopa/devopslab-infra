@@ -105,14 +105,14 @@ resource "azuread_service_principal" "argocd" {
 
 # Recupera dinamicamente i gruppi esistenti su Entra ID
 data "azuread_group" "argocd_groups" {
-  for_each      = toset(var.argocd_entra_groups_allowed)
-  display_name  = each.value
+  for_each     = toset(var.argocd_entra_groups_allowed)
+  display_name = each.value
 }
 
 resource "azuread_app_role_assignment" "argocd_group_assignments" {
-  for_each           = data.azuread_group.argocd_groups
+  for_each = data.azuread_group.argocd_groups
 
-  app_role_id        = "00000000-0000-0000-0000-000000000000"
+  app_role_id         = "00000000-0000-0000-0000-000000000000"
   principal_object_id = each.value.object_id
-  resource_object_id  = azuread_service_principal.argocd.object_id 
+  resource_object_id  = azuread_service_principal.argocd.object_id
 }

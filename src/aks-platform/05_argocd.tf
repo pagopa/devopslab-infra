@@ -105,8 +105,8 @@ resource "null_resource" "argocd_change_admin_password" {
 resource "null_resource" "restart_argocd_server" {
   triggers = {
     force_reinstall = var.argocd_force_reinstall_version
-    helm_version   = helm_release.argocd.version
-    helm_values    = helm_release.argocd.values[0]
+    helm_version    = helm_release.argocd.version
+    helm_values     = helm_release.argocd.values[0]
   }
 
   provisioner "local-exec" {

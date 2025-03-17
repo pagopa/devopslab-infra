@@ -67,5 +67,5 @@ variable "tags" {
 
 # Definizione della variabile per i nomi dei gruppi Entra ID
 variable "argocd_entra_groups_allowed" {
-  type    = list(string)
+  type = list(string)
 }
