@@ -35,7 +35,6 @@ module "cert_mounter" {
 
   depends_on = [
     kubernetes_namespace.elastic_system,
-    module.pod_identity
   ]
 
 }

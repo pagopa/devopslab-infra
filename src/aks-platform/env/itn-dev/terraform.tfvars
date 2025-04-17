@@ -49,7 +49,7 @@ public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.29.4"
+aks_kubernetes_version      = "1.32.3"
 aks_system_node_pool = {
   name            = "dvldev01sys",
   vm_size         = "Standard_B4ms",
@@ -114,14 +114,14 @@ aks_spot_user_node_pool = {
 aks_addons = {
   azure_policy                     = true,
   azure_key_vault_secrets_provider = true,
-  pod_identity_enabled             = true,
 }
 
 ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 ingress_load_balancer_ip = "10.3.10.250"
-nginx_helm_version       = "4.10.1"
-keda_helm_version        = "2.14.0"
+
+nginx_helm_version = "4.12.1"
+keda_helm_version  = "2.16.1"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
@@ -130,17 +130,6 @@ reloader_helm = {
   image_name    = "stakater/reloader"
   image_tag     = "v1.0.30"
 }
-
-
-# chart releases: https://github.com/pagopa/aks-microservice-chart-blueprint/releases
-# image tags: https://github.com/pagopa/infra-ssl-check/releases
-tls_cert_check_helm = {
-  chart_version = "1.21.0"
-  image_name    = "ghcr.io/pagopa/infra-ssl-check"
-  image_tag     = "v1.2.2@sha256:22f4b53177cc8891bf10cbd0deb39f60e1cd12877021c3048a01e7738f63e0f9"
-}
-
-tls_checker_https_endpoints_to_check = []
 
 law_prometheus_sku               = "PerGB2018"
 law_prometheus_retention_in_days = 30

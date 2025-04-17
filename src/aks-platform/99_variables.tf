@@ -289,159 +289,6 @@ variable "aks_metric_alerts_default" {
   }
 }
 
-variable "aks_metric_alerts_custom" {
-  description = <<EOD
-  Map of name = criteria objects
-  EOD
-
-  type = map(object({
-    # criteria.*.aggregation to be one of [Average Count Minimum Maximum Total]
-    aggregation = string
-    # "Insights.Container/pods" "Insights.Container/nodes"
-    metric_namespace = string
-    metric_name      = string
-    # criteria.0.operator to be one of [Equals NotEquals GreaterThan GreaterThanOrEqual LessThan LessThanOrEqual]
-    operator  = string
-    threshold = number
-    # Possible values are PT1M, PT5M, PT15M, PT30M and PT1H
-    frequency = string
-    # Possible values are PT1M, PT5M, PT15M, PT30M, PT1H, PT6H, PT12H and P1D.
-    window_size = string
-
-    dimension = list(object(
-      {
-        name     = string
-        operator = string
-        values   = list(string)
-      }
-    ))
-  }))
-
-  default = {
-    pods_failed = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "podCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "phase"
-          operator = "Include"
-          values   = ["Failed"]
-        }
-      ]
-    }
-    pods_ready = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "PodReadyPercentage"
-      operator         = "LessThan"
-      threshold        = 80
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_cpu = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/containers"
-      metric_name      = "cpuExceededPercentage"
-      operator         = "GreaterThan"
-      threshold        = 95
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_memory = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/containers"
-      metric_name      = "memoryWorkingSetExceededPercentage"
-      operator         = "GreaterThan"
-      threshold        = 95
-      frequency        = "PT1M"
-      window_size      = "PT5M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_oom = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "oomKilledContainerCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT1M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-    container_restart = {
-      aggregation      = "Average"
-      metric_namespace = "Insights.Container/pods"
-      metric_name      = "restartingContainerCount"
-      operator         = "GreaterThan"
-      threshold        = 0
-      frequency        = "PT1M"
-      window_size      = "PT1M"
-      dimension = [
-        {
-          name     = "kubernetes namespace"
-          operator = "Include"
-          values   = ["*"]
-        },
-        {
-          name     = "controllerName"
-          operator = "Include"
-          values   = ["*"]
-        }
-      ]
-    }
-  }
-}
-
 variable "aks_alerts_enabled" {
   type        = bool
   default     = true
@@ -505,13 +352,11 @@ variable "aks_addons" {
   type = object({
     azure_policy                     = bool,
     azure_key_vault_secrets_provider = bool,
-    pod_identity_enabled             = bool,
   })
 
   default = {
     azure_key_vault_secrets_provider = true
     azure_policy                     = true
-    pod_identity_enabled             = true
   }
 
   description = "Aks addons configuration"
