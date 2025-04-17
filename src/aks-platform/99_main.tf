@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 3.114.0"
+      version = "<= 3.118.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -41,6 +41,11 @@ provider "azurerm" {
 data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
+
+module "__v3__" {
+  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.90.0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=78630776fc96bca167d0c668cb26500a5e76016f"
+}
 
 provider "kubernetes" {
   config_path = "${var.k8s_kube_config_path_prefix}/config-${local.aks_cluster_name}"
