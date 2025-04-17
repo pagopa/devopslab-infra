@@ -70,7 +70,6 @@ module "elastic_stack" {
   depends_on = [
     azurerm_kubernetes_cluster_node_pool.elastic,
     module.nginx_ingress,
-    module.pod_identity,
     kubernetes_secret.snapshot_secret,
     kubernetes_namespace.elastic_system,
   ]
