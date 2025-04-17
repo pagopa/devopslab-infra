@@ -11,10 +11,10 @@ resource "azurerm_resource_group" "rg_aks_backup" {
   tags     = var.tags
 }
 
-
-
 module "aks" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.42.1"
+  # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.42.1"
+  source = "./.terraform/modules/__v3__/kubernetes_cluster"
+
 
   name                       = local.aks_cluster_name
   resource_group_name        = azurerm_resource_group.rg_aks.name
@@ -65,10 +65,6 @@ module "aks" {
 
   addon_azure_policy_enabled                     = true
   addon_azure_key_vault_secrets_provider_enabled = true
-  addon_azure_pod_identity_enabled               = true
-
-  default_metric_alerts = var.aks_metric_alerts_default
-  custom_metric_alerts  = var.aks_metric_alerts_custom
 
   ### Storage profile
   storage_profile_blob_driver_enabled = true
