@@ -120,8 +120,8 @@ ingress_replica_count = "1"
 # This is the k8s ingress controller ip. It must be in the aks subnet range.
 ingress_load_balancer_ip = "10.3.10.250"
 
-nginx_helm_version       = "4.12.1"
-keda_helm_version    = "2.16.1"
+nginx_helm_version = "4.12.1"
+keda_helm_version  = "2.16.1"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
