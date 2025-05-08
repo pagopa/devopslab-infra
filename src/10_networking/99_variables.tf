@@ -1,14 +1,9 @@
-# general
-
 locals {
-  project     = "${var.prefix}-${var.env_short}"
+  project     = "${var.prefix}-${var.env_short}-${var.location_short}"
 
   # VNET
   vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
-
-  vnet_ita_resource_group_name = "${local.project}-vnet-rg"
-  vnet_ita_name                = "${local.project}-vnet"
 
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"

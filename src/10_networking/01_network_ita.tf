@@ -6,7 +6,7 @@
 # }
 #
 # module "vnet_italy" {
-#   source = "./.terraform/modules/__v3__/virtual_network"
+#   source = "./.terraform/modules/__v4__/virtual_network"
 #
 #   name                = local.vnet_ita_name
 #   location            = var.location_ita
@@ -20,7 +20,7 @@
 #
 # ## Peering between the vnet(main) and italy vnet
 # module "vnet_ita_peering" {
-#   source = "./.terraform/modules/__v3__/virtual_network_peering"
+#   source = "./.terraform/modules/__v4__/virtual_network_peering"
 #
 #   source_resource_group_name       = azurerm_resource_group.rg_ita_vnet.name
 #   source_virtual_network_name      = module.vnet_italy.name
