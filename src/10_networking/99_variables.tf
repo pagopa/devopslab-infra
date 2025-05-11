@@ -3,8 +3,11 @@ locals {
   project     = "${var.prefix}-${var.env_short}-${var.location_short}"
 
   # VNET
-  vnet_resource_group_name = "${local.project}-vnet-rg"
   vnet_name                = "${local.project}-vnet"
+  vnet_resource_group_name = "${local.project}-vnet-rg"
+
+  vnet_legacy_name                = "${local.product}-vnet"
+  vnet_legacy_resource_group_name = "${local.product}-vnet-rg"
 
   appgateway_public_ip_name      = "${local.project}-gw-pip"
   appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
@@ -82,14 +85,24 @@ variable "cidr_subnet_vpn" {
   description = "VPN network address space."
 }
 
-variable "cidr_subnet_dnsforwarder_lb" {
+variable "cidr_subnet_packer_dns_forwarder" {
   type        = list(string)
-  description = "DNS Forwarder network address space for LB."
+  description = "VPN network address space."
 }
 
 variable "cidr_subnet_dnsforwarder_vmss" {
   type        = list(string)
   description = "DNS Forwarder network address space for VMSS."
+}
+
+variable "cidr_subnet_dnsforwarder_lb" {
+  type        = list(string)
+  description = "DNS Forwarder network address space for LB."
+}
+
+variable "cidr_subnet_packer_azdo" {
+  type        = list(string)
+  description = "packer azdo network address space."
 }
 
 variable "dns_zone_prefix" {
