@@ -84,7 +84,7 @@ resource "azurerm_public_ip" "aks_outbound" {
 
   name                = "${local.aks_public_ip_name}-${count.index + 1}"
   location            = var.location_ita
-  resource_group_name = azurerm_resource_group.rg_ita_vnet.name
+  resource_group_name = local.vnet_ita_resource_group_name
   sku                 = "Standard"
   allocation_method   = "Static"
 
