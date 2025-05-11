@@ -9,8 +9,8 @@ module "redis_snet" {
   source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet"
   name                 = "${local.project_ita}-redis-snet"
   address_prefixes     = var.cidr_subnet_redis
-  resource_group_name  = azurerm_resource_group.rg_ita_vnet.name
-  virtual_network_name = module.vnet_italy.name
+  resource_group_name  = local.vnet_ita_resource_group_name
+  virtual_network_name = local.vnet_ita_name
 }
 
 module "redis" {
@@ -29,7 +29,7 @@ module "redis" {
 
   private_endpoint = {
     enabled              = true
-    virtual_network_id   = module.vnet_italy.id
+    virtual_network_id   = data.azurerm_virtual_network.vnet_ita_core.id
     subnet_id            = module.redis_snet.id
     private_dns_zone_ids = [azurerm_private_dns_zone.internal_devopslab[0].id]
   }

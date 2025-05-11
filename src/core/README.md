@@ -44,23 +44,14 @@ az network dns zone show \
 | <a name="module_azdoa_vmss_linux"></a> [azdoa\_vmss\_linux](#module\_azdoa\_vmss\_linux) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
 | <a name="module_container_app_environment"></a> [container\_app\_environment](#module\_container\_app\_environment) | ./.terraform/modules/__v3__/container_app_environment_v2 | n/a |
 | <a name="module_container_registry_public"></a> [container\_registry\_public](#module\_container\_registry\_public) | git::https://github.com/pagopa/terraform-azurerm-v3.git//container_registry | n/a |
-| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | ./.terraform/modules/__v3__/dns_forwarder_lb_vmss | n/a |
 | <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | github.com/pagopa/terraform-azurerm-v3//github_federated_identity | n/a |
 | <a name="module_key_vault_core_ita"></a> [key\_vault\_core\_ita](#module\_key\_vault\_core\_ita) | github.com/pagopa/terraform-azurerm-v3.git//key_vault | n/a |
-| <a name="module_packer_azdo_snet"></a> [packer\_azdo\_snet](#module\_packer\_azdo\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
-| <a name="module_packer_dns_forwarder_snet"></a> [packer\_dns\_forwarder\_snet](#module\_packer\_dns\_forwarder\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
 | <a name="module_postgres"></a> [postgres](#module\_postgres) | ./.terraform/modules/__v3__/postgresql_server | n/a |
 | <a name="module_postgres_snet"></a> [postgres\_snet](#module\_postgres\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
 | <a name="module_private_endpoints_snet"></a> [private\_endpoints\_snet](#module\_private\_endpoints\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
 | <a name="module_redis"></a> [redis](#module\_redis) | git::https://github.com/pagopa/terraform-azurerm-v3.git//redis_cache | n/a |
 | <a name="module_redis_snet"></a> [redis\_snet](#module\_redis\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | n/a |
-| <a name="module_subnet_dns_forwarder_lb"></a> [subnet\_dns\_forwarder\_lb](#module\_subnet\_dns\_forwarder\_lb) | ./.terraform/modules/__v3__/subnet | n/a |
-| <a name="module_subnet_dns_forwarder_vmss"></a> [subnet\_dns\_forwarder\_vmss](#module\_subnet\_dns\_forwarder\_vmss) | ./.terraform/modules/__v3__/subnet | n/a |
 | <a name="module_vnet"></a> [vnet](#module\_vnet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//virtual_network | n/a |
-| <a name="module_vnet_ita_peering"></a> [vnet\_ita\_peering](#module\_vnet\_ita\_peering) | ./.terraform/modules/__v3__/virtual_network_peering | n/a |
-| <a name="module_vnet_italy"></a> [vnet\_italy](#module\_vnet\_italy) | ./.terraform/modules/__v3__/virtual_network | n/a |
-| <a name="module_vpn"></a> [vpn](#module\_vpn) | ./.terraform/modules/__v3__/vpn_gateway | n/a |
-| <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
 
 ## Resources
 
@@ -104,13 +95,11 @@ az network dns zone show \
 | [azurerm_resource_group.monitor_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.redis](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_docker](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.rg_ita_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.sec_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.tools_cae_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_subnet.tools_cae_snet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [random_password.pg_admin_password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
-| [azuread_application.vpn_app](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application) | data source |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
@@ -122,6 +111,7 @@ az network dns zone show \
 | [azurerm_resource_group.identity_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [azurerm_virtual_network.vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
+| [azurerm_virtual_network.vnet_ita_core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
 
@@ -140,8 +130,8 @@ az network dns zone show \
 | <a name="input_cidr_subnet_azdoa"></a> [cidr\_subnet\_azdoa](#input\_cidr\_subnet\_azdoa) | Azure DevOps agent network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_dnsforwarder_lb"></a> [cidr\_subnet\_dnsforwarder\_lb](#input\_cidr\_subnet\_dnsforwarder\_lb) | DNS Forwarder network address space for LB. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_dnsforwarder_vmss"></a> [cidr\_subnet\_dnsforwarder\_vmss](#input\_cidr\_subnet\_dnsforwarder\_vmss) | DNS Forwarder network address space for VMSS. | `list(string)` | n/a | yes |
-| <a name="input_cidr_subnet_packer_azdo"></a> [cidr\_subnet\_packer\_azdo](#input\_cidr\_subnet\_packer\_azdo) | VPN network address space. | `list(string)` | n/a | yes |
-| <a name="input_cidr_subnet_packer_dns_forwarder"></a> [cidr\_subnet\_packer\_dns\_forwarder](#input\_cidr\_subnet\_packer\_dns\_forwarder) | VPN network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_packer_azdo"></a> [cidr\_subnet\_packer\_azdo](#input\_cidr\_subnet\_packer\_azdo) | packer azdo network address space. | `list(string)` | n/a | yes |
+| <a name="input_cidr_subnet_packer_dns_forwarder"></a> [cidr\_subnet\_packer\_dns\_forwarder](#input\_cidr\_subnet\_packer\_dns\_forwarder) | packer dns forwarder network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_postgres"></a> [cidr\_subnet\_postgres](#input\_cidr\_subnet\_postgres) | Database network address space. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_private_endpoints"></a> [cidr\_subnet\_private\_endpoints](#input\_cidr\_subnet\_private\_endpoints) | Subnet cidr postgres flex. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_redis"></a> [cidr\_subnet\_redis](#input\_cidr\_subnet\_redis) | Redis. | `list(string)` | n/a | yes |

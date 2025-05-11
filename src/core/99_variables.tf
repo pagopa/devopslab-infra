@@ -155,12 +155,12 @@ variable "cidr_subnet_vpn" {
 
 variable "cidr_subnet_packer_azdo" {
   type        = list(string)
-  description = "VPN network address space."
+  description = "packer azdo network address space."
 }
 
 variable "cidr_subnet_packer_dns_forwarder" {
   type        = list(string)
-  description = "VPN network address space."
+  description = "packer dns forwarder network address space."
 }
 
 variable "cidr_subnet_dnsforwarder_lb" {
