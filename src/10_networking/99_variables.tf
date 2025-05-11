@@ -40,7 +40,7 @@ variable "domain" {
 }
 
 variable "location" {
-  type    = string
+  type = string
 }
 
 variable "location_short" {

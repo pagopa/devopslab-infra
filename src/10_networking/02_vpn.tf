@@ -2,11 +2,11 @@
 module "vpn_snet" {
   source = "./.terraform/modules/__v4__/subnet"
 
-  name                                      = "GatewaySubnet"
-  address_prefixes                          = var.cidr_subnet_vpn
-  virtual_network_name                      = local.vnet_name
-  resource_group_name                       = local.vnet_resource_group_name
-  service_endpoints                         = []
+  name                 = "GatewaySubnet"
+  address_prefixes     = var.cidr_subnet_vpn
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.vnet_resource_group_name
+  service_endpoints    = []
 }
 
 data "azuread_application" "vpn_app" {
@@ -15,7 +15,7 @@ data "azuread_application" "vpn_app" {
 
 module "vpn" {
   # source = "./.terraform/modules/__v4__/vpn_gateway"
-    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//vpn_gateway?ref=PAYMCLOUD-399-v-4-vpn-update"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//vpn_gateway?ref=PAYMCLOUD-399-v-4-vpn-update"
 
   name                  = "${local.project}-vpn"
   location              = var.location
@@ -64,7 +64,7 @@ module "subnet_dns_forwarder_vmss" {
 
 module "dns_forwarder_lb_vmss" {
   # source = "./.terraform/modules/__v4__/dns_forwarder_lb_vmss"
-      source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//dns_forwarder_lb_vmss?ref=PAYMCLOUD-399-v-4-vpn-update"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//dns_forwarder_lb_vmss?ref=PAYMCLOUD-399-v-4-vpn-update"
 
 
   name                 = local.project
