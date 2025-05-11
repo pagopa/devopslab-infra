@@ -117,8 +117,8 @@ module "postgres_snet" {
   source                                    = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet"
   name                                      = "${local.project}-postgres-snet"
   address_prefixes                          = var.cidr_subnet_postgres
-  resource_group_name                       = azurerm_resource_group.rg_ita_vnet.name
-  virtual_network_name                      = module.vnet_italy.name
+  resource_group_name                       = local.vnet_ita_resource_group_name
+  virtual_network_name                      = local.vnet_ita_name
   service_endpoints                         = ["Microsoft.Sql"]
   private_endpoint_network_policies_enabled = true
 }
@@ -141,7 +141,7 @@ module "postgres" {
   network_rules                 = var.postgres_network_rules
   private_endpoint = {
     enabled              = false
-    virtual_network_id   = azurerm_resource_group.rg_ita_vnet.id
+    virtual_network_id   = data.azurerm_virtual_network.vnet_ita_core.id
     subnet_id            = module.postgres_snet.id
     private_dns_zone_ids = []
   }

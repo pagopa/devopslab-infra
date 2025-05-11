@@ -11,8 +11,8 @@ module "azdoa_snet" {
   count                                     = var.enable_azdoa ? 1 : 0
   name                                      = local.azuredevops_subnet_name
   address_prefixes                          = var.cidr_subnet_azdoa
-  resource_group_name                       = azurerm_resource_group.rg_ita_vnet.name
-  virtual_network_name                      = module.vnet_italy.name
+  resource_group_name                       = local.vnet_ita_resource_group_name
+  virtual_network_name                      = local.vnet_ita_name
   private_endpoint_network_policies_enabled = true
 }
 
