@@ -4,7 +4,7 @@ env                = "dev"
 prefix             = "dvopla"
 domain             = "core"
 location           = "italynorth"
-location_short     = "ita"
+location_short     = "itn"
 
 tags = {
   CreatedBy   = "Terraform"
