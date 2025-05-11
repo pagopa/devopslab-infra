@@ -35,15 +35,15 @@ az network dns zone show \
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | fd59bd8c4eac7b0b6c96de4c41611952a53767b0 |
-| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | git::https://github.com/pagopa/terraform-azurerm-v4.git//dns_forwarder_lb_vmss | PAYMCLOUD-399-v-4-vpn-update |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 3388ff860b06c99d19e0bbba205a553343fca059 |
+| <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | ./.terraform/modules/__v4__/dns_forwarder_lb_vmss | n/a |
 | <a name="module_packer_azdo_snet"></a> [packer\_azdo\_snet](#module\_packer\_azdo\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_packer_dns_forwarder_snet"></a> [packer\_dns\_forwarder\_snet](#module\_packer\_dns\_forwarder\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_subnet_dns_forwarder_lb"></a> [subnet\_dns\_forwarder\_lb](#module\_subnet\_dns\_forwarder\_lb) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_subnet_dns_forwarder_vmss"></a> [subnet\_dns\_forwarder\_vmss](#module\_subnet\_dns\_forwarder\_vmss) | ./.terraform/modules/__v4__/subnet | n/a |
 | <a name="module_vnet_ita_peering"></a> [vnet\_ita\_peering](#module\_vnet\_ita\_peering) | ./.terraform/modules/__v4__/virtual_network_peering | n/a |
 | <a name="module_vnet_italy"></a> [vnet\_italy](#module\_vnet\_italy) | ./.terraform/modules/__v4__/virtual_network | n/a |
-| <a name="module_vpn"></a> [vpn](#module\_vpn) | git::https://github.com/pagopa/terraform-azurerm-v4.git//vpn_gateway | PAYMCLOUD-399-v-4-vpn-update |
+| <a name="module_vpn"></a> [vpn](#module\_vpn) | ./.terraform/modules/__v4__/vpn_gateway | n/a |
 | <a name="module_vpn_snet"></a> [vpn\_snet](#module\_vpn\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
 
 ## Resources
