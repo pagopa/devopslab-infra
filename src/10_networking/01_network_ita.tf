@@ -27,11 +27,13 @@ module "vnet_ita_peering" {
   source_remote_virtual_network_id = module.vnet_italy.id
   source_use_remote_gateways       = false
   source_allow_forwarded_traffic   = true
+  source_allow_gateway_transit   = true
 
   target_resource_group_name       = data.azurerm_virtual_network.vnet_legacy.resource_group_name
   target_virtual_network_name      = data.azurerm_virtual_network.vnet_legacy.name
   target_remote_virtual_network_id = data.azurerm_virtual_network.vnet_legacy.id
   target_allow_gateway_transit     = false
+  target_use_remote_gateways = true
 }
 
 module "packer_azdo_snet" {
