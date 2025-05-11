@@ -1,21 +1,3 @@
-locals {
-  product     = "${var.prefix}-${var.env_short}"
-  project     = "${var.prefix}-${var.env_short}-${var.location_short}"
-
-  # VNET
-  vnet_name                = "${local.project}-vnet"
-  vnet_resource_group_name = "${local.project}-vnet-rg"
-
-  vnet_legacy_name                = "${local.product}-vnet"
-  vnet_legacy_resource_group_name = "${local.product}-vnet-rg"
-
-  appgateway_public_ip_name      = "${local.project}-gw-pip"
-  appgateway_beta_public_ip_name = "${local.project}-gw-beta-pip"
-
-  prod_dns_zone_public_name = "${var.dns_zone_prefix}.${var.external_domain}"
-  dns_zone_private_name     = "${var.dns_zone_internal_prefix}.${var.external_domain}"
-}
-
 variable "prefix" {
   type    = string
   default = "dvopla"
@@ -153,16 +135,11 @@ variable "vpn_pip_sku" {
   description = "VPN GW PIP SKU"
 }
 
-variable "dns_forwarder_vmss_image_version" {
-  type        = string
-  description = "vpn dns forwarder image version"
-}
 
 #
 # dns forwarder
 #
-variable "dns_forwarder_is_enabled" {
-  type        = bool
-  default     = true
-  description = "Allow to enable or disable dns forwarder backup"
+variable "dns_forwarder_vmss_image_version" {
+  type        = string
+  description = "vpn dns forwarder image version"
 }

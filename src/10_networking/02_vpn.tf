@@ -4,8 +4,8 @@ module "vpn_snet" {
 
   name                                      = "GatewaySubnet"
   address_prefixes                          = var.cidr_subnet_vpn
-  virtual_network_name                      = data.azurerm_virtual_network.vnet_ita_core.name
-  resource_group_name                       = data.azurerm_resource_group.rg_vnet_ita.name
+  virtual_network_name                      = local.vnet_name
+  resource_group_name                       = local.vnet_resource_group_name
   service_endpoints                         = []
 }
 
@@ -19,7 +19,7 @@ module "vpn" {
 
   name                  = "${local.project}-vpn"
   location              = var.location
-  resource_group_name   = data.azurerm_resource_group.rg_vnet_ita.name
+  resource_group_name   = local.vnet_resource_group_name
   sku                   = var.vpn_sku
   pip_sku               = var.vpn_pip_sku
   subnet_id             = module.vpn_snet.id
@@ -42,44 +42,43 @@ module "vpn" {
   tags = var.tags
 }
 
-# # Dns Forwarder module
-#
-# module "subnet_dns_forwarder_lb" {
-#   source = "./.terraform/modules/__v4__/subnet"
-#   count  = var.dns_forwarder_is_enabled ? 1 : 0
-#
-#   name                 = "${local.project}-dns-forwarder-lb"
-#   address_prefixes     = var.cidr_subnet_dnsforwarder_lb
-#   virtual_network_name = local.vnet_ita_name
-#   resource_group_name  = local.vnet_ita_resource_group_name
-# }
-#
-# module "subnet_dns_forwarder_vmss" {
-#   source = "./.terraform/modules/__v4__/subnet"
-#   count  = var.dns_forwarder_is_enabled ? 1 : 0
-#
-#   name                 = "${local.project}-dns-forwarder-vmss"
-#   address_prefixes     = var.cidr_subnet_dnsforwarder_vmss
-#   virtual_network_name = local.vnet_ita_name
-#   resource_group_name  = local.vnet_ita_resource_group_name
-# }
-#
-# module "dns_forwarder_lb_vmss" {
-#   source = "./.terraform/modules/__v4__/dns_forwarder_lb_vmss"
-#   count  = var.dns_forwarder_is_enabled ? 1 : 0
-#
-#   name                 = local.project
-#   virtual_network_name = local.vnet_ita_name
-#   resource_group_name  = local.vnet_ita_resource_group_name
-#
-#   subnet_lb_id      = module.subnet_dns_forwarder_lb[0].id
-#   static_address_lb = cidrhost(var.cidr_subnet_dnsforwarder_lb[0], 4)
-#   subnet_vmss_id    = module.subnet_dns_forwarder_vmss[0].id
-#
-#   location          = var.location
-#   subscription_id   = data.azurerm_subscription.current.subscription_id
-#   key_vault_id      = data.azurerm_key_vault.kv.id
-#   tenant_id         = data.azurerm_client_config.current.id
-#   tags              = var.tags
-#   source_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-${var.dns_forwarder_vmss_image_version}"
-# }
+# Dns Forwarder module
+
+module "subnet_dns_forwarder_lb" {
+  source = "./.terraform/modules/__v4__/subnet"
+
+  name                 = "${local.project}-dns-forwarder-lb"
+  address_prefixes     = var.cidr_subnet_dnsforwarder_lb
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.vnet_resource_group_name
+}
+
+module "subnet_dns_forwarder_vmss" {
+  source = "./.terraform/modules/__v4__/subnet"
+
+  name                 = "${local.project}-dns-forwarder-vmss"
+  address_prefixes     = var.cidr_subnet_dnsforwarder_vmss
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.vnet_resource_group_name
+}
+
+module "dns_forwarder_lb_vmss" {
+  # source = "./.terraform/modules/__v4__/dns_forwarder_lb_vmss"
+      source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//dns_forwarder_lb_vmss?ref=PAYMCLOUD-399-v-4-vpn-update"
+
+
+  name                 = local.project
+  virtual_network_name = local.vnet_name
+  resource_group_name  = local.vnet_resource_group_name
+
+  static_address_lb = cidrhost(var.cidr_subnet_dnsforwarder_lb[0], 4)
+  subnet_lb_id      = module.subnet_dns_forwarder_lb.id
+  subnet_vmss_id    = module.subnet_dns_forwarder_vmss.id
+
+  location          = var.location
+  subscription_id   = data.azurerm_subscription.current.subscription_id
+  key_vault_id      = data.azurerm_key_vault.kv_ita.id
+  tenant_id         = data.azurerm_client_config.current.id
+  tags              = var.tags
+  source_image_name = "dvopla-d-itn-dns-forwarder-ubuntu2204-image-${var.dns_forwarder_vmss_image_version}"
+}
