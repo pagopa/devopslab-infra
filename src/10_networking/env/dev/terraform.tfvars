@@ -46,7 +46,7 @@ cidr_subnet_apim_stv2                 = ["10.1.152.0/24"]
 ### Italy
 cidr_vnet_italy = ["10.3.0.0/16"]
 
-cidr_subnet_vpn      = ["10.3.2.0/24"]
+cidr_subnet_vpn = ["10.3.2.0/24"]
 
 cidr_subnet_dnsforwarder_lb   = ["10.3.200.0/29"]
 cidr_subnet_dnsforwarder_vmss = ["10.3.200.8/29"]
@@ -63,5 +63,3 @@ vpn_pip_sku           = "Standard"
 
 
 dns_forwarder_vmss_image_version = "v20250214"
-
-
