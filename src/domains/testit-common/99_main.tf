@@ -1,16 +1,12 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "<= 3.116.0"
-    }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "<= 2.47.0"
+      version = "~> 3.1"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "<= 3.2.1"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.18"
     }
   }
 
@@ -28,3 +24,8 @@ provider "azurerm" {
 data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
+
+module "__v4__" {
+  # https://github.com/pagopa/terraform-azurerm-v4/releases/tag/v5.11.0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git?ref=breaking-change-idh-names"
+}
