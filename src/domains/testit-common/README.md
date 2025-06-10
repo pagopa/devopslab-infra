@@ -3,17 +3,24 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.116.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | <= 3.2.1 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.18 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | github.com/pagopa/terraform-azurerm-v3//github_federated_identity | v8.13.0 |
-| <a name="module_key_vault_domain"></a> [key\_vault\_domain](#module\_key\_vault\_domain) | git::https://github.com/pagopa/terraform-azurerm-v3.git//key_vault | v8.13.0 |
-| <a name="module_workload_identity_init"></a> [workload\_identity\_init](#module\_workload\_identity\_init) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.42.1 |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | breaking-change-idh-names |
+| <a name="module_cosmosdb_account"></a> [cosmosdb\_account](#module\_cosmosdb\_account) | ./.terraform/modules/__v4__/IDH/cosmosdb_account | n/a |
+| <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | ./.terraform/modules/__v4__/IDH/event_hub | n/a |
+| <a name="module_identity_cd_01"></a> [identity\_cd\_01](#module\_identity\_cd\_01) | ./.terraform/modules/__v4__/github_federated_identity | n/a |
+| <a name="module_key_vault"></a> [key\_vault](#module\_key\_vault) | ./.terraform/modules/__v4__/IDH/key_vault | n/a |
+| <a name="module_key_vault_domain"></a> [key\_vault\_domain](#module\_key\_vault\_domain) | ./.terraform/modules/__v4__/key_vault | n/a |
+| <a name="module_postgres_flexible_server"></a> [postgres\_flexible\_server](#module\_postgres\_flexible\_server) | ./.terraform/modules/__v4__/IDH/postgres_flexible_server | n/a |
+| <a name="module_redis"></a> [redis](#module\_redis) | ./.terraform/modules/__v4__/IDH/redis | n/a |
+| <a name="module_storage_account"></a> [storage\_account](#module\_storage\_account) | ./.terraform/modules/__v4__/IDH/storage_account | n/a |
+| <a name="module_subnet"></a> [subnet](#module\_subnet) | ./.terraform/modules/__v4__/IDH/subnet | n/a |
+| <a name="module_workload_identity_init"></a> [workload\_identity\_init](#module\_workload\_identity\_init) | ./.terraform/modules/__v4__/kubernetes_workload_identity_init | n/a |
 
 ## Resources
 
@@ -23,8 +30,10 @@
 | [azurerm_key_vault_access_policy.adgroup_developers_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.adgroup_externals_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_access_policy.gha_iac_managed_identities](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
+| [azurerm_resource_group.idh_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.sec_rg_domain](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [null_resource.github_runner_app_permissions_to_namespace_cd_01](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [random_password.postgres_password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
