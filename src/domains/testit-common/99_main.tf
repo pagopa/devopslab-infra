@@ -6,7 +6,7 @@ terraform {
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.18"
+      version = "<= 4.30"
     }
   }
 
@@ -26,6 +26,6 @@ data "azurerm_subscription" "current" {}
 data "azurerm_client_config" "current" {}
 
 module "__v4__" {
-  # https://github.com/pagopa/terraform-azurerm-v4/releases/tag/v5.11.0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git?ref=breaking-change-idh-names"
+  # https://github.com/pagopa/terraform-azurerm-v4/releases/tag/v7.0.0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git?ref=92fa18c908a4d6485f495dcf3a033d1472c98d29"
 }

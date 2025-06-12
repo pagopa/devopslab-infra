@@ -18,6 +18,7 @@ locals {
   dns_zone_public_name  = "devopslab.pagopa.it"
   dns_zone_private_name = "internal.devopslab.pagopa.it"
 
+  idh_enabled = false
 }
 
 variable "prefix" {
