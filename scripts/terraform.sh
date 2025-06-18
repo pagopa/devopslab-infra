@@ -15,12 +15,23 @@ if [ -n "$3" ] && [ -f "$3" ]; then
 else
   FILE_ACTION=false
 fi
-
+bold=$(tput bold)
+normal=$(tput sgr0)
 # Define functions
 function clean_environment() {
   rm -rf .terraform
   rm tfplan 2>/dev/null
   echo "cleaned!"
+}
+
+
+
+day() {
+  date +"%Y-%m-%d"
+}
+
+hour() {
+  date +"%H:%M:%S"
 }
 
 function download_tool() {
@@ -146,7 +157,52 @@ function list_env() {
 
 function other_actions() {
   if [ -n "$env" ] && [ -n "$action" ]; then
-    terraform "$action" -var-file="./env/$env/terraform.tfvars" -compact-warnings $other
+    if [ "$action" == "apply" ] && [[ "$env" == *"dev" ]]; then
+      root_folder=$(git rev-parse --show-toplevel)
+      branch_name=$(git rev-parse --abbrev-ref HEAD)
+      commit_hash=$(git rev-parse HEAD)
+      uuid=$(uuidgen)
+      partition_key=$(day)
+      row_key="$(hour)_$uuid"
+      file_name="$partition_key-$row_key"
+      current_user=$(az ad signed-in-user show --query userPrincipalName -o tsv)
+      source "$root_folder/.terraform-audit"
+
+      terraform plan -var-file="./env/$env/terraform.tfvars" -compact-warnings -out="$file_name.tfplan" $other
+      read -p "${bold}Apply these changes (only yes will be accepted): ${normal}" apply_confirmation
+      if [ "$apply_confirmation" == "yes" ]; then
+        terraform show -no-color "$file_name.tfplan" > "$file_name.plan"
+
+        # fixme add user
+        #fixme set skip policy based on input arguments
+        az storage entity insert --account-name "$audit_storage_account_name" \
+          --table-name "$audit_table_name" \
+          --entity PartitionKey="$partition_key" RowKey="$row_key" BranchName="$branch_name" CommitHash="$commit_hash" SkipPolicy="false" SkipPolicy@odata.type=Edm.Boolean Watched="false" Watched@odata.type=Edm.Boolean PlanFile="$file_name.plan" ApplyFile="$file_name.apply" Arguments="$other" User="$current_user" \
+
+        terraform apply -auto-approve "$file_name.tfplan" -compact-warnings | tee "$file_name.apply"
+        az storage blob upload --account-name "$audit_storage_account_name" \
+        --container-name "$audit_container_name" \
+        --file "$partition_key-$row_key.apply" \
+        --name "$partition_key-$row_key.apply" \
+        --overwrite true
+        az storage blob upload --account-name "$audit_storage_account_name" \
+        --container-name "$audit_container_name" \
+        --file "$partition_key-$row_key.plan" \
+        --name "$partition_key-$row_key.plan" \
+        --overwrite true
+        rm "$file_name.plan" 2>/dev/null
+        rm "$file_name.apply" 2>/dev/null
+        rm "$file_name.tfplan" 2>/dev/null
+      else
+        echo "${bold}Apply canceled${normal}"
+        exit 0
+      fi
+
+    else
+      terraform "$action" -var-file="./env/$env/terraform.tfvars" -compact-warnings $other
+    fi
+
+
   else
     echo "ERROR: no env or action configured!"
     exit 1
