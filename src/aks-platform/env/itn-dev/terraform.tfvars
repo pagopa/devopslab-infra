@@ -138,7 +138,7 @@ law_prometheus_daily_quota_gb    = 0.1
 #
 # Argocd
 #
-# https://github.com/argoproj/argo-helm/releases/tag/argo-cd-7.7.16
-argocd_helm_release_version    = "7.7.16" #2.13.0+
+# https://github.com/argoproj/argo-helm/releases
+argocd_helm_release_version    = "8.1.1" #3.0.5+
 argocd_application_namespaces  = ["argocd", "testit", "diego", "keda"]
 argocd_force_reinstall_version = "v20250317_1222"
