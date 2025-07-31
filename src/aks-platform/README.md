@@ -156,9 +156,6 @@ Re-enable all the resource, commented before to complete the procedure
 | <a name="input_keda_helm_version"></a> [keda\_helm\_version](#input\_keda\_helm\_version) | n/a | `string` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Key Vault name | `string` | `""` | no |
 | <a name="input_key_vault_rg_name"></a> [key\_vault\_rg\_name](#input\_key\_vault\_rg\_name) | Key Vault - rg name | `string` | `""` | no |
-| <a name="input_law_prometheus_daily_quota_gb"></a> [law\_prometheus\_daily\_quota\_gb](#input\_law\_prometheus\_daily\_quota\_gb) | The workspace daily quota for ingestion in GB. | `number` | n/a | yes |
-| <a name="input_law_prometheus_retention_in_days"></a> [law\_prometheus\_retention\_in\_days](#input\_law\_prometheus\_retention\_in\_days) | The workspace data retention in days | `number` | n/a | yes |
-| <a name="input_law_prometheus_sku"></a> [law\_prometheus\_sku](#input\_law\_prometheus\_sku) | Sku of the Log Analytics Workspace | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `string` | n/a | yes |
 | <a name="input_location_short"></a> [location\_short](#input\_location\_short) | Location short like eg: weu, weu.. | `string` | n/a | yes |
 | <a name="input_location_westeurope"></a> [location\_westeurope](#input\_location\_westeurope) | n/a | `string` | n/a | yes |
