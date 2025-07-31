@@ -11,4 +11,6 @@ locals {
     "fabio.felici@pagopa.it"
   ]
 
+  argocd_hostname = "argocd.internal.devopslab.pagopa.it"
+
 }

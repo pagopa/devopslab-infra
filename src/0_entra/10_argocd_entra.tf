@@ -7,8 +7,8 @@ resource "azuread_application" "argocd" {
 
   # Nuova sintassi per web app
   web {
-    redirect_uris = ["https://argocd.internal.devopslab.pagopa.it/auth/callback"]
-    logout_url    = "https://argocd.internal.devopslab.pagopa.it/logout"
+    redirect_uris = ["https://${local.argocd_hostname}/auth/callback"]
+    logout_url    = "https://${local.argocd_hostname}/logout"
   }
 
   group_membership_claims = [
@@ -60,32 +60,6 @@ resource "azuread_application" "argocd" {
       type = "Scope"
     }
   }
-}
-
-# Secret generation
-resource "time_rotating" "example" {
-  rotation_days = 365
-}
-
-resource "azuread_application_password" "argocd" {
-  display_name   = "ArgoCD Secret"
-  application_id = azuread_application.argocd.id
-
-  rotate_when_changed = {
-    rotation = time_rotating.example.id
-  }
-}
-
-resource "azurerm_key_vault_secret" "argocd_entra_client_id" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-entra-client-id"
-  value        = azuread_application.argocd.client_id
-}
-
-resource "azurerm_key_vault_secret" "argocd_entra_client_secret" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-entra-client-secret"
-  value        = azuread_application_password.argocd.value
 }
 
 #
