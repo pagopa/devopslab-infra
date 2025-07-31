@@ -31,12 +31,6 @@ key_vault_rg_name = "dvopla-d-sec-rg"
 cidr_subnet_system_aks = ["10.3.9.0/24"]
 cidr_subnet_user_aks   = ["10.3.10.0/24"]
 
-### External resources
-
-monitor_resource_group_name                 = "dvopla-d-itn-monitor-rg"
-log_analytics_workspace_name                = "dvopla-d-itn-law"
-log_analytics_workspace_resource_group_name = "dvopla-d-itn-monitor-rg"
-
 ### Aks
 
 #
@@ -131,14 +125,10 @@ reloader_helm = {
   image_tag     = "v1.0.30"
 }
 
-law_prometheus_sku               = "PerGB2018"
-law_prometheus_retention_in_days = 30
-law_prometheus_daily_quota_gb    = 0.1
-
 #
 # Argocd
 #
-# https://github.com/argoproj/argo-helm/releases/tag/argo-cd-7.7.16
-argocd_helm_release_version    = "7.7.16" #2.13.0+
+# https://github.com/argoproj/argo-helm/releases
+argocd_helm_release_version    = "8.2.4" #3.0.5+
 argocd_application_namespaces  = ["argocd", "testit", "diego", "keda"]
-argocd_force_reinstall_version = "v20250317_1222"
+argocd_force_reinstall_version = "v20250730_4"

@@ -401,24 +401,6 @@ variable "reloader_helm" {
   description = "reloader helm chart configuration"
 }
 
-#
-# Monitor
-#
-variable "law_prometheus_sku" {
-  type        = string
-  description = "Sku of the Log Analytics Workspace"
-}
-
-variable "law_prometheus_retention_in_days" {
-  type        = number
-  description = "The workspace data retention in days"
-}
-
-variable "law_prometheus_daily_quota_gb" {
-  type        = number
-  description = "The workspace daily quota for ingestion in GB."
-}
-
 # DNS
 variable "external_domain" {
   type        = string

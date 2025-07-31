@@ -1,5 +1,6 @@
 terraform:
   force: ${force_reinstall}
+
 global:
   addPrometheusAnnotations: true
   securityContext:
@@ -20,14 +21,13 @@ global:
 configs:
   params:
     application.namespaces: "${join(",", argocd_application_namespaces)}"
-    server.insecure: true  # Miglioramento: Abilitazione TLS a livello di ArgoCD
-
+    server.insecure: false
   cm:
     timeout.reconciliation: 30s
     application.resourceTrackingMethod: annotation
-    exec.enabled: "false"
-    admin.enabled: "true"  # Miglioramento: Disabilitazione dell'utente admin predefinito
-    statusbadge.enabled: "true"
+    exec.enabled: false
+    admin.enabled: true
+    statusbadge.enabled: true
     url: https://argocd.internal.devopslab.pagopa.it
     oidc.config: |
       name: Azure
@@ -42,21 +42,18 @@ configs:
         email:
           essential: true
       requestedScopes:
-         - openid
-         - profile
-         - email
-
+        - openid
+        - profile
+        - email
+    server.rbac.disableApplicationFineGrainedRBACInheritance: "false"
   rbac:
     policy.default: role:guest
     policy.csv: |
-      # Admin role: full access to all resources
-      p, role:admin, applications, *, */*, allow
-      p, role:admin, projects, *, *, allow
-      p, role:admin, repositories, *, *, allow
-      p, role:admin, clusters, *, *, allow
-      p, role:admin, accounts, *, *, allow
+      # --- Admin role
+      p, role:admin, *, *, */*, allow
+      p, role:admin, logs, get, */*, allow
 
-      # Developer role: can manage applications but cannot delete them or modify infrastructure-level settings
+      # --- Developer role
       p, role:developer, applications, get, */*, allow
       p, role:developer, applications, create, */*, allow
       p, role:developer, applications, update, */*, allow
@@ -66,16 +63,15 @@ configs:
       p, role:developer, clusters, get, *, allow
       p, role:developer, repositories, get, *, allow
       p, role:developer, accounts, get, *, allow
+      p, role:developer, logs, get, */*, allow
 
-      # Reader role: can only view applications and logs, but cannot access secrets
+      # --- Reader role
       p, role:reader, applications, get, */*, allow
       p, role:reader, applications, logs, */*, allow
       p, role:reader, projects, get, *, allow
-
-      # Explicitly deny access to secrets for the reader role
       p, role:reader, applications, get, */secrets, deny
 
-      # Guest role: no permissions (default for unassigned users)
+      # --- Guest role
       p, role:guest, applications, get, */*, deny
       p, role:guest, projects, get, *, deny
       p, role:guest, repositories, get, *, deny
@@ -87,7 +83,6 @@ configs:
       g, c9251014-18fe-4388-8afe-97baeb5de126, role:admin
 
     scopes: "[preferred_username, email, groups]"
-
 
 server:
   replicas: 1
@@ -118,25 +113,24 @@ server:
     enabled: true
     minAvailable: 1
   resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi
     limits:
       cpu: 1000m
       memory: 1Gi
-    requests:
-      cpu: 500m
-      memory: 512Mi
   ingress:
     enabled: true
-    ingressClassName: "nginx"
+    controller: generic
+    ingressClassName: nginx
     hostname: argocd.internal.devopslab.pagopa.it
+    path: /
+    pathType: Prefix
     annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/grpc-backend: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
-    tls: false
     extraTls:
       - hosts:
           - argocd.internal.devopslab.pagopa.it
