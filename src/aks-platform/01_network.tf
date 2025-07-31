@@ -16,11 +16,3 @@ resource "azurerm_subnet" "user_aks_subnet" {
   private_endpoint_network_policies_enabled     = true
   private_link_service_network_policies_enabled = true
 }
-
-resource "azurerm_private_dns_a_record" "argocd_ingress" {
-  name                = local.ingress_hostname_prefix
-  zone_name           = data.azurerm_private_dns_zone.internal.name
-  resource_group_name = local.internal_dns_zone_resource_group_name
-  ttl                 = 3600
-  records             = [var.ingress_load_balancer_ip]
-}
