@@ -113,12 +113,12 @@ server:
     enabled: true
     minAvailable: 1
   resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi
     limits:
       cpu: 1000m
       memory: 1Gi
-    requests:
-      cpu: 500m
-      memory: 512Mi
   ingress:
     enabled: true
     controller: generic
@@ -126,11 +126,8 @@ server:
     hostname: argocd.internal.devopslab.pagopa.it
     path: /
     pathType: Prefix
-    tls: true
     annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
@@ -279,3 +276,6 @@ applicationSet:
     requests:
       cpu: 250m
       memory: 256Mi
+
+dex:
+  enabled: false
