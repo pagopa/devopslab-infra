@@ -108,3 +108,18 @@ resource "azuread_app_role_assignment" "argocd_group_assignments" {
   principal_object_id = each.value.object_id
   resource_object_id  = azuread_service_principal.argocd.object_id
 }
+
+#
+# KV
+#
+resource "azurerm_key_vault_secret" "argocd_entra_app_client_id" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-app-client-id"
+  value        = azuread_application.argocd.client_id
+}
+
+resource "azurerm_key_vault_secret" "argocd_entra_app_service_account_name" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-app-service-account-name"
+  value        = local.argocd_service_account_name
+}
