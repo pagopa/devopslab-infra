@@ -26,9 +26,9 @@ configs:
     oidc.config: |
       name: Azure
       issuer: https://login.microsoftonline.com/${TENANT_ID}/v2.0
-      clientID: ${$APP_CLIENT_ID}
+      clientID: ${APP_CLIENT_ID}
       azure:
-        useWorkloadIdentity: true // if using azure workload identity for authentication
+        useWorkloadIdentity: true
       requestedIDTokenClaims:
         groups:
           essential: true
@@ -81,7 +81,6 @@ configs:
       p, role:guest, accounts, get, *, deny
 
       # Assign users to roles
-      #g, diego.lagosmorales@pagopa.it, role:admin
       g, ${ENTRA_ADMIN_GROUP_OBJECT_ID}, role:admin
 
     scopes: "[preferred_username, email, groups]"
@@ -144,7 +143,7 @@ server:
   serviceAccount:
     create: true
     annotations:
-      azure.workload.identity/client-id: "$APP_CLIENT_ID"
+      azure.workload.identity/client-id: ${APP_CLIENT_ID}
 
   podLabels:
     azure.workload.identity/use: "true"
