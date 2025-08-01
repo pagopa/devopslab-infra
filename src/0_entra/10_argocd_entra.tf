@@ -53,13 +53,31 @@ resource "azuread_application" "argocd" {
   }
 
   required_resource_access {
-    resource_app_id = "00000003-0000-0000-c000-000000000000"
+    resource_app_id = "00000003-0000-0000-c000-000000000000"  # User.Read
 
     resource_access {
       id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
       type = "Scope"
     }
   }
+}
+
+#
+# Federazione
+#
+resource "azuread_application_federated_identity_credential" "argocd" {
+  application_id        = azuread_application.argocd.id
+  display_name          = "${local.project}-argocd-server-federated-credential"
+  description           = "Credenziale federata per il service account del server di ArgoCD"
+  audiences             = ["api://AzureADTokenExchange"]
+
+  # L'issuer del cluster Kubernetes. DEVI sostituirlo con il valore corretto del tuo cluster.
+  # Esempio per AKS: "https://<region>.oic.prod-aks.azure.com/<tenant-id>/"
+  issuer = data.azurerm_kubernetes_cluster.aks.oidc_issuer_url
+
+  # Il soggetto della credenziale, che identifica il Service Account
+  # Formato: system:serviceaccount:<namespace>:<service-account-name>
+  subject = "system:serviceaccount:${local.argocd_namespace}:${local.argocd_service_account_name}"
 }
 
 #
