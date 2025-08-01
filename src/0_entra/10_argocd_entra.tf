@@ -7,8 +7,8 @@ resource "azuread_application" "argocd" {
 
   # Nuova sintassi per web app
   web {
-    redirect_uris = ["https://argocd.internal.devopslab.pagopa.it/auth/callback"]
-    logout_url    = "https://argocd.internal.devopslab.pagopa.it/logout"
+    redirect_uris = ["https://${local.argocd_hostname}/auth/callback"]
+    logout_url    = "https://${local.argocd_hostname}/logout"
   }
 
   group_membership_claims = [
@@ -53,7 +53,7 @@ resource "azuread_application" "argocd" {
   }
 
   required_resource_access {
-    resource_app_id = "00000003-0000-0000-c000-000000000000"
+    resource_app_id = "00000003-0000-0000-c000-000000000000"  # User.Read
 
     resource_access {
       id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
@@ -62,30 +62,22 @@ resource "azuread_application" "argocd" {
   }
 }
 
-# Secret generation
-resource "time_rotating" "example" {
-  rotation_days = 365
-}
+#
+# Federazione
+#
+resource "azuread_application_federated_identity_credential" "argocd" {
+  application_id        = azuread_application.argocd.id
+  display_name          = "${local.project}-argocd-server-federated-credential"
+  description           = "Credenziale federata per il service account del server di ArgoCD"
+  audiences             = ["api://AzureADTokenExchange"]
 
-resource "azuread_application_password" "argocd" {
-  display_name   = "ArgoCD Secret"
-  application_id = azuread_application.argocd.id
+  # L'issuer del cluster Kubernetes. DEVI sostituirlo con il valore corretto del tuo cluster.
+  # Esempio per AKS: "https://<region>.oic.prod-aks.azure.com/<tenant-id>/"
+  issuer = data.azurerm_kubernetes_cluster.aks.oidc_issuer_url
 
-  rotate_when_changed = {
-    rotation = time_rotating.example.id
-  }
-}
-
-resource "azurerm_key_vault_secret" "argocd_entra_client_id" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-entra-client-id"
-  value        = azuread_application.argocd.client_id
-}
-
-resource "azurerm_key_vault_secret" "argocd_entra_client_secret" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-entra-client-secret"
-  value        = azuread_application_password.argocd.value
+  # Il soggetto della credenziale, che identifica il Service Account
+  # Formato: system:serviceaccount:<namespace>:<service-account-name>
+  subject = "system:serviceaccount:${local.argocd_namespace}:${local.argocd_service_account_name}"
 }
 
 #
@@ -115,4 +107,19 @@ resource "azuread_app_role_assignment" "argocd_group_assignments" {
   app_role_id         = "00000000-0000-0000-0000-000000000000"
   principal_object_id = each.value.object_id
   resource_object_id  = azuread_service_principal.argocd.object_id
+}
+
+#
+# KV
+#
+resource "azurerm_key_vault_secret" "argocd_entra_app_client_id" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-app-client-id"
+  value        = azuread_application.argocd.client_id
+}
+
+resource "azurerm_key_vault_secret" "argocd_entra_app_service_account_name" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-entra-app-service-account-name"
+  value        = local.argocd_service_account_name
 }
