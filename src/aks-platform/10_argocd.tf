@@ -31,6 +31,8 @@ resource "helm_release" "argocd" {
       TENANT_ID                     = data.azurerm_subscription.current.tenant_id
       APP_CLIENT_ID                 = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
       ENTRA_ADMIN_GROUP_OBJECT_ID   = data.azuread_group.adgroup_admin.object_id
+      ARGOCD_INTERNAL_URL          = local.argocd_internal_url
+      ARGOCD_INGRESS_TLS_SECRET_NAME   = replace(local.argocd_internal_url, ".", "-", )
       FORCE_REINSTALL               = var.argocd_force_reinstall_version
     })
   ]

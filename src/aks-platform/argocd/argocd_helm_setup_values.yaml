@@ -45,7 +45,7 @@ configs:
     exec.enabled: false
     admin.enabled: true
     statusbadge.enabled: true
-    url: https://argocd.internal.devopslab.pagopa.it
+    url: https://${ARGOCD_INTERNAL_URL}
     server.rbac.disableApplicationFineGrainedRBACInheritance: "false"
   rbac:
     policy.default: role:guest
@@ -126,7 +126,7 @@ server:
     enabled: true
     controller: generic
     ingressClassName: nginx
-    hostname: argocd.internal.devopslab.pagopa.it
+    hostname: ${ARGOCD_INTERNAL_URL}
     path: /
     pathType: Prefix
     annotations:
@@ -136,8 +136,8 @@ server:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
     extraTls:
       - hosts:
-          - argocd.internal.devopslab.pagopa.it
-        secretName: argocd-internal-devopslab-pagopa-it
+          - ${ARGOCD_INTERNAL_URL}
+        secretName: ${ARGOCD_INGRESS_TLS_SECRET_NAME}
 
   serviceAccount:
     create: true
