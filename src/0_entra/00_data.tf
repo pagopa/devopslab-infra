@@ -16,7 +16,7 @@ data "azuread_users" "argocd_application_owners" {
 #
 # Kubernetes
 #
-data azurerm_kubernetes_cluster "aks" {
+data "azurerm_kubernetes_cluster" "aks" {
   name                = local.kubernetes_cluster_name
   resource_group_name = local.kubernetes_cluster_resource_group_name
 }
