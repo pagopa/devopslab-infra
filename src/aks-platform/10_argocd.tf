@@ -12,7 +12,7 @@ resource "kubernetes_namespace" "namespace_argocd" {
 # OICD
 #
 data "azurerm_key_vault_secret" "argocd_entra_app_client_id" {
-  name         = "argocd-entra-app-client-id"
+  name         = "argocd-entra-app-workload-client-id"
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
 }
 
