@@ -11,13 +11,8 @@ resource "kubernetes_namespace" "namespace_argocd" {
 #
 # OICD
 #
-data "azurerm_key_vault_secret" "argocd_entra_client_id" {
-  name         = "argocd-entra-client-id"
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-}
-
-data "azurerm_key_vault_secret" "argocd_entra_client_secret" {
-  name         = "argocd-entra-client-secret"
+data "azurerm_key_vault_secret" "argocd_entra_app_client_id" {
+  name         = "argocd-entra-app-workload-client-id"
   key_vault_id = data.azurerm_key_vault.kv_core_ita.id
 }
 
@@ -32,10 +27,13 @@ resource "helm_release" "argocd" {
 
   values = [
     templatefile("${path.module}/argocd/argocd_helm_setup_values.yaml", {
-      argocd_application_namespaces = var.argocd_application_namespaces
-      tenant_id                     = data.azurerm_subscription.current.tenant_id
-      client_id                     = data.azurerm_key_vault_secret.argocd_entra_client_id.value
-      force_reinstall               = var.argocd_force_reinstall_version
+      ARGOCD_APPLICATION_NAMESPACES  = var.argocd_application_namespaces
+      TENANT_ID                      = data.azurerm_subscription.current.tenant_id
+      APP_CLIENT_ID                  = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
+      ENTRA_ADMIN_GROUP_OBJECT_ID    = data.azuread_group.adgroup_admin.object_id
+      ARGOCD_INTERNAL_URL            = local.argocd_internal_url
+      ARGOCD_INGRESS_TLS_SECRET_NAME = replace(local.argocd_internal_url, ".", "-", )
+      FORCE_REINSTALL                = var.argocd_force_reinstall_version
     })
   ]
 
@@ -43,39 +41,6 @@ resource "helm_release" "argocd" {
     module.aks,
   ]
 }
-
-resource "null_resource" "patch_argocd_entra_client_secret" {
-  triggers = {
-    secret_value    = base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)
-    force_reinstall = var.argocd_force_reinstall_version
-  }
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      kubectl patch secret argocd-secret \
-        -n argocd \
-        -p='{"data": {"oidc.azure.clientSecret": "${base64encode(data.azurerm_key_vault_secret.argocd_entra_client_secret.value)}"}}' \
-        --type=merge
-    EOT
-  }
-
-  # Aggiungiamo anche un provisioner per la rimozione del secret quando la risorsa viene distrutta
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<-EOT
-      kubectl patch secret argocd-secret \
-        -n argocd \
-        -p='{"data": {"oidc.azure.clientSecret": null}}' \
-        --type=merge
-    EOT
-  }
-
-  depends_on = [
-    data.azurerm_key_vault_secret.argocd_entra_client_secret,
-    helm_release.argocd
-  ]
-}
-
 
 #
 # Admin Password
@@ -115,7 +80,6 @@ resource "null_resource" "restart_argocd_server" {
 
   depends_on = [
     helm_release.argocd,
-    null_resource.patch_argocd_entra_client_secret,
     null_resource.argocd_change_admin_password
   ]
 }

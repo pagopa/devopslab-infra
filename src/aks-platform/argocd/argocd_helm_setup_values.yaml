@@ -1,5 +1,5 @@
 terraform:
-  force: ${force_reinstall}
+  force: ${FORCE_REINSTALL}
 
 global:
   addPrometheusAnnotations: true
@@ -20,20 +20,15 @@ global:
 
 configs:
   params:
-    application.namespaces: "${join(",", argocd_application_namespaces)}"
+    application.namespaces: "${join(",", ARGOCD_APPLICATION_NAMESPACES)}"
     server.insecure: false
   cm:
-    timeout.reconciliation: 30s
-    application.resourceTrackingMethod: annotation
-    exec.enabled: false
-    admin.enabled: true
-    statusbadge.enabled: true
-    url: https://argocd.internal.devopslab.pagopa.it
     oidc.config: |
       name: Azure
-      issuer: https://login.microsoftonline.com/${tenant_id}/v2.0
-      clientID: ${client_id}
-      clientSecret: $oidc.azure.clientSecret
+      issuer: https://login.microsoftonline.com/${TENANT_ID}/v2.0
+      clientID: ${APP_CLIENT_ID}
+      azure:
+        useWorkloadIdentity: true
       requestedIDTokenClaims:
         groups:
           essential: true
@@ -45,6 +40,12 @@ configs:
         - openid
         - profile
         - email
+    timeout.reconciliation: 30s
+    application.resourceTrackingMethod: annotation
+    exec.enabled: false
+    admin.enabled: true
+    statusbadge.enabled: true
+    url: https://${ARGOCD_INTERNAL_URL}
     server.rbac.disableApplicationFineGrainedRBACInheritance: "false"
   rbac:
     policy.default: role:guest
@@ -79,11 +80,13 @@ configs:
       p, role:guest, accounts, get, *, deny
 
       # Assign users to roles
-      #g, diego.lagosmorales@pagopa.it, role:admin
-      g, c9251014-18fe-4388-8afe-97baeb5de126, role:admin
+      g, ${ENTRA_ADMIN_GROUP_OBJECT_ID}, role:admin
 
     scopes: "[preferred_username, email, groups]"
 
+#
+# Server configuration
+#
 server:
   replicas: 1
   autoscaling:
@@ -123,7 +126,7 @@ server:
     enabled: true
     controller: generic
     ingressClassName: nginx
-    hostname: argocd.internal.devopslab.pagopa.it
+    hostname: ${ARGOCD_INTERNAL_URL}
     path: /
     pathType: Prefix
     annotations:
@@ -133,9 +136,20 @@ server:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "90"
     extraTls:
       - hosts:
-          - argocd.internal.devopslab.pagopa.it
-        secretName: argocd-internal-devopslab-pagopa-it
+          - ${ARGOCD_INTERNAL_URL}
+        secretName: ${ARGOCD_INGRESS_TLS_SECRET_NAME}
 
+  serviceAccount:
+    create: true
+    annotations:
+      azure.workload.identity/client-id: ${APP_CLIENT_ID}
+
+  podLabels:
+    azure.workload.identity/use: "true"
+
+#
+# Redis configuration
+#
 redis:
   enabled: true
   resources:
@@ -169,6 +183,9 @@ redis:
     successThreshold: 1
     failureThreshold: 5
 
+#
+# Controller configuration
+#
 controller:
   replicas: 1
   autoscaling:
@@ -205,6 +222,9 @@ controller:
       cpu: 500m
       memory: 1Gi
 
+#
+# Repo Server configuration
+#
 repoServer:
   replicas: 1
   autoscaling:
@@ -241,6 +261,9 @@ repoServer:
       cpu: 500m
       memory: 512Mi
 
+#
+# Application Set configuration
+#
 applicationSet:
   replicas: 1
   autoscaling:
@@ -277,5 +300,8 @@ applicationSet:
       cpu: 250m
       memory: 256Mi
 
+#
+# Dex configuration
+#
 dex:
   enabled: false

@@ -11,4 +11,11 @@ locals {
     "fabio.felici@pagopa.it"
   ]
 
+  argocd_hostname = "argocd.internal.devopslab.pagopa.it"
+
+  kubernetes_cluster_name                = "dvopla-d-itn-dev-aks"
+  kubernetes_cluster_resource_group_name = "dvopla-d-itn-dev-aks-rg"
+
+  argocd_namespace            = "argocd"
+  argocd_service_account_name = "argocd-server"
 }
