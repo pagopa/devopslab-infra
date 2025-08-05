@@ -32,7 +32,6 @@ configs:
       requestedIDTokenClaims:
         groups:
           essential: true
-          value: "SecurityGroup"
         preferred_username:
           essential: true
         email:
