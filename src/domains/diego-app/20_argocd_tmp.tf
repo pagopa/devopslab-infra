@@ -7,7 +7,7 @@ locals {
 #
 resource "argocd_project" "argocd_project_diego2" {
   metadata {
-    name      = local.project_name2          # e.g. "diego-project"
+    name      = local.project_name2 # e.g. "diego-project"
     namespace = "argocd"
 
     labels = {
@@ -52,8 +52,8 @@ resource "argocd_project" "argocd_project_diego2" {
     # ──────────────── Project-scoped ROLES ─────────────────────────
 
     role {
-      name     = "admin"
-      groups   = []
+      name   = "admin"
+      groups = []
       policies = [
         "p, proj:${local.project_name2}:admin, applications, *, ${local.project_name2}/*, allow",
         "p, proj:${local.project_name2}:admin, applicationsets, *, ${local.project_name2}/*, allow",
@@ -64,7 +64,7 @@ resource "argocd_project" "argocd_project_diego2" {
 
     role {
       name   = "developer"
-      groups = []  # popola con i group objectId Entra ID
+      groups = [] # popola con i group objectId Entra ID
       policies = [
         "p, proj:${local.project_name2}:developer, applications, get, ${local.project_name2}/*, allow",
         "p, proj:${local.project_name2}:developer, applications, create, ${local.project_name2}/*, allow",
@@ -78,7 +78,7 @@ resource "argocd_project" "argocd_project_diego2" {
 
     role {
       name   = "reader"
-      groups = []  # popola con i group objectId Entra ID
+      groups = [] # popola con i group objectId Entra ID
       policies = [
         "p, proj:${local.project_name2}:reader, applications, get, ${local.project_name2}/*, allow",
         "p, proj:${local.project_name2}:reader, logs, get, ${local.project_name2}/*, allow",

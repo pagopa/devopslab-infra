@@ -7,7 +7,7 @@ locals {
 #
 resource "argocd_project" "argocd_project_diego" {
   metadata {
-    name      = local.project_name  # e.g. "diego-project"
+    name      = local.project_name # e.g. "diego-project"
     namespace = "argocd"
 
     labels = {

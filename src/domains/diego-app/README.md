@@ -4,7 +4,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_argocd"></a> [argocd](#requirement\_argocd) | ~> 7.1.0 |
+| <a name="requirement_argocd"></a> [argocd](#requirement\_argocd) | ~> 7.10.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.47.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.110 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.12.1 |
@@ -17,7 +17,6 @@
 |------|--------|---------|
 | <a name="module_cert_mounter"></a> [cert\_mounter](#module\_cert\_mounter) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v8.42.1 |
 | <a name="module_tls_checker"></a> [tls\_checker](#module\_tls\_checker) | git::https://github.com/pagopa/terraform-azurerm-v3.git//tls_checker | v8.42.1 |
-| <a name="module_webservice_monitor_01"></a> [webservice\_monitor\_01](#module\_webservice\_monitor\_01) | git::https://github.com/pagopa/terraform-azurerm-v3.git//application_insights_standard_web_test | v8.21.0 |
 | <a name="module_workload_identity"></a> [workload\_identity](#module\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration | v8.42.1 |
 
 ## Resources
@@ -25,7 +24,9 @@
 | Name | Type |
 |------|------|
 | [argocd_application.diego_applications](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/application) | resource |
-| [argocd_project.project](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project) | resource |
+| [argocd_application.diego_applications2](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/application) | resource |
+| [argocd_project.argocd_project_diego](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project) | resource |
+| [argocd_project.argocd_project_diego2](https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project) | resource |
 | [azurerm_key_vault_secret.aks_apiserver_url](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.app_insights_connection_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.azure_devops_sa_cacrt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
