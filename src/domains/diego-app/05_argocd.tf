@@ -7,7 +7,7 @@ locals {
 #
 resource "argocd_project" "argocd_project_diego" {
   metadata {
-    name      = local.project_name
+    name      = local.project_name          # e.g. "diego-project"
     namespace = "argocd"
 
     labels = {
@@ -18,6 +18,7 @@ resource "argocd_project" "argocd_project_diego" {
   spec {
     description = local.project_name
 
+    # solo manifest provenienti dal repo naming-convention del dominio
     source_namespaces = [var.domain]
     source_repos      = ["*"]
 
@@ -26,20 +27,19 @@ resource "argocd_project" "argocd_project_diego" {
       namespace = var.domain
     }
 
-    # ------------------------------------------------------------------
-    # Security: deny creation / modification of Namespace objects
-    # ------------------------------------------------------------------
+    # ───────────────────────────────────────────────────────────────
+    # Hardening: impedisci operazioni sui Namespace a livello cluster
+    # ───────────────────────────────────────────────────────────────
     cluster_resource_blacklist {
       group = ""
       kind  = "Namespace"
     }
 
-    # Allow other resources (adjust per compliance)
+    # puoi restringere più avanti questi due wildcard
     cluster_resource_whitelist {
       group = "*"
       kind  = "*"
     }
-
     namespace_resource_whitelist {
       group = "*"
       kind  = "*"
@@ -49,9 +49,8 @@ resource "argocd_project" "argocd_project_diego" {
       warn = true
     }
 
-    # ---------------------- ROLES --------------------------------------
+    # ──────────────── Project-scoped ROLES ─────────────────────────
 
-    # Project‑scoped Admin
     role {
       name     = "admin"
       groups   = [data.azuread_group.adgroup_admin.object_id]
@@ -63,10 +62,9 @@ resource "argocd_project" "argocd_project_diego" {
       ]
     }
 
-    # Project‑scoped Developer
     role {
       name   = "developer"
-      groups = []
+      groups = []  # popola con i group objectId Entra ID
       policies = [
         "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
         "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
@@ -75,22 +73,20 @@ resource "argocd_project" "argocd_project_diego" {
         "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
         "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
         "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*/secrets, deny",
       ]
     }
 
-    # Project‑scoped Reader
     role {
       name   = "reader"
-      groups = []
+      groups = []  # popola con i group objectId Entra ID
       policies = [
         "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
         "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*/secrets, deny",
       ]
     }
   }
 }
+
 
 
 locals {
