@@ -1,35 +1,40 @@
+locals {
+  project_name = "${var.domain}-project"
+}
+
 #
 # Terraform argocd project
 #
-resource "argocd_project" "project" {
+resource "argocd_project" "argocd_project_diego" {
   metadata {
-    name      = "${var.domain}-project"
+    name      = local.project_name
     namespace = "argocd"
+
     labels = {
       acceptance = "true"
     }
   }
 
   spec {
-    description = "${var.domain}-project"
+    description = local.project_name
 
-    source_namespaces = ["argocd", var.domain]
+    source_namespaces = [var.domain]
     source_repos      = ["*"]
 
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = var.domain
     }
-    destination {
-      server    = "https://kubernetes.default.svc"
-      namespace = "argocd"
+
+    # ------------------------------------------------------------------
+    # Security: deny creation / modification of Namespace objects
+    # ------------------------------------------------------------------
+    cluster_resource_blacklist {
+      group = ""
+      kind  = "Namespace"
     }
 
-    #     cluster_resource_blacklist {
-    #       group = "*"
-    #       kind  = "*"
-    #     }
-
+    # Allow other resources (adjust per compliance)
     cluster_resource_whitelist {
       group = "*"
       kind  = "*"
@@ -44,13 +49,49 @@ resource "argocd_project" "project" {
       warn = true
     }
 
-    # role {
-    #   name = "project-admin"
-    #   policies = [
-    #   ]
-    # }
+    # ---------------------- ROLES --------------------------------------
+
+    # Project‑scoped Admin
+    role {
+      name     = "admin"
+      groups   = [data.azuread_group.adgroup_admin.object_id]
+      policies = [
+        "p, proj:${local.project_name}:admin, applications, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, applicationsets, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, exec, create, ${local.project_name}/*, allow",
+      ]
+    }
+
+    # Project‑scoped Developer
+    role {
+      name   = "developer"
+      groups = []
+      policies = [
+        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, update, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, delete, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*/secrets, deny",
+      ]
+    }
+
+    # Project‑scoped Reader
+    role {
+      name   = "reader"
+      groups = []
+      policies = [
+        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*/secrets, deny",
+      ]
+    }
   }
 }
+
 
 locals {
   argocd_applications = {
@@ -98,7 +139,7 @@ resource "argocd_application" "diego_applications" {
   }
 
   spec {
-    project = argocd_project.project.metadata[0].name
+    project = argocd_project.argocd_project_diego.metadata[0].name
 
     destination {
       server    = "https://kubernetes.default.svc"
