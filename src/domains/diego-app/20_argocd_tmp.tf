@@ -1,13 +1,13 @@
 locals {
-  project_name = "${var.domain}-project"
+  project_name2 = "${var.domain}-project-2"
 }
 
 #
 # Terraform argocd project
 #
-resource "argocd_project" "argocd_project_diego" {
+resource "argocd_project" "argocd_project_diego2" {
   metadata {
-    name      = local.project_name          # e.g. "diego-project"
+    name      = local.project_name2          # e.g. "diego-project"
     namespace = "argocd"
 
     labels = {
@@ -16,7 +16,7 @@ resource "argocd_project" "argocd_project_diego" {
   }
 
   spec {
-    description = local.project_name
+    description = local.project_name2
 
     # solo manifest provenienti dal repo naming-convention del dominio
     source_namespaces = [var.domain]
@@ -53,12 +53,12 @@ resource "argocd_project" "argocd_project_diego" {
 
     role {
       name     = "admin"
-      groups   = [data.azuread_group.adgroup_admin.object_id]
+      groups   = []
       policies = [
-        "p, proj:${local.project_name}:admin, applications, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, logs, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, exec, create, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name2}:admin, applications, *, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:admin, applicationsets, *, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:admin, logs, get, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:admin, exec, create, ${local.project_name2}/*, allow",
       ]
     }
 
@@ -66,13 +66,13 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "developer"
       groups = []  # popola con i group objectId Entra ID
       policies = [
-        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, update, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, delete, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name2}:developer, applications, get, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, applications, create, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, applications, update, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, applications, delete, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, applications, sync, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, applicationsets, *, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:developer, logs, get, ${local.project_name2}/*, allow",
       ]
     }
 
@@ -80,51 +80,19 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "reader"
       groups = []  # popola con i group objectId Entra ID
       policies = [
-        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name2}:reader, applications, get, ${local.project_name2}/*, allow",
+        "p, proj:${local.project_name2}:reader, logs, get, ${local.project_name2}/*, allow",
       ]
     }
   }
 }
 
 
-
-locals {
-  argocd_applications = {
-    "top" = {
-      "one-color" = {
-        name          = "one-color"
-        target_branch = "main"
-      },
-    }
-    "mid" = {
-      "two-color" = {
-        name          = "two-color"
-        target_branch = "main"
-      }
-    }
-    ext = {
-      "status-01" = {
-        name          = "status-01"
-        target_branch = "main"
-      }
-    }
-    # Puoi aggiungere altre app seguendo lo stesso pattern
-  }
-  flattened_applications = merge([
-    for class, apps in local.argocd_applications : {
-      for app_name, app in apps : app_name => merge(app, {
-        class = class
-      })
-    }
-  ]...)
-}
-
-resource "argocd_application" "diego_applications" {
+resource "argocd_application" "diego_applications2" {
   for_each = local.flattened_applications
 
   metadata {
-    name      = each.value.name
+    name      = "${each.value.name}-2"
     namespace = var.domain
     labels = {
       name   = each.value.name
@@ -135,7 +103,7 @@ resource "argocd_application" "diego_applications" {
   }
 
   spec {
-    project = argocd_project.argocd_project_diego.metadata[0].name
+    project = argocd_project.argocd_project_diego2.metadata[0].name
 
     destination {
       server    = "https://kubernetes.default.svc"
