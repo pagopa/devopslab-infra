@@ -49,40 +49,64 @@ configs:
     server.rbac.disableApplicationFineGrainedRBACInheritance: "false"
   rbac:
     policy.default: role:guest
+    scopes: "[preferred_username, email, groups]"
     policy.csv: |
-      # --- Admin role
+      # ------------------------------------------------------------------------
+      # Macro‑roles hierarchy
+      #   admin     – full access to everything
+      #   developer – manage applications only (CRUD + sync)
+      #   reader    – read‑only on applications
+      #   guest     – can log‑in, sees nothing
+      # ------------------------------------------------------------------------
+      # --- Admin role ---------------------------------------------------------
       p, role:admin, *, *, */*, allow
       p, role:admin, logs, get, */*, allow
 
-      # --- Developer role
+      # --- Developer role -----------------------------------------------------
       p, role:developer, applications, get, */*, allow
       p, role:developer, applications, create, */*, allow
       p, role:developer, applications, update, */*, allow
+      p, role:developer, applications, delete, */*, allow
       p, role:developer, applications, sync, */*, allow
       p, role:developer, applications, override, */*, allow
-      p, role:developer, projects, get, *, allow
-      p, role:developer, clusters, get, *, allow
-      p, role:developer, repositories, get, *, allow
-      p, role:developer, accounts, get, *, allow
       p, role:developer, logs, get, */*, allow
+      # Note: NO access to projects, clusters, repositories, accounts
 
-      # --- Reader role
+      # --- Reader role --------------------------------------------------------
       p, role:reader, applications, get, */*, allow
       p, role:reader, applications, logs, */*, allow
-      p, role:reader, projects, get, *, allow
       p, role:reader, applications, get, */secrets, deny
+      # Note: NO access to projects, clusters, repositories, accounts
 
-      # --- Guest role
+      # --- Guest role ---------------------------------------------------------
       p, role:guest, applications, get, */*, deny
-      p, role:guest, projects, get, *, deny
-      p, role:guest, repositories, get, *, deny
-      p, role:guest, clusters, get, *, deny
       p, role:guest, accounts, get, *, deny
 
-      # Assign users to roles
-      g, ${ENTRA_ADMIN_GROUP_OBJECT_ID}, role:admin
+      # ------------------------------------------------------------------------
+      # Group bindings (Azure Entra ID object IDs)
+      # ------------------------------------------------------------------------
+%{ if ENTRA_ADMIN_GROUP_OBJECT_IDS != null && length(ENTRA_ADMIN_GROUP_OBJECT_IDS) > 0 ~}
+%{   for group_id in ENTRA_ADMIN_GROUP_OBJECT_IDS ~}
+      g, ${group_id}, role:admin
+%{   endfor ~}
+%{ endif ~}
+%{ if ENTRA_DEVELOPER_GROUP_OBJECT_IDS != null && length(ENTRA_DEVELOPER_GROUP_OBJECT_IDS) > 0 ~}
+%{   for group_id in ENTRA_DEVELOPER_GROUP_OBJECT_IDS ~}
+      g, ${group_id}, role:developer
+%{   endfor ~}
+%{ endif ~}
+%{ if ENTRA_READER_GROUP_OBJECT_IDS != null && length(ENTRA_READER_GROUP_OBJECT_IDS) > 0 ~}
+%{   for group_id in ENTRA_READER_GROUP_OBJECT_IDS ~}
+      g, ${group_id}, role:reader
+%{   endfor ~}
+%{ endif ~}
+%{ if ENTRA_GUEST_GROUP_OBJECT_IDS != null && length(ENTRA_GUEST_GROUP_OBJECT_IDS) > 0 ~}
+%{   for group_id in ENTRA_GUEST_GROUP_OBJECT_IDS ~}
+      g, ${group_id}, role:guest
+%{   endfor ~}
+%{ endif ~}
 
-    scopes: "[preferred_username, email, groups]"
+
 
 #
 # Server configuration
