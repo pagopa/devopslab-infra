@@ -1,40 +1,42 @@
+locals {
+  project_name = "${var.domain}-project"
+}
+
 #
 # Terraform argocd project
 #
-resource "argocd_project" "project" {
+resource "argocd_project" "argocd_project_diego" {
   metadata {
-    name      = "${var.domain}-project"
+    name      = local.project_name # e.g. "diego-project"
     namespace = "argocd"
+
     labels = {
       acceptance = "true"
     }
   }
 
   spec {
-    description = "${var.domain}-project"
+    description = local.project_name
 
-    source_namespaces = ["argocd", var.domain]
+    # Restrict manifest sources to this domain's repos
+    source_namespaces = [var.domain]
     source_repos      = ["*"]
 
     destination {
       server    = "https://kubernetes.default.svc"
       namespace = var.domain
     }
-    destination {
-      server    = "https://kubernetes.default.svc"
-      namespace = "argocd"
-    }
 
-    #     cluster_resource_blacklist {
-    #       group = "*"
-    #       kind  = "*"
-    #     }
+    # ───────────────── Security Guards ─────────────────
+    cluster_resource_blacklist {
+      group = ""
+      kind  = "Namespace"
+    }
 
     cluster_resource_whitelist {
       group = "*"
       kind  = "*"
     }
-
     namespace_resource_whitelist {
       group = "*"
       kind  = "*"
@@ -44,13 +46,48 @@ resource "argocd_project" "project" {
       warn = true
     }
 
-    # role {
-    #   name = "project-admin"
-    #   policies = [
-    #   ]
-    # }
+    # ──────────────────── ROLES ───────────────────────
+    # Admin → pieno controllo + modifica AppProject
+    role {
+      name   = "admin"
+      groups = []
+      policies = [
+        "p, proj:${local.project_name}:admin, applications, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, applicationsets, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:admin, exec, create, ${local.project_name}/*, allow",
+      ]
+    }
+
+    # Developer → sola lettura sul Project, pieno controllo sulle app
+    role {
+      name   = "developer"
+      groups = []
+      policies = [
+        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, update, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, delete, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
+      ]
+    }
+
+    # Reader → read‑only su app + project; può visualizzare ConfigMaps tramite tree
+    role {
+      name   = "reader"
+      groups = [data.azuread_group.adgroup_admin.object_id]
+      policies = [
+        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
+      ]
+    }
   }
 }
+
+
+
 
 locals {
   argocd_applications = {
@@ -98,7 +135,7 @@ resource "argocd_application" "diego_applications" {
   }
 
   spec {
-    project = argocd_project.project.metadata[0].name
+    project = argocd_project.argocd_project_diego.metadata[0].name
 
     destination {
       server    = "https://kubernetes.default.svc"
