@@ -5,17 +5,6 @@ locals {
   ) ? var.admin_password : random_password.argocd_admin_password[0].result
 }
 
-resource "random_password" "argocd_admin_password" {
-  count           = var.admin_password == null || var.admin_password == "" ? 1 : 0
-  length          = 28
-  special         = true
-  min_upper       = 1
-  min_lower       = 1
-  min_numeric     = 1
-  min_special     = 1
-  override_special = "!@#$%*+-=?"
-}
-
 resource "helm_release" "argocd" {
   count     = var.enable_helm_release ? 1 : 0
   name      = "argo"
@@ -24,7 +13,7 @@ resource "helm_release" "argocd" {
   wait      = true
 
   values = [
-    templatefile("${path.root}/src/aks-platform/argocd/argocd_helm_setup_values.yaml", {
+    templatefile("${path.module}/template/argocd_helm_setup_values.yaml", {
       ARGOCD_APPLICATION_NAMESPACES    = var.argocd_application_namespaces
       TENANT_ID                        = var.tenant_id
       APP_CLIENT_ID                    = var.entra_app_client_id
@@ -39,8 +28,22 @@ resource "helm_release" "argocd" {
   ]
 }
 
+#-------------------------------------------------------------------------------
+# Setup post configurations
+#-------------------------------------------------------------------------------
+resource "random_password" "argocd_admin_password" {
+  count            = var.admin_password == null || var.admin_password == "" ? 1 : 0
+  length           = 12
+  special          = true
+  min_upper        = 1
+  min_lower        = 1
+  min_numeric      = 1
+  min_special      = 1
+  override_special = "!@#$%*+-=?"
+}
+
 resource "azurerm_key_vault_secret" "argocd_admin_username" {
-  count       = var.enable_store_admin_username ? 1 : 0
+  count        = var.enable_store_admin_username ? 1 : 0
   key_vault_id = var.kv_id
   name         = "argocd-admin-username"
   value        = "admin"
@@ -91,6 +94,9 @@ resource "null_resource" "restart_argocd_server" {
   ]
 }
 
+#-------------------------------------------------------------------------------
+# 🛠️ Workload Identity
+#-------------------------------------------------------------------------------
 module "argocd_workload_identity_init" {
   count  = var.enable_workload_identity_init ? 1 : 0
   source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.77.0"
@@ -118,6 +124,9 @@ module "argocd_workload_identity_configuration" {
   depends_on = [module.argocd_workload_identity_init]
 }
 
+#-------------------------------------------------------------------------------
+# 🌐 Network
+#-------------------------------------------------------------------------------
 resource "azurerm_private_dns_a_record" "argocd_ingress" {
   count               = var.enable_private_dns_a_record ? 1 : 0
   name                = var.dns_record_name_for_ingress

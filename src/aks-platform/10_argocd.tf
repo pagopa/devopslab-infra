@@ -30,23 +30,23 @@ data "azurerm_key_vault_secret" "argocd_admin_password" {
 module "argocd" {
   source = "./modules/argocd"
 
-  namespace                         = kubernetes_namespace.namespace_argocd.metadata[0].name
-  argocd_helm_release_version       = var.argocd_helm_release_version
-  argocd_application_namespaces     = var.argocd_application_namespaces
-  argocd_force_reinstall_version    = var.argocd_force_reinstall_version
-  tenant_id                         = data.azurerm_subscription.current.tenant_id
-  entra_app_client_id               = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
-  argocd_internal_url               = local.argocd_internal_url
-  kv_id                             = data.azurerm_key_vault.kv_core_ita.id
-  aks_name                          = module.aks.name
-  aks_resource_group_name           = azurerm_resource_group.rg_aks.name
+  namespace                             = kubernetes_namespace.namespace_argocd.metadata[0].name
+  argocd_helm_release_version           = var.argocd_helm_release_version
+  argocd_application_namespaces         = var.argocd_application_namespaces
+  argocd_force_reinstall_version        = var.argocd_force_reinstall_version
+  tenant_id                             = data.azurerm_subscription.current.tenant_id
+  entra_app_client_id                   = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
+  argocd_internal_url                   = local.argocd_internal_url
+  kv_id                                 = data.azurerm_key_vault.kv_core_ita.id
+  aks_name                              = module.aks.name
+  aks_resource_group_name               = azurerm_resource_group.rg_aks.name
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
-  location                          = var.location
-  internal_dns_zone_name            = data.azurerm_private_dns_zone.internal.name
+  location                              = var.location
+  internal_dns_zone_name                = data.azurerm_private_dns_zone.internal.name
   internal_dns_zone_resource_group_name = local.internal_dns_zone_resource_group_name
-  ingress_load_balancer_ip          = var.ingress_load_balancer_ip
-  dns_record_name_for_ingress       = local.ingress_hostname_prefix
-  admin_password                    = data.azurerm_key_vault_secret.argocd_admin_password.value
+  ingress_load_balancer_ip              = var.ingress_load_balancer_ip
+  dns_record_name_for_ingress           = local.ingress_hostname_prefix
+  admin_password                        = data.azurerm_key_vault_secret.argocd_admin_password.value
 
   depends_on = [
     module.aks,
