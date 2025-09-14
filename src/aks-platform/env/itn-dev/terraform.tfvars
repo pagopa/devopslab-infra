@@ -129,6 +129,6 @@ reloader_helm = {
 # Argocd
 #
 # https://github.com/argoproj/argo-helm/releases
-argocd_helm_release_version    = "8.2.4" #3.0.5+
+argocd_helm_release_version    = "8.3.7" #3.1.5+
 argocd_application_namespaces  = ["argocd", "testit", "diego", "keda"]
 argocd_force_reinstall_version = "v20250806_1"
