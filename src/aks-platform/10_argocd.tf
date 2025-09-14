@@ -17,6 +17,14 @@ data "azurerm_key_vault_secret" "argocd_entra_app_client_id" {
 }
 
 #
+# Admin Password
+#
+data "azurerm_key_vault_secret" "argocd_admin_password" {
+  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
+  name         = "argocd-admin-password"
+}
+
+#
 # Setup ArgoCD (module)
 #
 module "argocd" {
@@ -27,9 +35,9 @@ module "argocd" {
   argocd_application_namespaces     = var.argocd_application_namespaces
   argocd_force_reinstall_version    = var.argocd_force_reinstall_version
   tenant_id                         = data.azurerm_subscription.current.tenant_id
-  app_client_id                     = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
+  entra_app_client_id               = data.azurerm_key_vault_secret.argocd_entra_app_client_id.value
   argocd_internal_url               = local.argocd_internal_url
-  kv_core_id                        = data.azurerm_key_vault.kv_core_ita.id
+  kv_id                             = data.azurerm_key_vault.kv_core_ita.id
   aks_name                          = module.aks.name
   aks_resource_group_name           = azurerm_resource_group.rg_aks.name
   workload_identity_resource_group_name = azurerm_resource_group.rg_aks.name
@@ -37,7 +45,7 @@ module "argocd" {
   internal_dns_zone_name            = data.azurerm_private_dns_zone.internal.name
   internal_dns_zone_resource_group_name = local.internal_dns_zone_resource_group_name
   ingress_load_balancer_ip          = var.ingress_load_balancer_ip
-  ingress_hostname_prefix           = local.ingress_hostname_prefix
+  dns_record_name_for_ingress       = local.ingress_hostname_prefix
   admin_password                    = data.azurerm_key_vault_secret.argocd_admin_password.value
 
   depends_on = [
@@ -45,20 +53,9 @@ module "argocd" {
   ]
 }
 
-#
-# Admin Password
-#
-data "azurerm_key_vault_secret" "argocd_admin_password" {
-  key_vault_id = data.azurerm_key_vault.kv_core_ita.id
-  name         = "argocd-admin-password"
-}
-
-# moved to module
-
-#
+#---------------------------------------------------------------
 # tools
-#
-# moved to module
+#---------------------------------------------------------------
 
 module "cert_mounter_argocd_internal" {
   source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.77.0"
@@ -88,8 +85,3 @@ resource "helm_release" "reloader_argocd" {
     value = "false"
   }
 }
-
-#
-# 🌐 Network
-#
-# moved to module

@@ -24,7 +24,7 @@ variable "tenant_id" {
   type        = string
 }
 
-variable "app_client_id" {
+variable "entra_app_client_id" {
   description = "Workload identity application client id"
   type        = string
 }
@@ -40,8 +40,8 @@ variable "ingress_tls_secret_name" {
   default     = null
 }
 
-variable "kv_core_id" {
-  description = "Core Key Vault id"
+variable "kv_id" {
+  description = "Key Vault id"
   type        = string
 }
 
@@ -80,15 +80,23 @@ variable "ingress_load_balancer_ip" {
   type        = string
 }
 
-variable "ingress_hostname_prefix" {
-  description = "Hostname prefix for the ArgoCD ingress A record"
+variable "dns_record_name_for_ingress" {
+  description = "DNS A record name for the ArgoCD ingress"
   type        = string
   default     = "argocd"
 }
 
 variable "admin_password" {
-  description = "Admin password (plain) stored in KV; used to patch ArgoCD secret"
+  description = "Admin password (plain). If null, a random one is generated."
   type        = string
+  default     = null
+  sensitive   = true
+}
+
+variable "enable_store_admin_password" {
+  description = "Enable storing of ArgoCD admin password in Key Vault"
+  type        = bool
+  default     = true
 }
 
 # Optional Entra group object IDs; default to empty
@@ -158,4 +166,3 @@ variable "enable_private_dns_a_record" {
   type        = bool
   default     = true
 }
-

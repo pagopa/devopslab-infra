@@ -1,5 +1,19 @@
 locals {
   tls_secret_name = coalesce(var.ingress_tls_secret_name, replace(var.argocd_internal_url, ".", "-"))
+  effective_admin_password = (
+    var.admin_password != null && var.admin_password != ""
+  ) ? var.admin_password : random_password.argocd_admin_password[0].result
+}
+
+resource "random_password" "argocd_admin_password" {
+  count           = var.admin_password == null || var.admin_password == "" ? 1 : 0
+  length          = 28
+  special         = true
+  min_upper       = 1
+  min_lower       = 1
+  min_numeric     = 1
+  min_special     = 1
+  override_special = "!@#$%*+-=?"
 }
 
 resource "helm_release" "argocd" {
@@ -13,7 +27,7 @@ resource "helm_release" "argocd" {
     templatefile("${path.root}/src/aks-platform/argocd/argocd_helm_setup_values.yaml", {
       ARGOCD_APPLICATION_NAMESPACES    = var.argocd_application_namespaces
       TENANT_ID                        = var.tenant_id
-      APP_CLIENT_ID                    = var.app_client_id
+      APP_CLIENT_ID                    = var.entra_app_client_id
       ENTRA_ADMIN_GROUP_OBJECT_IDS     = var.entra_admin_group_object_ids
       ENTRA_DEVELOPER_GROUP_OBJECT_IDS = var.entra_developer_group_object_ids
       ENTRA_READER_GROUP_OBJECT_IDS    = var.entra_reader_group_object_ids
@@ -27,26 +41,34 @@ resource "helm_release" "argocd" {
 
 resource "azurerm_key_vault_secret" "argocd_admin_username" {
   count       = var.enable_store_admin_username ? 1 : 0
-  key_vault_id = var.kv_core_id
+  key_vault_id = var.kv_id
   name         = "argocd-admin-username"
   value        = "admin"
+}
+
+resource "azurerm_key_vault_secret" "argocd_admin_password" {
+  count        = var.enable_store_admin_password ? 1 : 0
+  key_vault_id = var.kv_id
+  name         = "argocd-admin-password"
+  value        = local.effective_admin_password
 }
 
 resource "null_resource" "argocd_change_admin_password" {
   count = var.enable_change_admin_password ? 1 : 0
 
   triggers = {
-    argocd_password = var.admin_password
+    argocd_password = local.effective_admin_password
     force_reinstall = var.argocd_force_reinstall_version
   }
 
   provisioner "local-exec" {
-    command = "kubectl -n ${var.namespace} patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(var.admin_password)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
+    command = "kubectl -n ${var.namespace} patch secret argocd-secret -p '{\"stringData\": {\"admin.password\":  \"${bcrypt(local.effective_admin_password)}\", \"admin.passwordMtime\": \"'$(date +%FT%T%Z)'\"}}'"
   }
 
   depends_on = [
     # Ensure helm release is applied before patching the secret when enabled
     helm_release.argocd,
+    azurerm_key_vault_secret.argocd_admin_password,
   ]
 }
 
@@ -88,7 +110,7 @@ module "argocd_workload_identity_configuration" {
   aks_resource_group_name               = var.aks_resource_group_name
   namespace                             = var.namespace
 
-  key_vault_id                      = var.kv_core_id
+  key_vault_id                      = var.kv_id
   key_vault_certificate_permissions = ["Get"]
   key_vault_key_permissions         = ["Get"]
   key_vault_secret_permissions      = ["Get"]
@@ -98,10 +120,9 @@ module "argocd_workload_identity_configuration" {
 
 resource "azurerm_private_dns_a_record" "argocd_ingress" {
   count               = var.enable_private_dns_a_record ? 1 : 0
-  name                = var.ingress_hostname_prefix
+  name                = var.dns_record_name_for_ingress
   zone_name           = var.internal_dns_zone_name
   resource_group_name = var.internal_dns_zone_resource_group_name
   ttl                 = 3600
   records             = [var.ingress_load_balancer_ip]
 }
-
