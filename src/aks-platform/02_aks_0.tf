@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 
 module "aks" {
   # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.42.1"
-  source = "./.terraform/modules/__v3__/kubernetes_cluster"
+  source = "./.terraform/modules/__v4__/kubernetes_cluster"
 
 
   name                       = local.aks_cluster_name

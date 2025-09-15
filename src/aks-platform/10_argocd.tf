@@ -28,7 +28,8 @@ data "azurerm_key_vault_secret" "argocd_admin_password" {
 # Setup ArgoCD (module)
 #
 module "argocd" {
-  source = "./modules/argocd"
+ source = "./.terraform/modules/__v4__/kubernetes_argocd_setup"
+
 
   namespace                             = kubernetes_namespace.namespace_argocd.metadata[0].name
   argocd_helm_release_version           = var.argocd_helm_release_version
@@ -58,7 +59,9 @@ module "argocd" {
 #---------------------------------------------------------------
 
 module "cert_mounter_argocd_internal" {
-  source           = "git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter?ref=v8.77.0"
+
+   source = "./.terraform/modules/__v4__/cert_mounter"
+
   namespace        = "argocd"
   certificate_name = replace(local.argocd_internal_url, ".", "-")
   kv_name          = data.azurerm_key_vault.kv_core_ita.name

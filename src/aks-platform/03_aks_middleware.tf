@@ -7,7 +7,9 @@ resource "azurerm_resource_group" "rg_velero" {
 
 # Workload identity init
 module "velero_workload_identity_init" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init?ref=v8.46.0"
+
+    source = "./.terraform/modules/__v4__/kubernetes_workload_identity_init"
+
 
   workload_identity_location            = var.location
   workload_identity_name_prefix         = "velero"
@@ -22,7 +24,7 @@ resource "kubernetes_namespace" "velero_namespace" {
 
 # Cluster Velero + Workload identity configuration
 module "velero_aks_workload_identity" {
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero?ref=v8.46.0"
+  source = "./.terraform/modules/__v4__/kubernetes_cluster_velero"
 
   prefix          = var.prefix
   location        = var.location

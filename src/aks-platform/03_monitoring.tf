@@ -6,7 +6,9 @@ resource "kubernetes_namespace" "monitoring" {
 }
 
 module "aks_prometheus_install" {
-  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_prometheus_install?ref=v8.78.0"
+
+      source = "./.terraform/modules/__v4__/kubernetes_prometheus_install"
+
   prometheus_namespace = kubernetes_namespace.monitoring.metadata[0].name
   storage_class_name   = "default-zrs"
   prometheus_helm = {
