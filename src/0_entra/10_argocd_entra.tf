@@ -14,4 +14,5 @@ module "argocd_entra" {
   argocd_service_account_name = local.argocd_service_account_name
   key_vault_id                = data.azurerm_key_vault.kv_core_ita.id
 
+  tags = module.tag_config.tags
 }
