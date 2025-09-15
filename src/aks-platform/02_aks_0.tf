@@ -12,9 +12,8 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 }
 
 module "aks" {
-  # source = "git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster?ref=v8.42.1"
-  source = "./.terraform/modules/__v4__/kubernetes_cluster"
-
+    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_cluster?ref=PAYMCLOUD-231-argocd-creazione-modulo"
+  # source = "./.terraform/modules/__v4__/kubernetes_cluster"
 
   name                       = local.aks_cluster_name
   resource_group_name        = azurerm_resource_group.rg_aks.name
@@ -98,11 +97,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
   os_disk_size_gb        = var.aks_user_node_pool.os_disk_size_gb
   zones                  = var.aks_user_node_pool.zones
   ultra_ssd_enabled      = var.aks_user_node_pool.ultra_ssd_enabled
-  enable_host_encryption = var.aks_user_node_pool.enable_host_encryption
   os_type                = "Linux"
 
   ### autoscaling
-  enable_auto_scaling = true
   node_count          = var.aks_user_node_pool.node_count_min
   min_count           = var.aks_user_node_pool.node_count_min
   max_count           = var.aks_user_node_pool.node_count_max
@@ -114,7 +111,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
 
   ### networking
   vnet_subnet_id        = azurerm_subnet.user_aks_subnet.id
-  enable_node_public_ip = false
 
   upgrade_settings {
     max_surge                = var.aks_user_node_pool.upgrade_settings_max_surge
@@ -144,13 +140,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   os_disk_size_gb        = var.aks_spot_user_node_pool.os_disk_size_gb
   zones                  = ["1", "2", "3"]
   ultra_ssd_enabled      = false
-  enable_host_encryption = false
   os_type                = "Linux"
   priority               = "Spot"
   eviction_policy        = "Delete"
 
   ### autoscaling
-  enable_auto_scaling = true
   node_count          = var.aks_spot_user_node_pool.node_count_min
   min_count           = var.aks_spot_user_node_pool.node_count_min
   max_count           = var.aks_spot_user_node_pool.node_count_max
@@ -162,7 +156,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
 
   ### networking
   vnet_subnet_id        = azurerm_subnet.user_aks_subnet.id
-  enable_node_public_ip = false
 
   tags = merge(var.tags, var.aks_spot_user_node_pool.node_tags)
 
