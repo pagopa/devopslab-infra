@@ -28,7 +28,9 @@ data "azurerm_key_vault_secret" "argocd_admin_password" {
 # Setup ArgoCD (module)
 #
 module "argocd" {
- source = "./.terraform/modules/__v4__/kubernetes_argocd_setup"
+ # source = "./.terraform/modules/__v4__/kubernetes_argocd_setup"
+    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup?ref=PAYMCLOUD-231-argocd-creazione-modulo"
+
 
 
   namespace                             = kubernetes_namespace.namespace_argocd.metadata[0].name
@@ -67,7 +69,6 @@ module "cert_mounter_argocd_internal" {
   kv_name          = data.azurerm_key_vault.kv_core_ita.name
   tenant_id        = data.azurerm_subscription.current.tenant_id
 
-  workload_identity_enabled              = true
   workload_identity_service_account_name = module.argocd.workload_identity_service_account_name
   workload_identity_client_id            = module.argocd.workload_identity_client_id
 
