@@ -1,29 +1,29 @@
 terraform {
-  required_version = ">=1.8.0"
+  required_version = ">= 1.12.0"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 3.118.0"
+      version = "~> 4"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "<= 2.50.0"
+      version = "~> 2.50"
     }
     local = {
       source  = "hashicorp/local"
-      version = "<= 2.4.0"
+      version = "~> 2.4"
     }
     kubectl = {
       source  = "alekc/kubectl"
-      version = "<= 2.0.4"
+      version = "~> 2.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "<= 2.31.0"
+      version = "~> 2.31"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "<= 2.14.0"
+      version = "~> 2.14"
     }
   }
 
@@ -42,9 +42,9 @@ data "azurerm_subscription" "current" {}
 
 data "azurerm_client_config" "current" {}
 
-module "__v3__" {
-  # https://github.com/pagopa/terraform-azurerm-v3/releases/tag/v8.90.0
-  source = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=78630776fc96bca167d0c668cb26500a5e76016f"
+module "__v4__" {
+  # https://github.com/pagopa/terraform-azurerm-v4/releases/tag/v7.31.0
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git?ref=8f5dbfc8d531ffd24057e3d45a875bd6d8ce17fa"
 }
 
 provider "kubernetes" {
