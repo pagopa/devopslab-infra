@@ -12,7 +12,7 @@ resource "azurerm_resource_group" "rg_aks_backup" {
 }
 
 module "aks" {
-    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_cluster?ref=PAYMCLOUD-231-argocd-creazione-modulo"
+    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_cluster?ref=fix-kubernetes-drifts"
   # source = "./.terraform/modules/__v4__/kubernetes_cluster"
 
   name                       = local.aks_cluster_name
@@ -80,6 +80,13 @@ module "aks" {
     }
   ]
 
+  automatic_channel_upgrade = null
+  maintenance_windows_node_os = {
+    enabled = true
+  }
+
+  force_upgrade_enabled = true
+
   tags = var.tags
 }
 
@@ -98,6 +105,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
   zones                  = var.aks_user_node_pool.zones
   ultra_ssd_enabled      = var.aks_user_node_pool.ultra_ssd_enabled
   os_type                = "Linux"
+  auto_scaling_enabled = true
 
   ### autoscaling
   node_count          = var.aks_user_node_pool.node_count_min
