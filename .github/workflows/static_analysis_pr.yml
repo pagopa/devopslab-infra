@@ -1,4 +1,6 @@
 name: 🛃 Static Analysis PR
+permissions:
+  contents: read
 
 on:
   push:
