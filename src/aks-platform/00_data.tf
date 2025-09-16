@@ -1,4 +1,41 @@
-# 🔭 Monitor
+### Azure AD
+data "azuread_group" "adgroup_admin" {
+  display_name = "${local.product}-adgroup-admin"
+}
+
+data "azuread_group" "adgroup_developers" {
+  display_name = "${local.product}-adgroup-developers"
+}
+
+data "azuread_group" "adgroup_externals" {
+  display_name = "${local.product}-adgroup-externals"
+}
+
+data "azuread_group" "adgroup_security" {
+  display_name = "${local.product}-adgroup-security"
+}
+
+data "azuread_group" "adgroup_operations" {
+  display_name = "${local.product}-adgroup-operations"
+}
+
+data "azuread_group" "adgroup_technical_project_managers" {
+  display_name = "${local.product}-adgroup-technical-project-managers"
+}
+
+### Azure Container Registry
+data "azurerm_container_registry" "acr" {
+  name                = local.docker_registry_name
+  resource_group_name = local.docker_rg_name
+}
+
+### Azure Key Vault
+data "azurerm_key_vault" "kv_core_ita" {
+  name                = "dvopla-d-itn-core-kv"
+  resource_group_name = "dvopla-d-itn-sec-rg"
+}
+
+### 🔭 Monitor
 data "azurerm_resource_group" "rg_monitor" {
   name = local.monitor_rg_name
 }

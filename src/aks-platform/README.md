@@ -28,48 +28,42 @@ Re-enable all the resource, commented before to complete the procedure
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.8.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.50.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.118.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | <= 2.14.0 |
-| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | <= 2.0.4 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | <= 2.31.0 |
-| <a name="requirement_local"></a> [local](#requirement\_local) | <= 2.4.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.50 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.14 |
+| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | ~> 2.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.31 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | ~> 2.4 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 78630776fc96bca167d0c668cb26500a5e76016f |
-| <a name="module_aks"></a> [aks](#module\_aks) | ./.terraform/modules/__v3__/kubernetes_cluster | n/a |
-| <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_prometheus_install | v8.78.0 |
-| <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_storage_class | v8.34.0 |
-| <a name="module_argocd_workload_identity_configuration"></a> [argocd\_workload\_identity\_configuration](#module\_argocd\_workload\_identity\_configuration) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration | v8.77.0 |
-| <a name="module_argocd_workload_identity_init"></a> [argocd\_workload\_identity\_init](#module\_argocd\_workload\_identity\_init) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.77.0 |
-| <a name="module_cert_mounter_argocd_internal"></a> [cert\_mounter\_argocd\_internal](#module\_cert\_mounter\_argocd\_internal) | git::https://github.com/pagopa/terraform-azurerm-v3.git//cert_mounter | v8.77.0 |
-| <a name="module_keda_workload_identity_configuration"></a> [keda\_workload\_identity\_configuration](#module\_keda\_workload\_identity\_configuration) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_configuration | v8.45.0 |
-| <a name="module_keda_workload_identity_init"></a> [keda\_workload\_identity\_init](#module\_keda\_workload\_identity\_init) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.45.0 |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 50a29c79787596e3d3abfcf896ae2c6c683b25b6 |
+| <a name="module_aks"></a> [aks](#module\_aks) | ./.terraform/modules/__v4__/kubernetes_cluster | n/a |
+| <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | ./.terraform/modules/__v4__/kubernetes_prometheus_install | n/a |
+| <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | ./.terraform/modules/__v4__/kubernetes_storage_class | n/a |
+| <a name="module_argocd"></a> [argocd](#module\_argocd) | git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup | PAYMCLOUD-231-argocd-creazione-modulo |
+| <a name="module_cert_mounter_argocd_internal"></a> [cert\_mounter\_argocd\_internal](#module\_cert\_mounter\_argocd\_internal) | ./.terraform/modules/__v4__/cert_mounter | n/a |
+| <a name="module_keda_workload_identity_configuration"></a> [keda\_workload\_identity\_configuration](#module\_keda\_workload\_identity\_configuration) | ./.terraform/modules/__v4__/kubernetes_workload_identity_configuration | n/a |
+| <a name="module_keda_workload_identity_init"></a> [keda\_workload\_identity\_init](#module\_keda\_workload\_identity\_init) | ./.terraform/modules/__v4__/kubernetes_workload_identity_init | n/a |
 | <a name="module_nginx_ingress"></a> [nginx\_ingress](#module\_nginx\_ingress) | terraform-module/release/helm | 2.7.0 |
-| <a name="module_velero_aks_workload_identity"></a> [velero\_aks\_workload\_identity](#module\_velero\_aks\_workload\_identity) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_cluster_velero | v8.46.0 |
-| <a name="module_velero_workload_identity_init"></a> [velero\_workload\_identity\_init](#module\_velero\_workload\_identity\_init) | git::https://github.com/pagopa/terraform-azurerm-v3.git//kubernetes_workload_identity_init | v8.46.0 |
+| <a name="module_tag_config"></a> [tag\_config](#module\_tag\_config) | ../tag_config | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azurerm_key_vault_secret.argocd_admin_username](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_kubernetes_cluster_node_pool.spot_node_pool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
 | [azurerm_kubernetes_cluster_node_pool.user_nodepool_default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
-| [azurerm_private_dns_a_record.argocd_ingress](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_a_record) | resource |
 | [azurerm_resource_group.rg_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.rg_aks_backup](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_resource_group.rg_velero](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.aks_to_acr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.keda_monitoring_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.managed_identity_operator_vs_aks_managed_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_subnet.system_aks_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.user_aks_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
-| [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.keda](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.reloader_argocd](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubernetes_cluster_role.cluster_deployer](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
@@ -84,10 +78,7 @@ Re-enable all the resource, commented before to complete the procedure
 | [kubernetes_namespace.keda](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [kubernetes_namespace.monitoring](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
 | [kubernetes_namespace.namespace_argocd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
-| [kubernetes_namespace.velero_namespace](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace) | resource |
-| [null_resource.argocd_change_admin_password](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.create_vnet_core_aks_link](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [null_resource.restart_argocd_server](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_developers](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_group.adgroup_externals](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
@@ -163,7 +154,6 @@ Re-enable all the resource, commented before to complete the procedure
 | <a name="input_public_ip_aksoutbound_name"></a> [public\_ip\_aksoutbound\_name](#input\_public\_ip\_aksoutbound\_name) | Public IP AKS outbound | `string` | n/a | yes |
 | <a name="input_reloader_helm"></a> [reloader\_helm](#input\_reloader\_helm) | reloader helm chart configuration | <pre>object({<br/>    chart_version = string,<br/>    image_name    = string,<br/>    image_tag     = string<br/>  })</pre> | n/a | yes |
 | <a name="input_rg_vnet_italy_name"></a> [rg\_vnet\_italy\_name](#input\_rg\_vnet\_italy\_name) | Resource group dedicated to VNet AKS | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(any)` | <pre>{<br/>  "CreatedBy": "Terraform"<br/>}</pre> | no |
 | <a name="input_vnet_italy_name"></a> [vnet\_italy\_name](#input\_vnet\_italy\_name) | VNet dedicated to AKS | `string` | n/a | yes |
 
 ## Outputs

@@ -7,14 +7,6 @@ location            = "italynorth"
 location_short      = "itn"
 location_westeurope = "westeurope"
 
-tags = {
-  CreatedBy   = "Terraform"
-  Environment = "Dev"
-  Owner       = "DevOps"
-  Source      = "https://github.com/pagopa/devopslab-infra"
-  CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
-}
-
 #
 # Dns
 #
@@ -115,7 +107,7 @@ ingress_replica_count = "1"
 ingress_load_balancer_ip = "10.3.10.250"
 
 nginx_helm_version = "4.12.1"
-keda_helm_version  = "2.16.1"
+keda_helm_version  = "2.17.2"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
@@ -129,6 +121,6 @@ reloader_helm = {
 # Argocd
 #
 # https://github.com/argoproj/argo-helm/releases
-argocd_helm_release_version    = "8.2.4" #3.0.5+
+argocd_helm_release_version    = "8.3.7" #3.1.5+
 argocd_application_namespaces  = ["argocd", "testit", "diego", "keda"]
 argocd_force_reinstall_version = "v20250806_1"

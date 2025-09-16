@@ -1,4 +1,6 @@
-name: Static Analysis
+name: 🔍 Static Analysis MA
+permissions:
+  contents: read
 
 on:
   push:
@@ -7,10 +9,92 @@ on:
 
 jobs:
   static_analysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    env:
+      TF_PLUGIN_CACHE_DIR: /tmp/.terraform.d/plugin-cache
 
     steps:
-      - name: Static Analysis
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@59c12b7a846423d62c27c9905686a7a1fd71c003 # v1.7.0
+      - name: ⚡ Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: 📖 Read Terraform version
+        run: |
+          echo "TERRAFORM_VERSION=$(cat .terraform-version)" >> $GITHUB_ENV
+
+      - name: 🔨 Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.0
         with:
-          precommit_version: 'v1.99.0@sha256:73239e93f97c005ed16189f3ca523f78d666af0902f3621a1eff8db22b7bb18c'
+          terraform_version: "${{ env.TERRAFORM_VERSION }}"
+
+      - name: 💾 Cache Terraform plugins
+        uses: actions/cache@v4
+        with:
+          path: $TF_PLUGIN_CACHE_DIR
+          key: ${{ runner.os }}-terraform-${{ env.TERRAFORM_VERSION }}-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-${{ env.TERRAFORM_VERSION }}-
+            ${{ runner.os }}-terraform-
+
+      - name: 🔧 Setup Terraform plugin cache
+        run: |
+          mkdir -p $TF_PLUGIN_CACHE_DIR
+          echo 'plugin_cache_dir = "/tmp/.terraform.d/plugin-cache"' > ~/.terraformrc
+
+      - name: 🏁 Init Terraform folders
+        shell: bash
+        run: |
+          echo "📢 Show space"
+          df -h
+
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-"
+          echo    "+ 🏁 INIT TERRAFORM FOLDERS 🏁   +"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n"
+
+          # Generate a unique list of folders containing `.tf` files, excluding the 90_aws folder
+          FOLDERS=$(find . -type f -name "*.tf" ! -path "*/.terraform/*" ! -path "*/90_aws/*" -exec dirname {} \; | sort -u)
+          echo "FOLDERS=${FOLDERS}"
+
+          for f in $FOLDERS; do
+            echo -e "\n📂 Processing: ${f}"
+            (
+              cd "${f}" || exit
+              # Check for any necessary changes to backend configurations
+              if [[ -f "99_main.tf" ]]; then
+                sed -i -e 's/  backend "azurerm" {}//g' 99_main.tf || true
+              fi
+              # Initialize Terraform and lock providers for all platforms
+              terraform init -upgrade -lockfile=true &&
+              terraform providers lock \
+                -platform=darwin_arm64 \
+                -platform=darwin_amd64 \
+                -platform=linux_amd64 \
+                -platform=linux_arm64
+            ) || echo "⚠️ Initialization failed for ${f}"
+          done
+
+      - name: Show precommit version
+        shell: bash
+        run: |
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+          echo    "+ 1️⃣  SHOW PRECOMMIT VERSION 1️⃣  +"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n"
+
+          TAG=v1.99.2@sha256:34f6cef8b944d571ea22be316a960d8353fcc0571adea35302cbd9ab80bf2758
+          docker run --rm --entrypoint cat ghcr.io/antonbabenko/pre-commit-terraform:$TAG /usr/bin/tools_versions_info
+
+      - name: 🚨 Run precommit
+        shell: bash
+        run: |
+          echo -e "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+          echo    "+- 🚨 PRECOMMIT TERRAFORM 🚨 -+"
+          echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\n"
+
+          TARGET_FILES=$(find . -type f -name "*.tf" ! -path "*/.terraform/*" ! -path "./src/90_aws/*")
+
+          TAG=v1.99.2@sha256:34f6cef8b944d571ea22be316a960d8353fcc0571adea35302cbd9ab80bf2758
+          docker run \
+            -v "$(pwd)":/lint \
+            -v /tmp/.terraform.d/plugin-cache:/tmp/.terraform.d/plugin-cache \
+            -w /lint \
+            ghcr.io/antonbabenko/pre-commit-terraform:$TAG \
+            run --files $TARGET_FILES --show-diff-on-failure

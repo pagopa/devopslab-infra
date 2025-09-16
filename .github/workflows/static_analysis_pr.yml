@@ -1,4 +1,6 @@
-name: Static Analysis PR
+name: 🛃 Static Analysis PR
+permissions:
+  contents: read
 
 on:
   push:
@@ -7,19 +9,31 @@ on:
 
 jobs:
   static_analysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
+      - run: |
+          rm -rf *
+
       - name: 🔨 Get Modified Paths
         id: get-paths
-        uses: pagopa/eng-github-actions-iac-template/global/get-modifed-folders@6cc78fc1c578c0fdfc8ba739bef634b21e8e35b4 # v1.19.0
+        uses: pagopa/eng-github-actions-iac-template/global/get-modifed-folders@f10814b649ecd6e5d97c489084d2a107e2f1b2ee #v1.22.3
         with:
+          ignore_patterns: ".github,.devops,.vscode,.terraform-version,90_aws"
           start_folder: "src"
-          default_end_folder_depth: 3
-          include_patterns: "src,domains"
+          include_folders: "tag_config"
+          include_patterns: "src"
+          stopper_folders: "env,tests,api,api_product,helm,argocd,secrets"
+
+      - name: 👀 See folders downloaded
+        if: env.dir_changes_detected == 'true'
+        id: see
+        shell: bash
+        run: |
+          tree -R -d -a .
 
       - name: Static Analysis
         if: env.dir_changes_detected == 'true'
-        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@6b8192a09750c44dde5a9a8d9ed72648547071c5 # v1.14.1
+        uses: pagopa/eng-github-actions-iac-template/azure/terraform-static-analysis@159289e1e23d0783533d1dd83e1b7cf0a5a565d9 #v1.24.0
         with:
-          precommit_version: 'v1.99.0@sha256:73239e93f97c005ed16189f3ca523f78d666af0902f3621a1eff8db22b7bb18c'
+          precommit_version: 'v1.99.2@sha256:34f6cef8b944d571ea22be316a960d8353fcc0571adea35302cbd9ab80bf2758'
