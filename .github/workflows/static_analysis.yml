@@ -1,4 +1,6 @@
 name: 🔍 Static Analysis MA
+permissions:
+  contents: read
 
 on:
   push:
