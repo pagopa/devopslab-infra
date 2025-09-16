@@ -14,7 +14,7 @@ locals {
 
 module "keda_workload_identity_init" {
 
-      source = "./.terraform/modules/__v4__/kubernetes_workload_identity_init"
+  source = "./.terraform/modules/__v4__/kubernetes_workload_identity_init"
 
 
   workload_identity_name_prefix         = "keda"
@@ -24,7 +24,7 @@ module "keda_workload_identity_init" {
 
 module "keda_workload_identity_configuration" {
 
-    source = "./.terraform/modules/__v4__/kubernetes_workload_identity_configuration"
+  source = "./.terraform/modules/__v4__/kubernetes_workload_identity_configuration"
 
 
   workload_identity_name_prefix         = "keda"

@@ -67,4 +67,3 @@ data "azurerm_monitor_action_group" "email" {
 #   name                = local.monitor_security_storage_name
 #   resource_group_name = data.azurerm_resource_group.rg_monitor.name
 # }
-

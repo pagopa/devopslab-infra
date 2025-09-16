@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "monitoring" {
 
 module "aks_prometheus_install" {
 
-      source = "./.terraform/modules/__v4__/kubernetes_prometheus_install"
+  source = "./.terraform/modules/__v4__/kubernetes_prometheus_install"
 
   prometheus_namespace = kubernetes_namespace.monitoring.metadata[0].name
   storage_class_name   = "default-zrs"

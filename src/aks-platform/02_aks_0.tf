@@ -1,19 +1,19 @@
 resource "azurerm_resource_group" "rg_aks" {
   name     = local.aks_rg_name
   location = var.location
-  tags     = var.tags
+  tags     = module.tag_config.tags
 }
 
 
 resource "azurerm_resource_group" "rg_aks_backup" {
   name     = local.aks_backup_rg_name
   location = var.location
-  tags     = var.tags
+  tags     = module.tag_config.tags
 }
 
 module "aks" {
-    source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_cluster?ref=fix-kubernetes-drifts"
-  # source = "./.terraform/modules/__v4__/kubernetes_cluster"
+  # source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_cluster?ref=fix-kubernetes-drifts"
+  source = "./.terraform/modules/__v4__/kubernetes_cluster"
 
   name                       = local.aks_cluster_name
   resource_group_name        = azurerm_resource_group.rg_aks.name
@@ -87,7 +87,7 @@ module "aks" {
 
   force_upgrade_enabled = true
 
-  tags = var.tags
+  tags = module.tag_config.tags
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
@@ -100,17 +100,17 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
   ### vm configuration
   vm_size = var.aks_user_node_pool.vm_size
   # https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general
-  os_disk_type           = var.aks_user_node_pool.os_disk_type # Managed or Ephemeral
-  os_disk_size_gb        = var.aks_user_node_pool.os_disk_size_gb
-  zones                  = var.aks_user_node_pool.zones
-  ultra_ssd_enabled      = var.aks_user_node_pool.ultra_ssd_enabled
-  os_type                = "Linux"
+  os_disk_type         = var.aks_user_node_pool.os_disk_type # Managed or Ephemeral
+  os_disk_size_gb      = var.aks_user_node_pool.os_disk_size_gb
+  zones                = var.aks_user_node_pool.zones
+  ultra_ssd_enabled    = var.aks_user_node_pool.ultra_ssd_enabled
+  os_type              = "Linux"
   auto_scaling_enabled = true
 
   ### autoscaling
-  node_count          = var.aks_user_node_pool.node_count_min
-  min_count           = var.aks_user_node_pool.node_count_min
-  max_count           = var.aks_user_node_pool.node_count_max
+  node_count = var.aks_user_node_pool.node_count_min
+  min_count  = var.aks_user_node_pool.node_count_min
+  max_count  = var.aks_user_node_pool.node_count_max
 
   ### K8s node configuration
   max_pods    = var.aks_user_node_pool.max_pods
@@ -118,14 +118,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_nodepool_default" {
   node_taints = var.aks_user_node_pool.node_taints
 
   ### networking
-  vnet_subnet_id        = azurerm_subnet.user_aks_subnet.id
+  vnet_subnet_id = azurerm_subnet.user_aks_subnet.id
 
   upgrade_settings {
     max_surge                = var.aks_user_node_pool.upgrade_settings_max_surge
     drain_timeout_in_minutes = 30
   }
 
-  tags = merge(var.tags, var.aks_user_node_pool.node_tags)
+  tags = merge(module.tag_config.tags, var.aks_user_node_pool.node_tags)
 
   lifecycle {
     ignore_changes = [
@@ -144,18 +144,18 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   ### vm configuration
   vm_size = var.aks_spot_user_node_pool.vm_size
   # https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general
-  os_disk_type           = var.aks_spot_user_node_pool.os_disk_type # Managed or Ephemeral
-  os_disk_size_gb        = var.aks_spot_user_node_pool.os_disk_size_gb
-  zones                  = ["1", "2", "3"]
-  ultra_ssd_enabled      = false
-  os_type                = "Linux"
-  priority               = "Spot"
-  eviction_policy        = "Delete"
+  os_disk_type      = var.aks_spot_user_node_pool.os_disk_type # Managed or Ephemeral
+  os_disk_size_gb   = var.aks_spot_user_node_pool.os_disk_size_gb
+  zones             = ["1", "2", "3"]
+  ultra_ssd_enabled = false
+  os_type           = "Linux"
+  priority          = "Spot"
+  eviction_policy   = "Delete"
 
   ### autoscaling
-  node_count          = var.aks_spot_user_node_pool.node_count_min
-  min_count           = var.aks_spot_user_node_pool.node_count_min
-  max_count           = var.aks_spot_user_node_pool.node_count_max
+  node_count = var.aks_spot_user_node_pool.node_count_min
+  min_count  = var.aks_spot_user_node_pool.node_count_min
+  max_count  = var.aks_spot_user_node_pool.node_count_max
 
   ### K8s node configuration
   max_pods    = 250
@@ -163,9 +163,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot_node_pool" {
   node_taints = var.aks_spot_user_node_pool.node_taints
 
   ### networking
-  vnet_subnet_id        = azurerm_subnet.user_aks_subnet.id
+  vnet_subnet_id = azurerm_subnet.user_aks_subnet.id
 
-  tags = merge(var.tags, var.aks_spot_user_node_pool.node_tags)
+  tags = merge(module.tag_config.tags, var.aks_spot_user_node_pool.node_tags)
 
   lifecycle {
     ignore_changes = [

@@ -29,24 +29,20 @@ Re-enable all the resource, commented before to complete the procedure
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.8.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 3.4.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 4.38.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4 |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_argocd_entra"></a> [argocd\_entra](#module\_argocd\_entra) | git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_entra | PAYMCLOUD-231-argocd-creazione-modulo |
+| <a name="module_tag_config"></a> [tag\_config](#module\_tag\_config) | ../tag_config | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azuread_app_role_assignment.argocd_group_assignments](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/app_role_assignment) | resource |
-| [azuread_application.argocd](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application) | resource |
-| [azuread_application_federated_identity_credential.argocd](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/application_federated_identity_credential) | resource |
-| [azuread_service_principal.sp_argocd](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal) | resource |
-| [azuread_service_principal_delegated_permission_grant.argocd_user_read_consent](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/service_principal_delegated_permission_grant) | resource |
-| [azurerm_key_vault_secret.argocd_entra_app_client_id](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
-| [azurerm_key_vault_secret.argocd_entra_app_service_account_name](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azuread_group.argocd_groups](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_service_principal.graph](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
 | [azuread_users.argocd_application_owners](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/users) | data source |
