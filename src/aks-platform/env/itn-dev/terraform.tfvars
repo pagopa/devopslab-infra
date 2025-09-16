@@ -115,7 +115,7 @@ ingress_replica_count = "1"
 ingress_load_balancer_ip = "10.3.10.250"
 
 nginx_helm_version = "4.12.1"
-keda_helm_version  = "2.16.1"
+keda_helm_version  = "2.17.2"
 
 # chart releases: https://github.com/stakater/Reloader/releases
 # image tags: https://hub.docker.com/r/stakater/reloader/tags
