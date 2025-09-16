@@ -47,7 +47,26 @@ module "argocd" {
   internal_dns_zone_resource_group_name = local.internal_dns_zone_resource_group_name
   ingress_load_balancer_ip              = var.ingress_load_balancer_ip
   dns_record_name_for_ingress           = local.ingress_hostname_prefix
+  enable_admin_login                    = true
   admin_password                        = data.azurerm_key_vault_secret.argocd_admin_password.value
+  tier = "dev"
+  global_tolerations = [
+    {
+      key      = "dedicated"
+      operator = "Equal"
+      value    = "argocd"
+      effect   = "NoSchedule"
+    }
+  ]
+  global_affinity_match_expressions = [
+    {
+      key      = "node_type"
+      operator = "In"
+      values   = ["user"]
+    }
+  ]
+
+  entra_admin_group_object_ids = [data.azuread_group.adgroup_admin.id]
 
   depends_on = [
     module.aks,
