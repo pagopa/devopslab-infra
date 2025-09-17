@@ -1,24 +1,19 @@
 locals {
-  project_name = "${var.domain}-project"
+  project_blue_name = "blue-${var.domain}-project"
 }
 
 #
 # Terraform argocd project
 #
-resource "argocd_project" "argocd_project_diego" {
+resource "argocd_project" "argocd_project_diego_blue" {
   metadata {
-    name      = local.project_name # e.g. "diego-project"
+    name      = local.project_blue_name
     namespace = "argocd"
-
-    labels = {
-      acceptance = "true"
-    }
+    labels    = { acceptance = "true" }
   }
 
   spec {
-    description = local.project_name
-
-    # Restrict manifest sources to this domain's repos
+    description       = local.project_blue_name
     source_namespaces = [var.domain]
     source_repos      = ["*"]
 
@@ -52,42 +47,51 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "admin"
       groups = []
       policies = [
-        "p, proj:${local.project_name}:admin, applications, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, logs, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, exec, create, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, applications, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, applicationsets, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, logs, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, exec, create, ${local.project_blue_name}/*, allow",
       ]
     }
 
-    # Developer → sola lettura sul Project, pieno controllo sulle app
     role {
       name   = "developer"
       groups = []
       policies = [
-        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, update, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, delete, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, create, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, update, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, delete, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, sync, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applicationsets, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, logs, get, ${local.project_blue_name}/*, allow",
       ]
     }
 
-    # Reader → read‑only su app + project; può visualizzare ConfigMaps tramite tree
     role {
       name   = "reader"
-      groups = [data.azuread_group.adgroup_admin.object_id]
+      groups = []
       policies = [
-        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:reader, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:reader, logs, get, ${local.project_blue_name}/*, allow",
+      ]
+    }
+
+    role {
+      name   = "external"
+      groups = [data.azuread_group.adgroup_externals.id]
+      policies = [
+        "p, proj:${local.project_blue_name}:external, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, logs, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, delete/*/Pod/*/*, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/Deployment/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/StatefulSet/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/DaemonSet/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, sync, ${local.project_blue_name}/*, allow",
       ]
     }
   }
 }
-
-
-
 
 locals {
   argocd_applications = {
@@ -120,7 +124,7 @@ locals {
   ]...)
 }
 
-resource "argocd_application" "diego_applications" {
+resource "argocd_application" "diego_applications_blue" {
   for_each = local.flattened_applications
 
   metadata {
@@ -135,7 +139,7 @@ resource "argocd_application" "diego_applications" {
   }
 
   spec {
-    project = argocd_project.argocd_project_diego.metadata[0].name
+    project = argocd_project.argocd_project_diego_blue.metadata[0].name
 
     destination {
       server    = "https://kubernetes.default.svc"
