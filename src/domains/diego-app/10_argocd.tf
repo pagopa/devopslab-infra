@@ -9,7 +9,7 @@ resource "argocd_project" "argocd_project_diego_blue" {
   metadata {
     name      = local.project_blue_name
     namespace = "argocd"
-    labels = { acceptance = "true" }
+    labels    = { acceptance = "true" }
   }
 
   spec {

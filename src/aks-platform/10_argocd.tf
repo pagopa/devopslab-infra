@@ -49,7 +49,7 @@ module "argocd" {
   dns_record_name_for_ingress           = local.ingress_hostname_prefix
   enable_admin_login                    = true
   admin_password                        = data.azurerm_key_vault_secret.argocd_admin_password.value
-  tier = "dev"
+  tier                                  = "dev"
   global_tolerations = [
     {
       key      = "dedicated"
