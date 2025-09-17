@@ -1,13 +1,13 @@
 locals {
-  project_name = "${var.domain}-project"
+  project_blue_name = "blue-${var.domain}-project"
 }
 
 #
 # Terraform argocd project
 #
-resource "argocd_project" "argocd_project_diego" {
+resource "argocd_project" "argocd_project_diego_blue" {
   metadata {
-    name      = local.project_name # e.g. "diego-project"
+    name      = local.project_blue_name # e.g. "diego-project"
     namespace = "argocd"
 
     labels = {
@@ -16,7 +16,7 @@ resource "argocd_project" "argocd_project_diego" {
   }
 
   spec {
-    description = local.project_name
+    description = local.project_blue_name
 
     # Restrict manifest sources to this domain's repos
     source_namespaces = [var.domain]
@@ -52,10 +52,10 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "admin"
       groups = []
       policies = [
-        "p, proj:${local.project_name}:admin, applications, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, logs, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:admin, exec, create, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, applications, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, applicationsets, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, logs, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:admin, exec, create, ${local.project_blue_name}/*, allow",
       ]
     }
 
@@ -64,13 +64,13 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "developer"
       groups = []
       policies = [
-        "p, proj:${local.project_name}:developer, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, create, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, update, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, delete, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applications, sync, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, applicationsets, *, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:developer, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, create, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, update, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, delete, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applications, sync, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, applicationsets, *, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:developer, logs, get, ${local.project_blue_name}/*, allow",
       ]
     }
 
@@ -79,8 +79,8 @@ resource "argocd_project" "argocd_project_diego" {
       name   = "reader"
       groups = [data.azuread_group.adgroup_admin.object_id]
       policies = [
-        "p, proj:${local.project_name}:reader, applications, get, ${local.project_name}/*, allow",
-        "p, proj:${local.project_name}:reader, logs, get, ${local.project_name}/*, allow",
+        "p, proj:${local.project_blue_name}:reader, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:reader, logs, get, ${local.project_blue_name}/*, allow",
       ]
     }
   }
@@ -120,7 +120,7 @@ locals {
   ]...)
 }
 
-resource "argocd_application" "diego_applications" {
+resource "argocd_application" "diego_applications_blue" {
   for_each = local.flattened_applications
 
   metadata {
@@ -135,7 +135,7 @@ resource "argocd_application" "diego_applications" {
   }
 
   spec {
-    project = argocd_project.argocd_project_diego.metadata[0].name
+    project = argocd_project.argocd_project_diego_blue.metadata[0].name
 
     destination {
       server    = "https://kubernetes.default.svc"
