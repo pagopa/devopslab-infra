@@ -7,18 +7,13 @@ locals {
 #
 resource "argocd_project" "argocd_project_diego_blue" {
   metadata {
-    name      = local.project_blue_name # e.g. "diego-project"
+    name      = local.project_blue_name
     namespace = "argocd"
-
-    labels = {
-      acceptance = "true"
-    }
+    labels = { acceptance = "true" }
   }
 
   spec {
-    description = local.project_blue_name
-
-    # Restrict manifest sources to this domain's repos
+    description       = local.project_blue_name
     source_namespaces = [var.domain]
     source_repos      = ["*"]
 
@@ -59,7 +54,6 @@ resource "argocd_project" "argocd_project_diego_blue" {
       ]
     }
 
-    # Developer → sola lettura sul Project, pieno controllo sulle app
     role {
       name   = "developer"
       groups = []
@@ -74,20 +68,30 @@ resource "argocd_project" "argocd_project_diego_blue" {
       ]
     }
 
-    # Reader → read‑only su app + project; può visualizzare ConfigMaps tramite tree
     role {
       name   = "reader"
-      groups = [data.azuread_group.adgroup_admin.object_id]
+      groups = []
       policies = [
         "p, proj:${local.project_blue_name}:reader, applications, get, ${local.project_blue_name}/*, allow",
         "p, proj:${local.project_blue_name}:reader, logs, get, ${local.project_blue_name}/*, allow",
       ]
     }
+
+    role {
+      name   = "external"
+      groups = [data.azuread_group.adgroup_externals.id]
+      policies = [
+        "p, proj:${local.project_blue_name}:external, applications, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, logs, get, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, delete/*/Pod/*/*, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/Deployment/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/StatefulSet/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, action/apps/DaemonSet/restart, ${local.project_blue_name}/*, allow",
+        "p, proj:${local.project_blue_name}:external, applications, sync, ${local.project_blue_name}/*, allow",
+      ]
+    }
   }
 }
-
-
-
 
 locals {
   argocd_applications = {
