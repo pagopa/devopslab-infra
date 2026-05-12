@@ -35,14 +35,15 @@ public_ip_aksoutbound_name = "dvopla-d-aksoutbound-pip-1"
 aks_enabled                 = true
 aks_private_cluster_enabled = true
 aks_alerts_enabled          = false
-aks_kubernetes_version      = "1.32.3"
+aks_kubernetes_version      = "1.34.4"
 aks_system_node_pool = {
   name            = "dvldev01sys",
   vm_size         = "Standard_B4ms",
   os_disk_type    = "Managed",
   os_disk_size_gb = 75,
   node_count_min  = 1,
-  node_count_max  = 3,
+  node_count_max  = 1,
+  auto_scaling    = false,
   node_labels     = { node_name : "aks-dev01-sys", node_type : "system" },
   node_tags       = { node_tag_1 : "1" },
 }
