@@ -26,7 +26,7 @@ az network dns zone show \
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.10.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.1 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.18 |
@@ -34,7 +34,7 @@ az network dns zone show \
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 3388ff860b06c99d19e0bbba205a553343fca059 |
 | <a name="module_dns_forwarder_lb_vmss"></a> [dns\_forwarder\_lb\_vmss](#module\_dns\_forwarder\_lb\_vmss) | ./.terraform/modules/__v4__/dns_forwarder_lb_vmss | n/a |
 | <a name="module_packer_azdo_snet"></a> [packer\_azdo\_snet](#module\_packer\_azdo\_snet) | ./.terraform/modules/__v4__/subnet | n/a |
@@ -49,7 +49,7 @@ az network dns zone show \
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_resource_group.rg_ita_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azuread_application.vpn_app](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application) | data source |
 | [azuread_group.adgroup_admin](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
@@ -66,7 +66,7 @@ az network dns zone show \
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_cidr_subnet_dnsforwarder_lb"></a> [cidr\_subnet\_dnsforwarder\_lb](#input\_cidr\_subnet\_dnsforwarder\_lb) | DNS Forwarder network address space for LB. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_dnsforwarder_vmss"></a> [cidr\_subnet\_dnsforwarder\_vmss](#input\_cidr\_subnet\_dnsforwarder\_vmss) | DNS Forwarder network address space for VMSS. | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_packer_azdo"></a> [cidr\_subnet\_packer\_azdo](#input\_cidr\_subnet\_packer\_azdo) | packer azdo network address space. | `list(string)` | n/a | yes |

@@ -5,7 +5,7 @@
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.30.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.45.0 |
@@ -14,7 +14,7 @@
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_github_runner_cd"></a> [github\_runner\_cd](#module\_github\_runner\_cd) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-cd | v2.0.0 |
 | <a name="module_github_runner_ci"></a> [github\_runner\_ci](#module\_github\_runner\_ci) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-ci | v2.0.0 |
 | <a name="module_github_runner_creator"></a> [github\_runner\_creator](#module\_github\_runner\_creator) | git::https://github.com/pagopa/github-actions-tf-modules.git//app-github-runner-creator | v2.0.0 |
@@ -22,7 +22,7 @@
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [github_actions_environment_secret.github_environment_cd_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.github_environment_ci_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.github_environment_runner_secrets](https://registry.terraform.io/providers/integrations/github/5.18.0/docs/resources/actions_environment_secret) | resource |
@@ -36,7 +36,7 @@
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_env"></a> [env](#input\_env) | Environment | `string` | n/a | yes |
 | <a name="input_env_short"></a> [env\_short](#input\_env\_short) | n/a | `string` | n/a | yes |
 | <a name="input_environment_cd_roles"></a> [environment\_cd\_roles](#input\_environment\_cd\_roles) | GitHub Continous Delivery roles | <pre>object({<br/>    subscription = list(string)<br/>  })</pre> | n/a | yes |
@@ -50,7 +50,7 @@
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_ci_service_principal_github_action_client_id"></a> [ci\_service\_principal\_github\_action\_client\_id](#output\_ci\_service\_principal\_github\_action\_client\_id) | n/a |
 | <a name="output_ci_service_principal_github_action_name"></a> [ci\_service\_principal\_github\_action\_name](#output\_ci\_service\_principal\_github\_action\_name) | n/a |
 | <a name="output_subscription_id"></a> [subscription\_id](#output\_subscription\_id) | n/a |

@@ -26,7 +26,7 @@ az network dns zone show \
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | <= 1.12.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | <= 2.50.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.116.0 |
@@ -38,7 +38,7 @@ az network dns zone show \
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module___v3__"></a> [\_\_v3\_\_](#module\_\_\_v3\_\_) | git::https://github.com/pagopa/terraform-azurerm-v3.git | 1f6720c4d10f60f32e6caac95dd8669c7661909f |
 | <a name="module_azdoa_snet"></a> [azdoa\_snet](#module\_azdoa\_snet) | ./.terraform/modules/__v3__/subnet | n/a |
 | <a name="module_azdoa_vmss_linux"></a> [azdoa\_vmss\_linux](#module\_azdoa\_vmss\_linux) | ./.terraform/modules/__v3__/azure_devops_agent | n/a |
@@ -56,7 +56,7 @@ az network dns zone show \
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_application_insights.application_insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_application_insights.application_insights_ita](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_dns_a_record.api_devopslab_pagopa_it](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record) | resource |
@@ -116,7 +116,7 @@ az network dns zone show \
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_aks_ephemeral_num_outbound_ips"></a> [aks\_ephemeral\_num\_outbound\_ips](#input\_aks\_ephemeral\_num\_outbound\_ips) | How many outbound ips allocate for AKS prod cluster | `number` | `1` | no |
 | <a name="input_aks_num_outbound_ips"></a> [aks\_num\_outbound\_ips](#input\_aks\_num\_outbound\_ips) | How many outbound ips allocate for AKS cluster | `number` | `1` | no |
 | <a name="input_apim_api_internal_certificate_name"></a> [apim\_api\_internal\_certificate\_name](#input\_apim\_api\_internal\_certificate\_name) | KeyVault certificate name | `string` | n/a | yes |

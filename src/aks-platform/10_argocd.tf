@@ -29,7 +29,7 @@ data "azurerm_key_vault_secret" "argocd_admin_password" {
 #
 module "argocd" {
   # source = "./.terraform/modules/__v4__/kubernetes_argocd_setup"
-  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup?ref=PAYMCLOUD-231-argocd-creazione-modulo"
+  source = "git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup"
 
   namespace                             = kubernetes_namespace.namespace_argocd.metadata[0].name
   argocd_helm_release_version           = var.argocd_helm_release_version

@@ -3,7 +3,7 @@
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | = 2.21.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | = 3.45.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | = 2.5.1 |
@@ -13,14 +13,14 @@
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_container_apps_dapr_snet"></a> [container\_apps\_dapr\_snet](#module\_container\_apps\_dapr\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v5.3.0 |
 | <a name="module_container_apps_snet"></a> [container\_apps\_snet](#module\_container\_apps\_snet) | git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet | v5.3.0 |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_container_app_environment.diego_env](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/container_app_environment) | resource |
 | [azurerm_cosmosdb_account.mongodb_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/cosmosdb_account) | resource |
 | [azurerm_cosmosdb_sql_container.collection_dapr](https://registry.terraform.io/providers/hashicorp/azurerm/3.45.0/docs/resources/cosmosdb_sql_container) | resource |
@@ -48,7 +48,7 @@
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_aks_name"></a> [aks\_name](#input\_aks\_name) | AKS cluster name | `string` | n/a | yes |
 | <a name="input_cidr_subnet_container_apps"></a> [cidr\_subnet\_container\_apps](#input\_cidr\_subnet\_container\_apps) | Subnet for container apps in diego domain | `list(string)` | n/a | yes |
 | <a name="input_cidr_subnet_container_apps_dapr"></a> [cidr\_subnet\_container\_apps\_dapr](#input\_cidr\_subnet\_container\_apps\_dapr) | Subnet for container apps dapr in diego domain | `list(string)` | n/a | yes |

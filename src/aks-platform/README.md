@@ -27,7 +27,7 @@ Re-enable all the resource, commented before to complete the procedure
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.50 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4 |
@@ -39,13 +39,14 @@ Re-enable all the resource, commented before to complete the procedure
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
-| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | 50a29c79787596e3d3abfcf896ae2c6c683b25b6 |
+| ---- | ------ | ------- |
+| <a name="module___v4__"></a> [\_\_v4\_\_](#module\_\_\_v4\_\_) | git::https://github.com/pagopa/terraform-azurerm-v4.git | c474c98742d71e8829292e38e2a5b9f73e23163f |
 | <a name="module_aks"></a> [aks](#module\_aks) | ./.terraform/modules/__v4__/kubernetes_cluster | n/a |
 | <a name="module_aks_prometheus_install"></a> [aks\_prometheus\_install](#module\_aks\_prometheus\_install) | ./.terraform/modules/__v4__/kubernetes_prometheus_install | n/a |
 | <a name="module_aks_storage_class"></a> [aks\_storage\_class](#module\_aks\_storage\_class) | ./.terraform/modules/__v4__/kubernetes_storage_class | n/a |
-| <a name="module_argocd"></a> [argocd](#module\_argocd) | git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup | PAYMCLOUD-231-argocd-creazione-modulo |
+| <a name="module_argocd"></a> [argocd](#module\_argocd) | git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_setup | n/a |
 | <a name="module_cert_mounter_argocd_internal"></a> [cert\_mounter\_argocd\_internal](#module\_cert\_mounter\_argocd\_internal) | ./.terraform/modules/__v4__/cert_mounter | n/a |
+| <a name="module_haproxy_ingress"></a> [haproxy\_ingress](#module\_haproxy\_ingress) | ./.terraform/modules/__v4__/kubernetes_haproxy_ingress_controller | n/a |
 | <a name="module_keda_workload_identity_configuration"></a> [keda\_workload\_identity\_configuration](#module\_keda\_workload\_identity\_configuration) | ./.terraform/modules/__v4__/kubernetes_workload_identity_configuration | n/a |
 | <a name="module_keda_workload_identity_init"></a> [keda\_workload\_identity\_init](#module\_keda\_workload\_identity\_init) | ./.terraform/modules/__v4__/kubernetes_workload_identity_init | n/a |
 | <a name="module_nginx_ingress"></a> [nginx\_ingress](#module\_nginx\_ingress) | terraform-module/release/helm | 2.7.0 |
@@ -54,7 +55,7 @@ Re-enable all the resource, commented before to complete the procedure
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_kubernetes_cluster_node_pool.spot_node_pool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
 | [azurerm_kubernetes_cluster_node_pool.user_nodepool_default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool) | resource |
 | [azurerm_resource_group.rg_aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
@@ -107,7 +108,7 @@ Re-enable all the resource, commented before to complete the procedure
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_aks_addons"></a> [aks\_addons](#input\_aks\_addons) | Aks addons configuration | <pre>object({<br/>    azure_policy                     = bool,<br/>    azure_key_vault_secrets_provider = bool,<br/>  })</pre> | <pre>{<br/>  "azure_key_vault_secrets_provider": true,<br/>  "azure_policy": true<br/>}</pre> | no |
 | <a name="input_aks_alerts_enabled"></a> [aks\_alerts\_enabled](#input\_aks\_alerts\_enabled) | Aks alert enabled? | `bool` | `true` | no |
 | <a name="input_aks_availability_zones"></a> [aks\_availability\_zones](#input\_aks\_availability\_zones) | A list of Availability Zones across which the Node Pool should be spread. | `list(number)` | `[]` | no |

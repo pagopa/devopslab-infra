@@ -27,7 +27,7 @@ Re-enable all the resource, commented before to complete the procedure
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.8.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4 |
@@ -35,14 +35,14 @@ Re-enable all the resource, commented before to complete the procedure
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_argocd_entra"></a> [argocd\_entra](#module\_argocd\_entra) | git::https://github.com/pagopa/terraform-azurerm-v4.git//kubernetes_argocd_entra | PAYMCLOUD-231-argocd-creazione-modulo |
 | <a name="module_tag_config"></a> [tag\_config](#module\_tag\_config) | ../tag_config | n/a |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azuread_group.argocd_groups](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group) | data source |
 | [azuread_service_principal.graph](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
 | [azuread_users.argocd_application_owners](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/users) | data source |
@@ -54,7 +54,7 @@ Re-enable all the resource, commented before to complete the procedure
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_argocd_entra_groups_allowed"></a> [argocd\_entra\_groups\_allowed](#input\_argocd\_entra\_groups\_allowed) | Definizione della variabile per i nomi dei gruppi Entra ID | `list(string)` | n/a | yes |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
