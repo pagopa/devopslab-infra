@@ -35,7 +35,6 @@ cidr_subnet_packer_azdo          = ["10.3.254.0/28"]
 cidr_subnet_packer_dns_forwarder = ["10.3.254.16/28"]
 
 # VPN
-vpn_sku     = "VpnGw1"
 vpn_pip_sku = "Standard"
 
 
