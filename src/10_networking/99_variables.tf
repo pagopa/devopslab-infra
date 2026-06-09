@@ -107,13 +107,6 @@ variable "vnet_ita_ddos_protection_plan" {
   default = null
 }
 
-# 🧵 dns
-variable "dns_default_ttl_sec" {
-  type        = number
-  description = "value"
-  default     = 3600
-}
-
 variable "external_domain" {
   type        = string
   description = "Domain for delegation"
@@ -128,6 +121,7 @@ variable "dns_zone_internal_prefix" {
 variable "vpn_sku" {
   type        = string
   description = "VPN Gateway SKU"
+  default     = "VpnGw1AZ"
 }
 
 variable "vpn_pip_sku" {
